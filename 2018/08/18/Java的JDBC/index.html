@@ -1,95 +1,230 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Java的JDBC | 新日暮里</title><meta name="description" content="用Java操作数据库.   前提工作为当前项目添加驱动IDEA有内置的数据库工具(貌似ultimate版才有),可以直接在IDEA中像用SSMS,workbench,Navicat等工具一样操作数据库,这个工具也有独立版,叫DataGrip.使用这个工具时,只要注意密码用户名,端口号,而且它会提示下载驱动.  然后把这个下下来的驱动包加入当前项目,File&gt;Project Structure"><meta name="keywords" content="java"><meta name="author" content="xianzheTM"><meta name="copyright" content="xianzheTM"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Java的JDBC"><meta name="twitter:description" content="用Java操作数据库.   前提工作为当前项目添加驱动IDEA有内置的数据库工具(貌似ultimate版才有),可以直接在IDEA中像用SSMS,workbench,Navicat等工具一样操作数据库,这个工具也有独立版,叫DataGrip.使用这个工具时,只要注意密码用户名,端口号,而且它会提示下载驱动.  然后把这个下下来的驱动包加入当前项目,File&gt;Project Structure"><meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="og:type" content="article"><meta property="og:title" content="Java的JDBC"><meta property="og:url" content="https://yl.dropsec.xyz/2018/08/18/Java%E7%9A%84JDBC/"><meta property="og:site_name" content="新日暮里"><meta property="og:description" content="用Java操作数据库.   前提工作为当前项目添加驱动IDEA有内置的数据库工具(貌似ultimate版才有),可以直接在IDEA中像用SSMS,workbench,Navicat等工具一样操作数据库,这个工具也有独立版,叫DataGrip.使用这个工具时,只要注意密码用户名,端口号,而且它会提示下载驱动.  然后把这个下下来的驱动包加入当前项目,File&gt;Project Structure"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2018-08-17T16:39:41.000Z"><meta property="article:modified_time" content="2020-05-07T14:19:14.000Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
-var t = Cookies.get("theme")
-if (autoChangeMode == '1'){
-  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
-  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
-  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
-  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+<!DOCTYPE html>
+<html lang="zh-CN">
 
-  if (t === undefined){
-    if (isLightMode) activateLightMode()
-    else if (isDarkMode) activateDarkMode()
-    else if (isNotSpecified || hasNoSupport){
-      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
-      var now = new Date()
-      var hour = now.getHours()
-      var isNight = hour < 6 || hour >= 18
-      isNight ? activateDarkMode() : activateLightMode()
-  }
-  } else if (t == 'light') activateLightMode()
-  else activateDarkMode()
 
-} else if (autoChangeMode == '2'){
-  now = new Date();
-  hour = now.getHours();
-  isNight = hour < 6 || hour >= 18
-  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
-  else if (t === 'light') activateLightMode()
-  else activateDarkMode() 
-} else {
-  if ( t == 'dark' ) activateDarkMode()
-  else if ( t == 'light') activateLightMode()
-}
 
-function activateDarkMode(){
-  document.documentElement.setAttribute('data-theme', 'dark')
-  if (document.querySelector('meta[name="theme-color"]') !== null){
-    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
-  }
-}
-function activateLightMode(){
-  document.documentElement.setAttribute('data-theme', 'light')
-  if (document.querySelector('meta[name="theme-color"]') !== null){
-  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
-  }
-}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://yl.dropsec.xyz/2018/08/18/Java%E7%9A%84JDBC/"><link rel="prev" title="网络原理(1)" href="https://yl.dropsec.xyz/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/"><link rel="next" title="Java中静态代码块、构造代码块、构造函数、普通代码块" href="https://yl.dropsec.xyz/2018/08/17/Java%E4%B8%AD%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81%E6%9E%84%E9%80%A0%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E3%80%81%E6%99%AE%E9%80%9A%E4%BB%A3%E7%A0%81%E5%9D%97/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
-  root: '/',
-  algolia: undefined,
-  localSearch: undefined,
-  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  bookmark: {
-    message_prev: '按',
-    message_next: '键将本页加入书签'
-  },
-  runtime_unit: '天',
-  runtime: true,
-  copyright: undefined,
-  ClickShowText: undefined,
-  medium_zoom: false,
-  fancybox: true,
-  Snackbar: undefined,
-  baiduPush: false,
-  highlightCopy: true,
-  highlightLang: true,
-  highlightShrink: 'false',
-  isFontAwesomeV5: false,
-  isPhotoFigcaption: false,
-  islazyload: false,
-  isanchor: false
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-}</script><script>var GLOBAL_CONFIG_SITE = { 
-  isPost: true,
-  isHome: false,
-  isSidebar: true  
-  }</script><noscript><style>
-#page-header {
-  opacity: 1
-}
-.justified-gallery img{
-  opacity: 1
-}
-</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">65</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> List</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> Movie</span></a></li></ul></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前提工作"><span class="toc-number">1.</span> <span class="toc-text">前提工作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#为当前项目添加驱动"><span class="toc-number">1.1.</span> <span class="toc-text">为当前项目添加驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注册驱动-建立连接"><span class="toc-number">1.2.</span> <span class="toc-text">注册驱动,建立连接</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#一些SQL的知识"><span class="toc-number">2.</span> <span class="toc-text">一些SQL的知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#存储机制"><span class="toc-number">2.1.</span> <span class="toc-text">存储机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL语句基础"><span class="toc-number">2.2.</span> <span class="toc-text">SQL语句基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DDL语句"><span class="toc-number">2.2.1.</span> <span class="toc-text">DDL语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库约束"><span class="toc-number">2.2.2.</span> <span class="toc-text">数据库约束</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#索引"><span class="toc-number">2.2.3.</span> <span class="toc-text">索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#视图"><span class="toc-number">2.2.4.</span> <span class="toc-text">视图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DML语句"><span class="toc-number">2.2.5.</span> <span class="toc-text">DML语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单表查询"><span class="toc-number">2.2.6.</span> <span class="toc-text">单表查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据库函数"><span class="toc-number">2.2.7.</span> <span class="toc-text">数据库函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#单行函数"><span class="toc-number">2.2.7.1.</span> <span class="toc-text">单行函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分组和组函数-多行函数"><span class="toc-number">2.2.7.2.</span> <span class="toc-text">分组和组函数(多行函数)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#多表连接查询"><span class="toc-number">2.2.7.3.</span> <span class="toc-text">多表连接查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#子查询"><span class="toc-number">2.2.7.4.</span> <span class="toc-text">子查询</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#集合运算"><span class="toc-number">2.2.8.</span> <span class="toc-text">集合运算</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#创建语句"><span class="toc-number">3.</span> <span class="toc-text">创建语句</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关闭连接"><span class="toc-number">4.</span> <span class="toc-text">关闭连接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#练习"><span class="toc-number">5.</span> <span class="toc-text">练习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#查询"><span class="toc-number">5.1.</span> <span class="toc-text">查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#判断密码是否正确"><span class="toc-number">5.1.1.</span> <span class="toc-text">判断密码是否正确</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用预编译语句"><span class="toc-number">6.</span> <span class="toc-text">使用预编译语句</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#execute与executeUpdate的区别"><span class="toc-number">7.</span> <span class="toc-text">execute与executeUpdate的区别</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">新日暮里</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> List</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> Movie</span></a></li></ul></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">Java的JDBC</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2018-08-18 00:39:41"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2018-08-18</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-05-07 22:19:14"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-05-07</span></time></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p>用Java操作数据库.</p>
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="希望这里能见证一个菜鸟到大神的路程">
+  <meta name="author" content="xianzheTM">
+  <meta name="keywords" content="">
+  <title>Java的JDBC - 新日暮里</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_fmb4a04yx8h.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">
+              <i class="iconfont icon-home-fill"></i>
+              首页</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">
+              <i class="iconfont icon-archive-fill"></i>
+              归档</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">
+              <i class="iconfont icon-category-fill"></i>
+              分类</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">
+              <i class="iconfont icon-tags-fill"></i>
+              标签</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">
+              <i class="iconfont icon-user-fill"></i>
+              关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <div class="mt-3 post-meta">
+                  <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+                  <time datetime="2018-08-18 00:39">
+                    2018年8月18日 凌晨
+                  </time>
+                </div>
+              
+
+              <div class="mt-1">
+                
+                  
+                  <span class="post-meta mr-2">
+                    <i class="iconfont icon-chart"></i>
+                    6.7k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta mr-2">
+                      <i class="iconfont icon-clock-fill"></i>
+                    
+                    
+                    81
+                     分钟
+                  </span>
+                
+
+                
+              </div>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>用Java操作数据库.</p>
 <a id="more"></a>
 
 <h1 id="前提工作"><a href="#前提工作" class="headerlink" title="前提工作"></a>前提工作</h1><h2 id="为当前项目添加驱动"><a href="#为当前项目添加驱动" class="headerlink" title="为当前项目添加驱动"></a>为当前项目添加驱动</h2><p>IDEA有内置的数据库工具(貌似ultimate版才有),可以直接在IDEA中像用SSMS,workbench,Navicat等工具一样操作数据库,这个工具也有独立版,叫DataGrip.使用这个工具时,只要注意密码用户名,端口号,而且它会提示下载驱动.</p>
-<p><img src="/2018/08/18/Java%E7%9A%84JDBC/Java%E7%9A%84JDBC%5C%E5%B7%A5%E5%85%B7.png" alt></p>
+<p><img src="/2018/08/18/Java%E7%9A%84JDBC/%E5%B7%A5%E5%85%B7.png" srcset="/img/loading.gif" alt></p>
 <p>然后把这个下下来的驱动包加入当前项目,File&gt;Project Structure&gt;Dependencies,点加号加进去.</p>
-<h2 id="注册驱动-建立连接"><a href="#注册驱动-建立连接" class="headerlink" title="注册驱动,建立连接"></a>注册驱动,建立连接</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.DriverManager;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="comment">//注意不要导错包  </span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestJDBC</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//向DriverManager注册驱动</span></span><br><span class="line">            Class.forName(<span class="string">"com.mysql.jdbc.Driver"</span>);</span><br><span class="line">  </span><br><span class="line">            <span class="comment">// 建立与数据库的Connection连接</span></span><br><span class="line">            <span class="comment">// 这里需要提供：</span></span><br><span class="line">            <span class="comment">// 数据库所处于的ip:127.0.0.1 (本机)</span></span><br><span class="line">            <span class="comment">// 数据库的端口号： 3306 （mysql专用端口号）</span></span><br><span class="line">            <span class="comment">// 数据库名称 how2java</span></span><br><span class="line">            <span class="comment">// 编码方式 UTF-8</span></span><br><span class="line">            <span class="comment">// 账号 root</span></span><br><span class="line">            <span class="comment">// 密码 admin</span></span><br><span class="line">  </span><br><span class="line">            Connection c = DriverManager</span><br><span class="line">                    .getConnection(</span><br><span class="line">                            <span class="string">"jdbc:mysql://127.0.0.1:3306/how2java?useSSL=false"</span>,</span><br><span class="line">                            <span class="string">"root"</span>, <span class="string">"admin"</span>);</span><br><span class="line">  </span><br><span class="line">            System.out.println(<span class="string">"连接成功，获取连接对象： "</span> + c);</span><br><span class="line">  </span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            <span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">            <span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="注册驱动-建立连接"><a href="#注册驱动-建立连接" class="headerlink" title="注册驱动,建立连接"></a>注册驱动,建立连接</h2><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.sql.Connection;
+<span class="hljs-keyword">import</span> java.sql.DriverManager;
+<span class="hljs-keyword">import</span> java.sql.SQLException;
+<span class="hljs-comment">//注意不要导错包  </span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestJDBC</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+  
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-comment">//向DriverManager注册驱动</span>
+            Class.forName(<span class="hljs-string">"com.mysql.jdbc.Driver"</span>);
+  
+            <span class="hljs-comment">// 建立与数据库的Connection连接</span>
+            <span class="hljs-comment">// 这里需要提供：</span>
+            <span class="hljs-comment">// 数据库所处于的ip:127.0.0.1 (本机)</span>
+            <span class="hljs-comment">// 数据库的端口号： 3306 （mysql专用端口号）</span>
+            <span class="hljs-comment">// 数据库名称 how2java</span>
+            <span class="hljs-comment">// 编码方式 UTF-8</span>
+            <span class="hljs-comment">// 账号 root</span>
+            <span class="hljs-comment">// 密码 admin</span>
+  
+            Connection c = DriverManager
+                    .getConnection(
+                            <span class="hljs-string">"jdbc:mysql://127.0.0.1:3306/how2java?useSSL=false"</span>,
+                            <span class="hljs-string">"root"</span>, <span class="hljs-string">"admin"</span>);
+  
+            System.out.println(<span class="hljs-string">"连接成功，获取连接对象： "</span> + c);
+  
+        &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException e) &#123;
+            <span class="hljs-comment">// TODO Auto-generated catch block</span>
+            e.printStackTrace();
+        &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
+            <span class="hljs-comment">// TODO Auto-generated catch block</span>
+            e.printStackTrace();
+        &#125;
+  
+    &#125;
+&#125;</code></pre>
 
 <p><code>useSSL=false</code>这里我没有设置语言,因为我的MySQL默认就是UTF-8,而设置SSL为false是避免等会的警告.</p>
 <h1 id="一些SQL的知识"><a href="#一些SQL的知识" class="headerlink" title="一些SQL的知识"></a>一些SQL的知识</h1><h2 id="存储机制"><a href="#存储机制" class="headerlink" title="存储机制"></a>存储机制</h2><p>MySQL数据库通常支持如下两种存储机制。 </p>
@@ -119,7 +254,7 @@ function activateLightMode(){
 <li><p>同一个模式下的对象不应该同名，这里的模式指的是外模式。</p>
 <p>什么是外模式?</p>
 <blockquote>
-<p><img src="/2018/08/18/Java%E7%9A%84JDBC/Java%E7%9A%84JDBC%5C%E6%A8%A1%E5%BC%8F.png" alt></p>
+<p><img src="/2018/08/18/Java%E7%9A%84JDBC/Java%E7%9A%84JDBC%5C%E6%A8%A1%E5%BC%8F.png" srcset="/img/loading.gif" alt></p>
 <p>作者：刘慰</p>
 <p>链接：<a href="https://www.zhihu.com/question/38737183/answer/93294527" target="_blank" rel="noopener">https://www.zhihu.com/question/38737183/answer/93294527</a></p>
 <p>来源：知乎</p>
@@ -133,12 +268,41 @@ function activateLightMode(){
 </li>
 </ul>
 <h3 id="DDL语句"><a href="#DDL语句" class="headerlink" title="DDL语句"></a>DDL语句</h3><p>DDL语句是操作数据库对象的语句，包括创建(create),删除(drop)和修改(alter)数据库对象。最基本的数据库对象是数据表，数据表是存储数据的逻辑单元。但数据库里绝不仅包括数据表，数据库里可包含如下表所示的几种常见的数据库对象。</p>
-<p><img src="/2018/08/18/Java%E7%9A%84JDBC/Java%E7%9A%84JDBC%5CDDL.png" alt></p>
+<p><img src="/2018/08/18/Java%E7%9A%84JDBC/DDL.png" srcset="/img/loading.gif" alt></p>
 <p>1.创建表的语法</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> 表名</span><br><span class="line">(</span><br><span class="line">	columnName datatype,</span><br><span class="line">    ...</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs SQL"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> 表名
+(
+	columnName datatype,
+    ...
+);</code></pre>
 
 <p>2.修改表的语法</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--增加列定义</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名</span><br><span class="line"><span class="keyword">add</span></span><br><span class="line">(</span><br><span class="line">	columnName datatype,</span><br><span class="line">    ...</span><br><span class="line">);</span><br><span class="line"><span class="comment">--修改列定义</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名</span><br><span class="line"><span class="keyword">modify</span> columnName datatype;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">add的必须是原表不存在的,modify的必须是原表存在的</span></span><br><span class="line"><span class="comment">MySQL的modify不支持一次修改多个表,Oracle的可以,只要像add一样用括号将多个字段包起来</span></span><br><span class="line"><span class="comment">MySQL的想要修改多个就要多个modify</span></span><br><span class="line"><span class="comment">modify时注意修改后的字段属性不能和已存在的数据冲突</span></span><br><span class="line"><span class="comment">修改默认值只会修改新增记录的默认值,原来的没有影响</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">--删除列</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名</span><br><span class="line"><span class="keyword">drop</span> columnName;</span><br><span class="line"><span class="comment">--MySQL支持的重命名表</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名</span><br><span class="line"><span class="keyword">rename</span> <span class="keyword">to</span> 新表名;</span><br><span class="line"><span class="comment">--MySQL支持的重命名列名</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名</span><br><span class="line"><span class="keyword">change</span> old_column_name new_column_name datatype;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs SQL"><span class="hljs-comment">--增加列定义</span>
+<span class="hljs-keyword">alter</span> <span class="hljs-keyword">table</span> 表名
+<span class="hljs-keyword">add</span>
+(
+	columnName datatype,
+    ...
+);
+<span class="hljs-comment">--修改列定义</span>
+<span class="hljs-keyword">alter</span> <span class="hljs-keyword">table</span> 表名
+<span class="hljs-keyword">modify</span> columnName datatype;
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment">add的必须是原表不存在的,modify的必须是原表存在的</span>
+<span class="hljs-comment">MySQL的modify不支持一次修改多个表,Oracle的可以,只要像add一样用括号将多个字段包起来</span>
+<span class="hljs-comment">MySQL的想要修改多个就要多个modify</span>
+<span class="hljs-comment">modify时注意修改后的字段属性不能和已存在的数据冲突</span>
+<span class="hljs-comment">修改默认值只会修改新增记录的默认值,原来的没有影响</span>
+<span class="hljs-comment">*/</span>
+<span class="hljs-comment">--删除列</span>
+<span class="hljs-keyword">alter</span> <span class="hljs-keyword">table</span> 表名
+<span class="hljs-keyword">drop</span> columnName;
+<span class="hljs-comment">--MySQL支持的重命名表</span>
+<span class="hljs-keyword">alter</span> <span class="hljs-keyword">table</span> 表名
+<span class="hljs-keyword">rename</span> <span class="hljs-keyword">to</span> 新表名;
+<span class="hljs-comment">--MySQL支持的重命名列名</span>
+<span class="hljs-keyword">alter</span> <span class="hljs-keyword">table</span> 表名
+<span class="hljs-keyword">change</span> old_column_name new_column_name datatype;</code></pre>
 
 <p>3.删除表的语法</p>
 <p><code>drop table 表名</code></p>
@@ -171,21 +335,30 @@ function activateLightMode(){
 <li>手动：用户可以通过drop index…语句来删除指定数据表上的指定索引。</li>
 </ul>
 <p>索引的作用类似于书的目录，几乎没有一本书没有目录，因此几乎没有一个表没有索引。一个表中可以有多个索引列，每个索引都可用于加速该列的查询速度。<br>正如书的目录总是根据书的知识点来建立一样,因为读者经常要根据知识点来查阅一本书。类似的，通常为经常需要查询的数据列建立索引，可以在一列或者多列上创建索引。创建索引的语法格式如下：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> index_name</span><br><span class="line"><span class="keyword">on</span> table_name (<span class="keyword">column</span>[,<span class="keyword">column</span>]...);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs SQL"><span class="hljs-keyword">create</span> <span class="hljs-keyword">index</span> index_name
+<span class="hljs-keyword">on</span> table_name (<span class="hljs-keyword">column</span>[,<span class="hljs-keyword">column</span>]...);</code></pre>
 
 <p>索引也会带来两点坏处,1.每当数据表发生变化时,数据库系统需要维护索引,因此会有一定开销,2.索引本身也要占地方</p>
 <h3 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h3><p>视图其实更像是向外展示数据的手段,它是将数据库中的一些数据查询出来给人看.是一个便利的展示数据集的手段.</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">or</span> <span class="keyword">replace</span> <span class="keyword">view</span> 视图名</span><br><span class="line"><span class="keyword">as</span></span><br><span class="line">subquery;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs SQL"><span class="hljs-keyword">create</span> <span class="hljs-keyword">or</span> <span class="hljs-keyword">replace</span> <span class="hljs-keyword">view</span> 视图名
+<span class="hljs-keyword">as</span>
+subquery;</code></pre>
 
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">or</span> <span class="keyword">replace</span> <span class="keyword">view</span> view_test</span><br><span class="line"><span class="keyword">as</span></span><br><span class="line"><span class="keyword">select</span> tescher_name,class_name <span class="keyword">from</span> school_table</span><br><span class="line"><span class="keyword">with</span> <span class="keyword">check</span> <span class="keyword">option</span>;<span class="comment">--强制只读视图数据</span></span><br></pre></td></tr></table></figure>
+<pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">or</span> <span class="hljs-keyword">replace</span> <span class="hljs-keyword">view</span> view_test
+<span class="hljs-keyword">as</span>
+<span class="hljs-keyword">select</span> tescher_name,class_name <span class="hljs-keyword">from</span> school_table
+<span class="hljs-keyword">with</span> <span class="hljs-keyword">check</span> <span class="hljs-keyword">option</span>;<span class="hljs-comment">--强制只读视图数据</span></code></pre>
 
 <h3 id="DML语句"><a href="#DML语句" class="headerlink" title="DML语句"></a>DML语句</h3><p>DML语句由insert into、update 和delete from三个命令组成。</p>
 <p>比较简单,略过.</p>
 <h3 id="单表查询"><a href="#单表查询" class="headerlink" title="单表查询"></a>单表查询</h3><p><em>不少内容都在数据库课讲过,下面只简明的提一下</em></p>
 <p>1.concat用于将查询出来的结果拼接起来,as用于给结果的列起个别名(或者用空格).对于MySQL来说,如果在算数表达式中使用null,整个表达式结果就是null</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	<span class="keyword">CONCAT</span>( <span class="string">`name`</span>, hp ) <span class="keyword">AS</span> <span class="keyword">DATA</span> </span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">	<span class="string">`jdbctest`</span></span><br></pre></td></tr></table></figure>
+<pre><code class="hljs SQL"><span class="hljs-keyword">SELECT</span>
+	<span class="hljs-keyword">CONCAT</span>( <span class="hljs-string">`name`</span>, hp ) <span class="hljs-keyword">AS</span> <span class="hljs-keyword">DATA</span> 
+<span class="hljs-keyword">FROM</span>
+	<span class="hljs-string">`jdbctest`</span></code></pre>
 
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> teacher_id MY_ID , <span class="keyword">concat</span> (teacher_name , teacher_id) teacher</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs SQL"><span class="hljs-keyword">select</span> teacher_id MY_ID , <span class="hljs-keyword">concat</span> (teacher_name , teacher_id) teacher</code></pre>
 
 <p>也可以给表起别名. </p>
 <p>2.like和下划线(一个字符),百分号(任意个字符)实现模糊查询,还有正则模式</p>
@@ -211,7 +384,24 @@ function activateLightMode(){
 </li>
 </ul>
 <p>一些例子:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--选出teacher_table表中teacher_name列的字符长度</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">char_length</span>(teacher_name) <span class="keyword">from</span> teacher_table;</span><br><span class="line"><span class="comment">--计算teacher_name列的字符长度的sin值</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">sin</span>(<span class="keyword">char_length</span>(teacher_name))</span><br><span class="line"><span class="keyword">from</span> teacher_table;</span><br><span class="line"><span class="comment">--计算1.57的Sin值，约等于1</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">sin</span>(<span class="number">1.57</span>);</span><br><span class="line"><span class="comment">--为指定日期添加一定的时间</span></span><br><span class="line"><span class="comment">--在这种用法下interval是关键字，需要一个数值，还需要一个单位</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DATE_ADD</span>(<span class="string">'1998-01-02'</span>, <span class="built_in">interval</span> <span class="number">2</span> <span class="keyword">MONTH</span>);</span><br><span class="line"><span class="comment">--这种用法更简单</span></span><br><span class="line"><span class="keyword">select</span> ADDDATE(<span class="string">'1998-01-02'</span>, <span class="number">3</span>);</span><br><span class="line"><span class="comment">--获取当前日期</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">CURDATE</span>();</span><br><span class="line"><span class="comment">--获取当前时间</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">curtime</span>();</span><br><span class="line"><span class="comment">--下面的MD5是MD5加密函数</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">MD5</span>(<span class="string">'testing'</span>);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs SQL"><span class="hljs-comment">--选出teacher_table表中teacher_name列的字符长度</span>
+<span class="hljs-keyword">select</span> <span class="hljs-keyword">char_length</span>(teacher_name) <span class="hljs-keyword">from</span> teacher_table;
+<span class="hljs-comment">--计算teacher_name列的字符长度的sin值</span>
+<span class="hljs-keyword">select</span> <span class="hljs-keyword">sin</span>(<span class="hljs-keyword">char_length</span>(teacher_name))
+<span class="hljs-keyword">from</span> teacher_table;
+<span class="hljs-comment">--计算1.57的Sin值，约等于1</span>
+<span class="hljs-keyword">select</span> <span class="hljs-keyword">sin</span>(<span class="hljs-number">1.57</span>);
+<span class="hljs-comment">--为指定日期添加一定的时间</span>
+<span class="hljs-comment">--在这种用法下interval是关键字，需要一个数值，还需要一个单位</span>
+<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">DATE_ADD</span>(<span class="hljs-string">'1998-01-02'</span>, <span class="hljs-built_in">interval</span> <span class="hljs-number">2</span> <span class="hljs-keyword">MONTH</span>);
+<span class="hljs-comment">--这种用法更简单</span>
+<span class="hljs-keyword">select</span> ADDDATE(<span class="hljs-string">'1998-01-02'</span>, <span class="hljs-number">3</span>);
+<span class="hljs-comment">--获取当前日期</span>
+<span class="hljs-keyword">select</span> <span class="hljs-keyword">CURDATE</span>();
+<span class="hljs-comment">--获取当前时间</span>
+<span class="hljs-keyword">select</span> <span class="hljs-keyword">curtime</span>();
+<span class="hljs-comment">--下面的MD5是MD5加密函数</span>
+<span class="hljs-keyword">select</span> <span class="hljs-keyword">MD5</span>(<span class="hljs-string">'testing'</span>);</code></pre>
 
 <p>SQL提供了如下几个处理null的函数。</p>
 <ul>
@@ -221,13 +411,28 @@ function activateLightMode(){
 <li>isnull(exprl)：判断exprl是否为null,如果为null则返回true ,否则返回false。</li>
 </ul>
 <p>另一个case函数:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">case value </span><br><span class="line">when compare_valuel then resultl </span><br><span class="line">when compare_value2 then result2</span><br><span class="line">...</span><br><span class="line">else result <span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<pre><code class="hljs SQL">case value 
+when compare_valuel then resultl 
+when compare_value2 then result2
+...
+else result <span class="hljs-keyword">end</span></code></pre>
 
 <p>case函数用value和后面的compare_valuel、compare_value2、…依次进行比较，如果value和指定的 compare valuel相等，则返回对应的result1, 否则返回else后的result。例如如下SQL语句：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> student_name , <span class="keyword">case</span> java_teacher </span><br><span class="line"><span class="keyword">when</span> <span class="number">1</span> <span class="keyword">then</span> <span class="string">'Java 老师'</span> </span><br><span class="line"><span class="keyword">when</span> <span class="number">2</span> <span class="keyword">then</span> <span class="string">'Ruby 老师'</span> </span><br><span class="line"><span class="keyword">else</span> <span class="string">'其他老师’</span></span><br><span class="line"><span class="string">end from student_table;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="hljs SQL"><span class="hljs-keyword">select</span> student_name , <span class="hljs-keyword">case</span> java_teacher 
+<span class="hljs-keyword">when</span> <span class="hljs-number">1</span> <span class="hljs-keyword">then</span> <span class="hljs-string">'Java 老师'</span> 
+<span class="hljs-keyword">when</span> <span class="hljs-number">2</span> <span class="hljs-keyword">then</span> <span class="hljs-string">'Ruby 老师'</span> 
+<span class="hljs-keyword">else</span> <span class="hljs-string">'其他老师’</span>
+<span class="hljs-string">end from student_table;</span></code></pre>
 
 <p>在第二种用法中，condition1, condition2都是一个返回boolean值的条件表达式，因此这种用法更<br>加灵活。例如如下SQL语句：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	*,</span><br><span class="line"><span class="keyword">CASE</span></span><br><span class="line">	<span class="keyword">WHEN</span> hp &lt; <span class="number">410</span> <span class="keyword">THEN</span></span><br><span class="line">	<span class="string">'low_hp'</span> <span class="keyword">ELSE</span> <span class="string">'high_hp'</span> </span><br><span class="line"><span class="keyword">END</span> <span class="keyword">AS</span> <span class="keyword">LEVEL</span> </span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">	<span class="string">`jdbctest`</span>;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs SQL"><span class="hljs-keyword">SELECT</span>
+	*,
+<span class="hljs-keyword">CASE</span>
+	<span class="hljs-keyword">WHEN</span> hp &lt; <span class="hljs-number">410</span> <span class="hljs-keyword">THEN</span>
+	<span class="hljs-string">'low_hp'</span> <span class="hljs-keyword">ELSE</span> <span class="hljs-string">'high_hp'</span> 
+<span class="hljs-keyword">END</span> <span class="hljs-keyword">AS</span> <span class="hljs-keyword">LEVEL</span> 
+<span class="hljs-keyword">FROM</span>
+	<span class="hljs-string">`jdbctest`</span>;</code></pre>
 
 <h4 id="分组和组函数-多行函数"><a href="#分组和组函数-多行函数" class="headerlink" title="分组和组函数(多行函数)"></a>分组和组函数(多行函数)</h4><p>组函数也就是前面提到的多行函数，组函数将一组记录作为整体计算，每组记录返回一个结果，而 不是每条记录返回一个结果.常用的组函数有如下5个。</p>
 <ul>
@@ -240,10 +445,29 @@ function activateLightMode(){
 <li><p>min(expr)：计算多行expr的最小值，其中expr可以是变量、常量或数据列，其数据类型可以是 任意类型。</p>
 </li>
 <li><p>sum([distinct|all]expr): 计算多行expr的总和，其中，expr可以是变量、常量或数据列，但其数据类型必须是数值型；distinct表示不计算重复值。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line">	<span class="keyword">avg</span>( <span class="keyword">ifnull</span>( info, <span class="number">0</span> ))<span class="comment">--mysql中null会导致表达式结果为null</span></span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">	jdbctest</span><br><span class="line"><span class="keyword">where</span></span><br><span class="line">	<span class="keyword">id</span>&lt;<span class="number">6</span>;</span><br><span class="line"><span class="keyword">select</span></span><br><span class="line">	hp,<span class="keyword">count</span>(*)<span class="comment">--查询hp字段,统计出表格的行数,按照hp分组,且升序排列</span></span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">	jdbctest</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span></span><br><span class="line">	hp <span class="keyword">asc</span>;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs sql"><span class="hljs-keyword">select</span>
+	<span class="hljs-keyword">avg</span>( <span class="hljs-keyword">ifnull</span>( info, <span class="hljs-number">0</span> ))<span class="hljs-comment">--mysql中null会导致表达式结果为null</span>
+<span class="hljs-keyword">from</span>
+	jdbctest
+<span class="hljs-keyword">where</span>
+	<span class="hljs-keyword">id</span>&lt;<span class="hljs-number">6</span>;
+<span class="hljs-keyword">select</span>
+	hp,<span class="hljs-keyword">count</span>(*)<span class="hljs-comment">--查询hp字段,统计出表格的行数,按照hp分组,且升序排列</span>
+<span class="hljs-keyword">from</span>
+	jdbctest
+<span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span>
+	hp <span class="hljs-keyword">asc</span>;</code></pre>
 
 <p>对分组的结果进行过滤:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line">	hp,</span><br><span class="line">	<span class="keyword">count</span>( hp )</span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">	jdbctest</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span></span><br><span class="line">	hp <span class="keyword">asc</span></span><br><span class="line"><span class="keyword">having</span></span><br><span class="line">	<span class="keyword">count</span>( hp )&gt;= <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs SQL"><span class="hljs-keyword">select</span>
+	hp,
+	<span class="hljs-keyword">count</span>( hp )
+<span class="hljs-keyword">from</span>
+	jdbctest
+<span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span>
+	hp <span class="hljs-keyword">asc</span>
+<span class="hljs-keyword">having</span>
+	<span class="hljs-keyword">count</span>( hp )&gt;= <span class="hljs-number">2</span>;</code></pre>
 
 </li>
 </ul>
@@ -265,10 +489,24 @@ function activateLightMode(){
 </ul>
 <ol>
 <li><p>SQL92的连接查询<br>SQL92的多表连接语法比较简洁，这种语法把多个数据表都放在from之后，多个表之间以逗号隔 开；连接条件放在where之后，与查询条件之间用and逻辑运算符连接。如果连接条件要求两列值相等， 则称为等值连接，否则称为非等值连接；如果没有任何连接条件，则称为广义笛卡儿积。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line">	jdbctest.*,</span><br><span class="line">	jdbctest1.name</span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">	jdbctest,</span><br><span class="line">	jdbctest1</span><br><span class="line"><span class="keyword">where</span></span><br><span class="line">	jdbctest.id = jdbctest1.id;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs SQL"><span class="hljs-keyword">select</span>
+	jdbctest.*,
+	jdbctest1.name
+<span class="hljs-keyword">from</span>
+	jdbctest,
+	jdbctest1
+<span class="hljs-keyword">where</span>
+	jdbctest.id = jdbctest1.id;</code></pre>
 
 <p>大致的流程是:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> t in jdbctest</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">for</span> s in jdbctest1</span><br><span class="line">    &#123;</span><br><span class="line">    	<span class="keyword">if</span> (jdbctest.id = jdbctest1.id)</span><br><span class="line">    	sout s+t</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">for</span> t in jdbctest
+&#123;
+	<span class="hljs-keyword">for</span> s in jdbctest1
+    &#123;
+    	<span class="hljs-keyword">if</span> (jdbctest.id = jdbctest1.id)
+    	sout s+t
+    &#125;
+&#125;</code></pre>
 
 <p>如果没有where后面的条件,得到的就是广义笛卡尔积.</p>
 </li>
@@ -300,34 +538,206 @@ function activateLightMode(){
 </ul>
 <p>实际上MySQL只支持union运算,其他两种都只能用子查询或多表连接的方式实现.</p>
 <h1 id="创建语句"><a href="#创建语句" class="headerlink" title="创建语句"></a>创建语句</h1><p>在连接后创建相应的SQL语句:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Statement s = c.createStatement();</span><br><span class="line">String sql = <span class="string">"insert into jdbctest values(2,'ye',15,'C1')"</span>;</span><br><span class="line">s.execute(sql);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java">Statement s = c.createStatement();
+String sql = <span class="hljs-string">"insert into jdbctest values(2,'ye',15,'C1')"</span>;
+s.execute(sql);</code></pre>
 
 <h1 id="关闭连接"><a href="#关闭连接" class="headerlink" title="关闭连接"></a>关闭连接</h1><p>数据库的连接是有限资源，相关操作结束后，养成关闭数据库的好习惯</p>
 <p>先关闭Statement</p>
 <p>后关闭Connection </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.DriverManager;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">import</span> java.sql.Statement;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestJDBC</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Connection c = <span class="keyword">null</span>;</span><br><span class="line">        Statement s = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class.forName(<span class="string">"com.mysql.jdbc.Driver"</span>);</span><br><span class="line"></span><br><span class="line">            c = DriverManager</span><br><span class="line">                    .getConnection(</span><br><span class="line">                            <span class="string">"jdbc:mysql://127.0.0.1:3306/dailytest?useSSL=false"</span>,</span><br><span class="line">                            <span class="string">"root"</span>, <span class="string">"******"</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 注意：使用的是 java.sql.Statement</span></span><br><span class="line">            <span class="comment">// 不要不小心使用到： com.mysql.jdbc.Statement;</span></span><br><span class="line">            s = c.createStatement();</span><br><span class="line"></span><br><span class="line">            String sql = <span class="string">"insert into jdbctest values(2,'ye',15,'C1')"</span>;</span><br><span class="line">            s.execute(sql);</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException | SQLException e) &#123;</span><br><span class="line">            <span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (s != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    s.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (c != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    c.close();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">import</span> java.sql.Connection;
+<span class="hljs-keyword">import</span> java.sql.DriverManager;
+<span class="hljs-keyword">import</span> java.sql.SQLException;
+<span class="hljs-keyword">import</span> java.sql.Statement;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestJDBC</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        Connection c = <span class="hljs-keyword">null</span>;
+        Statement s = <span class="hljs-keyword">null</span>;
+        <span class="hljs-keyword">try</span> &#123;
+            Class.forName(<span class="hljs-string">"com.mysql.jdbc.Driver"</span>);
+
+            c = DriverManager
+                    .getConnection(
+                            <span class="hljs-string">"jdbc:mysql://127.0.0.1:3306/dailytest?useSSL=false"</span>,
+                            <span class="hljs-string">"root"</span>, <span class="hljs-string">"******"</span>);
+
+            <span class="hljs-comment">// 注意：使用的是 java.sql.Statement</span>
+            <span class="hljs-comment">// 不要不小心使用到： com.mysql.jdbc.Statement;</span>
+            s = c.createStatement();
+
+            String sql = <span class="hljs-string">"insert into jdbctest values(2,'ye',15,'C1')"</span>;
+            s.execute(sql);
+
+        &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException | SQLException e) &#123;
+            <span class="hljs-comment">// TODO Auto-generated catch block</span>
+            e.printStackTrace();
+        &#125; <span class="hljs-keyword">finally</span> &#123;
+            <span class="hljs-keyword">if</span> (s != <span class="hljs-keyword">null</span>) &#123;
+                <span class="hljs-keyword">try</span> &#123;
+                    s.close();
+                &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+                    e.printStackTrace();
+                &#125;
+            &#125;
+            <span class="hljs-keyword">if</span> (c != <span class="hljs-keyword">null</span>) &#123;
+                <span class="hljs-keyword">try</span> &#123;
+                    c.close();
+                &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+                    e.printStackTrace();
+                &#125;
+            &#125;
+        &#125;
+
+    &#125;
+&#125;</code></pre>
 
 <p>或者用try(){}风格:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.DriverManager;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">import</span> java.sql.Statement;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestJDBC</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class.forName(<span class="string">"com.mysql.jdbc.Driver"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> (Connection c = DriverManager</span><br><span class="line">                .getConnection(</span><br><span class="line">                        <span class="string">"jdbc:mysql://127.0.0.1:3306/dailytest?useSSL=false"</span>,</span><br><span class="line">                        <span class="string">"root"</span>, <span class="string">"******"</span>);</span><br><span class="line">             Statement s = c.createStatement();) &#123;</span><br><span class="line">            String sql = <span class="string">"insert into jdbctest values(2,'ye',15,'C1')"</span>;</span><br><span class="line">            s.execute(sql);</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">            <span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">import</span> java.sql.Connection;
+<span class="hljs-keyword">import</span> java.sql.DriverManager;
+<span class="hljs-keyword">import</span> java.sql.SQLException;
+<span class="hljs-keyword">import</span> java.sql.Statement;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestJDBC</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-keyword">try</span> &#123;
+            Class.forName(<span class="hljs-string">"com.mysql.jdbc.Driver"</span>);
+        &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException e) &#123;
+            e.printStackTrace();
+        &#125;
+        <span class="hljs-keyword">try</span> (Connection c = DriverManager
+                .getConnection(
+                        <span class="hljs-string">"jdbc:mysql://127.0.0.1:3306/dailytest?useSSL=false"</span>,
+                        <span class="hljs-string">"root"</span>, <span class="hljs-string">"******"</span>);
+             Statement s = c.createStatement();) &#123;
+            String sql = <span class="hljs-string">"insert into jdbctest values(2,'ye',15,'C1')"</span>;
+            s.execute(sql);
+
+        &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
+            <span class="hljs-comment">// TODO Auto-generated catch block</span>
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre>
 
 <h1 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h1><p>向DailyTest数据库的JDBCtest表插入一百个hero记录.</p>
 <p><code>truncate table dailytest.jdbctest</code>使用这条命令可以清空jdbctest表的数据,便于测试.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.DriverManager;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">import</span> java.sql.Statement;</span><br><span class="line"><span class="keyword">import</span> java.util.Random;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestJDBC</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class.forName(<span class="string">"com.mysql.jdbc.Driver"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> (Connection c = DriverManager</span><br><span class="line">                .getConnection(</span><br><span class="line">                        <span class="string">"jdbc:mysql://127.0.0.1:3306/dailytest?useSSL=false"</span>,</span><br><span class="line">                        <span class="string">"root"</span>, <span class="string">"******"</span>);</span><br><span class="line">             Statement s = c.createStatement()) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">                <span class="keyword">int</span> maxh = <span class="number">450</span>;</span><br><span class="line">                <span class="keyword">int</span> minh = <span class="number">350</span>;</span><br><span class="line">                <span class="keyword">int</span> maxd = <span class="number">80</span>;</span><br><span class="line">                <span class="keyword">int</span> mind = <span class="number">30</span>;</span><br><span class="line">                String name = <span class="string">"英雄"</span> + i;</span><br><span class="line">                <span class="keyword">int</span> hp = <span class="keyword">new</span> Random().nextInt(maxh) % (maxh - minh + <span class="number">1</span>) + minh;</span><br><span class="line">                <span class="keyword">int</span> damage = <span class="keyword">new</span> Random().nextInt(maxd) % (maxd - mind + <span class="number">1</span>) + minh;</span><br><span class="line">                s.execute(<span class="string">"insert into jdbctest values(null,'"</span> + name + <span class="string">"','"</span> + hp + <span class="string">"','"</span> + damage + <span class="string">"')"</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">            <span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">import</span> java.sql.Connection;
+<span class="hljs-keyword">import</span> java.sql.DriverManager;
+<span class="hljs-keyword">import</span> java.sql.SQLException;
+<span class="hljs-keyword">import</span> java.sql.Statement;
+<span class="hljs-keyword">import</span> java.util.Random;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestJDBC</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-keyword">try</span> &#123;
+            Class.forName(<span class="hljs-string">"com.mysql.jdbc.Driver"</span>);
+        &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException e) &#123;
+            e.printStackTrace();
+        &#125;
+        <span class="hljs-keyword">try</span> (Connection c = DriverManager
+                .getConnection(
+                        <span class="hljs-string">"jdbc:mysql://127.0.0.1:3306/dailytest?useSSL=false"</span>,
+                        <span class="hljs-string">"root"</span>, <span class="hljs-string">"******"</span>);
+             Statement s = c.createStatement()) &#123;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++) &#123;
+                <span class="hljs-keyword">int</span> maxh = <span class="hljs-number">450</span>;
+                <span class="hljs-keyword">int</span> minh = <span class="hljs-number">350</span>;
+                <span class="hljs-keyword">int</span> maxd = <span class="hljs-number">80</span>;
+                <span class="hljs-keyword">int</span> mind = <span class="hljs-number">30</span>;
+                String name = <span class="hljs-string">"英雄"</span> + i;
+                <span class="hljs-keyword">int</span> hp = <span class="hljs-keyword">new</span> Random().nextInt(maxh) % (maxh - minh + <span class="hljs-number">1</span>) + minh;
+                <span class="hljs-keyword">int</span> damage = <span class="hljs-keyword">new</span> Random().nextInt(maxd) % (maxd - mind + <span class="hljs-number">1</span>) + minh;
+                s.execute(<span class="hljs-string">"insert into jdbctest values(null,'"</span> + name + <span class="hljs-string">"','"</span> + hp + <span class="hljs-string">"','"</span> + damage + <span class="hljs-string">"')"</span>);
+            &#125;
+
+        &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
+            <span class="hljs-comment">// TODO Auto-generated catch block</span>
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre>
 
 <p>注意:在SQL语句中使用Java变量要这样写:<code>&#39;&quot; + name + &quot;&#39;</code>.</p>
 <h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><p>查询不能使用Statement的execute方法,因为查询需要返回查询的结果.使用Statement的executeQuery方法,将结果返回给一个ResultSet对象.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.sql.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> YL</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestRetrieve</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class.forName(<span class="string">"com.mysql.jdbc.Driver"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> (Connection c = DriverManager</span><br><span class="line">                .getConnection(</span><br><span class="line">                        <span class="string">"jdbc:mysql://127.0.0.1:3306/dailytest?useSSL=false"</span>,</span><br><span class="line">                        <span class="string">"root"</span>, <span class="string">"******"</span>);</span><br><span class="line">             Statement s = c.createStatement()) &#123;</span><br><span class="line">            ResultSet rs = s.executeQuery(<span class="string">"select * from jdbctest where hp regexp '.[345].'"</span>);</span><br><span class="line">            <span class="keyword">while</span> (rs.next()) &#123;</span><br><span class="line">                <span class="keyword">int</span> id = rs.getInt(<span class="string">"ID"</span>);</span><br><span class="line">                String name = rs.getString(<span class="number">2</span>);</span><br><span class="line">                <span class="keyword">int</span> hp = rs.getInt(<span class="number">3</span>);</span><br><span class="line">                <span class="keyword">int</span> damage = rs.getInt(<span class="number">4</span>);</span><br><span class="line">                System.out.printf(<span class="string">"%d\t%s\t%d\t%d%n"</span>, id, name, hp, damage);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(<span class="string">"exit"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">import</span> java.sql.*;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> YL</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestRetrieve</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-keyword">try</span> &#123;
+            Class.forName(<span class="hljs-string">"com.mysql.jdbc.Driver"</span>);
+        &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException e) &#123;
+            e.printStackTrace();
+        &#125;
+        <span class="hljs-keyword">try</span> (Connection c = DriverManager
+                .getConnection(
+                        <span class="hljs-string">"jdbc:mysql://127.0.0.1:3306/dailytest?useSSL=false"</span>,
+                        <span class="hljs-string">"root"</span>, <span class="hljs-string">"******"</span>);
+             Statement s = c.createStatement()) &#123;
+            ResultSet rs = s.executeQuery(<span class="hljs-string">"select * from jdbctest where hp regexp '.[345].'"</span>);
+            <span class="hljs-keyword">while</span> (rs.next()) &#123;
+                <span class="hljs-keyword">int</span> id = rs.getInt(<span class="hljs-string">"ID"</span>);
+                String name = rs.getString(<span class="hljs-number">2</span>);
+                <span class="hljs-keyword">int</span> hp = rs.getInt(<span class="hljs-number">3</span>);
+                <span class="hljs-keyword">int</span> damage = rs.getInt(<span class="hljs-number">4</span>);
+                System.out.printf(<span class="hljs-string">"%d\t%s\t%d\t%d%n"</span>, id, name, hp, damage);
+            &#125;
+            System.out.println(<span class="hljs-string">"exit"</span>);
+        &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre>
 
 <p><code>&quot;select * from jdbctest where hp regexp &#39;.[345].&#39;&quot;</code>,这里我是用了MySQL的正则模式,表示查出hp为三位数,且中间数字是3,4,5的字段的全部信息.</p>
 <p><strong>注意</strong>:这里<code>rs.getXxx</code>是从1开始算的.</p>
 <h3 id="判断密码是否正确"><a href="#判断密码是否正确" class="headerlink" title="判断密码是否正确"></a>判断密码是否正确</h3><p>判断密码问题应该是在某张表中找是否有符合的记录,而不是将数据读出来比较.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.sql.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestJDBC</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class.forName(<span class="string">"com.mysql.jdbc.Driver"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> (Connection c = DriverManager</span><br><span class="line">                .getConnection(</span><br><span class="line">                        <span class="string">"jdbc:mysql://127.0.0.1:3306/dailytest?useSSL=false"</span>,</span><br><span class="line">                        <span class="string">"root"</span>, <span class="string">"******"</span>);</span><br><span class="line">             Statement s = c.createStatement()) &#123;</span><br><span class="line">            String name = <span class="string">"aaa"</span>;</span><br><span class="line">            String password = <span class="string">"password"</span>;</span><br><span class="line">            ResultSet rs = s.executeQuery(<span class="string">"select * from jdbctest1 where name='"</span> + name + <span class="string">"'and password='"</span> + password + <span class="string">"'"</span>);</span><br><span class="line">            <span class="keyword">if</span> (rs.next()) &#123;</span><br><span class="line">                System.out.println(<span class="string">"right"</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">"wrong"</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">            <span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">import</span> java.sql.*;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestJDBC</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-keyword">try</span> &#123;
+            Class.forName(<span class="hljs-string">"com.mysql.jdbc.Driver"</span>);
+        &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException e) &#123;
+            e.printStackTrace();
+        &#125;
+        <span class="hljs-keyword">try</span> (Connection c = DriverManager
+                .getConnection(
+                        <span class="hljs-string">"jdbc:mysql://127.0.0.1:3306/dailytest?useSSL=false"</span>,
+                        <span class="hljs-string">"root"</span>, <span class="hljs-string">"******"</span>);
+             Statement s = c.createStatement()) &#123;
+            String name = <span class="hljs-string">"aaa"</span>;
+            String password = <span class="hljs-string">"password"</span>;
+            ResultSet rs = s.executeQuery(<span class="hljs-string">"select * from jdbctest1 where name='"</span> + name + <span class="hljs-string">"'and password='"</span> + password + <span class="hljs-string">"'"</span>);
+            <span class="hljs-keyword">if</span> (rs.next()) &#123;
+                System.out.println(<span class="hljs-string">"right"</span>);
+            &#125;<span class="hljs-keyword">else</span> &#123;
+                System.out.println(<span class="hljs-string">"wrong"</span>);
+            &#125;
+
+
+        &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
+            <span class="hljs-comment">// TODO Auto-generated catch block</span>
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre>
 
 <h1 id="使用预编译语句"><a href="#使用预编译语句" class="headerlink" title="使用预编译语句"></a>使用预编译语句</h1><p>当遇到有些需要重复使用某些结构相同的查询语句时,重复的编译会浪费大量时间,因此可以使用PreparedStatement,具体后面解释.PreparedStatement还有其他优势.</p>
 <ul>
 <li><p>避免了字符串的拼接</p>
 <p>在前面的例子中我们可以看出,写SQL语句有个非常大的问题就是各种双引号,单引号套在一起很容易出错.而PreparedStatement可以使用占位符来替换.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">String sql=<span class="string">"insert into hero values(null,?,?,?)"</span>;</span><br><span class="line"><span class="keyword">try</span>(Connection c=...</span><br><span class="line">   PreparedStatement ps=c.prepareStatement(sql))&#123;</span><br><span class="line">    ps.setInt(<span class="number">1</span>,<span class="string">"bbb"</span>);</span><br><span class="line">    ps.setString(<span class="number">2</span>,<span class="string">"password"</span>);</span><br><span class="line">    ps.execute();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//这里设置参数是从1开始计算的,如果第一个字段是自增长的ID则不算做第一个,我这就是如此,那个null表示自增长ID</span></span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java">String sql=<span class="hljs-string">"insert into hero values(null,?,?,?)"</span>;
+<span class="hljs-keyword">try</span>(Connection c=...
+   PreparedStatement ps=c.prepareStatement(sql))&#123;
+    ps.setInt(<span class="hljs-number">1</span>,<span class="hljs-string">"bbb"</span>);
+    ps.setString(<span class="hljs-number">2</span>,<span class="hljs-string">"password"</span>);
+    ps.execute();
+&#125;
+<span class="hljs-comment">//这里设置参数是从1开始计算的,如果第一个字段是自增长的ID则不算做第一个,我这就是如此,那个null表示自增长ID</span></code></pre>
 
 
 </li>
@@ -335,12 +745,54 @@ function activateLightMode(){
 <ul>
 <li><p>性能优势</p>
 <p>在前面的例子中:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">                <span class="keyword">int</span> maxh = <span class="number">450</span>;</span><br><span class="line">                <span class="keyword">int</span> minh = <span class="number">350</span>;</span><br><span class="line">                <span class="keyword">int</span> maxd = <span class="number">80</span>;</span><br><span class="line">                <span class="keyword">int</span> mind = <span class="number">30</span>;</span><br><span class="line">                String name = <span class="string">"英雄"</span> + i;</span><br><span class="line">                <span class="keyword">int</span> hp = <span class="keyword">new</span> Random().nextInt(maxh) % (maxh - minh + <span class="number">1</span>) + minh;</span><br><span class="line">                <span class="keyword">int</span> damage = <span class="keyword">new</span> Random().nextInt(maxd) % (maxd - mind + <span class="number">1</span>) + minh;</span><br><span class="line">                s.execute(<span class="string">"insert into jdbctest values(null,'"</span> + name + <span class="string">"','"</span> + hp + <span class="string">"','"</span> + damage + <span class="string">"')"</span>);</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100</span>; i++) &#123;
+                <span class="hljs-keyword">int</span> maxh = <span class="hljs-number">450</span>;
+                <span class="hljs-keyword">int</span> minh = <span class="hljs-number">350</span>;
+                <span class="hljs-keyword">int</span> maxd = <span class="hljs-number">80</span>;
+                <span class="hljs-keyword">int</span> mind = <span class="hljs-number">30</span>;
+                String name = <span class="hljs-string">"英雄"</span> + i;
+                <span class="hljs-keyword">int</span> hp = <span class="hljs-keyword">new</span> Random().nextInt(maxh) % (maxh - minh + <span class="hljs-number">1</span>) + minh;
+                <span class="hljs-keyword">int</span> damage = <span class="hljs-keyword">new</span> Random().nextInt(maxd) % (maxd - mind + <span class="hljs-number">1</span>) + minh;
+                s.execute(<span class="hljs-string">"insert into jdbctest values(null,'"</span> + name + <span class="hljs-string">"','"</span> + hp + <span class="hljs-string">"','"</span> + damage + <span class="hljs-string">"')"</span>);
+            &#125;</code></pre>
 
 <p>同样结构的语句每次都要编译处理一次,如果使用预编译语句,则在固定部分只要编译一次,每次只要将参数传给数据库,无需编译,网络传输量也更小.</p>
 </li>
 <li><p>防止SQL注入式攻击</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.sql.*;</span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestJDBC</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class.forName(<span class="string">"com.mysql.jdbc.Driver"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        String name;</span><br><span class="line">        String password;</span><br><span class="line">        Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        name = scanner.nextLine();</span><br><span class="line">        password = scanner.nextLine();</span><br><span class="line">        <span class="keyword">try</span> (Connection c = DriverManager</span><br><span class="line">                .getConnection(</span><br><span class="line">                        <span class="string">"jdbc:mysql://127.0.0.1:3306/dailytest?useSSL=false"</span>,</span><br><span class="line">                        <span class="string">"root"</span>, <span class="string">"******"</span>);</span><br><span class="line">             Statement s = c.createStatement()) &#123;</span><br><span class="line">            ResultSet rs = s.executeQuery(<span class="string">"select * from jdbctest1 where name='"</span> + name + <span class="string">"'and password='"</span> + password + <span class="string">"'"</span>);</span><br><span class="line">            <span class="keyword">if</span> (rs.next()) &#123;</span><br><span class="line">                System.out.println(<span class="string">"right"</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">"wrong"</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">            <span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">import</span> java.sql.*;
+<span class="hljs-keyword">import</span> java.util.Scanner;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestJDBC</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-keyword">try</span> &#123;
+            Class.forName(<span class="hljs-string">"com.mysql.jdbc.Driver"</span>);
+        &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException e) &#123;
+            e.printStackTrace();
+        &#125;
+        String name;
+        String password;
+        Scanner scanner = <span class="hljs-keyword">new</span> Scanner(System.in);
+        name = scanner.nextLine();
+        password = scanner.nextLine();
+        <span class="hljs-keyword">try</span> (Connection c = DriverManager
+                .getConnection(
+                        <span class="hljs-string">"jdbc:mysql://127.0.0.1:3306/dailytest?useSSL=false"</span>,
+                        <span class="hljs-string">"root"</span>, <span class="hljs-string">"******"</span>);
+             Statement s = c.createStatement()) &#123;
+            ResultSet rs = s.executeQuery(<span class="hljs-string">"select * from jdbctest1 where name='"</span> + name + <span class="hljs-string">"'and password='"</span> + password + <span class="hljs-string">"'"</span>);
+            <span class="hljs-keyword">if</span> (rs.next()) &#123;
+                System.out.println(<span class="hljs-string">"right"</span>);
+            &#125; <span class="hljs-keyword">else</span> &#123;
+                System.out.println(<span class="hljs-string">"wrong"</span>);
+            &#125;
+
+
+        &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
+            <span class="hljs-comment">// TODO Auto-generated catch block</span>
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;</code></pre>
 
 <p>在上面的例子中,如果我输入<code>&#39;or true or&#39;</code>,SQL语句拼接后就是<code>select * from jdbctest1 where name=&#39;&#39; or trur or&#39;&#39; and password=&#39;&#39;</code>,这就是产生了一个必真条件,导致结果为right.</p>
 </li>
@@ -349,4 +801,254 @@ function activateLightMode(){
 <p>execute与executeUpdate的相同点：都可以执行增加，删除，修改</p>
 <p>异:</p>
 <p> 不同1：<br>execute可以执行查询语句<br>然后通过getResultSet，把结果集取出来<br>executeUpdate不能执行查询语句<br> 不同2:<br>execute返回boolean类型，true表示执行的是查询语句，false表示执行的是insert,delete,update等等<br>executeUpdate返回的是int，表示有多少条数据受到了影响</p>
-</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">xianzheTM</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://yl.dropsec.xyz/2018/08/18/Java%E7%9A%84JDBC/">https://yl.dropsec.xyz/2018/08/18/Java%E7%9A%84JDBC/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yl.dropsec.xyz" target="_blank">新日暮里</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/java/">java</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/"><img class="prev_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">网络原理(1)</div></div></a></div><div class="next-post pull_right"><a href="/2018/08/17/Java%E4%B8%AD%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81%E6%9E%84%E9%80%A0%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E3%80%81%E6%99%AE%E9%80%9A%E4%BB%A3%E7%A0%81%E5%9D%97/"><img class="next_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java中静态代码块、构造代码块、构造函数、普通代码块</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2018/06/21/AWT使用/" title="AWT使用"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-06-21</div><div class="relatedPosts_title">AWT使用</div></div></a></div><div class="relatedPosts_item"><a href="/2018/07/26/AWT菜单/" title="AWT菜单"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-07-26</div><div class="relatedPosts_title">AWT菜单</div></div></a></div><div class="relatedPosts_item"><a href="/2018/08/13/JVM内存区域划分/" title="JVM内存区域划分"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-08-13</div><div class="relatedPosts_title">JVM内存区域划分</div></div></a></div><div class="relatedPosts_item"><a href="/2018/08/17/Java中静态代码块、构造代码块、构造函数、普通代码块/" title="Java中静态代码块、构造代码块、构造函数、普通代码块"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-08-17</div><div class="relatedPosts_title">Java中静态代码块、构造代码块、构造函数、普通代码块</div></div></a></div><div class="relatedPosts_item"><a href="/2018/08/09/Java正则表达式/" title="Java正则表达式"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-08-09</div><div class="relatedPosts_title">Java正则表达式</div></div></a></div><div class="relatedPosts_item"><a href="/2018/08/13/Java泛型/" title="Java泛型"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-08-13</div><div class="relatedPosts_title">Java泛型</div></div></a></div></div><div class="clear_both"></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By xianzheTM</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@3/instantpage.min.js" type="module"></script></body></html>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/java/">java</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">网络原理(1)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2018/08/17/Java%E4%B8%AD%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81%E6%9E%84%E9%80%A0%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E3%80%81%E6%99%AE%E9%80%9A%E4%BB%A3%E7%A0%81%E5%9D%97/">
+                        <span class="hidden-mobile">Java中静态代码块、构造代码块、构造函数、普通代码块</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/main.js" ></script>
+
+
+  <script  src="/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Java的JDBC&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,127 +1,301 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Java笔记4 | 新日暮里</title><meta name="description" content="&amp;emsp;这篇的主要内容是查漏补缺。原因是今天想继续下一部分：继承和多态，结果发现林的书有许多东西讲的太精简，甚至有失偏颇。所以下面我将结合李的书和博客多前面的内容进行回顾。   1.数组内存中的数组&amp;emsp;数组引用变量只是一个引用，类似于指针，它存放了对象的真是地址，但是这只是类比理解，实际上还是有差别的。实际的数组对象存放在堆中，而引用变量如果是一个局部变量就是在栈内存中。（是不是又像c"><meta name="keywords" content="java"><meta name="author" content="xianzheTM"><meta name="copyright" content="xianzheTM"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Java笔记4"><meta name="twitter:description" content="&amp;emsp;这篇的主要内容是查漏补缺。原因是今天想继续下一部分：继承和多态，结果发现林的书有许多东西讲的太精简，甚至有失偏颇。所以下面我将结合李的书和博客多前面的内容进行回顾。   1.数组内存中的数组&amp;emsp;数组引用变量只是一个引用，类似于指针，它存放了对象的真是地址，但是这只是类比理解，实际上还是有差别的。实际的数组对象存放在堆中，而引用变量如果是一个局部变量就是在栈内存中。（是不是又像c"><meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="og:type" content="article"><meta property="og:title" content="Java笔记4"><meta property="og:url" content="https://yl.dropsec.xyz/2018/04/08/Java%E7%AC%94%E8%AE%B04/"><meta property="og:site_name" content="新日暮里"><meta property="og:description" content="&amp;emsp;这篇的主要内容是查漏补缺。原因是今天想继续下一部分：继承和多态，结果发现林的书有许多东西讲的太精简，甚至有失偏颇。所以下面我将结合李的书和博客多前面的内容进行回顾。   1.数组内存中的数组&amp;emsp;数组引用变量只是一个引用，类似于指针，它存放了对象的真是地址，但是这只是类比理解，实际上还是有差别的。实际的数组对象存放在堆中，而引用变量如果是一个局部变量就是在栈内存中。（是不是又像c"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2018-04-08T08:56:36.000Z"><meta property="article:modified_time" content="2020-05-07T14:19:14.000Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
-var t = Cookies.get("theme")
-if (autoChangeMode == '1'){
-  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
-  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
-  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
-  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+<!DOCTYPE html>
+<html lang="zh-CN">
 
-  if (t === undefined){
-    if (isLightMode) activateLightMode()
-    else if (isDarkMode) activateDarkMode()
-    else if (isNotSpecified || hasNoSupport){
-      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
-      var now = new Date()
-      var hour = now.getHours()
-      var isNight = hour < 6 || hour >= 18
-      isNight ? activateDarkMode() : activateLightMode()
-  }
-  } else if (t == 'light') activateLightMode()
-  else activateDarkMode()
 
-} else if (autoChangeMode == '2'){
-  now = new Date();
-  hour = now.getHours();
-  isNight = hour < 6 || hour >= 18
-  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
-  else if (t === 'light') activateLightMode()
-  else activateDarkMode() 
-} else {
-  if ( t == 'dark' ) activateDarkMode()
-  else if ( t == 'light') activateLightMode()
-}
 
-function activateDarkMode(){
-  document.documentElement.setAttribute('data-theme', 'dark')
-  if (document.querySelector('meta[name="theme-color"]') !== null){
-    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
-  }
-}
-function activateLightMode(){
-  document.documentElement.setAttribute('data-theme', 'light')
-  if (document.querySelector('meta[name="theme-color"]') !== null){
-  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
-  }
-}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://yl.dropsec.xyz/2018/04/08/Java%E7%AC%94%E8%AE%B04/"><link rel="prev" title="Java笔记5" href="https://yl.dropsec.xyz/2018/04/10/Java%E7%AC%94%E8%AE%B05/"><link rel="next" title="Java笔记3" href="https://yl.dropsec.xyz/2018/04/06/Java%E7%AC%94%E8%AE%B03/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
-  root: '/',
-  algolia: undefined,
-  localSearch: undefined,
-  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  bookmark: {
-    message_prev: '按',
-    message_next: '键将本页加入书签'
-  },
-  runtime_unit: '天',
-  runtime: true,
-  copyright: undefined,
-  ClickShowText: undefined,
-  medium_zoom: false,
-  fancybox: true,
-  Snackbar: undefined,
-  baiduPush: false,
-  highlightCopy: true,
-  highlightLang: true,
-  highlightShrink: 'false',
-  isFontAwesomeV5: false,
-  isPhotoFigcaption: false,
-  islazyload: false,
-  isanchor: false
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-}</script><script>var GLOBAL_CONFIG_SITE = { 
-  isPost: true,
-  isHome: false,
-  isSidebar: true  
-  }</script><noscript><style>
-#page-header {
-  opacity: 1
-}
-.justified-gallery img{
-  opacity: 1
-}
-</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">65</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> List</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> Movie</span></a></li></ul></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-数组"><span class="toc-number">1.</span> <span class="toc-text">1.数组</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存中的数组"><span class="toc-number">1.1.</span> <span class="toc-text">内存中的数组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本类型数组的初始化"><span class="toc-number">1.1.1.</span> <span class="toc-text">基本类型数组的初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#引用类型数组的初始化"><span class="toc-number">1.1.2.</span> <span class="toc-text">引用类型数组的初始化</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#this的使用"><span class="toc-number">2.</span> <span class="toc-text">this的使用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于静态与非静态"><span class="toc-number">3.</span> <span class="toc-text">关于静态与非静态</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于方法的一些思考"><span class="toc-number">4.</span> <span class="toc-text">关于方法的一些思考</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#关于值传递"><span class="toc-number">4.1.</span> <span class="toc-text">关于值传递</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#成员变量与局部变量"><span class="toc-number">5.</span> <span class="toc-text">成员变量与局部变量</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#封装与隐藏"><span class="toc-number">6.</span> <span class="toc-text">封装与隐藏</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#访问控制符"><span class="toc-number">6.1.</span> <span class="toc-text">访问控制符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于package"><span class="toc-number">6.2.</span> <span class="toc-text">关于package</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#再论构造器"><span class="toc-number">7.</span> <span class="toc-text">再论构造器</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">新日暮里</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> List</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> Movie</span></a></li></ul></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">Java笔记4</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2018-04-08 16:56:36"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2018-04-08</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-05-07 22:19:14"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-05-07</span></time></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p>&emsp;这篇的主要内容是查漏补缺。原因是今天想继续下一部分：继承和多态，结果发现林的书有许多东西讲的太精简，甚至有失偏颇。所以下面我将结合李的书和博客多前面的内容进行回顾。</p>
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="希望这里能见证一个菜鸟到大神的路程">
+  <meta name="author" content="xianzheTM">
+  <meta name="keywords" content="">
+  <title>Java笔记4 - 新日暮里</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_fmb4a04yx8h.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">
+              <i class="iconfont icon-home-fill"></i>
+              首页</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">
+              <i class="iconfont icon-archive-fill"></i>
+              归档</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">
+              <i class="iconfont icon-category-fill"></i>
+              分类</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">
+              <i class="iconfont icon-tags-fill"></i>
+              标签</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">
+              <i class="iconfont icon-user-fill"></i>
+              关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <div class="mt-3 post-meta">
+                  <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+                  <time datetime="2018-04-08 16:56">
+                    2018年4月8日 下午
+                  </time>
+                </div>
+              
+
+              <div class="mt-1">
+                
+                  
+                  <span class="post-meta mr-2">
+                    <i class="iconfont icon-chart"></i>
+                    2.6k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta mr-2">
+                      <i class="iconfont icon-clock-fill"></i>
+                    
+                    
+                    29
+                     分钟
+                  </span>
+                
+
+                
+              </div>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>&emsp;这篇的主要内容是查漏补缺。原因是今天想继续下一部分：继承和多态，结果发现林的书有许多东西讲的太精简，甚至有失偏颇。所以下面我将结合李的书和博客多前面的内容进行回顾。</p>
 <a id="more"></a>
 
 <h1 id="1-数组"><a href="#1-数组" class="headerlink" title="1.数组"></a>1.数组</h1><h2 id="内存中的数组"><a href="#内存中的数组" class="headerlink" title="内存中的数组"></a>内存中的数组</h2><p>&emsp;数组引用变量只是一个引用，类似于指针，它存放了对象的真是地址，但是这只是类比理解，实际上还是有差别的。实际的数组对象存放在堆中，而引用变量如果是一个局部变量就是在栈内存中。（是不是又像c++）同样的，当一个方法执行时，每个方法都会建立内存栈，然后将变量依次放入栈中，当使用完时也就被销毁了。堆中的对象是不会这样的，只要有引用指向它，它就会存在，当没有任何引用指向它时，它就会被垃圾管理器回收。这和C++不一样，C++中的需要自己手动创建，手动释放。<br>&emsp;引用的指定并不是唯一的，不是我被指定给了某个对象就不能再被指定给别人，只要类型相符就没有问题。</p>
 <h3 id="基本类型数组的初始化"><a href="#基本类型数组的初始化" class="headerlink" title="基本类型数组的初始化"></a>基本类型数组的初始化</h3><p>&emsp;对于基本类型数组，数组元素的值是直接存在对应的数组元素中的，因此，初始化数组时先为该数组分配内存空间，然后将数组的值放入里面就行。注意细节：分配空间后，里面并不是空的，而是默认值，关于默认值前面的笔记提到过。</p>
 <h3 id="引用类型数组的初始化"><a href="#引用类型数组的初始化" class="headerlink" title="引用类型数组的初始化"></a>引用类型数组的初始化</h3><p>先给出代码：<br>定义类：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">double</span> height;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">info</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"我的年龄是："</span>+age+<span class="string">"我的身高是："</span>+height)；</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span></span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> age;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> height;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">info</span><span class="hljs-params">()</span></span>&#123;
+        System.out.println(<span class="hljs-string">"我的年龄是："</span>+age+<span class="hljs-string">"我的身高是："</span>+height)；
+    &#125;
+&#125;</code></pre>
 
 <p>测试类：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReferenceArrayTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Person[] students = <span class="keyword">new</span> Person[<span class="number">2</span>];</span><br><span class="line">        Person zhang = <span class="keyword">new</span> Person();</span><br><span class="line">        Person lee = <span class="keyword">new</span> Person();</span><br><span class="line">        zhang.age = <span class="number">15</span>;</span><br><span class="line">        zhang.height = <span class="number">158</span>;</span><br><span class="line">        lee.height = <span class="number">161</span>;</span><br><span class="line">        students[<span class="number">0</span>]=zhang;</span><br><span class="line">        students[<span class="number">1</span>]=lee;</span><br><span class="line">        lee.info();</span><br><span class="line">        student[<span class="number">1</span>].info();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ReferenceArrayTest</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        Person[] students = <span class="hljs-keyword">new</span> Person[<span class="hljs-number">2</span>];
+        Person zhang = <span class="hljs-keyword">new</span> Person();
+        Person lee = <span class="hljs-keyword">new</span> Person();
+        zhang.age = <span class="hljs-number">15</span>;
+        zhang.height = <span class="hljs-number">158</span>;
+        lee.height = <span class="hljs-number">161</span>;
+        students[<span class="hljs-number">0</span>]=zhang;
+        students[<span class="hljs-number">1</span>]=lee;
+        lee.info();
+        student[<span class="hljs-number">1</span>].info();
+    &#125;
+&#125;</code></pre>
 
 <p>结果非常简单。问题在于下面这张图：</p>
-<p><img src="/2018/04/08/Java%E7%AC%94%E8%AE%B04/%E6%95%B0%E7%BB%84.png" alt="数组"></p>
+<p><img src="/2018/04/08/Java%E7%AC%94%E8%AE%B04/%E6%95%B0%E7%BB%84.png" srcset="/img/loading.gif" alt="数组"></p>
 <p>&emsp;注意图的左边部分，是不是觉得很变扭，我总觉得这里不对。后来查到，引用变量是放在栈中的。关于内存空间分配，参看链接（我还没研究过相关内容，不保证文章的正确）：<br><br>[Java的内存分配]:<a href="https://www.cnblogs.com/SaraMoring/p/5687466.html" target="_blank" rel="noopener">https://www.cnblogs.com/SaraMoring/p/5687466.html</a></p>
-<h1 id="this的使用"><a href="#this的使用" class="headerlink" title="this的使用"></a>this的使用</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dog</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">jump</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"正在执行jump方法"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.jump();</span><br><span class="line">        System.out.println(<span class="string">"正在执行run方法"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="this的使用"><a href="#this的使用" class="headerlink" title="this的使用"></a>this的使用</h1><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Dog</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">jump</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.println(<span class="hljs-string">"正在执行jump方法"</span>);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.jump();
+        System.out.println(<span class="hljs-string">"正在执行run方法"</span>);
+    &#125;
+&#125;</code></pre>
 
 <p>&emsp;谁在调用这个方法，this就代表谁。<br>&emsp;在上面的代码中，假如我创建了一个<code>dog</code>对象，<code>this.jump()</code>代表调用dog的jump()方法，这种在同一个对象中的两个方法之间的依赖，在用的时候可以省略this。</p>
 <blockquote>
 <p>&emsp;省略this前缀只是一种假象，虽然程序员省略了调用jump()方法之前的this ,但实际上这个this依然是存在的。根据汉语语法习惯：完整的语句至少包括主语、谓语、宾语，在面向对象的世界里，主、谓、宾的结构完全成立，例如 “猪八戒吃西瓜”是一条汉语语句，转换为面向对象的语法，就可以写成“猪八戒.吃(西瓜);”，因此本书常常把调用成员变量、方法的对象称为“主调(主语调用者的简称)”。对于Java语言来说，调用成员变量、方法时，主调是必不可少的，即使代码中省略了主调，但实际的主调依然存在。一般来说，如果调用static修饰的成员(包括方法、成员变量)时省略了前面的主调，那么默认使用该类作为主调；如果调用没有static修饰的成员(包括方法、成员变量)时省略了 前面的主调，那么默认使用this作为主调。</p>
 </blockquote>
-<h1 id="关于静态与非静态"><a href="#关于静态与非静态" class="headerlink" title="关于静态与非静态"></a>关于静态与非静态</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticAccessNoStatic</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">info</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"调用info()方法"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        info();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="关于静态与非静态"><a href="#关于静态与非静态" class="headerlink" title="关于静态与非静态"></a>关于静态与非静态</h1><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StaticAccessNoStatic</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">info</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.println(<span class="hljs-string">"调用info()方法"</span>);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        info();
+    &#125;
+&#125;</code></pre>
 
 <p>main()方法是静态的，它是属于类的，info()是属于对象的方法，必须使用对象来调用。类比上一节的代码，main方法调用info方法时，相当于调用<code>this.info()</code>方法，但是再三强调过了，static是类的，不属于对象，也就无从调用。而且就算允许了，那么，this是没法引用有效的对象的。<br>但是，但是，最不合理的地方就是：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Dog dog = <span class="keyword">new</span> Dog();</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java">Dog dog = <span class="hljs-keyword">new</span> Dog();</code></pre>
 
 <p>假定run()方法是static的，你是可以通过对象dog来调用的。但是，必须杜绝这种写法，正确的做法是：<code>Dog.run;</code>。<br><br>还有一些特殊情况，例如：当类的成员变量和类的方法的局部变量同名时，就需要用到this。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dog</span></span>&#123;</span><br><span class="line">    String aa;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span>&#123;</span><br><span class="line">        String aa;</span><br><span class="line">        System.out.println(<span class="keyword">this</span>.aa+aa);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Dog</span></span>&#123;
+    String aa;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">()</span></span>&#123;
+        String aa;
+        System.out.println(<span class="hljs-keyword">this</span>.aa+aa);
+    &#125;
+&#125;</code></pre>
 
 <p>所以说，在构造函数（构造器）中的this就是这么来的。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dog</span> </span>&#123;</span><br><span class="line">    String name;</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Dog</span><span class="params">(String name, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Dog</span> </span>&#123;
+    String name;
+    <span class="hljs-keyword">int</span> age;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Dog</span><span class="hljs-params">(String name, <span class="hljs-keyword">int</span> age)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.name = name;
+        <span class="hljs-keyword">this</span>.age = age;
+    &#125;
+&#125;</code></pre>
 
 <p>在构造中，this是指new出来的新对象。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CashCard</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String number;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> balance;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> bonus;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CashCard</span><span class="params">(String number, <span class="keyword">int</span> balance, <span class="keyword">int</span> bonus)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.number = number;</span><br><span class="line">        <span class="keyword">this</span>.balance = balance;</span><br><span class="line">        <span class="keyword">this</span>.bonus = bonus;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CashCard</span></span>&#123;
+    <span class="hljs-keyword">private</span> String number;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> balance;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> bonus;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">CashCard</span><span class="hljs-params">(String number, <span class="hljs-keyword">int</span> balance, <span class="hljs-keyword">int</span> bonus)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.number = number;
+        <span class="hljs-keyword">this</span>.balance = balance;
+        <span class="hljs-keyword">this</span>.bonus = bonus;
+    &#125;
+&#125;</code></pre>
 
 <p>构造器是被new调用的，所以this指代的是这个新对象。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CashCardTest</span></span>&#123;</span><br><span class="line">    CashCard card = <span class="keyword">new</span> CashCard(<span class="string">"500"</span>,<span class="number">20</span>,<span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CashCardTest</span></span>&#123;
+    CashCard card = <span class="hljs-keyword">new</span> CashCard(<span class="hljs-string">"500"</span>,<span class="hljs-number">20</span>,<span class="hljs-number">2</span>);
+&#125;</code></pre>
 
 <p>可以得出推测，谁在调用含有this的方法，this就代表了谁。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReturnThis</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ReturnThis <span class="title">grow</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        age++;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ReturnThis rt = <span class="keyword">new</span> ReturnThis();</span><br><span class="line">        rt.grow().grow().grow();</span><br><span class="line">        System.out.println(<span class="string">"rt的成员变量值是："</span>+rt.age);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ReturnThis</span> </span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> age;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ReturnThis <span class="hljs-title">grow</span><span class="hljs-params">()</span> </span>&#123;
+        age++;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        ReturnThis rt = <span class="hljs-keyword">new</span> ReturnThis();
+        rt.grow().grow().grow();
+        System.out.println(<span class="hljs-string">"rt的成员变量值是："</span>+rt.age);
+    &#125;
+&#125;</code></pre>
 
 <p>&emsp;从grow()方法的返回值类型也可以看出，this是指代的调用它的rt。当执行了第一次调用后，原本的<code>rt.grow().grow().grow();</code>意思就是<code>rt.grow().grow();</code>，只不过现在的rt中的成员变量值已经改变。因为返回的是一个对象，所以可以连续调用。</p>
 <h1 id="关于方法的一些思考"><a href="#关于方法的一些思考" class="headerlink" title="关于方法的一些思考"></a>关于方法的一些思考</h1><p>&emsp;方法很像函数，在C++中函数是老大，一切功能都是依靠函数，但在Java中类是老大，一切方法都必须在类或对象中。方法的调用是通过“类.方法”或“对象.方法”,必须通过方法和类。即使是调用同一个类中的不同方法，如果是static的，是依靠类，如果是普通的，是依靠this。</p>
@@ -170,4 +344,254 @@ function activateLightMode(){
 <p>*一个Java源文件中如果有一个public类，那么文件名必须是这个类名，不然，在别的地方要怎么调用这个类呢。<br><br>关于访问控制符有以下几个原则：<br><br>1.类里的绝大部分成员变量都应该使用private，只有一些static修饰的，类似全局变量的成员变量，才考虑用public。还有一些辅助类的其他方法的方法（工具方法）也应该是private。<br><br>2.如果某个类主要用于做为父类，类里的大部分方法只被用来让子类重写，而不像被外界调用，则应该用protected。</p>
 <h2 id="关于package"><a href="#关于package" class="headerlink" title="关于package"></a>关于package</h2><p>&emsp;在没有import package时，在一个父包中使用子包中的类，也必须写完整的包路径和类名。父包和子包确实有内在的逻辑关系，通常子包是父包的一个模块，但这并不代表在用法上有任何关系，使用时必须用完整的名字。<br><br>&emsp;可以使用import导入包，<code>import java.util.*</code>表示导入这个包下面的所有类，不包括下面的子包。<br><br>&emsp;但不是全部导入就行，因为可能存在不同的包中有相同的类名，还是需要在使用时显式的指定。</p>
 <h1 id="再论构造器"><a href="#再论构造器" class="headerlink" title="再论构造器"></a>再论构造器</h1><p>&emsp;构造器是构建Java对象的重要手段，但是，要强调的是，不是构造器新建了Java对象。根本的还是new关键字。<code>ReturnThis rt = new ReturnThis();</code>可以看出，最初额内存空间是有new创建的，而构造器进一步对这个空间内的东西进行创建。</p>
-</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">xianzheTM</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://yl.dropsec.xyz/2018/04/08/Java%E7%AC%94%E8%AE%B04/">https://yl.dropsec.xyz/2018/04/08/Java%E7%AC%94%E8%AE%B04/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yl.dropsec.xyz" target="_blank">新日暮里</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/java/">java</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2018/04/10/Java%E7%AC%94%E8%AE%B05/"><img class="prev_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Java笔记5</div></div></a></div><div class="next-post pull_right"><a href="/2018/04/06/Java%E7%AC%94%E8%AE%B03/"><img class="next_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java笔记3</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2018/06/21/AWT使用/" title="AWT使用"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-06-21</div><div class="relatedPosts_title">AWT使用</div></div></a></div><div class="relatedPosts_item"><a href="/2018/07/26/AWT菜单/" title="AWT菜单"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-07-26</div><div class="relatedPosts_title">AWT菜单</div></div></a></div><div class="relatedPosts_item"><a href="/2018/08/13/JVM内存区域划分/" title="JVM内存区域划分"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-08-13</div><div class="relatedPosts_title">JVM内存区域划分</div></div></a></div><div class="relatedPosts_item"><a href="/2018/08/17/Java中静态代码块、构造代码块、构造函数、普通代码块/" title="Java中静态代码块、构造代码块、构造函数、普通代码块"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-08-17</div><div class="relatedPosts_title">Java中静态代码块、构造代码块、构造函数、普通代码块</div></div></a></div><div class="relatedPosts_item"><a href="/2018/08/09/Java正则表达式/" title="Java正则表达式"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-08-09</div><div class="relatedPosts_title">Java正则表达式</div></div></a></div><div class="relatedPosts_item"><a href="/2018/08/13/Java泛型/" title="Java泛型"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-08-13</div><div class="relatedPosts_title">Java泛型</div></div></a></div></div><div class="clear_both"></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By xianzheTM</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@3/instantpage.min.js" type="module"></script></body></html>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/java/">java</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2018/04/10/Java%E7%AC%94%E8%AE%B05/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java笔记5</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2018/04/06/Java%E7%AC%94%E8%AE%B03/">
+                        <span class="hidden-mobile">Java笔记3</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/main.js" ></script>
+
+
+  <script  src="/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Java笔记4&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

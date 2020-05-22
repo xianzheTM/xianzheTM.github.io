@@ -1,96 +1,195 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Java方法引用 | 新日暮里</title><meta name="description" content="了解下Lambda的兄弟:方法引用.我是真的觉得这些新特新一点每增加代码可读性,反而越来越难以理解了.   Java8之方法引用一、概述在学习lambda表达式之后，我们通常使用lambda表达式来创建匿名方法。然而，有时候我们仅仅是调用了一个已存在的方法。如下： 1Arrays.sort(stringsArray,(s1,s2)-&gt;s1.compareToIgnoreCase(s2));"><meta name="keywords" content="java"><meta name="author" content="xianzheTM"><meta name="copyright" content="xianzheTM"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Java方法引用"><meta name="twitter:description" content="了解下Lambda的兄弟:方法引用.我是真的觉得这些新特新一点每增加代码可读性,反而越来越难以理解了.   Java8之方法引用一、概述在学习lambda表达式之后，我们通常使用lambda表达式来创建匿名方法。然而，有时候我们仅仅是调用了一个已存在的方法。如下： 1Arrays.sort(stringsArray,(s1,s2)-&gt;s1.compareToIgnoreCase(s2));"><meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="og:type" content="article"><meta property="og:title" content="Java方法引用"><meta property="og:url" content="https://yl.dropsec.xyz/2018/08/11/Java%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/"><meta property="og:site_name" content="新日暮里"><meta property="og:description" content="了解下Lambda的兄弟:方法引用.我是真的觉得这些新特新一点每增加代码可读性,反而越来越难以理解了.   Java8之方法引用一、概述在学习lambda表达式之后，我们通常使用lambda表达式来创建匿名方法。然而，有时候我们仅仅是调用了一个已存在的方法。如下： 1Arrays.sort(stringsArray,(s1,s2)-&gt;s1.compareToIgnoreCase(s2));"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2018-08-10T16:21:42.000Z"><meta property="article:modified_time" content="2020-05-07T14:19:14.000Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
-var t = Cookies.get("theme")
-if (autoChangeMode == '1'){
-  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
-  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
-  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
-  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+<!DOCTYPE html>
+<html lang="zh-CN">
 
-  if (t === undefined){
-    if (isLightMode) activateLightMode()
-    else if (isDarkMode) activateDarkMode()
-    else if (isNotSpecified || hasNoSupport){
-      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
-      var now = new Date()
-      var hour = now.getHours()
-      var isNight = hour < 6 || hour >= 18
-      isNight ? activateDarkMode() : activateLightMode()
-  }
-  } else if (t == 'light') activateLightMode()
-  else activateDarkMode()
 
-} else if (autoChangeMode == '2'){
-  now = new Date();
-  hour = now.getHours();
-  isNight = hour < 6 || hour >= 18
-  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
-  else if (t === 'light') activateLightMode()
-  else activateDarkMode() 
-} else {
-  if ( t == 'dark' ) activateDarkMode()
-  else if ( t == 'light') activateLightMode()
-}
 
-function activateDarkMode(){
-  document.documentElement.setAttribute('data-theme', 'dark')
-  if (document.querySelector('meta[name="theme-color"]') !== null){
-    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
-  }
-}
-function activateLightMode(){
-  document.documentElement.setAttribute('data-theme', 'light')
-  if (document.querySelector('meta[name="theme-color"]') !== null){
-  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
-  }
-}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://yl.dropsec.xyz/2018/08/11/Java%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/"><link rel="prev" title="Java集合" href="https://yl.dropsec.xyz/2018/08/12/Java%E9%9B%86%E5%90%88/"><link rel="next" title="Java正则表达式" href="https://yl.dropsec.xyz/2018/08/09/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
-  root: '/',
-  algolia: undefined,
-  localSearch: undefined,
-  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  bookmark: {
-    message_prev: '按',
-    message_next: '键将本页加入书签'
-  },
-  runtime_unit: '天',
-  runtime: true,
-  copyright: undefined,
-  ClickShowText: undefined,
-  medium_zoom: false,
-  fancybox: true,
-  Snackbar: undefined,
-  baiduPush: false,
-  highlightCopy: true,
-  highlightLang: true,
-  highlightShrink: 'false',
-  isFontAwesomeV5: false,
-  isPhotoFigcaption: false,
-  islazyload: false,
-  isanchor: false
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-}</script><script>var GLOBAL_CONFIG_SITE = { 
-  isPost: true,
-  isHome: false,
-  isSidebar: true  
-  }</script><noscript><style>
-#page-header {
-  opacity: 1
-}
-.justified-gallery img{
-  opacity: 1
-}
-</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">65</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> List</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> Movie</span></a></li></ul></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java8之方法引用"><span class="toc-number">1.</span> <span class="toc-text">Java8之方法引用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、概述"><span class="toc-number">1.1.</span> <span class="toc-text">一、概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、什么是方法引用"><span class="toc-number">1.2.</span> <span class="toc-text">二、什么是方法引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、方法引用例子"><span class="toc-number">1.3.</span> <span class="toc-text">三、方法引用例子</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#改进一，使用Lambda表达式，没有调用已存在的方法"><span class="toc-number">1.3.1.</span> <span class="toc-text">改进一，使用Lambda表达式，没有调用已存在的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#改进二，使用Lambda表达式，调用已存在的方法"><span class="toc-number">1.3.2.</span> <span class="toc-text">改进二，使用Lambda表达式，调用已存在的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#改进三，使用方法引用"><span class="toc-number">1.3.3.</span> <span class="toc-text">改进三，使用方法引用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、四种方法引用类型"><span class="toc-number">1.4.</span> <span class="toc-text">四、四种方法引用类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、静态方法引用"><span class="toc-number">1.4.1.</span> <span class="toc-text">1、静态方法引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、特定实例对象的方法引用"><span class="toc-number">1.4.2.</span> <span class="toc-text">2、特定实例对象的方法引用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#a-实例上的实例方法引用"><span class="toc-number">1.4.2.1.</span> <span class="toc-text">a.实例上的实例方法引用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#b-超类上的实例方法引用"><span class="toc-number">1.4.2.2.</span> <span class="toc-text">b.超类上的实例方法引用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#c-类型上的实例方法引用"><span class="toc-number">1.4.2.3.</span> <span class="toc-text">c.类型上的实例方法引用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、任意对象（属于同一个类）的实例方法引用"><span class="toc-number">1.4.3.</span> <span class="toc-text">3、任意对象（属于同一个类）的实例方法引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、构造方法引用"><span class="toc-number">1.4.4.</span> <span class="toc-text">4、构造方法引用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#a-构造方法引用（也可以称作构造器引用）"><span class="toc-number">1.4.4.1.</span> <span class="toc-text">a.构造方法引用（也可以称作构造器引用）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#b-数组构造方法引用"><span class="toc-number">1.4.4.2.</span> <span class="toc-text">b.数组构造方法引用</span></a></li></ol></li></ol></li></ol></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">新日暮里</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> List</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> Movie</span></a></li></ul></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">Java方法引用</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2018-08-11 00:21:42"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2018-08-11</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-05-07 22:19:14"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-05-07</span></time></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p>了解下Lambda的兄弟:方法引用.我是真的觉得这些新特新一点每增加代码可读性,反而越来越难以理解了.</p>
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="希望这里能见证一个菜鸟到大神的路程">
+  <meta name="author" content="xianzheTM">
+  <meta name="keywords" content="">
+  <title>Java方法引用 - 新日暮里</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_fmb4a04yx8h.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">
+              <i class="iconfont icon-home-fill"></i>
+              首页</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">
+              <i class="iconfont icon-archive-fill"></i>
+              归档</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">
+              <i class="iconfont icon-category-fill"></i>
+              分类</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">
+              <i class="iconfont icon-tags-fill"></i>
+              标签</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">
+              <i class="iconfont icon-user-fill"></i>
+              关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <div class="mt-3 post-meta">
+                  <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+                  <time datetime="2018-08-11 00:21">
+                    2018年8月11日 凌晨
+                  </time>
+                </div>
+              
+
+              <div class="mt-1">
+                
+                  
+                  <span class="post-meta mr-2">
+                    <i class="iconfont icon-chart"></i>
+                    3.2k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta mr-2">
+                      <i class="iconfont icon-clock-fill"></i>
+                    
+                    
+                    44
+                     分钟
+                  </span>
+                
+
+                
+              </div>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>了解下Lambda的兄弟:方法引用.我是真的觉得这些新特新一点每增加代码可读性,反而越来越难以理解了.</p>
 <a id="more"></a>
 
 <h1 id="Java8之方法引用"><a href="#Java8之方法引用" class="headerlink" title="Java8之方法引用"></a>Java8之方法引用</h1><h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><p>在学习lambda表达式之后，我们通常使用lambda表达式来创建匿名方法。然而，有时候我们仅仅是调用了一个已存在的方法。如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Arrays.sort(stringsArray,(s1,s2)-&gt;s1.compareToIgnoreCase(s2));</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java">Arrays.sort(stringsArray,(s1,s2)-&gt;s1.compareToIgnoreCase(s2));</code></pre>
 
 <p> 在Java8中，我们可以直接通过方法引用来<strong>简写</strong>lambda表达式中已经存在的方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Arrays.sort(stringsArray, String::compareToIgnoreCase);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java">Arrays.sort(stringsArray, String::compareToIgnoreCase);</code></pre>
 
 <p>这种特性就叫做方法引用(Method Reference)。</p>
 <h2 id="二、什么是方法引用"><a href="#二、什么是方法引用" class="headerlink" title="二、什么是方法引用"></a>二、什么是方法引用</h2><p>​     <strong>方法引用</strong>是用来直接访问类或者实例的已经存在的方法或者构造方法。方法引用提供了一种引用而不执行方法的方式，它需要由兼容的函数式接口构成的目标类型上下文。计算时，方法引用会创建函数式接口的一个实例。</p>
@@ -99,27 +198,119 @@ function activateLightMode(){
 <hr>
 <p>​      简单地说，就是一个Lambda表达式。在Java 8中，我们会使用Lambda表达式创建匿名方法，但是有时候，我们的Lambda表达式可能仅仅调用一个已存在的方法，而不做任何其它事，对于这种情况，通过一个方法名字来引用这个已存在的方法会更加清晰，Java 8的方法引用允许我们这样做。方法引用是一个更加紧凑，易读的Lambda表达式，注意方法引用是一个Lambda表达式，其中方法引用的操作符是双冒号”::”。</p>
 <h2 id="三、方法引用例子"><a href="#三、方法引用例子" class="headerlink" title="三、方法引用例子"></a>三、方法引用例子</h2><p>先看一个例子，首先定义一个Person类，如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo.model;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.time.LocalDate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name, LocalDate birthday)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.birthday = birthday;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    String name;</span><br><span class="line">    LocalDate birthday;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> LocalDate <span class="title">getBirthday</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> birthday;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">compareByAge</span><span class="params">(Person a, Person b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a.birthday.compareTo(b.birthday);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.demo.model;
+
+<span class="hljs-keyword">import</span> java.time.LocalDate;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person</span><span class="hljs-params">(String name, LocalDate birthday)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.name = name;
+        <span class="hljs-keyword">this</span>.birthday = birthday;
+    &#125;
+
+    String name;
+    LocalDate birthday;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> LocalDate <span class="hljs-title">getBirthday</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> birthday;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compareByAge</span><span class="hljs-params">(Person a, Person b)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> a.birthday.compareTo(b.birthday);
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.name;
+    &#125;
+&#125;</code></pre>
 
 <p>假设我们有一个Person数组，并且想对它进行排序，这时候，我们可能会这样写：</p>
 <p><strong>原始写法，使用匿名类：</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.time.LocalDate;</span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.Comparator;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="keyword">import</span> com.demo.model.Person;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">testMethodReference</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Person[] pArr = <span class="keyword">new</span> Person[]&#123;</span><br><span class="line">                <span class="keyword">new</span> Person(<span class="string">"003"</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">9</span>,<span class="number">1</span>)),</span><br><span class="line">                <span class="keyword">new</span> Person(<span class="string">"001"</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">2</span>,<span class="number">1</span>)),</span><br><span class="line">                <span class="keyword">new</span> Person(<span class="string">"002"</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">3</span>,<span class="number">1</span>)),</span><br><span class="line">                <span class="keyword">new</span> Person(<span class="string">"004"</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">12</span>,<span class="number">1</span>))&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用匿名类</span></span><br><span class="line">        Arrays.sort(pArr, <span class="keyword">new</span> Comparator&lt;Person&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Person a, Person b)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> a.getBirthday().compareTo(b.getBirthday());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        </span><br><span class="line">        System.out.println(Arrays.asList(pArr));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.demo;
+
+<span class="hljs-keyword">import</span> java.time.LocalDate;
+<span class="hljs-keyword">import</span> java.util.Arrays;
+<span class="hljs-keyword">import</span> java.util.Comparator;
+<span class="hljs-keyword">import</span> org.junit.Test;
+<span class="hljs-keyword">import</span> com.demo.model.Person;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">testMethodReference</span> </span>&#123;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">()</span> </span>&#123;
+        Person[] pArr = <span class="hljs-keyword">new</span> Person[]&#123;
+                <span class="hljs-keyword">new</span> Person(<span class="hljs-string">"003"</span>, LocalDate.of(<span class="hljs-number">2016</span>,<span class="hljs-number">9</span>,<span class="hljs-number">1</span>)),
+                <span class="hljs-keyword">new</span> Person(<span class="hljs-string">"001"</span>, LocalDate.of(<span class="hljs-number">2016</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>)),
+                <span class="hljs-keyword">new</span> Person(<span class="hljs-string">"002"</span>, LocalDate.of(<span class="hljs-number">2016</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>)),
+                <span class="hljs-keyword">new</span> Person(<span class="hljs-string">"004"</span>, LocalDate.of(<span class="hljs-number">2016</span>,<span class="hljs-number">12</span>,<span class="hljs-number">1</span>))&#125;;
+
+        <span class="hljs-comment">// 使用匿名类</span>
+        Arrays.sort(pArr, <span class="hljs-keyword">new</span> Comparator&lt;Person&gt;() &#123;
+            <span class="hljs-meta">@Override</span>
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(Person a, Person b)</span> </span>&#123;
+                <span class="hljs-keyword">return</span> a.getBirthday().compareTo(b.getBirthday());
+            &#125;
+        &#125;);
+        
+        System.out.println(Arrays.asList(pArr));
+    &#125;
+&#125;</code></pre>
 
 <p>其中，Arrays类的sort方法定义如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">sort</span><span class="params">(T[] a, Comparator&lt;? <span class="keyword">super</span> T&gt; c)</span></span></span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sort</span><span class="hljs-params">(T[] a, Comparator&lt;? <span class="hljs-keyword">super</span> T&gt; c)</span></span></code></pre>
 
 <p>这里，我们首先要注意<code>Comparator</code>接口是一个函数式接口，因此我们可以使用Lambda表达式，而不需要定义一个实现<code>Comparator</code>接口的类，并创建它的实例对象，传给sort方法。</p>
 <p>使用Lambda表达式，我们可以这样写：</p>
-<h3 id="改进一，使用Lambda表达式，没有调用已存在的方法"><a href="#改进一，使用Lambda表达式，没有调用已存在的方法" class="headerlink" title="改进一，使用Lambda表达式，没有调用已存在的方法"></a>改进一，使用Lambda表达式，没有调用已存在的方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Person[] pArr = <span class="keyword">new</span> Person[]&#123;</span><br><span class="line">            <span class="keyword">new</span> Person(<span class="string">"003"</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">9</span>,<span class="number">1</span>)),</span><br><span class="line">            <span class="keyword">new</span> Person(<span class="string">"001"</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">2</span>,<span class="number">1</span>)),</span><br><span class="line">            <span class="keyword">new</span> Person(<span class="string">"002"</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">3</span>,<span class="number">1</span>)),</span><br><span class="line">            <span class="keyword">new</span> Person(<span class="string">"004"</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">12</span>,<span class="number">1</span>))&#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//使用lambda表达式</span></span><br><span class="line">    Arrays.sort(pArr, (Person a, Person b) -&gt; &#123;</span><br><span class="line">        <span class="keyword">return</span> a.getBirthday().compareTo(b.getBirthday());</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    System.out.println(Arrays.asList(pArr));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="改进一，使用Lambda表达式，没有调用已存在的方法"><a href="#改进一，使用Lambda表达式，没有调用已存在的方法" class="headerlink" title="改进一，使用Lambda表达式，没有调用已存在的方法"></a>改进一，使用Lambda表达式，没有调用已存在的方法</h3><pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test1</span><span class="hljs-params">()</span> </span>&#123;
+    Person[] pArr = <span class="hljs-keyword">new</span> Person[]&#123;
+            <span class="hljs-keyword">new</span> Person(<span class="hljs-string">"003"</span>, LocalDate.of(<span class="hljs-number">2016</span>,<span class="hljs-number">9</span>,<span class="hljs-number">1</span>)),
+            <span class="hljs-keyword">new</span> Person(<span class="hljs-string">"001"</span>, LocalDate.of(<span class="hljs-number">2016</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>)),
+            <span class="hljs-keyword">new</span> Person(<span class="hljs-string">"002"</span>, LocalDate.of(<span class="hljs-number">2016</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>)),
+            <span class="hljs-keyword">new</span> Person(<span class="hljs-string">"004"</span>, LocalDate.of(<span class="hljs-number">2016</span>,<span class="hljs-number">12</span>,<span class="hljs-number">1</span>))&#125;;
+    
+    <span class="hljs-comment">//使用lambda表达式</span>
+    Arrays.sort(pArr, (Person a, Person b) -&gt; &#123;
+        <span class="hljs-keyword">return</span> a.getBirthday().compareTo(b.getBirthday());
+    &#125;);
+    
+    System.out.println(Arrays.asList(pArr));
+&#125;</code></pre>
 
 <p>然而，在以上代码中，关于两个人生日的比较方法在Person类中已经定义了，因此，我们可以直接使用已存在的Person.compareByAge方法。</p>
-<h3 id="改进二，使用Lambda表达式，调用已存在的方法"><a href="#改进二，使用Lambda表达式，调用已存在的方法" class="headerlink" title="改进二，使用Lambda表达式，调用已存在的方法"></a>改进二，使用Lambda表达式，调用已存在的方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Person[] pArr = <span class="keyword">new</span> Person[]&#123;</span><br><span class="line">            <span class="keyword">new</span> Person(<span class="string">"003"</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">9</span>,<span class="number">1</span>)),</span><br><span class="line">            <span class="keyword">new</span> Person(<span class="string">"001"</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">2</span>,<span class="number">1</span>)),</span><br><span class="line">            <span class="keyword">new</span> Person(<span class="string">"002"</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">3</span>,<span class="number">1</span>)),</span><br><span class="line">            <span class="keyword">new</span> Person(<span class="string">"004"</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">12</span>,<span class="number">1</span>))&#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//使用lambda表达式和类的静态方法</span></span><br><span class="line">    Arrays.sort(pArr, (a ,b) -&gt; Person.compareByAge(a, b));</span><br><span class="line">    </span><br><span class="line">    System.out.println(Arrays.asList(pArr));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="改进二，使用Lambda表达式，调用已存在的方法"><a href="#改进二，使用Lambda表达式，调用已存在的方法" class="headerlink" title="改进二，使用Lambda表达式，调用已存在的方法"></a>改进二，使用Lambda表达式，调用已存在的方法</h3><pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test2</span><span class="hljs-params">()</span> </span>&#123;
+    Person[] pArr = <span class="hljs-keyword">new</span> Person[]&#123;
+            <span class="hljs-keyword">new</span> Person(<span class="hljs-string">"003"</span>, LocalDate.of(<span class="hljs-number">2016</span>,<span class="hljs-number">9</span>,<span class="hljs-number">1</span>)),
+            <span class="hljs-keyword">new</span> Person(<span class="hljs-string">"001"</span>, LocalDate.of(<span class="hljs-number">2016</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>)),
+            <span class="hljs-keyword">new</span> Person(<span class="hljs-string">"002"</span>, LocalDate.of(<span class="hljs-number">2016</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>)),
+            <span class="hljs-keyword">new</span> Person(<span class="hljs-string">"004"</span>, LocalDate.of(<span class="hljs-number">2016</span>,<span class="hljs-number">12</span>,<span class="hljs-number">1</span>))&#125;;
+    
+    <span class="hljs-comment">//使用lambda表达式和类的静态方法</span>
+    Arrays.sort(pArr, (a ,b) -&gt; Person.compareByAge(a, b));
+    
+    System.out.println(Arrays.asList(pArr));
+&#125;</code></pre>
 
 <p>因为这个Lambda表达式调用了一个已存在的方法，因此，我们可以直接使用方法引用来替代这个Lambda表达式。</p>
-<h3 id="改进三，使用方法引用"><a href="#改进三，使用方法引用" class="headerlink" title="改进三，使用方法引用"></a>改进三，使用方法引用</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Person[] pArr = <span class="keyword">new</span> Person[]&#123;</span><br><span class="line">            <span class="keyword">new</span> Person(<span class="string">"003"</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">9</span>,<span class="number">1</span>)),</span><br><span class="line">            <span class="keyword">new</span> Person(<span class="string">"001"</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">2</span>,<span class="number">1</span>)),</span><br><span class="line">            <span class="keyword">new</span> Person(<span class="string">"002"</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">3</span>,<span class="number">1</span>)),</span><br><span class="line">            <span class="keyword">new</span> Person(<span class="string">"004"</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">12</span>,<span class="number">1</span>))&#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//使用方法引用，引用的是类的静态方法</span></span><br><span class="line">    Arrays.sort(pArr, Person::compareByAge);</span><br><span class="line">    </span><br><span class="line">    System.out.println(Arrays.asList(pArr));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="改进三，使用方法引用"><a href="#改进三，使用方法引用" class="headerlink" title="改进三，使用方法引用"></a>改进三，使用方法引用</h3><pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test3</span><span class="hljs-params">()</span> </span>&#123;
+    Person[] pArr = <span class="hljs-keyword">new</span> Person[]&#123;
+            <span class="hljs-keyword">new</span> Person(<span class="hljs-string">"003"</span>, LocalDate.of(<span class="hljs-number">2016</span>,<span class="hljs-number">9</span>,<span class="hljs-number">1</span>)),
+            <span class="hljs-keyword">new</span> Person(<span class="hljs-string">"001"</span>, LocalDate.of(<span class="hljs-number">2016</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>)),
+            <span class="hljs-keyword">new</span> Person(<span class="hljs-string">"002"</span>, LocalDate.of(<span class="hljs-number">2016</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>)),
+            <span class="hljs-keyword">new</span> Person(<span class="hljs-string">"004"</span>, LocalDate.of(<span class="hljs-number">2016</span>,<span class="hljs-number">12</span>,<span class="hljs-number">1</span>))&#125;;
+    
+    <span class="hljs-comment">//使用方法引用，引用的是类的静态方法</span>
+    Arrays.sort(pArr, Person::compareByAge);
+    
+    System.out.println(Arrays.asList(pArr));
+&#125;</code></pre>
 
 <p>运行结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[001, 002, 003, 004]</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs plain">[001, 002, 003, 004]</code></pre>
 
 <p>在以上代码中，方法引用Person::compareByAge在语义上与Lambda表达式 (a, b) -&gt; Person.compareByAge(a, b) 是等同的，都有如下特性：</p>
 <ul>
@@ -164,39 +355,168 @@ function activateLightMode(){
 <p>　　String::valueOf   等价于lambda表达式 (s) -&gt; String.valueOf(s)</p>
 <p>　　Math::pow       等价于lambda表达式  (x, y) -&gt; Math.pow(x, y);</p>
 <p><strong>字符串反转的例子：</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 函数式接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">StringFunc</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function">String <span class="title">func</span><span class="params">(String n)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.demo;
 
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyStringOps</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//静态方法： 反转字符串</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">strReverse</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">        String result = <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = str.length() - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            result += str.charAt(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 函数式接口</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">StringFunc</span> </span>&#123;
+    
+    <span class="hljs-function">String <span class="hljs-title">func</span><span class="hljs-params">(String n)</span></span>;
+&#125;</code></pre>
 
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodRefDemo</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">stringOp</span><span class="params">(StringFunc sf, String s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> sf.func(s);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String inStr = <span class="string">"lambda add power to Java"</span>;</span><br><span class="line">        <span class="comment">//MyStringOps::strReverse 相当于实现了接口方法func() </span></span><br><span class="line">        <span class="comment">// 并在接口方法func()中作了MyStringOps.strReverse()操作</span></span><br><span class="line">         String outStr = stringOp(MyStringOps::strReverse, inStr);</span><br><span class="line">        System.out.println(<span class="string">"Original string: "</span> + inStr);</span><br><span class="line">        System.out.println(<span class="string">"String reserved: "</span> + outStr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.demo;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyStringOps</span> </span>&#123;
+    
+    <span class="hljs-comment">//静态方法： 反转字符串</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">strReverse</span><span class="hljs-params">(String str)</span> </span>&#123;
+        String result = <span class="hljs-string">""</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = str.length() - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) &#123;
+            result += str.charAt(i);
+        &#125;
+        <span class="hljs-keyword">return</span> result;
+    &#125;
+
+&#125;</code></pre>
+
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.demo;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MethodRefDemo</span> </span>&#123;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">stringOp</span><span class="hljs-params">(StringFunc sf, String s)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> sf.func(s);
+    &#125;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        String inStr = <span class="hljs-string">"lambda add power to Java"</span>;
+        <span class="hljs-comment">//MyStringOps::strReverse 相当于实现了接口方法func() </span>
+        <span class="hljs-comment">// 并在接口方法func()中作了MyStringOps.strReverse()操作</span>
+         String outStr = stringOp(MyStringOps::strReverse, inStr);
+        System.out.println(<span class="hljs-string">"Original string: "</span> + inStr);
+        System.out.println(<span class="hljs-string">"String reserved: "</span> + outStr);
+    &#125;
+
+&#125;</code></pre>
 
 <p>输出结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Original string: lambda add power to Java</span><br><span class="line">String reserved: avaJ ot rewop dda adbmal</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs plain">Original string: lambda add power to Java
+String reserved: avaJ ot rewop dda adbmal</code></pre>
 
 <p>表达式MyStringOps::strReverse的计算结果为对象引用，其中，strReverse提供了StringFunc的func()方法的实现。</p>
 <p><strong>找到列表中具有最大值的对象</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> val;</span><br><span class="line"></span><br><span class="line">    MyClass(<span class="keyword">int</span> v) &#123;</span><br><span class="line">        val = v;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> val;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.demo;
 
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Collections;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UseMethodRef</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">compareMC</span><span class="params">(MyClass a, MyClass b)</span> </span>&#123;</span><br><span class="line">         <span class="keyword">return</span> a.getValue() - b.getValue();</span><br><span class="line">     &#125;</span><br><span class="line">     </span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">         ArrayList&lt;MyClass&gt; a1 = <span class="keyword">new</span> ArrayList&lt;MyClass&gt;();</span><br><span class="line">         a1.add(<span class="keyword">new</span> MyClass(<span class="number">1</span>));</span><br><span class="line">         a1.add(<span class="keyword">new</span> MyClass(<span class="number">4</span>));</span><br><span class="line">         a1.add(<span class="keyword">new</span> MyClass(<span class="number">2</span>));</span><br><span class="line">         a1.add(<span class="keyword">new</span> MyClass(<span class="number">9</span>));</span><br><span class="line">         a1.add(<span class="keyword">new</span> MyClass(<span class="number">3</span>));</span><br><span class="line">         a1.add(<span class="keyword">new</span> MyClass(<span class="number">7</span>));</span><br><span class="line">         <span class="comment">//UseMethodRef::compareMC生成了抽象接口Comparator定义的compare()方法的实例。</span></span><br><span class="line">         MyClass maxValObj = Collections.max(a1, UseMethodRef::compareMC);</span><br><span class="line">         System.out.println(<span class="string">"Maximum value is: "</span> + maxValObj.getValue());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyClass</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> val;
+
+    MyClass(<span class="hljs-keyword">int</span> v) &#123;
+        val = v;
+    &#125;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getValue</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> val;
+    &#125;
+
+&#125;</code></pre>
+
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.demo;
+
+<span class="hljs-keyword">import</span> java.util.ArrayList;
+<span class="hljs-keyword">import</span> java.util.Collections;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UseMethodRef</span> </span>&#123;
+    
+     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compareMC</span><span class="hljs-params">(MyClass a, MyClass b)</span> </span>&#123;
+         <span class="hljs-keyword">return</span> a.getValue() - b.getValue();
+     &#125;
+     
+     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+         ArrayList&lt;MyClass&gt; a1 = <span class="hljs-keyword">new</span> ArrayList&lt;MyClass&gt;();
+         a1.add(<span class="hljs-keyword">new</span> MyClass(<span class="hljs-number">1</span>));
+         a1.add(<span class="hljs-keyword">new</span> MyClass(<span class="hljs-number">4</span>));
+         a1.add(<span class="hljs-keyword">new</span> MyClass(<span class="hljs-number">2</span>));
+         a1.add(<span class="hljs-keyword">new</span> MyClass(<span class="hljs-number">9</span>));
+         a1.add(<span class="hljs-keyword">new</span> MyClass(<span class="hljs-number">3</span>));
+         a1.add(<span class="hljs-keyword">new</span> MyClass(<span class="hljs-number">7</span>));
+         <span class="hljs-comment">//UseMethodRef::compareMC生成了抽象接口Comparator定义的compare()方法的实例。</span>
+         MyClass maxValObj = Collections.max(a1, UseMethodRef::compareMC);
+         System.out.println(<span class="hljs-string">"Maximum value is: "</span> + maxValObj.getValue());
+    &#125;
+
+&#125;</code></pre>
 
 <p>输出结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Maximum value is: 9</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs plain">Maximum value is: 9</code></pre>
 
 <p>UseMethodRef定义了静态方法compareMC()，它与Comparator定义的compare()方法兼容。因此，没有必要显式的实现Comparator接口并创建其实例。</p>
 <h3 id="2、特定实例对象的方法引用"><a href="#2、特定实例对象的方法引用" class="headerlink" title="2、特定实例对象的方法引用"></a>2、特定实例对象的方法引用</h3><p><strong>这种语法与用于静态方法的语法类似，只不过这里使用对象引用而不是类名。实例方法引用又分以下三种类型：</strong></p>
 <h4 id="a-实例上的实例方法引用"><a href="#a-实例上的实例方法引用" class="headerlink" title="a.实例上的实例方法引用"></a>a.实例上的实例方法引用</h4><p><strong>组成语法格式：instanceReference::methodName</strong></p>
 <p>如下示例，引用的方法是myComparisonProvider 对象的compareByName方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ComparisonProvider</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareByName</span><span class="params">(Person a, Person b)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a.getName().compareTo(b.getName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareByAge</span><span class="params">(Person a, Person b)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a.getBirthday().compareTo(b.getBirthday());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ComparisonProvider myComparisonProvider = <span class="keyword">new</span> ComparisonProvider();</span><br><span class="line">Arrays.sort(rosterAsArray, myComparisonProvider::compareByName);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ComparisonProvider</span></span>&#123;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compareByName</span><span class="hljs-params">(Person a, Person b)</span></span>&#123;
+        <span class="hljs-keyword">return</span> a.getName().compareTo(b.getName());
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compareByAge</span><span class="hljs-params">(Person a, Person b)</span></span>&#123;
+        <span class="hljs-keyword">return</span> a.getBirthday().compareTo(b.getBirthday());
+    &#125;
+&#125;
+
+ComparisonProvider myComparisonProvider = <span class="hljs-keyword">new</span> ComparisonProvider();
+Arrays.sort(rosterAsArray, myComparisonProvider::compareByName);</code></pre>
 
 <p><strong>例子：反转字符串</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 函数式接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">StringFunc</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function">String <span class="title">func</span><span class="params">(String n)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.demo;
 
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyStringOps</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//普通方法： 反转字符串</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">strReverse1</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">        String result = <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = str.length() - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            result += str.charAt(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 函数式接口</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">StringFunc</span> </span>&#123;
+    
+    <span class="hljs-function">String <span class="hljs-title">func</span><span class="hljs-params">(String n)</span></span>;
+&#125;</code></pre>
 
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodRefDemo2</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">stringOp</span><span class="params">(StringFunc sf, String s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> sf.func(s);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String inStr = <span class="string">"lambda add power to Java"</span>;</span><br><span class="line">        MyStringOps strOps = <span class="keyword">new</span> MyStringOps();<span class="comment">//实例对象</span></span><br><span class="line">        <span class="comment">//strOps::strReverse1 相当于实现了接口方法func() </span></span><br><span class="line">        String outStr = stringOp(strOps::strReverse1, inStr);</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"Original string: "</span> + inStr);</span><br><span class="line">        System.out.println(<span class="string">"String reserved: "</span> + outStr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.demo;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyStringOps</span> </span>&#123;
+    
+    <span class="hljs-comment">//普通方法： 反转字符串</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">strReverse1</span><span class="hljs-params">(String str)</span> </span>&#123;
+        String result = <span class="hljs-string">""</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = str.length() - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) &#123;
+            result += str.charAt(i);
+        &#125;
+        <span class="hljs-keyword">return</span> result;
+    &#125;
+
+&#125;</code></pre>
+
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.demo;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MethodRefDemo2</span> </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">stringOp</span><span class="hljs-params">(StringFunc sf, String s)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> sf.func(s);
+    &#125;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        String inStr = <span class="hljs-string">"lambda add power to Java"</span>;
+        MyStringOps strOps = <span class="hljs-keyword">new</span> MyStringOps();<span class="hljs-comment">//实例对象</span>
+        <span class="hljs-comment">//strOps::strReverse1 相当于实现了接口方法func() </span>
+        String outStr = stringOp(strOps::strReverse1, inStr);
+
+        System.out.println(<span class="hljs-string">"Original string: "</span> + inStr);
+        System.out.println(<span class="hljs-string">"String reserved: "</span> + outStr);
+    &#125;
+
+&#125;</code></pre>
 
 <p>输出结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Original string: lambda add power to Java</span><br><span class="line">String reserved: avaJ ot rewop dda adbmal</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs plain">Original string: lambda add power to Java
+String reserved: avaJ ot rewop dda adbmal</code></pre>
 
 <h4 id="b-超类上的实例方法引用"><a href="#b-超类上的实例方法引用" class="headerlink" title="b.超类上的实例方法引用"></a>b.超类上的实例方法引用</h4><p><strong>组成语法格式：super::methodName</strong></p>
 <p>方法的名称由methodName指定，通过使用<strong>super</strong>，可以引用方法的超类版本。</p>
@@ -210,39 +530,360 @@ function activateLightMode(){
 <p>String::toString 等价于lambda表达式 (s) -&gt; s.toString()</p>
 <p>这里不太容易理解，实例方法要通过对象来调用，方法引用对应Lambda，Lambda的第一个参数会成为调用实例方法的对象。</p>
 <p><strong>在泛型类或泛型方法中，也可以使用方法引用。</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyFunc</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">func</span><span class="params">(T[] als, T v)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.demo;
 
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyArrayOps</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function"><span class="keyword">int</span> <span class="title">countMatching</span><span class="params">(T[] vals, T v)</span> </span>&#123;</span><br><span class="line">         <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">         <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; vals.length; i++) &#123;</span><br><span class="line">             <span class="keyword">if</span> (vals[i] == v) count++;</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">return</span> count;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">MyFunc</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;
+    
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">func</span><span class="hljs-params">(T[] als, T v)</span></span>;
+&#125;</code></pre>
 
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GenericMethodRefDemo</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function"><span class="keyword">int</span> <span class="title">myOp</span><span class="params">(MyFunc&lt;T&gt; f, T[] vals, T v)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> f.func(vals, v);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Integer[] vals = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br><span class="line">        String[] strs = &#123;<span class="string">"One"</span>, <span class="string">"Two"</span>, <span class="string">"Three"</span>, <span class="string">"Two"</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span> count;</span><br><span class="line">        count=myOp(MyArrayOps::&lt;Integer&gt;countMatching, vals, <span class="number">4</span>);</span><br><span class="line">        System.out.println(<span class="string">"vals contains "</span>+count+<span class="string">" 4s"</span>);</span><br><span class="line">        count=myOp(MyArrayOps::&lt;String&gt;countMatching, strs, <span class="string">"Two"</span>);</span><br><span class="line">        System.out.println(<span class="string">"strs contains "</span>+count+<span class="string">" Twos"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.demo;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyArrayOps</span> </span>&#123;
+
+     <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">countMatching</span><span class="hljs-params">(T[] vals, T v)</span> </span>&#123;
+         <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>;
+         <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; vals.length; i++) &#123;
+             <span class="hljs-keyword">if</span> (vals[i] == v) count++;
+         &#125;
+         <span class="hljs-keyword">return</span> count;
+     &#125;
+
+&#125;</code></pre>
+
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.demo;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GenericMethodRefDemo</span> </span>&#123;
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">myOp</span><span class="hljs-params">(MyFunc&lt;T&gt; f, T[] vals, T v)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> f.func(vals, v);
+    &#125;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>&#123;
+        Integer[] vals = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>&#125;;
+        String[] strs = &#123;<span class="hljs-string">"One"</span>, <span class="hljs-string">"Two"</span>, <span class="hljs-string">"Three"</span>, <span class="hljs-string">"Two"</span>&#125;;
+        <span class="hljs-keyword">int</span> count;
+        count=myOp(MyArrayOps::&lt;Integer&gt;countMatching, vals, <span class="hljs-number">4</span>);
+        System.out.println(<span class="hljs-string">"vals contains "</span>+count+<span class="hljs-string">" 4s"</span>);
+        count=myOp(MyArrayOps::&lt;String&gt;countMatching, strs, <span class="hljs-string">"Two"</span>);
+        System.out.println(<span class="hljs-string">"strs contains "</span>+count+<span class="hljs-string">" Twos"</span>);
+    &#125;
+
+&#125;</code></pre>
 
 <p>输出结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vals contains 3 4s</span><br><span class="line">strs contains 2 Twos</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs plain">vals contains 3 4s
+strs contains 2 Twos</code></pre>
 
 <p>分析：</p>
 <p>​      在程序中，MyArrayOps是非泛型类，包含泛型方法countMatching()。该方法返回数组中与指定值匹配的元素的个数。注意这里如何指定泛型类型参数。例如，在main()方法中，对countMatching()方法的第一次调用如下所示：count = myOp(MyArrayOps::<Integer>countMatching,vals,4); 这里传递了类型参数Integer。</Integer></p>
 <p>​      注意，参数传递发生在::的后面。这种语法可以推广。当把泛型方法指定为方法引用时，类型参数出现在::之后、方法名之前。但是，需要指出的是，在这种情况(和其它许多情况)下，并非必须显示指定类型参数，因为类型参数会被自动推断得出。对于指定泛型类的情况，类型参数位于类名的后面::的前面。</p>
 <h3 id="3、任意对象（属于同一个类）的实例方法引用"><a href="#3、任意对象（属于同一个类）的实例方法引用" class="headerlink" title="3、任意对象（属于同一个类）的实例方法引用"></a>3、任意对象（属于同一个类）的实例方法引用</h3><p>如下示例，这里引用的是字符串数组中任意一个对象的compareToIgnoreCase方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String[] stringArray = &#123; <span class="string">"Barbara"</span>, <span class="string">"James"</span>, <span class="string">"Mary"</span>, <span class="string">"John"</span>, <span class="string">"Patricia"</span>, <span class="string">"Robert"</span>, <span class="string">"Michael"</span>, <span class="string">"Linda"</span> &#125;;</span><br><span class="line">Arrays.sort(stringArray, String::compareToIgnoreCase);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java">String[] stringArray = &#123; <span class="hljs-string">"Barbara"</span>, <span class="hljs-string">"James"</span>, <span class="hljs-string">"Mary"</span>, <span class="hljs-string">"John"</span>, <span class="hljs-string">"Patricia"</span>, <span class="hljs-string">"Robert"</span>, <span class="hljs-string">"Michael"</span>, <span class="hljs-string">"Linda"</span> &#125;;
+Arrays.sort(stringArray, String::compareToIgnoreCase);</code></pre>
 
 <h3 id="4、构造方法引用"><a href="#4、构造方法引用" class="headerlink" title="4、构造方法引用"></a>4、构造方法引用</h3><p>构造方法引用又分构造方法引用和数组构造方法引用。</p>
 <h4 id="a-构造方法引用（也可以称作构造器引用）"><a href="#a-构造方法引用（也可以称作构造器引用）" class="headerlink" title="a.构造方法引用（也可以称作构造器引用）"></a>a.构造方法引用（也可以称作构造器引用）</h4><p><strong>组成语法格式：Class::new</strong></p>
 <p>构造函数本质上是静态方法，只是方法名字比较特殊，使用的是<strong>new 关键字</strong>。</p>
 <p>例子：</p>
 <p>String::new， 等价于lambda表达式 () -&gt; new String() </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyFunc1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">MyClass <span class="title">func</span><span class="params">(<span class="keyword">int</span> n)</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.demo;
 
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> val;</span><br><span class="line"></span><br><span class="line">    MyClass(<span class="keyword">int</span> v) &#123;</span><br><span class="line">        val = v;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    MyClass()&#123;</span><br><span class="line">        val = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> val;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">MyFunc1</span> </span>&#123;
 
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConstructorRefDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        MyFunc1 myClassCons = MyClass :: <span class="keyword">new</span>;</span><br><span class="line">        MyClass mc = myClassCons.func(<span class="number">100</span>);</span><br><span class="line">        System.out.println(<span class="string">"val in mc is: "</span> + mc.getValue());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <span class="hljs-function">MyClass <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span></span>;
+
+&#125;</code></pre>
+
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.demo;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyClass</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> val;
+
+    MyClass(<span class="hljs-keyword">int</span> v) &#123;
+        val = v;
+    &#125;
+    
+    MyClass()&#123;
+        val = <span class="hljs-number">0</span>;
+    &#125;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getValue</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> val;
+    &#125;
+
+&#125;</code></pre>
+
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.demo;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConstructorRefDemo</span> </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        MyFunc1 myClassCons = MyClass :: <span class="hljs-keyword">new</span>;
+        MyClass mc = myClassCons.func(<span class="hljs-number">100</span>);
+        System.out.println(<span class="hljs-string">"val in mc is: "</span> + mc.getValue());
+    &#125;
+&#125;</code></pre>
 
 <p>输出结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val in mc is: 100</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs plain">val in mc is: 100</code></pre>
 
 <h4 id="b-数组构造方法引用"><a href="#b-数组构造方法引用" class="headerlink" title="b.数组构造方法引用"></a>b.数组构造方法引用</h4><p><strong>组成语法格式：TypeName[]::new</strong></p>
 <p>例子：</p>
 <p>int[]::new 是一个含有一个参数的构造器引用，这个参数就是数组的长度。等价于lambda表达式  x -&gt; new int[x]。</p>
 <p>假想存在一个接收int参数的数组构造方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">IntFunction&lt;<span class="keyword">int</span>[]&gt; arrayMaker = <span class="keyword">int</span>[]::<span class="keyword">new</span>;</span><br><span class="line"><span class="keyword">int</span>[] array = arrayMaker.apply(<span class="number">10</span>) <span class="comment">// 创建数组 int[10]</span></span><br></pre></td></tr></table></figure>
+<pre><code class="hljs java">IntFunction&lt;<span class="hljs-keyword">int</span>[]&gt; arrayMaker = <span class="hljs-keyword">int</span>[]::<span class="hljs-keyword">new</span>;
+<span class="hljs-keyword">int</span>[] array = arrayMaker.apply(<span class="hljs-number">10</span>) <span class="hljs-comment">// 创建数组 int[10]</span></code></pre>
 
-</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">xianzheTM</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://yl.dropsec.xyz/2018/08/11/Java%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/">https://yl.dropsec.xyz/2018/08/11/Java%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yl.dropsec.xyz" target="_blank">新日暮里</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/java/">java</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2018/08/12/Java%E9%9B%86%E5%90%88/"><img class="prev_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Java集合</div></div></a></div><div class="next-post pull_right"><a href="/2018/08/09/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><img class="next_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java正则表达式</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2018/06/21/AWT使用/" title="AWT使用"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-06-21</div><div class="relatedPosts_title">AWT使用</div></div></a></div><div class="relatedPosts_item"><a href="/2018/07/26/AWT菜单/" title="AWT菜单"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-07-26</div><div class="relatedPosts_title">AWT菜单</div></div></a></div><div class="relatedPosts_item"><a href="/2018/08/13/JVM内存区域划分/" title="JVM内存区域划分"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-08-13</div><div class="relatedPosts_title">JVM内存区域划分</div></div></a></div><div class="relatedPosts_item"><a href="/2018/08/17/Java中静态代码块、构造代码块、构造函数、普通代码块/" title="Java中静态代码块、构造代码块、构造函数、普通代码块"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-08-17</div><div class="relatedPosts_title">Java中静态代码块、构造代码块、构造函数、普通代码块</div></div></a></div><div class="relatedPosts_item"><a href="/2018/08/09/Java正则表达式/" title="Java正则表达式"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-08-09</div><div class="relatedPosts_title">Java正则表达式</div></div></a></div><div class="relatedPosts_item"><a href="/2018/08/13/Java泛型/" title="Java泛型"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-08-13</div><div class="relatedPosts_title">Java泛型</div></div></a></div></div><div class="clear_both"></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By xianzheTM</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@3/instantpage.min.js" type="module"></script></body></html>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/java/">java</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2018/08/12/Java%E9%9B%86%E5%90%88/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java集合</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2018/08/09/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+                        <span class="hidden-mobile">Java正则表达式</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/main.js" ></script>
+
+
+  <script  src="/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Java方法引用&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
