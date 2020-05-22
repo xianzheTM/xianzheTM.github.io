@@ -109,7 +109,7 @@ function activateLightMode(){
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[][] scores = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>][<span class="number">2</span>];</span><br></pre></td></tr></table></figure>
 
 <p>应该理解为一个<code>int[]</code>的一维数组。如图</p>
-<p><img src="Java%E7%AC%94%E8%AE%B02%5C%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="示意图"></p>
+<p><img src="/2018/04/02/Java%E7%AC%94%E8%AE%B02/Java%E7%AC%94%E8%AE%B02%5C%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="示意图"></p>
 <p>我的理解是：</p>
 <ol>
 <li><p>有一个参考，是<code>int[][]</code>类型的，名字是<code>scores</code>,</p>
@@ -191,7 +191,7 @@ function activateLightMode(){
 
 <p>问题就出在这句<code>Carray2[i]=Carry1[i]</code>。对于基本数据类型，假设a=3,a=b,则b=3。但是对于对象来说，<code>=</code>代表了参考的相同，比如有个数组对象，参考名称是array1，如果，array2=array1，意思是这两个参考指向了同一个对象。从始至终，这里只会有一个对象，而我复制数组，显然是要两个对象（尽管他们一模一样）。</p>
 <p>这种不成功的复制叫浅层复制，如图：</p>
-<p><img src="Java%E7%AC%94%E8%AE%B02%5C%E7%A4%BA%E6%84%8F%E5%9B%BE2.png" alt="示意图"></p>
+<p><img src="/2018/04/02/Java%E7%AC%94%E8%AE%B02/Java%E7%AC%94%E8%AE%B02%5C%E7%A4%BA%E6%84%8F%E5%9B%BE2.png" alt="示意图"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeepCopy</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="keyword">static</span> <span class="title">mian</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Clothes[] Carray1 = &#123;<span class="keyword">new</span> Clothes(<span class="string">"red"</span>,<span class="string">'L'</span>),<span class="keyword">new</span> Clothes(<span class="string">"blue"</span>,<span class="string">'M'</span>)&#125;;</span><br><span class="line">        Clothes[] Carray2 = <span class="keyword">new</span> Clothes[Carray1.length];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;Carray1.length;++i)&#123;</span><br><span class="line">            Clothes c = <span class="keyword">new</span> Clotnes(Carray1[i].color,Carray1[i].size);</span><br><span class="line">            Carray2[i] = c;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>每次都新建一个对象，从Carray1那把相应的属性赋给它，再将这个对象的参考放入数组。</p>
@@ -208,7 +208,7 @@ function activateLightMode(){
 
 <p>是什么呢？是true。</p>
 <p>为了效率考虑，以””包含的字符串，只要内容相同，无论在程序中出现了多少次，JVM都只会建立一个String实例。</p>
-<p>注意：<strong></u>new一定是建立了新对象。</u></strong></p>
+<p>注意：<strong>new一定是建立了新对象。</strong></p>
 <p>（3）不可变动字符串</p>
 <p>在Java中，字符串对象一旦建立，就无法再次更改，对象中没有任何方法可以更改。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String name1 = <span class="string">"Java"</span>;</span><br><span class="line">String name2 = name1 + <span class="string">"world"</span>;</span><br><span class="line">System.out.println(name2);</span><br></pre></td></tr></table></figure>

@@ -101,7 +101,7 @@ function activateLightMode(){
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(Graphics g)</span> </span>&#123;</span><br><span class="line">        paint(g);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;下图是三者调用关系:</p>
-<p><img src="%E5%9C%A8AWT%E4%B8%AD%E7%BB%98%E5%9B%BE%5C%E5%85%B3%E7%B3%BB.png" alt="关系"></p>
+<p><img src="/2018/07/28/%E5%9C%A8AWT%E4%B8%AD%E7%BB%98%E5%9B%BE/%E5%9C%A8AWT%E4%B8%AD%E7%BB%98%E5%9B%BE%5C%E5%85%B3%E7%B3%BB.png" alt="关系"></p>
 <p>&emsp;从 图中可以看出，程序不应该主动调用组件的paint()和 update()方法，这两个方法都由AWT系统负责调用。如果程序希望AWT系统重新绘制该组件，则调用该组件的repaint()方法即可。而paint()和update()方法通常被重写。 在通常情况下，程序通过重写paint()方法实现在AWT组件上绘图。重写update()或 paint()方法时，该方法里包含了一个Graphics类型的参数，通过该Graphics参数就可以实现绘图功能。</p>
 <h1 id="使用Graphics类"><a href="#使用Graphics类" class="headerlink" title="使用Graphics类"></a>使用Graphics类</h1><p>&emsp;Graphics类提供了如下几个方法用于绘制几何图形和位图。</p>
 <ul>
