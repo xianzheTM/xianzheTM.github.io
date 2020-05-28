@@ -183,7 +183,10 @@
             
             <article class="markdown-body">
               <p>多线程。</p>
-<h1 id="创建多线程的方式"><a href="#创建多线程的方式" class="headerlink" title="创建多线程的方式"></a>创建多线程的方式</h1><h2 id="继承Thread类"><a href="#继承Thread类" class="headerlink" title="继承Thread类"></a>继承Thread类</h2><p>1.创建于继承于Thread类的子类<br>2.重写子类的run()方法–&gt;将此线程要做的事写在run方法中<br>3.创建子类对象<br>4.调用子类的start()方法</p>
+<h1 id="创建多线程的方式"><a href="#创建多线程的方式" class="headerlink" title="创建多线程的方式"></a>创建多线程的方式</h1><h2 id="继承Thread类"><a href="#继承Thread类" class="headerlink" title="继承Thread类"></a>继承Thread类</h2><p>1.创建于继承于Thread类的子类</p>
+<p>2.重写子类的run()方法–&gt;将此线程要做的事写在run方法中</p>
+<p>3.创建子类对象</p>
+<p>4.调用子类的start()方法</p>
 <pre><code class="hljs java"><span class="hljs-keyword">package</span> com.ylxianzhe.thread;
 
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span> </span>&#123;
@@ -293,9 +296,19 @@
     &#125;
 &#125;</code></pre>
 
-<p>还有个方法stop()。终止当前线程，已过时。<br>还有sleep()方法，sleep(1000)代表线程停一秒。一秒钟之内，CPU无法执行该线程，一秒后可以执行，但不一定是马上执行。使用时要用try-catch处理异常。<br>还有个isAlive()方法，判断线程是否存活。</p>
-<h2 id="线程的调度"><a href="#线程的调度" class="headerlink" title="线程的调度"></a>线程的调度</h2><p>多线程采用时间片的额策略，来回在几个线程中切换。这就涉及到优先级问题。<br>MAX_PRIORITY:10,<br>MIN_PRIORITY:1,<br>NORM_PRIORITY:5.<br>可以使用getPriority()返回线程优先级，setPriority()设置优先级。线程创建时继承父线程的优先级。<br>低优先级只是得到调度的概率低，不是绝对在高优先级后执行。</p>
-<h2 id="实现Runnable接口"><a href="#实现Runnable接口" class="headerlink" title="实现Runnable接口"></a>实现Runnable接口</h2><p>1.创建一个实现了Runnable接口的类<br>2.实现类中要实现Runnable接口的抽象方法run()<br>3.创建实现类对象<br>4.将该对象传入Thread类的构造器，并创建Thread类对象<br>5.通过Thread类对象调用start()</p>
+<p>还有个方法stop()。终止当前线程，已过时。</p>
+<p>还有sleep()方法，sleep(1000)代表线程停一秒。一秒钟之内，CPU无法执行该线程，一秒后可以执行，但不一定是马上执行。使用时要用try-catch处理异常。</p>
+<p>还有个isAlive()方法，判断线程是否存活。</p>
+<h2 id="线程的调度"><a href="#线程的调度" class="headerlink" title="线程的调度"></a>线程的调度</h2><p>多线程采用时间片的额策略，来回在几个线程中切换。这就涉及到优先级问题。</p>
+<p>MAX_PRIORITY:10,</p>
+<p>MIN_PRIORITY:1,</p>
+<p>NORM_PRIORITY:5.</p>
+<p>可以使用getPriority()返回线程优先级，setPriority()设置优先级。线程创建时继承父线程的优先级。<br>低优先级只是得到调度的概率低，不是绝对在高优先级后执行。</p>
+<h2 id="实现Runnable接口"><a href="#实现Runnable接口" class="headerlink" title="实现Runnable接口"></a>实现Runnable接口</h2><p>1.创建一个实现了Runnable接口的类</p>
+<p>2.实现类中要实现Runnable接口的抽象方法run()</p>
+<p>3.创建实现类对象</p>
+<p>4.将该对象传入Thread类的构造器，并创建Thread类对象</p>
+<p>5.通过Thread类对象调用start()</p>
 <pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span> </span>&#123;
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
 
@@ -316,7 +329,14 @@
 &#125;</code></pre>
 
 <p>一般开发中用实现接口的方式，可以避免单继承的缺点，同时由于一个Runnable接口实现类传给多个Three构造器，实现类中的数据天然就是共享的。共同点是两种方法都要重写run()方法。</p>
-<h1 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h1><p>Thread.State定义了线程的多个状态。State是一个枚举类，里面有五个对象。<br>五种状态：新建（没有开始start()方法），就绪（开始了start()方法，可以执行，但还没分配CPU资源），运行（分配到CPU资源，正在执行），阻塞（被挂起，或者用了join()方法，但不是切换到另一线程执行的意思，那种还是就绪，而这种是绝对的不能执行，即使CPU资源分配了），死亡（执行完run()，调用stop()，出现异常且没处理）。<br>当阻塞结束后是回到就绪状态，而不是运行状态。<br>触发阻塞的方法：sleep()，join()，等待同步锁，wait(),suspend(),(suspend过时)。阻塞不是线程的最终状态，它必定会回到就绪，最终是死亡。<br>回到就绪状态：sleep时间到，join结束，获取到同步锁，notify()/notifyAll()唤醒，resume()（已过时）<br><img src="/2020/05/25/%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%88%E5%A4%8D%E4%B9%A03%EF%BC%89/%E5%89%AA%E8%B4%B4%E6%9D%BF%E5%9B%BE%E7%89%87.jpg" srcset="/img/loading.gif" alt></p>
+<h1 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h1><p>Thread.State定义了线程的多个状态。State是一个枚举类，里面有五个对象。</p>
+<p>五种状态：</p>
+<p>新建（没有开始start()方法），</p>
+<p>就绪（开始了start()方法，可以执行，但还没分配CPU资源），</p>
+<p>运行（分配到CPU资源，正在执行），</p>
+<p>阻塞（被挂起，或者用了join()方法，但不是切换到另一线程执行的意思，那种还是就绪，而这种是绝对的不能执行，即使CPU资源分配了），</p>
+<p>死亡（执行完run()，调用stop()，出现异常且没处理）。<br>当阻塞结束后是回到就绪状态，而不是运行状态。<br>触发阻塞的方法：sleep()，join()，等待同步锁，wait(),suspend(),(suspend过时)。阻塞不是线程的最终状态，它必定会回到就绪，最终是死亡。</p>
+<p>回到就绪状态：sleep时间到，join结束，获取到同步锁，notify()/notifyAll()唤醒，resume()（已过时）<br><img src="/2020/05/25/%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%88%E5%A4%8D%E4%B9%A03%EF%BC%89/%E5%89%AA%E8%B4%B4%E6%9D%BF%E5%9B%BE%E7%89%87.jpg" srcset="/img/loading.gif" alt></p>
 <h1 id="线程同步"><a href="#线程同步" class="headerlink" title="线程同步"></a>线程同步</h1><p>多个线程同时处理一个数据就会出现线程安全问题。必要一个线程a处理完数据后才能让另一个线程b处理。即使线程a出现了阻塞也不能切换给线程b。</p>
 <h2 id="方式一：同步代码块"><a href="#方式一：同步代码块" class="headerlink" title="方式一：同步代码块"></a>方式一：同步代码块</h2><p>用synchronize关键字。</p>
 <pre><code class="hljs java"><span class="hljs-keyword">synchronized</span>(同步监视器)&#123;<span class="hljs-comment">//同步监视器，俗称锁，任何一个类的对象都可充当锁</span>
@@ -502,7 +522,10 @@
     &#125;
 &#125;</code></pre>
 
-<p>notify，notifyAll，wait使用必须是在同步代码块或同步方法中。且三个方法的调用者必须是同步监视器。这三个方法定义在Object类中。<br>sleep与wait的异同：<br>同：两个调用后都会让线程进入阻塞状态。<br>异：sleep是在Thread中声明的，而wait是在Object中。所以调用时sleep可以在任何需要时就调用，而wait必须在同步代码块或同步方法中。wait还会释放锁，sleep不会。</p>
+<p>notify，notifyAll，wait使用必须是在同步代码块或同步方法中。且三个方法的调用者必须是同步监视器。这三个方法定义在Object类中。</p>
+<p>sleep与wait的异同：</p>
+<p>同：两个调用后都会让线程进入阻塞状态。</p>
+<p>异：sleep是在Thread中声明的，而wait是在Object中。所以调用时sleep可以在任何需要时就调用，而wait必须在同步代码块或同步方法中。wait还会释放锁，sleep不会。</p>
 <h1 id="其他两种创建多线程的方式"><a href="#其他两种创建多线程的方式" class="headerlink" title="其他两种创建多线程的方式"></a>其他两种创建多线程的方式</h1><h2 id="实现Callable接口"><a href="#实现Callable接口" class="headerlink" title="实现Callable接口"></a>实现Callable接口</h2><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.ylxianzhe.thread;
 
 <span class="hljs-keyword">import</span> java.util.concurrent.Callable;
@@ -536,10 +559,25 @@
     &#125;
 &#125;</code></pre>
 
-<p>1.创建一个Callable接口的实现类<br>2.将此线程要执行的操作写在call()方法中<br>3.创建Callable接口实现类的对象<br>4.将此实现类对象传递到FutureTask构造器<br>5.将FutureTask对象传递到Thread类的构造器，创建Thread的对象，并调用start方法。</p>
-<p>该方法的优点;<br>1.call可以有返回值<br>2.call可以抛出异常<br>3.Callable是支持泛型的。</p>
+<p>1.创建一个Callable接口的实现类</p>
+<p>2.将此线程要执行的操作写在call()方法中</p>
+<p>3.创建Callable接口实现类的对象</p>
+<p>4.将此实现类对象传递到FutureTask构造器</p>
+<p>5.将FutureTask对象传递到Thread类的构造器，创建Thread的对象，并调用start方法。</p>
+<p>该方法的优点：</p>
+<p>1.call可以有返回值</p>
+<p>2.call可以抛出异常</p>
+<p>3.Callable是支持泛型的。</p>
 <p>Future接口可以对Runnable，Callable任务的执行结果进行取消，查询，获取结果等。FutureTask是这个接口的唯一实现类，但它又同时实现了Runnable接口，所以FutureTask即用来接受Callable的返回值，也用来被线程执行。</p>
-<h2 id="创建线程池"><a href="#创建线程池" class="headerlink" title="创建线程池"></a>创建线程池</h2><p>ExecutorService：真正的线程池接口。常见子类ThreadPoolExecutor。execute(Runnable command):执行任务，没有返回值，一般执行Runnable<br>Future submit(Callable task):执行任务，没有返回值，一般执行Callable<br>void shutdown():关闭连接池<br>Executors:工具类，线程池的工厂类，用于创建并返回不同类型的线程池<br>Executors.newCachedThreadPool()：创建一个可根据需要创建新线程的线程池<br>Executors.newFixedThreadPool(n)：创建一个可重用固定线程数的线程池<br>Executors.newSingleThreadPool()：一个线程的线程池<br>Executors.newScheduledThreadPool(n)：一个可在给定延迟后运行命令或定期执行的线程池</p>
+<h2 id="创建线程池"><a href="#创建线程池" class="headerlink" title="创建线程池"></a>创建线程池</h2><p>ExecutorService：真正的线程池接口。常见子类ThreadPoolExecutor。</p>
+<p>execute(Runnable command):执行任务，没有返回值，一般执行Runnable</p>
+<p>Future submit(Callable task):执行任务，没有返回值，一般执行Callable</p>
+<p>void shutdown():关闭连接池</p>
+<p>Executors:工具类，线程池的工厂类，用于创建并返回不同类型的线程池</p>
+<p>Executors.newCachedThreadPool()：创建一个可根据需要创建新线程的线程池</p>
+<p>Executors.newFixedThreadPool(n)：创建一个可重用固定线程数的线程池</p>
+<p>Executors.newSingleThreadPool()：一个线程的线程池</p>
+<p>Executors.newScheduledThreadPool(n)：一个可在给定延迟后运行命令或定期执行的线程池</p>
 <pre><code class="hljs java"><span class="hljs-keyword">package</span> com.ylxianzhe.thread;
 
 
@@ -597,6 +635,12 @@
                 <div class="post-prevnext row">
                   <div class="post-prev col-6">
                     
+                    
+                      <a href="/2020/05/27/%E5%B8%B8%E7%94%A8%E7%B1%BB%EF%BC%88%E5%A4%8D%E4%B9%A04%EF%BC%89/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">常用类（复习4）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </div>
                   <div class="post-next col-6">

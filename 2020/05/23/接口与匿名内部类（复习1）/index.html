@@ -233,7 +233,12 @@
     &#125;
 &#125;</code></pre>
 
-<p>如上代码所示，你得实现USB的子类，实现其方法才可以用。但是配合匿名类则不用将它们实现出来。<br>上面是第一种，创建了接口的非匿名实现类的非匿名对象。<br>还有三种：<br>接口的非匿名实现类的匿名对象；<br>接口的匿名实现类的非匿名对象；<br>接口的匿名实现类的匿名对象；</p>
+<p>如上代码所示，你得实现USB的子类，实现其方法才可以用。但是配合匿名类则不用将它们实现出来。</p>
+<p>上面是第一种，创建了接口的非匿名实现类的非匿名对象。</p>
+<p>还有三种：</p>
+<p>接口的非匿名实现类的匿名对象；</p>
+<p>接口的匿名实现类的非匿名对象；</p>
+<p>接口的匿名实现类的匿名对象；</p>
 <pre><code class="hljs java">computer.transferData(<span class="hljs-keyword">new</span> Printer());
         USB phone = <span class="hljs-keyword">new</span> USB() &#123;
             <span class="hljs-meta">@Override</span>
