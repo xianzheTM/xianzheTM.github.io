@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="希望这里能见证一个菜鸟到大神的路程">
+  <meta name="author" content="xianzheTM">
+  <meta name="keywords" content="">
+  <title>集合（复习6） - 新日暮里</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_fmb4a04yx8h.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">
+              <i class="iconfont icon-home-fill"></i>
+              首页</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">
+              <i class="iconfont icon-archive-fill"></i>
+              归档</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">
+              <i class="iconfont icon-category-fill"></i>
+              分类</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">
+              <i class="iconfont icon-tags-fill"></i>
+              标签</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">
+              <i class="iconfont icon-user-fill"></i>
+              关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <div class="mt-3 post-meta">
+                  <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+                  <time datetime="2020-05-29 09:53">
+                    2020年5月29日 上午
+                  </time>
+                </div>
+              
+
+              <div class="mt-1">
+                
+                  
+                  <span class="post-meta mr-2">
+                    <i class="iconfont icon-chart"></i>
+                    2.4k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta mr-2">
+                      <i class="iconfont icon-clock-fill"></i>
+                    
+                    
+                    29
+                     分钟
+                  </span>
+                
+
+                
+              </div>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>Java集合分为Collection接口和Map接口两个体系。Collection又分为List接口和Set接口，List元素有序，可重复。Set元素无序，不可重复。Map则是键值对。</p>
+<p>List：ArrayList,LinkedList,Vector</p>
+<p>Set:HashSet,LinkedHashSet,TreeSet</p>
+<p>Map:HashMap,LinkedHashMap,TreeMap,HashTable,Properties</p>
+<h1 id="Collection"><a href="#Collection" class="headerlink" title="Collection"></a>Collection</h1><pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Test</span><span class="hljs-params">()</span> </span>&#123;
+        Collection coll=<span class="hljs-keyword">new</span> ArrayList();
+        <span class="hljs-comment">//add(E e)</span>
+        coll.add(<span class="hljs-number">123</span>);
+        coll.add(<span class="hljs-string">"hell"</span>);
+        <span class="hljs-comment">//addAll()，把某集合全部加进来</span>
+        <span class="hljs-comment">//isEmpty(),判断是否为空</span>
+        <span class="hljs-comment">//clear()，清空集合元素</span>
+        <span class="hljs-comment">//contains()，判断是否包含某个对象（用内容判断，即调用equals判断，若是没有重写equals就不行）</span>
+        <span class="hljs-comment">//containsAll(Collection coll),判断coll的数据是否都被包含在调用者的集合中</span>
+
+        <span class="hljs-comment">//remove(Object o),移除参数指明的元素，因为要判断是否存在，故也要重写equals</span>
+        <span class="hljs-comment">//removeAll(coll),移除所有,求差集</span>
+
+        <span class="hljs-comment">//retainAll(coll)，求交集</span>
+
+        <span class="hljs-comment">//hashCode()返回哈希值</span>
+
+        <span class="hljs-comment">//toArray()，转换为数组</span>
+        <span class="hljs-comment">//asList()，数组转为List</span>
+
+        <span class="hljs-comment">//iterator(),返回一个iterator接口的实例，用于遍历集合（Collection）</span>
+        Iterator iterator = coll.iterator();<span class="hljs-comment">//集合对象每次调用iterator方法都会得到一个全新的iterator对象</span>
+        System.out.println(iterator.next());
+
+        <span class="hljs-keyword">while</span> (iterator.hasNext()) &#123;
+            Object obj = iterator.next();
+            <span class="hljs-keyword">if</span> (<span class="hljs-string">"Tom"</span>.equals(obj)) &#123;
+                iterator.remove();<span class="hljs-comment">//删除，如果还未调用next，或者上一次调用next方法后已经用过remove方法紧接着继续用，都会出异常</span>
+                <span class="hljs-comment">//第一种是因为next指针还没指到第一个，第二种是因为remove之后，next指针还没向下移动就继续删</span>
+            &#125;
+        &#125;
+        <span class="hljs-keyword">while</span> (coll.iterator().hasNext()) &#123;<span class="hljs-comment">//必须要重新拿个iterator，因为上面遍历后，next指针不在开头了</span>
+            <span class="hljs-comment">//指针下移，返回指针所指元素</span>
+            System.out.println(iterator.next());
+        &#125;
+
+
+    &#125;</code></pre>
+
+<h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><p>ArrayList作为List的主要实现类线程不安全，效率高，底层使用Object数组,Vector作为List的古老实现类，比List接口还要早，线程安全，效率低,底层也是用的Object数组。LinkedList底层使用双向链表实现，插入删除效率高。</p>
+<p>ArrayList的源码：</p>
+<p>jdk7中</p>
+<p><code>ArrayList list=new ArrayList()</code>底层创建了一个长度为10的Object[]数组elementData。默认扩容是1.5倍。建议直接构造器指定好容量。jdk8底层Object数组 elementData初始化为{}，没有创建长度为10.</p>
+<p>List中常用方法：</p>
+<p>add(index,ele),在索引位置加入元素</p>
+<p>addAll(index,Collection)</p>
+<p>get(index)</p>
+<p>indexOf(object o),返回o首次出现的位置</p>
+<p>LastIndexOf(object o)</p>
+<p>remove(index)</p>
+<p>set(index,ele)</p>
+<p>sublist(fromIndex,toIndex),返回指定位置的子集合</p>
+<h2 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h2><p>HashSet是主要实现类，线程不安全，可以存null值，LinkedHashSet作为HashSet子类，又链表结构，看似是有序的。TreeSet底层用红黑树实现，可以按照添加对象的指定属性排序。</p>
+<p>Set子接口没有定义新方法。</p>
+<p>无序性：以HashSet为例，HashSet底层是HashMap，再底层其实还是数组但是不是紧挨着排列的，具体存储位置要看Hash值，依靠这个决定在数组中的位置。</p>
+<p>不可重复：很简单，重复的元素哈希值也是一样的。所以要重写Hash方法。</p>
+<p>添加过程，以HashSet为例：先算哈希值，用该哈希值算出位置，若该位置上空，则直接放入，若不为空，则先用哈希值判断，若不同则用链表添加，若同再用equals判断是否相等，若相等，则不放入，若不相等，则用链表放在该位置。</p>
+<p>所以，在类中没有重写hashcode方法，只重写了equals方法时，两个内容一样的对象可以放到HashSet中，因为算出来的hash值不一样，位置也就不一样了，直接就放进去，没有调用equals方法。</p>
+<p>LinkedHashSet是在HashSet原有基础上为每个元素添加了一对指针域，使得遍历可以按照添加顺序来。对于频繁遍历的操作，LinkedHashSet更加高效。</p>
+<p>TreeSet只能添加同类的元素。而且可以按照添加的元素的属性进行排序。排序分为自然排序，即自定义类要实现Comparable接口。TreeSet的自然排序是用compareTo()方法，不是equals.而定制排序需要在TreeSet的构造器中传入一个Comparator。</p>
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Test</span><span class="hljs-params">()</span> </span>&#123;
+    Person p1 = <span class="hljs-keyword">new</span> Person(<span class="hljs-number">1001</span>, <span class="hljs-string">"aa"</span>);
+    Person p2 = <span class="hljs-keyword">new</span> Person(<span class="hljs-number">1002</span>, <span class="hljs-string">"bb"</span>);
+
+    HashSet set = <span class="hljs-keyword">new</span> HashSet();
+    set.add(p1);
+    set.add(p2);
+    System.out.println(set);<span class="hljs-comment">//[Person&#123;age=1002, name='bb'&#125;, Person&#123;age=1001, name='aa'&#125;]</span>
+
+    p1.name = <span class="hljs-string">"cc"</span>;
+    set.remove(p1);
+    System.out.println(set);<span class="hljs-comment">//[Person&#123;age=1002, name='bb'&#125;, Person&#123;age=1001, name='cc'&#125;]</span>
+
+    set.add(<span class="hljs-keyword">new</span> Person(<span class="hljs-number">1002</span>, <span class="hljs-string">"cc"</span>));
+    System.out.println(set);<span class="hljs-comment">//[Person&#123;age=1002, name='bb'&#125;, Person&#123;age=1002, name='cc'&#125;, Person&#123;age=1001, name='cc'&#125;]</span>
+
+    set.add(<span class="hljs-keyword">new</span> Person(<span class="hljs-number">1001</span>, <span class="hljs-string">"aa"</span>));
+    System.out.println(set);<span class="hljs-comment">//[Person&#123;age=1002, name='bb'&#125;, Person&#123;age=1001, name='cc'&#125;, Person&#123;age=1001, name='cc'&#125;, Person&#123;age=1001, name='aa'&#125;]</span>
+&#125;</code></pre>
+
+<p>remove方法会在HashSet集合中去找p1,找法就是计算哈希值，而此时p1的name被改变了，故哈希值也会改变，所以就找不到原来位置上的p1，因此remove没有删掉p1。</p>
+<p>而后面再添加的(1001，“cc”)这个对象是使用这两个属性得到的地址值，故不会和原来的(1001,”cc”)重复，因为原来的位置是用(1001, “aa”)算的。</p>
+<p>后来再添加的(1001, “aa”)依然能加进去。因为用哈希值算出的地址上现在已经有了(1001,”cc”)<em>【改名字得来的那个cc】</em>,但是这时候会用equals判断是否相同，显然是不同的，故会用链表的形式加进去。</p>
+<h1 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h1><p>Map接口主要有（Hashtable类，子类Properties），（HashMap类，子类LinkedHashMap），（SortedMap接口，实现类TreeMap）。</p>
+<p>HashMap是Map的主要实现类，效率高，线程不安全，而Hashtable是一个古老的实现类，线程安全，效率低，类似于Vector。HashMap是无序的，而TreeMap是有序的，另外LinkedHashMap用于遍历操作较多的时候。几个的关系和Set类似。HashMap可以添加null的key-value，而Hashtable不可以。</p>
+<p>LinkedHashMap也是有一对指针，记录了添加顺序。</p>
+<p>TreeMap使用key来排序，不考虑value。</p>
+<p>HashMap底层在jdk7用的使数组加链表，jdk8又加入了红黑树。</p>
+<p>Properties用来处理配置文件，key-value都是string。</p>
+<p>Map添加的是entry，一个entry由一对key-value构成，无序，不可重复。key不可以重复，且无序。value可以重复，也是无序的。</p>
+<p><img src="/2020/05/29/%E9%9B%86%E5%90%88%EF%BC%88%E5%A4%8D%E4%B9%A06%EF%BC%89/image-20200530102858149.png" srcset="/img/loading.gif" alt="image-20200530102858149"></p>
+<p>HashMap里面key的对象要重写hashcode和equals方法，保证不可重复。而value的对象只要重写下equals方法。</p>
+<p>HashMap的原理：</p>
+<pre><code class="hljs java">HaspMap map = <span class="hljs-keyword">new</span> HashMap();</code></pre>
+
+<p>在jdk7中，在实例化后，底层创建了一个长度16的数组Entry[] table。</p>
+<pre><code class="hljs java">map.put(key1,value1);<span class="hljs-comment">//已经添加过多次</span></code></pre>
+
+<p>首先计算key1的hashcode，再计算出在entry中的存放位置，如果此位置为空，则key1-value1添加成功。如果不为空，意味着该位置有一个或多个数据以链表存储（key2-value2），先用哈希值判断是否相同，若不同则用链表添加，若哈希值相同，则再用key的equals方法判断，不相等就用value1替换value2。使得该位置的元素变为key2-vlue1（这种情况的key1和key2相同，但value不一定）。</p>
+<pre><code class="hljs java">HashMap hashMap = <span class="hljs-keyword">new</span> HashMap();
+hashMap.put(<span class="hljs-string">"aa"</span>, <span class="hljs-number">12</span>);<span class="hljs-comment">//添加</span>
+hashMap.put(<span class="hljs-string">"aa"</span>, <span class="hljs-number">22</span>);<span class="hljs-comment">//修改</span>
+System.out.println(hashMap);</code></pre>
+
+<p>HashMap的扩容默认是扩容两倍。</p>
+<p>在jdk8中，类似于ArrayList，没有直接创建长度16的数组，并且数组名字改为了Node[]，首次调用put方法时才会创建长度16的数组。当数组某一个索引位置上以链表存在的元素个数超过8且当前数组长度超过64时，此位置上的链表改为红黑树存储。</p>
+<p>DEFAULT_INITIAL_CAPACITY:默认容量16</p>
+<p>DEFAULT_LOAD_FACTOR:默认加载因子0.75</p>
+<p>threshold：扩容的临界值=16*0.75=12</p>
+<p>TREEIFY_THRESHOLD:Bucket中链表长度大于该默认值8，转化为红黑树</p>
+<p>MIN_TREEIFY_CAPACITY:树化改造的bucket的最小值，64，即超过该值才会树化。</p>
+<p>遍历Map，没有给Map用的遍历器。</p>
+<p>关键是获得key构成的Set集合，value构成的Collection，entry构成的set。这样每个都可以遍历了。</p>
+<pre><code class="hljs java">map.keySet()<span class="hljs-comment">//返回Map的Set集合</span>
+map.values()<span class="hljs-comment">//返回Map的collection</span>
+map.entry()<span class="hljs-comment">//返回map的entry对</span></code></pre>
+
+<p>TreeMap的key必须是同一类的对象，因为要按照key排序，同样是自然排序（对象实现Comparable接口）和定制排序（TreeMap构造器传入Comparator）。 </p>
+<p>Properties是用来处理配置文件的。</p>
+<pre><code class="hljs java">Properties properties = <span class="hljs-keyword">new</span> Properties();
+FileInputStream fileInputStream = <span class="hljs-keyword">new</span> FileInputStream(<span class="hljs-string">"src/com/ylxianzhe/jdbc.properties"</span>);
+properties.load(fileInputStream);
+String name = properties.getProperty(<span class="hljs-string">"name"</span>);
+System.out.println(name);</code></pre>
+
+<h1 id="Collections"><a href="#Collections" class="headerlink" title="Collections"></a>Collections</h1><p>Collections工具类不仅可以操作Collection，也可以操作Map。</p>
+<p>reverse(List),对list反转</p>
+<p>shuffle(list),使list随机排序</p>
+<p>sort(list),根据元素的自然顺序排序</p>
+<p>sort(list,Comparator),根据指定的comparator排序</p>
+<p>swap(list,int,int),交换list中i和j处元素</p>
+<p>Object max(Collection,comparator),根据指定的comparator返回最大值</p>
+<p>Object max(Collection)返回最大值</p>
+<p>Object minmax(Collection,comparator)根据指定的comparator返回最大值</p>
+<p>Object min(Collection)返回最小值</p>
+<p>上面一些涉及到最值的方法都意味着元素对象时可比较的，要实现Comparable接口</p>
+<p>int Frequency(Collection,object),返回指定元素出现的次数</p>
+<p>void copy(list dest,list src),把src复制到dest,注意要提前使得dest的size与src的size相等。</p>
+<pre><code class="hljs java">ArrayList dest = <span class="hljs-keyword">new</span> ArrayList(<span class="hljs-number">10</span>);<span class="hljs-comment">//错误写法，10指定的是底层数组的长度，而不是size，即元素个数</span>
+List dest = Arrays.asList(<span class="hljs-keyword">new</span> Object[src.size()])<span class="hljs-comment">//创建src.size个对象，并转为List来占位</span></code></pre>
+
+<p>最重要的是，几大类主要都是线程不安全的，安全的又不用了，所以Collections提供了一些线程安全的方法。</p>
+<p>synchronizedXXX方法：</p>
+<pre><code class="hljs java">ArrayList list = <span class="hljs-keyword">new</span> ArrayList()；
+List list = Collections.synchronizedList(list);<span class="hljs-comment">//将list变为线程安全的</span></code></pre>
+
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/java/">java</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/05/28/%E6%AF%94%E8%BE%83%E5%99%A8%EF%BC%88%E5%A4%8D%E4%B9%A05%EF%BC%89/">
+                        <span class="hidden-mobile">比较器（复习5）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/main.js" ></script>
+
+
+  <script  src="/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "集合（复习6）&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
