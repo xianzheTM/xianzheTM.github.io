@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    2.4k 字
+                    3.6k 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    29
+                    45
                      分钟
                   </span>
                 
@@ -334,6 +334,125 @@ List dest = Arrays.asList(<span class="hljs-keyword">new</span> Object[src.size(
 <pre><code class="hljs java">ArrayList list = <span class="hljs-keyword">new</span> ArrayList()；
 List list = Collections.synchronizedList(list);<span class="hljs-comment">//将list变为线程安全的</span></code></pre>
 
+<h1 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h1><p>用&lt;&gt;来指明/标记集合里是什么类型的数据，避免全都当成Object类型。</p>
+<pre><code class="hljs java">ArrayList&lt;String&gt; strings = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<span class="hljs-comment">//后面的可以省略</span></code></pre>
+
+<p>自定义泛型</p>
+<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Computer</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;
+    String name;
+    <span class="hljs-keyword">int</span> age;
+    T object;<span class="hljs-comment">//T可以看作是一种占位符，或者说是宏，当使用时传入T的实际参数，指明了下面用到T的地方的类型</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Computer</span><span class="hljs-params">()</span> </span>&#123;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Computer</span><span class="hljs-params">(String name, <span class="hljs-keyword">int</span> age, T object)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.name = name;
+        <span class="hljs-keyword">this</span>.age = age;
+        <span class="hljs-keyword">this</span>.object = object;
+    &#125;
+&#125;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        Computer&lt;String&gt; computer = <span class="hljs-keyword">new</span> Computer&lt;&gt;();
+        Computer computer1 = <span class="hljs-keyword">new</span> Computer();<span class="hljs-comment">//如果定义了泛型却不用，那么T代表的就是Object</span>
+    &#125;
+&#125;</code></pre>
+
+<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">subComputer</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Computer</span>&lt;<span class="hljs-title">String</span>&gt; </span>&#123;
+    
+&#125;</code></pre>
+<p>如果子类继承父类是写明了泛型参数，那么对于子类来说就不存在泛型了，类型已经确定。要想子类也有泛型，这样写：</p>
+<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">subComputer</span>&lt;<span class="hljs-title">T</span>&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title">Computer</span>&lt;<span class="hljs-title">String</span>&gt; </span>&#123;
+
+&#125;</code></pre>
+
+<p>使用泛型可以在&lt;&gt;内写多个参数。</p>
+<p>泛型类构造器上不需要写泛型，但是实例化时要写。</p>
+<p>泛型不同的引用不能相互赋值。</p>
+<pre><code class="hljs java">ArrayList&lt;String&gt; list1=...;
+ArrayList&lt;Integer&gt; list2=...;
+list1=list2;<span class="hljs-comment">//错误</span></code></pre>
+
+<p>在静态结构中不能使用<strong>泛型类</strong>，因为静态内容在类加载时加载，而此时泛型的具体类型还不确定，需要到new这个泛型类的对象时才确定泛型具体类型。</p>
+<p>异常类不能使用泛型。</p>
+<p>泛型方法：</p>
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Computer</span><span class="hljs-params">(String name, <span class="hljs-keyword">int</span> age, T object)</span> </span>&#123;
+     <span class="hljs-keyword">this</span>.name = name;
+     <span class="hljs-keyword">this</span>.age = age;
+     <span class="hljs-keyword">this</span>.object = object;
+&#125;</code></pre>
+<p>这不是泛型方法！</p>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> &lt;E&gt; <span class="hljs-function">List&lt;E&gt; <span class="hljs-title">copy</span><span class="hljs-params">(E[] arr)</span> </span>&#123;
+    ArrayList&lt;E&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;E&gt;;
+    <span class="hljs-comment">//</span>
+    <span class="hljs-keyword">return</span> list;
+&#125;
+Integer[] arr = <span class="hljs-keyword">new</span> Integer[]&#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>&#125;;
+List&lt;Integer&gt; list = order.copy(arr);<span class="hljs-comment">//传入Integer类型数组，即表民E代表的是Integer，所以list是Integer类型。</span></code></pre>
+<p>这种才是。另外，泛型方法可以是静态的。因为泛型方法的泛型和类没有任何关系，类本身是不是泛型的也没有关系。上面的那种不可以是因为必须要在实例化对象时才知道类型；这里可以是因为类加载不需要知道泛型方法的具体类型，直接调用方法就行了，是在调用这个静态方法时确定。</p>
+<p>泛型的用处：举例，操作数据库时写一个泛型类DAO，里面有一些基本的操作，而对于具体的Bean，则继承这个泛型类并传入具体的泛型类型，这样就可以使得每个Bean有对应的DAO。</p>
+<p>类A是类B的父类，G&lt;A&gt;不是G&lt;B&gt;的父类，即B的引用可以赋值给A的引用（多态），但是G&lt;B&gt;的引用不能给G&lt;A&gt;的引用。</p>
+<p>反过来，类A是类B的父类，A&lt;G&gt;就是B&lt;G&gt;的父类。</p>
+<p>通配符的使用:</p>
+<p>通配符：?。G&lt;A&gt;和G&lt;B&gt;的公共父类是G&lt;?&gt;。</p>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        List&lt;Object&gt; list1 = <span class="hljs-keyword">null</span>;
+        List&lt;String&gt; list2 = <span class="hljs-keyword">null</span>;
+
+        List&lt;?&gt; list = <span class="hljs-keyword">null</span>;
+
+        list = list1;
+        list = list2;
+
+        print(list1);
+        print(list2);
+
+        list2.add(<span class="hljs-string">"aa"</span>);<span class="hljs-comment">//可以添加</span>
+        list2.add(<span class="hljs-string">"bb"</span>);
+        list.add(<span class="hljs-string">"aa"</span>);<span class="hljs-comment">//对于List&lt;?&gt;不可以向内部添加数据，除了null，因为?代表了所有可能，如果可以写的话，list里装的类型就可能不同意，泛型也没意义了</span>
+
+        Object o = list.get(<span class="hljs-number">0</span>);<span class="hljs-comment">//读取是可以的</span>
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">print</span><span class="hljs-params">(List&lt;?&gt; list)</span> </span>&#123;
+        Iterator&lt;?&gt; iterator = list.iterator();
+        <span class="hljs-keyword">while</span> (iterator.hasNext()) &#123;
+            Object next = iterator.next();
+            System.out.println(next);
+        &#125;
+    &#125;
+&#125;</code></pre>
+
+<p>有限制的通配符：</p>
+<p><code>&lt;? extends Person&gt;</code>表示小于等于：</p>
+<pre><code class="hljs java">List&lt;? extends Person&gt; list1=<span class="hljs-keyword">null</span>;
+List&lt;Student&gt; list3=<span class="hljs-keyword">null</span>;
+List&lt;Person&gt; list4=<span class="hljs-keyword">null</span>;
+List&lt;Object&gt; list5=<span class="hljs-keyword">null</span>;
+list1=list3;<span class="hljs-comment">//可以，list3的泛型比list1的小，Student是Person的子类</span>
+list1=list4;<span class="hljs-comment">//可以</span>
+list1=list5;<span class="hljs-comment">//不可以</span></code></pre>
+
+<p><code>&lt;? super Person&gt;</code>表示大于等于。</p>
+<pre><code class="hljs java">List&lt;? extends Person&gt; list1=<span class="hljs-keyword">null</span>;
+List&lt;? <span class="hljs-keyword">super</span> Person&gt; list2=<span class="hljs-keyword">null</span>;
+List&lt;Student&gt; list3=<span class="hljs-keyword">new</span> ArrayList&lt;Student&gt;();
+List&lt;Person&gt; list4=<span class="hljs-keyword">new</span> ArrayList&lt;Person&gt;();
+List&lt;Object&gt; list5=<span class="hljs-keyword">new</span> ArrayList&lt;Object&gt;();
+
+list1=list3;
+Person p=list1.get(<span class="hljs-number">0</span>);<span class="hljs-comment">//最小可以写到Person，List1里能装的是小于等于Person的，如果P的类型比Person还小，那就有可能list1里装的实际比p大，引起错误</span>
+
+list2=list4;
+Object obj=list2.get(<span class="hljs-number">0</span>);<span class="hljs-comment">//只能写object，因为list2里的数据都是大于等于Person的，不拿object装不住</span>
+
+list1.add(<span class="hljs-keyword">new</span> Student());<span class="hljs-comment">//不可以，list1代表的是能装小于等于Person的，若是代表的是Student的子类，此时又放进去一个父类显然不行</span>
+
+list2.add(<span class="hljs-keyword">new</span> Student());<span class="hljs-comment">//可以，list2最小是装Person的，现在往里装Person的子类显然可以，比Person大的父类就不可以。</span></code></pre>
+
 
             </article>
             <hr>
@@ -356,6 +475,12 @@ List list = Collections.synchronizedList(list);<span class="hljs-comment">//将l
                 <div class="post-prevnext row">
                   <div class="post-prev col-6">
                     
+                    
+                      <a href="/2020/06/01/IO%E6%B5%81%EF%BC%88%E5%A4%8D%E4%B9%A07%EF%BC%89/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">IO流（复习7）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </div>
                   <div class="post-next col-6">
