@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="希望这里能见证一个菜鸟到大神的路程">
+  <meta name="author" content="xianzheTM">
+  <meta name="keywords" content="">
+  <title>新特性 - 新日暮里</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_fmb4a04yx8h.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">
+              <i class="iconfont icon-home-fill"></i>
+              首页</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">
+              <i class="iconfont icon-archive-fill"></i>
+              归档</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">
+              <i class="iconfont icon-category-fill"></i>
+              分类</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">
+              <i class="iconfont icon-tags-fill"></i>
+              标签</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">
+              <i class="iconfont icon-user-fill"></i>
+              关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <div class="mt-3 post-meta">
+                  <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+                  <time datetime="2020-06-10 15:13">
+                    2020年6月10日 下午
+                  </time>
+                </div>
+              
+
+              <div class="mt-1">
+                
+                  
+                  <span class="post-meta mr-2">
+                    <i class="iconfont icon-chart"></i>
+                    2.3k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta mr-2">
+                      <i class="iconfont icon-clock-fill"></i>
+                    
+                    
+                    36
+                     分钟
+                  </span>
+                
+
+                
+              </div>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="Lambda和方法引用"><a href="#Lambda和方法引用" class="headerlink" title="Lambda和方法引用"></a>Lambda和方法引用</h1><p>对于函数式接口，原本需要创建匿名类来重写其中的抽象方法，如下所示：</p>
+<pre><code class="hljs java">Comparator&lt;Integer&gt; comparator = <span class="hljs-keyword">new</span> Comparator&lt;&gt;() &#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(Integer o1, Integer o2)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> Integer.compare(o1, o2);
+    &#125;
+&#125;;
+<span class="hljs-keyword">int</span> compare = comparator.compare(<span class="hljs-number">12</span>, <span class="hljs-number">13</span>);
+System.out.println(compare);</code></pre>
+<p>上面的代码可以缩减为：</p>
+<pre><code class="hljs java">Comparator&lt;Integer&gt; comparator = (o1, o2) -&gt; Integer.compare(o1, o2);
+System.out.println(comparator.compare(<span class="hljs-number">20</span>, <span class="hljs-number">25</span>));</code></pre>
+
+<p>省略了方法名，方法体的大括号，return。</p>
+<p>还可以用方法引用进一步简化。当Lambda表达式内的方法是现成的，就可以进一步省略：</p>
+<pre><code class="hljs java">Comparator&lt;Integer&gt; comparator = Integer::compare;</code></pre>
+
+<p>再举一个具体的例子:</p>
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.ylxianzhe.java8.demo;
+
+<span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">StringFunc</span> </span>&#123;
+    <span class="hljs-function">String <span class="hljs-title">func</span><span class="hljs-params">(String string)</span></span>;
+&#125;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MethodRefDemo</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">stringOp</span><span class="hljs-params">(StringFunc sf, String s)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> sf.func(s);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        String inStr = <span class="hljs-string">"lambda"</span>;
+        String s = stringOp(<span class="hljs-keyword">new</span> StringFunc() &#123;
+            <span class="hljs-meta">@Override</span>
+            <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">func</span><span class="hljs-params">(String string)</span> </span>&#123;
+                String result = <span class="hljs-string">""</span>;
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = string.length() - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) &#123;
+                    result += string.charAt(i);
+                &#125;
+                <span class="hljs-keyword">return</span> result;
+            &#125;
+        &#125;, inStr);
+        System.out.println(s);
+    &#125;
+&#125;</code></pre>
+
+<p>上面的代码中stringOp方法第一个参数需要一个StringFunc接口的实例，于是用匿名类写了一个，并且重写了func方法来反转字符串。现在将这一部分换成Lambda表达式：</p>
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+    String inStr = <span class="hljs-string">"lambda"</span>;
+    String s = stringOp(string -&gt; &#123;
+        String result = <span class="hljs-string">""</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = string.length() - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) &#123;
+            result += string.charAt(i);
+        &#125;
+        <span class="hljs-keyword">return</span> result;
+    &#125;, inStr);
+    System.out.println(s);
+&#125;</code></pre>
+
+<p>这里函数式接口的实例用一个稍微长一点的Lambda来表示。现在把反转的逻辑抽出来，使Lambda短一点：</p>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MethodRefDemo</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">stringOp</span><span class="hljs-params">(StringFunc sf, String s)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> sf.func(s);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        String inStr = <span class="hljs-string">"lambda"</span>;
+        String s = stringOp(string -&gt; &#123;
+            <span class="hljs-keyword">return</span> reverse(string);
+        &#125;, inStr);
+        System.out.println(s);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">reverse</span><span class="hljs-params">(String string)</span> </span>&#123;
+        String result = <span class="hljs-string">""</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = string.length() - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) &#123;
+            result += string.charAt(i);
+        &#125;
+        <span class="hljs-keyword">return</span> result;
+    &#125;
+&#125;</code></pre>
+
+<p>将反转的逻辑抽出来作为一个方法，再去掉点括号和return：</p>
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+    String inStr = <span class="hljs-string">"lambda"</span>;
+    String s = stringOp(string -&gt; reverse(string), inStr);
+    System.out.println(s);
+&#125;</code></pre>
+
+<p>写成这样后，还能继续简略。这里的reverse方法是现成的，不像上上一步中要在Lambda表达式中自己写反转逻辑。而方法引用就是为此准备的，对于Lamdba表达式中已经存在的方法可以简化为：</p>
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+    String inStr = <span class="hljs-string">"lambda"</span>;
+    String s = stringOp(MethodRefDemo::reverse, inStr);
+    System.out.println(s);
+&#125;</code></pre>
+
+<p>这种是类::静态方法的引用。把上面reverse方法放到一个类中而且是非静态方法：</p>
+<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">op</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">reverse</span><span class="hljs-params">(String string)</span> </span>&#123;
+        String result = <span class="hljs-string">""</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = string.length() - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) &#123;
+            result += string.charAt(i);
+        &#125;
+        <span class="hljs-keyword">return</span> result;
+    &#125;
+&#125;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MethodRefDemo</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">stringOp</span><span class="hljs-params">(StringFunc sf, String s)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> sf.func(s);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        op op = <span class="hljs-keyword">new</span> op();
+        String inStr = <span class="hljs-string">"lambda"</span>;
+        String s = stringOp(op::reverse, inStr);
+        System.out.println(s);
+    &#125;
+&#125;</code></pre>
+<p>上面就是实例::非静态方法。下面是另一种，若Lambda参数列表中的第一个参数是实例方法的参数调用者，而第二个参数是实例方法的参数时，可以使用对象方法引用。</p>
+<pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test8</span><span class="hljs-params">()</span> </span>&#123;
+    Comparator&lt;String&gt; comparator = (s1, s2) -&gt; s1.compareTo(s2);
+    System.out.println(comparator.compare(<span class="hljs-string">"ac"</span>, <span class="hljs-string">"ab"</span>));
+&#125;</code></pre>
+
+<p>这是Lambda写法，参数一s1是实例方法compareTo的调用者，而第二个参数s2是compareTo的参数：</p>
+<pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test8</span><span class="hljs-params">()</span> </span>&#123;
+    Comparator&lt;String&gt; comparator = String::compareTo;
+    System.out.println(comparator.compare(<span class="hljs-string">"ac"</span>, <span class="hljs-string">"ab"</span>));
+&#125;</code></pre>
+
+<p>下面是构造方法引用：</p>
+<pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test9</span><span class="hljs-params">()</span> </span>&#123;
+    Supplier&lt;Person&gt; sp1 = () -&gt; <span class="hljs-keyword">new</span> Person();
+    Supplier&lt;Person&gt; sp2 = Person::<span class="hljs-keyword">new</span>;<span class="hljs-comment">//Supplier&lt;T&gt;，T代表返回值</span>
+    sp2.get().info();
+&#125;</code></pre>
+<p>无参数的。</p>
+<pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test9</span><span class="hljs-params">()</span> </span>&#123;
+    Function&lt;Integer,Person&gt; function1= id -&gt; <span class="hljs-keyword">new</span> Person(id);
+    Function&lt;Integer,Person&gt; function2= Person::<span class="hljs-keyword">new</span>;<span class="hljs-comment">//Function&lt;T, R&gt;，T代表参数，R代表返回值</span>
+&#125;</code></pre>
+<p>一个参数的。</p>
+<pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test9</span><span class="hljs-params">()</span> </span>&#123;
+    BiFunction&lt;String, Integer, Person&gt; function1 = (name, age) -&gt; <span class="hljs-keyword">new</span> Person(name, age);
+    BiFunction&lt;String, Integer, Person&gt; function2 = Person::<span class="hljs-keyword">new</span>;<span class="hljs-comment">//BiFunction&lt;T, U, R&gt;，T,U代表两个参数，R代表返回值</span>
+&#125;</code></pre>
+<p>两个参数的。</p>
+<p>与构造器引用类似的数组引用:</p>
+<pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test9</span><span class="hljs-params">()</span> </span>&#123;
+    Function&lt;Integer, String[]&gt; function1 = length -&gt; <span class="hljs-keyword">new</span> String[length];
+    Function&lt;Integer, String[]&gt; function2 = String[]::<span class="hljs-keyword">new</span>;
+&#125;</code></pre>
+
+<h1 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h1><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.ylxianzhe.java8.Stream;
+
+<span class="hljs-keyword">import</span> org.junit.Test;
+
+<span class="hljs-keyword">import</span> java.util.*;
+<span class="hljs-keyword">import</span> java.util.stream.Collectors;
+<span class="hljs-keyword">import</span> java.util.stream.IntStream;
+<span class="hljs-keyword">import</span> java.util.stream.Stream;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StreamTest</span> </span>&#123;
+    <span class="hljs-comment">//Stream自己不存储数据，只操作数据</span>
+    <span class="hljs-comment">//Stream不改变源对象，会返回一个新Stream</span>
+    <span class="hljs-comment">//Stream延迟执行，终止操作时才会一次执行完</span>
+    <span class="hljs-comment">//终止操作产生的结果不能再被Stream使用</span>
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test1</span><span class="hljs-params">()</span> </span>&#123;<span class="hljs-comment">//得到stream</span>
+        List&lt;Employee&gt; employees = Employee.getEmployees();
+        <span class="hljs-comment">//得到一个顺序流</span>
+        Stream&lt;Employee&gt; stream1 = employees.stream();
+        <span class="hljs-comment">//得到一个并行流</span>
+        Stream&lt;Employee&gt; parallelStream = employees.parallelStream();
+
+        <span class="hljs-keyword">int</span>[] arr = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>&#125;;
+        <span class="hljs-comment">//如果是用基本数据类型来获得流，返回的就是XxxStream;如果是自定义类型的，那就是Stream&lt;T&gt;</span>
+        IntStream stream2 = Arrays.stream(arr);
+        <span class="hljs-comment">//包装类也是用泛型</span>
+        List&lt;Integer&gt; integers = Arrays.asList(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>);
+        Stream&lt;Integer&gt; stream3 = integers.stream();
+
+        Stream&lt;Integer&gt; stream = Stream.of(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>);
+
+        <span class="hljs-comment">//上面三种流是有限流，下面是无限流</span>
+        <span class="hljs-comment">// Stream从0开始，经过UnaryOperator函数加2，得到一个新Stream，再次使用UnaryOperator函数加2，一直循环下去，这里加了中间操作，限制为10次</span>
+        Stream.iterate(<span class="hljs-number">0</span>, t -&gt; t + <span class="hljs-number">2</span>).limit(<span class="hljs-number">10</span>).forEach(System.out::println);
+        <span class="hljs-comment">//生成10个随机数</span>
+        Stream.generate(Math::random).limit(<span class="hljs-number">10</span>).forEach(System.out::println);
+
+    &#125;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test2</span><span class="hljs-params">()</span> </span>&#123;<span class="hljs-comment">//中间操作</span>
+        List&lt;Employee&gt; list = Employee.getEmployees();
+        Stream&lt;Employee&gt; stream = list.stream();
+
+        <span class="hljs-comment">//筛选和切片</span>
+        stream.filter(e -&gt; e.getSalary() &gt; <span class="hljs-number">6500</span>).forEach(System.out::println);
+        <span class="hljs-comment">//不能在stream上接着操作，“水流一旦流过就不能回到开头去操作”，limit(3)，限制个数为前三条数据</span>
+        list.stream().limit(<span class="hljs-number">3</span>).forEach(System.out::println);
+        <span class="hljs-comment">//跳过三个，若是流内元素不足，返回一个空流</span>
+        list.stream().skip(<span class="hljs-number">3</span>).forEach(System.out::println);
+        <span class="hljs-comment">//distinct筛选，通过流内元素的hashcode和equals方法去重</span>
+        list.stream().distinct().forEach(System.out::println);
+
+        <span class="hljs-comment">//映射</span>
+        List&lt;String&gt; list1 = Arrays.asList(<span class="hljs-string">"aac"</span>, <span class="hljs-string">"bb"</span>, <span class="hljs-string">"ccbb"</span>, <span class="hljs-string">"dgd"</span>);
+        list1.stream().map(String::toUpperCase).forEach(System.out::println);
+
+        list.stream().map(Employee::getName).filter(name -&gt; name.length() &gt;= <span class="hljs-number">3</span>).forEach(System.out::println);
+        <span class="hljs-comment">//fromStringToStream返回一个流，使得streamStream变成一个由stream组成的stream</span>
+        Stream&lt;Stream&lt;Character&gt;&gt; streamStream = list1.stream().map(StreamTest::fromStringToStream);
+        streamStream.forEach(s -&gt; s.forEach(System.out::println));<span class="hljs-comment">//先遍历每个流，再遍历流内的元素</span>
+        <span class="hljs-comment">//flatmap与map的关系：当一个数组集合A（两个元素）用add方法添加另一个数组集合B（B有三个元素），A就有三个元素，第三个是一个集合B；</span>
+        <span class="hljs-comment">// 而用addAll方法则会把B拆开放到A中，使得A有五个元素。flatmap与addAll类似</span>
+        Stream&lt;Character&gt; characterStream = list1.stream().flatMap(StreamTest::fromStringToStream);<span class="hljs-comment">//由Character组成的流</span>
+        characterStream.forEach(System.out::println);
+
+        <span class="hljs-comment">//排序</span>
+        List&lt;Integer&gt; list2 = Arrays.asList(<span class="hljs-number">12</span>, <span class="hljs-number">13</span>, <span class="hljs-number">5</span>, <span class="hljs-number">54</span>, <span class="hljs-number">21</span>, <span class="hljs-number">88</span>, <span class="hljs-number">56</span>, <span class="hljs-number">41</span>, <span class="hljs-number">32</span>, <span class="hljs-number">55</span>, -<span class="hljs-number">4</span>, -<span class="hljs-number">9</span>, -<span class="hljs-number">52</span>, <span class="hljs-number">0</span>, <span class="hljs-number">4</span>);
+        list2.stream().sorted().forEach(System.out::println);<span class="hljs-comment">//自然排序</span>
+        list.stream().sorted(Comparator.comparingInt(Employee::getAge)).forEach(System.out::println);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Stream&lt;Character&gt; <span class="hljs-title">fromStringToStream</span><span class="hljs-params">(String string)</span> </span>&#123;
+        ArrayList&lt;Character&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+        <span class="hljs-keyword">for</span> (Character c : string.toCharArray()) &#123;
+            list.add(c);
+        &#125;
+        <span class="hljs-keyword">return</span> list.stream();
+    &#125;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test3</span><span class="hljs-params">()</span> </span>&#123;<span class="hljs-comment">//终止操作</span>
+        List&lt;Employee&gt; employees = Employee.getEmployees();
+
+        <span class="hljs-comment">//匹配与查找</span>
+        <span class="hljs-comment">//检查是否匹配所有元素</span>
+        <span class="hljs-keyword">boolean</span> b = employees.stream().allMatch(e -&gt; e.getAge() &gt; <span class="hljs-number">20</span>);
+        <span class="hljs-comment">//检查是否至少匹配一个元素</span>
+        <span class="hljs-keyword">boolean</span> b1 = employees.stream().anyMatch(e -&gt; e.getSalary() &lt; <span class="hljs-number">5000</span>);
+        <span class="hljs-comment">//检查是否没有匹配的元素</span>
+        <span class="hljs-keyword">boolean</span> b2 = employees.stream().noneMatch(e -&gt; e.getSalary() &lt; <span class="hljs-number">5000</span>);
+        <span class="hljs-comment">//findFirst,返回第一个元素</span>
+        Optional&lt;Employee&gt; first = employees.stream().findFirst();
+        <span class="hljs-comment">//findAny,返回流中的任意一个元素,因为是串行流，总是第一个</span>
+        Optional&lt;Employee&gt; any = employees.stream().findAny();
+        System.out.println(any);
+        Optional&lt;Employee&gt; any1 = employees.parallelStream().findAny();
+        System.out.println(any1);
+        <span class="hljs-comment">//统计个数</span>
+        <span class="hljs-keyword">long</span> count = employees.stream().filter(e -&gt; e.getSalary() &gt; <span class="hljs-number">5500</span>).count();
+        <span class="hljs-comment">//返回工资的最大值</span>
+        Optional&lt;Double&gt; max = employees.stream().map(Employee::getSalary).max(Double::compareTo);
+        <span class="hljs-comment">//返回有最少工资的员工</span>
+        Optional&lt;Employee&gt; min1 = employees.stream().min((e1, e2) -&gt; Double.compare(e1.getSalary(), e2.getSalary()));
+        Optional&lt;Employee&gt; min2 = employees.stream().min(Comparator.comparingDouble(Employee::getSalary));<span class="hljs-comment">//comparingXxx方法返回一个Comparator</span>
+        <span class="hljs-comment">//内部迭代</span>
+        employees.stream().forEach(System.out::println);
+        employees.forEach(System.out::println);
+    &#125;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test4</span><span class="hljs-params">()</span> </span>&#123;<span class="hljs-comment">//终止操作归约、收集</span>
+        List&lt;Integer&gt; list = Arrays.asList(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>);
+        <span class="hljs-comment">//第一个参数identity为初始值</span>
+        Integer sun = list.stream().reduce(<span class="hljs-number">0</span>, Integer::sum);
+        List&lt;Employee&gt; employees = Employee.getEmployees();
+        Optional&lt;Double&gt; reduce = employees.stream().map(Employee::getSalary).reduce(Double::sum);
+
+        <span class="hljs-comment">//收集：collect(Collector c)，Collector接口中方法实现决定流如何收集</span>
+        <span class="hljs-comment">//另有Collectors实用类提供很多静态方法，可以创建常见收集器实例</span>
+        List&lt;Employee&gt; employeeList = employees.stream().filter(e -&gt; e.getSalary() &gt; <span class="hljs-number">6000</span>).collect(Collectors.toList());
+        employeeList.forEach(System.out::println);
+
+        Set&lt;Employee&gt; employeeSet = employees.stream().filter(e -&gt; e.getSalary() &gt; <span class="hljs-number">6000</span>).collect(Collectors.toSet());
+
+    &#125;
+&#125;</code></pre>
+
+<h1 id="Optional类"><a href="#Optional类" class="headerlink" title="Optional类"></a>Optional类</h1><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.ylxianzhe.java8;
+
+<span class="hljs-keyword">import</span> com.ylxianzhe.java8.Stream.Employee;
+<span class="hljs-keyword">import</span> org.junit.Test;
+
+<span class="hljs-keyword">import</span> java.util.Optional;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OptionalTest</span> </span>&#123;
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test1</span><span class="hljs-params">()</span> </span>&#123;
+        Employee tom = <span class="hljs-keyword">new</span> Employee(<span class="hljs-number">11</span>, <span class="hljs-string">"tom"</span>, <span class="hljs-number">22</span>, <span class="hljs-number">7845.23</span>);
+        Optional&lt;Employee&gt; optional = Optional.of(tom);<span class="hljs-comment">//tom必须非空</span>
+        <span class="hljs-comment">//orElse方法表示optional里对象如果不空，那就返回optional里的，如果空那就返回参数other里的</span>
+        Employee employee = optional.orElse(<span class="hljs-keyword">new</span> Employee(<span class="hljs-number">44</span>,<span class="hljs-string">"hh"</span>,<span class="hljs-number">45</span>,<span class="hljs-number">8899</span>));
+        System.out.println(employee);
+    &#125;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test2</span><span class="hljs-params">()</span> </span>&#123;
+        Employee tom = <span class="hljs-keyword">new</span> Employee(<span class="hljs-number">11</span>, <span class="hljs-string">"tom"</span>, <span class="hljs-number">22</span>, <span class="hljs-number">7845.23</span>);
+        tom=<span class="hljs-keyword">null</span>;
+        Optional&lt;Employee&gt; optional = Optional.ofNullable(tom);<span class="hljs-comment">//现在可以为空</span>
+        <span class="hljs-comment">//orElse方法表示optional里对象如果不空，那就返回optional里的，如果空那就返回参数other里的</span>
+        Employee employee1 = optional.orElse(<span class="hljs-keyword">new</span> Employee(<span class="hljs-number">44</span>,<span class="hljs-string">"hh"</span>,<span class="hljs-number">45</span>,<span class="hljs-number">8899</span>));
+        System.out.println(employee1);
+        <span class="hljs-comment">//若other参数也是null的，则返回null</span>
+        Employee employee2 = optional.orElse(<span class="hljs-keyword">null</span>);
+        System.out.println(employee2);
+    &#125;
+&#125;</code></pre>
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/java/">java</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/06/07/%E5%8F%8D%E5%B0%84/">
+                        <span class="hidden-mobile">反射</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/main.js" ></script>
+
+
+  <script  src="/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "新特性&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
