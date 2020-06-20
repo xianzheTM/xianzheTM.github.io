@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    2.6k 字
+                    3.7k 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    38
+                    54
                      分钟
                   </span>
                 
@@ -745,7 +745,241 @@
 <span class="hljs-keyword">select</span> d.*, e.employee_id
 <span class="hljs-keyword">from</span> departments d
          <span class="hljs-keyword">left</span> <span class="hljs-keyword">join</span> employees e <span class="hljs-keyword">on</span> d.department_id = e.department_id
-<span class="hljs-keyword">where</span> e.employee_id <span class="hljs-keyword">is</span> <span class="hljs-literal">null</span>;</code></pre>
+<span class="hljs-keyword">where</span> e.employee_id <span class="hljs-keyword">is</span> <span class="hljs-literal">null</span>;
+
+<span class="hljs-comment">#交叉连接</span>
+<span class="hljs-keyword">select</span> b.*, bo.*
+<span class="hljs-keyword">from</span> beauty b
+         <span class="hljs-keyword">cross</span> <span class="hljs-keyword">join</span> boys bo;
+
+<span class="hljs-keyword">select</span> b.id, b.name, bo.*
+<span class="hljs-keyword">from</span> beauty b
+         <span class="hljs-keyword">left</span> <span class="hljs-keyword">join</span> boys bo
+                   <span class="hljs-keyword">on</span> b.boyfriend_id = bo.id
+<span class="hljs-keyword">where</span> b.id &gt; <span class="hljs-number">3</span>;
+
+<span class="hljs-keyword">use</span> myemployees;
+<span class="hljs-keyword">select</span> city, departments.*
+<span class="hljs-keyword">from</span> locations
+         <span class="hljs-keyword">left</span> <span class="hljs-keyword">join</span> departments
+                   <span class="hljs-keyword">on</span> locations.location_id = departments.location_id
+<span class="hljs-keyword">where</span> departments.location_id <span class="hljs-keyword">is</span> <span class="hljs-literal">null</span>;</code></pre>
+
+<pre><code class="hljs sql"><span class="hljs-comment">#子查询</span>
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment"> 出现在其它语句中的select语句,称为子查询或内查询</span>
+<span class="hljs-comment"> 外部的查询称为主查询</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment"> 分类:</span>
+<span class="hljs-comment">    select后面:仅支持标量子查询</span>
+<span class="hljs-comment">    from后面:表子查询</span>
+<span class="hljs-comment">    where和having后面:标量子查询⭐,列子查询⭐,行子查询</span>
+<span class="hljs-comment">    exists后面(相关子查询):表子查询</span>
+<span class="hljs-comment"> 按结果集的行列数:</span>
+<span class="hljs-comment">    标量子查询(结果集只有一行一列)</span>
+<span class="hljs-comment">    列子查询(结果集只有一列多行)</span>
+<span class="hljs-comment">    行子查询(结果集只有一行多列)</span>
+<span class="hljs-comment">    表子查询(结果集一般为多行多列)</span>
+<span class="hljs-comment"> */</span>
+
+<span class="hljs-comment">#一,where和having后面</span>
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment"> 子查询放在小括号内</span>
+<span class="hljs-comment"> 子查询一般放在条件右侧</span>
+<span class="hljs-comment"> 标量子查询一般搭配单行操作符使用</span>
+<span class="hljs-comment"> 列子查询一般搭配多行操作 in,all,any/some</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-comment">#标量子查询</span>
+<span class="hljs-comment">#查谁的工资表Abel高</span>
+<span class="hljs-keyword">select</span> *
+<span class="hljs-keyword">from</span> employees
+<span class="hljs-keyword">where</span> salary &gt; (<span class="hljs-keyword">select</span> salary
+                <span class="hljs-keyword">from</span> employees
+                <span class="hljs-keyword">where</span> last_name = <span class="hljs-string">'Abel'</span>);
+
+<span class="hljs-comment">#查询job_id与141号员工相同,salary比143号员工多的员工</span>
+<span class="hljs-keyword">select</span> last_name, job_id, salary
+<span class="hljs-keyword">from</span> employees
+<span class="hljs-keyword">where</span> job_id = (<span class="hljs-keyword">select</span> job_id <span class="hljs-keyword">from</span> employees <span class="hljs-keyword">where</span> employee_id = <span class="hljs-number">141</span>)
+  <span class="hljs-keyword">and</span> salary &gt; (<span class="hljs-keyword">select</span> salary <span class="hljs-keyword">from</span> employees <span class="hljs-keyword">where</span> employee_id = <span class="hljs-number">143</span>);
+
+<span class="hljs-comment">#列子查询(多行子查询)</span>
+<span class="hljs-comment">#查location_id是14000或1700的部门中的所有员工姓名</span>
+<span class="hljs-keyword">select</span> last_name
+<span class="hljs-keyword">from</span> employees
+<span class="hljs-keyword">where</span> department_id <span class="hljs-keyword">in</span> (
+    <span class="hljs-keyword">select</span> <span class="hljs-keyword">distinct</span> department_id
+    <span class="hljs-keyword">from</span> departments
+    <span class="hljs-keyword">where</span> location_id <span class="hljs-keyword">in</span> (<span class="hljs-number">1400</span>, <span class="hljs-number">1700</span>)
+);
+
+<span class="hljs-comment">#行子查询</span>
+<span class="hljs-comment">#查询员工编号最小并且工资最高的员工信息</span>
+<span class="hljs-comment">#写法一</span>
+<span class="hljs-keyword">select</span> *
+<span class="hljs-keyword">from</span> employees
+<span class="hljs-keyword">where</span> employee_id = (<span class="hljs-keyword">select</span> <span class="hljs-keyword">min</span>(employee_id) <span class="hljs-keyword">from</span> employees)
+  <span class="hljs-keyword">and</span> salary = (<span class="hljs-keyword">select</span> <span class="hljs-keyword">max</span>(salary) <span class="hljs-keyword">from</span> employees);
+<span class="hljs-comment">#写法二</span>
+<span class="hljs-keyword">select</span> *
+<span class="hljs-keyword">from</span> employees
+<span class="hljs-keyword">where</span> (employee_id, salary) = (<span class="hljs-keyword">select</span> <span class="hljs-keyword">min</span>(employee_id), <span class="hljs-keyword">max</span>(salary) <span class="hljs-keyword">from</span> employees);
+
+<span class="hljs-comment">#二,select后面</span>
+<span class="hljs-comment">#查询每个部门的员工个数</span>
+<span class="hljs-keyword">select</span> departments.*, (<span class="hljs-keyword">select</span> <span class="hljs-keyword">count</span>(*) <span class="hljs-keyword">from</span> employees e <span class="hljs-keyword">where</span> e.department_id = departments.department_id)
+<span class="hljs-keyword">from</span> departments;
+
+<span class="hljs-keyword">select</span> d.*, <span class="hljs-keyword">count</span>(*) <span class="hljs-keyword">as</span> 个数
+<span class="hljs-keyword">from</span> departments d
+         <span class="hljs-keyword">inner</span> <span class="hljs-keyword">join</span> employees e <span class="hljs-keyword">on</span> d.department_id = e.department_id
+<span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> d.department_id;
+
+<span class="hljs-comment">#查询员工号120的部门名</span>
+<span class="hljs-keyword">select</span> (<span class="hljs-keyword">select</span> department_name
+        <span class="hljs-keyword">from</span> departments d
+                 <span class="hljs-keyword">inner</span> <span class="hljs-keyword">join</span> employees e <span class="hljs-keyword">on</span> d.department_id = e.department_id
+        <span class="hljs-keyword">where</span> e.employee_id = <span class="hljs-number">102</span>) 名称;
+
+<span class="hljs-comment">#三,from后面</span>
+<span class="hljs-comment">#查询每个部门的平均工资的工资等级</span>
+<span class="hljs-keyword">select</span> <span class="hljs-keyword">avg</span>(salary), department_id
+<span class="hljs-keyword">from</span> employees
+<span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> department_id;
+
+<span class="hljs-keyword">select</span> ag_dep.*, grade_level
+<span class="hljs-keyword">from</span> (<span class="hljs-keyword">select</span> <span class="hljs-keyword">avg</span>(salary) ag, department_id
+      <span class="hljs-keyword">from</span> employees
+      <span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> department_id) ag_dep
+         <span class="hljs-keyword">inner</span> <span class="hljs-keyword">join</span> job_grades g
+                    <span class="hljs-keyword">on</span> ag_dep.ag <span class="hljs-keyword">between</span> lowest_sal <span class="hljs-keyword">and</span> highest_sal;
+
+<span class="hljs-comment">#,四exists后面</span>
+<span class="hljs-keyword">select</span> <span class="hljs-keyword">exists</span>(<span class="hljs-keyword">select</span> employee_id <span class="hljs-keyword">from</span> employees);
+<span class="hljs-comment">#exists判断存不存在</span>
+
+<span class="hljs-comment">#查询有员工的部门名</span>
+<span class="hljs-keyword">select</span> department_name
+<span class="hljs-keyword">from</span> departments d
+<span class="hljs-keyword">where</span> <span class="hljs-keyword">exists</span>(
+              <span class="hljs-keyword">select</span> *
+              <span class="hljs-keyword">from</span> employees e
+              <span class="hljs-keyword">where</span> d.department_id = e.department_id
+          );
+<span class="hljs-keyword">select</span> department_name
+<span class="hljs-keyword">from</span> departments
+<span class="hljs-keyword">where</span> department_id <span class="hljs-keyword">in</span> (<span class="hljs-keyword">select</span> department_id <span class="hljs-keyword">from</span> employees);
+
+<span class="hljs-comment">#分页查询</span>
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment"> select ...</span>
+<span class="hljs-comment"> ...</span>
+<span class="hljs-comment"> limit offset(要显示条目的起始索引,从0开始),size(显示条目个数);</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">select</span> *
+<span class="hljs-keyword">from</span> employees
+<span class="hljs-keyword">limit</span> <span class="hljs-number">0</span>,<span class="hljs-number">5</span>;
+<span class="hljs-keyword">select</span> *
+<span class="hljs-keyword">from</span> employees
+<span class="hljs-keyword">limit</span> <span class="hljs-number">10</span>,<span class="hljs-number">15</span>;
+
+<span class="hljs-comment">#union联合查询</span>
+<span class="hljs-comment">#将多条查询语句的结果合并成一个</span>
+
+<span class="hljs-comment">#查询部门编号&gt;90或邮箱包含a的员工信息</span>
+<span class="hljs-keyword">select</span> *
+<span class="hljs-keyword">from</span> employees
+<span class="hljs-keyword">where</span> email <span class="hljs-keyword">like</span> <span class="hljs-string">'%a%'</span>
+   <span class="hljs-keyword">or</span> department_id &gt; <span class="hljs-number">90</span>;
+
+<span class="hljs-keyword">select</span> *
+<span class="hljs-keyword">from</span> employees
+<span class="hljs-keyword">where</span> email <span class="hljs-keyword">like</span> <span class="hljs-string">'%a%'</span>
+<span class="hljs-keyword">union</span>
+<span class="hljs-keyword">select</span> *
+<span class="hljs-keyword">from</span> employees
+<span class="hljs-keyword">where</span> department_id &gt; <span class="hljs-number">90</span>;
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment"> 要求联合查询的多条语句的查询列数是一致的</span>
+<span class="hljs-comment"> 另外,语句间查询的字段要一直,类型,顺序</span>
+<span class="hljs-comment"> union默认会去重,不想去重就在union后加一个all</span>
+<span class="hljs-comment"> */</span></code></pre>
+
+<h1 id="DML语言"><a href="#DML语言" class="headerlink" title="DML语言"></a>DML语言</h1><pre><code class="hljs sql"><span class="hljs-comment">#一,插入语言</span>
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment"> insert into 表名(列名...) values(值...)</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> beauty(<span class="hljs-keyword">id</span>, <span class="hljs-keyword">name</span>, sex, borndate, phone, photo, boyfriend_id)
+<span class="hljs-keyword">values</span> (<span class="hljs-number">13</span>, <span class="hljs-string">'唐艺昕'</span>, <span class="hljs-string">'女'</span>, <span class="hljs-string">'1990-4-23'</span>, <span class="hljs-string">'1895200001'</span>, <span class="hljs-literal">null</span>, <span class="hljs-number">2</span>);
+<span class="hljs-comment">#上面的列名和下面的值对应,也可以省略列名,但是值的顺序要和表对应</span>
+
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> beauty
+<span class="hljs-keyword">set</span> <span class="hljs-keyword">id</span>=<span class="hljs-number">19</span>,
+    <span class="hljs-keyword">name</span>=<span class="hljs-string">'刘涛'</span>,
+    phone=<span class="hljs-string">'1596458623'</span>;
+
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment"> 第一种可以一次插入多行,中间用逗号隔开</span>
+<span class="hljs-comment"> 第一种还可以加入子查询语句,将select结果作为值插入表</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> beauty(<span class="hljs-keyword">id</span>, <span class="hljs-keyword">name</span>, phone)
+<span class="hljs-keyword">select</span> <span class="hljs-number">26</span>, <span class="hljs-string">'宋茜'</span>, <span class="hljs-string">'11582222222'</span>;
+
+<span class="hljs-comment">#二,修改语句</span>
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment"> update 表名</span>
+<span class="hljs-comment"> set 列=新值,列=新值...</span>
+<span class="hljs-comment"> where 筛选条件</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">update</span> beauty
+<span class="hljs-keyword">set</span> phone=<span class="hljs-string">'12345678911'</span>
+<span class="hljs-keyword">where</span> <span class="hljs-keyword">name</span> <span class="hljs-keyword">like</span> <span class="hljs-string">'唐%'</span>;
+
+<span class="hljs-comment">#修改多表</span>
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment"> update 表一 别名</span>
+<span class="hljs-comment"> inner|left|right join 表二 别名</span>
+<span class="hljs-comment"> on 连接条件</span>
+<span class="hljs-comment"> set 列=值...</span>
+<span class="hljs-comment"> where 筛选条件;</span>
+<span class="hljs-comment"> */</span>
+
+<span class="hljs-comment">#修改没有男朋友的女神的男朋友都为2号</span>
+<span class="hljs-keyword">use</span> girls;
+<span class="hljs-keyword">update</span> boys bo
+    <span class="hljs-keyword">right</span> <span class="hljs-keyword">join</span> beauty b <span class="hljs-keyword">on</span> bo.id = b.boyfriend_id
+<span class="hljs-keyword">set</span> b.boyfriend_id=<span class="hljs-number">2</span>
+<span class="hljs-keyword">where</span> b.id <span class="hljs-keyword">is</span> <span class="hljs-literal">null</span>;
+
+<span class="hljs-comment">#,三,删除语句</span>
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment"> delete</span>
+<span class="hljs-comment"> delete from 表名 where 条件</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-comment">#单表删除</span>
+<span class="hljs-keyword">delete</span>
+<span class="hljs-keyword">from</span> beauty
+<span class="hljs-keyword">where</span> phone <span class="hljs-keyword">like</span> <span class="hljs-string">'%9'</span>;
+<span class="hljs-comment">#多表删除</span>
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment"> delete 表一别名,表二别名</span>
+<span class="hljs-comment"> from 表一 别名</span>
+<span class="hljs-comment"> inner|left|right join 表二 别名 on 连接条件</span>
+<span class="hljs-comment"> where 筛选条件</span>
+<span class="hljs-comment"> */</span>
+
+<span class="hljs-keyword">delete</span> b
+<span class="hljs-keyword">from</span> beauty b
+         <span class="hljs-keyword">inner</span> <span class="hljs-keyword">join</span> boys bo
+                    <span class="hljs-keyword">on</span> b.boyfriend_id = bo.id
+<span class="hljs-keyword">where</span> bo.boyName = <span class="hljs-string">'张无忌'</span>;
+
+<span class="hljs-comment">#truncate清空表中数据</span>
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment"> 若表中有自增长列,delete删除数据后自增编号仍被占用,二truncate后从一开始</span>
+<span class="hljs-comment"> */</span></code></pre>
+
+<h1 id="DDL语言"><a href="#DDL语言" class="headerlink" title="DDL语言"></a>DDL语言</h1>
             </article>
             <hr>
             <div>
@@ -767,6 +1001,12 @@
                 <div class="post-prevnext row">
                   <div class="post-prev col-6">
                     
+                    
+                      <a href="/2020/06/20/hello-world/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </div>
                   <div class="post-next col-6">
