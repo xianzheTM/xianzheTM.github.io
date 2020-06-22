@@ -20,21 +20,25 @@
   <title>Java方法引用 - 新日暮里</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
 
 
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_fmb4a04yx8h.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
 
 
 
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
-
-
 
 
 <link  rel="stylesheet" href="/css/main.css" />
@@ -42,6 +46,7 @@
 <!-- 自定义样式保持在最底部 -->
 
 
+  <script  src="/js/utils.js" ></script>
 <meta name="generator" content="Hexo 4.2.0"></head>
 
 
@@ -65,47 +70,62 @@
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/">
-              <i class="iconfont icon-home-fill"></i>
-              首页</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/archives/">
-              <i class="iconfont icon-archive-fill"></i>
-              归档</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/categories/">
-              <i class="iconfont icon-category-fill"></i>
-              分类</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/tags/">
-              <i class="iconfont icon-tags-fill"></i>
-              标签</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/about/">
-              <i class="iconfont icon-user-fill"></i>
-              关于</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
         
         
           <li class="nav-item" id="search-btn">
@@ -130,36 +150,38 @@
 
             
               
-                <div class="mt-3 post-meta">
-                  <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2018-08-11 00:21">
-                    2018年8月11日 凌晨
-                  </time>
-                </div>
-              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2018-08-11 00:21">
+      2018年8月11日 凌晨
+    </time>
+  </div>
 
-              <div class="mt-1">
-                
-                  
-                  <span class="post-meta mr-2">
-                    <i class="iconfont icon-chart"></i>
-                    3.2k 字
-                  </span>
-                
 
-                
-                  
-                  <span class="post-meta mr-2">
-                      <i class="iconfont icon-clock-fill"></i>
-                    
-                    
-                    44
-                     分钟
-                  </span>
-                
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.2k 字
+    </span>
+  
 
-                
-              </div>
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      44
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
             
           </div>
 
@@ -310,7 +332,7 @@
 &#125;</code></pre>
 
 <p>运行结果：</p>
-<pre><code class="hljs plain">[001, 002, 003, 004]</code></pre>
+<pre><code class="hljs json">[<span class="hljs-number">001</span>, <span class="hljs-number">002</span>, <span class="hljs-number">003</span>, <span class="hljs-number">004</span>]</code></pre>
 
 <p>在以上代码中，方法引用Person::compareByAge在语义上与Lambda表达式 (a, b) -&gt; Person.compareByAge(a, b) 是等同的，都有如下特性：</p>
 <ul>
@@ -400,8 +422,8 @@
 &#125;</code></pre>
 
 <p>输出结果：</p>
-<pre><code class="hljs plain">Original string: lambda add power to Java
-String reserved: avaJ ot rewop dda adbmal</code></pre>
+<pre><code class="hljs armasm"><span class="hljs-symbol">Original</span> <span class="hljs-keyword">string: </span>lambda <span class="hljs-keyword">add </span>power to Java
+<span class="hljs-keyword">String </span>reserved: avaJ ot rewop dda adbmal</code></pre>
 
 <p>表达式MyStringOps::strReverse的计算结果为对象引用，其中，strReverse提供了StringFunc的func()方法的实现。</p>
 <p><strong>找到列表中具有最大值的对象</strong></p>
@@ -448,7 +470,7 @@ String reserved: avaJ ot rewop dda adbmal</code></pre>
 &#125;</code></pre>
 
 <p>输出结果：</p>
-<pre><code class="hljs plain">Maximum value is: 9</code></pre>
+<pre><code class="hljs angelscript">Maximum value <span class="hljs-keyword">is</span>: <span class="hljs-number">9</span></code></pre>
 
 <p>UseMethodRef定义了静态方法compareMC()，它与Comparator定义的compare()方法兼容。因此，没有必要显式的实现Comparator接口并创建其实例。</p>
 <h3 id="2、特定实例对象的方法引用"><a href="#2、特定实例对象的方法引用" class="headerlink" title="2、特定实例对象的方法引用"></a>2、特定实例对象的方法引用</h3><p><strong>这种语法与用于静态方法的语法类似，只不过这里使用对象引用而不是类名。实例方法引用又分以下三种类型：</strong></p>
@@ -515,8 +537,8 @@ Arrays.sort(rosterAsArray, myComparisonProvider::compareByName);</code></pre>
 &#125;</code></pre>
 
 <p>输出结果：</p>
-<pre><code class="hljs plain">Original string: lambda add power to Java
-String reserved: avaJ ot rewop dda adbmal</code></pre>
+<pre><code class="hljs armasm"><span class="hljs-symbol">Original</span> <span class="hljs-keyword">string: </span>lambda <span class="hljs-keyword">add </span>power to Java
+<span class="hljs-keyword">String </span>reserved: avaJ ot rewop dda adbmal</code></pre>
 
 <h4 id="b-超类上的实例方法引用"><a href="#b-超类上的实例方法引用" class="headerlink" title="b.超类上的实例方法引用"></a>b.超类上的实例方法引用</h4><p><strong>组成语法格式：super::methodName</strong></p>
 <p>方法的名称由methodName指定，通过使用<strong>super</strong>，可以引用方法的超类版本。</p>
@@ -572,8 +594,8 @@ String reserved: avaJ ot rewop dda adbmal</code></pre>
 &#125;</code></pre>
 
 <p>输出结果：</p>
-<pre><code class="hljs plain">vals contains 3 4s
-strs contains 2 Twos</code></pre>
+<pre><code class="hljs angelscript">vals contains <span class="hljs-number">3</span> <span class="hljs-number">4</span>s
+strs contains <span class="hljs-number">2</span> Twos</code></pre>
 
 <p>分析：</p>
 <p>​      在程序中，MyArrayOps是非泛型类，包含泛型方法countMatching()。该方法返回数组中与指定值匹配的元素的个数。注意这里如何指定泛型类型参数。例如，在main()方法中，对countMatching()方法的第一次调用如下所示：count = myOp(MyArrayOps::<Integer>countMatching,vals,4); 这里传递了类型参数Integer。</Integer></p>
@@ -627,7 +649,7 @@ Arrays.sort(stringArray, String::compareToIgnoreCase);</code></pre>
 &#125;</code></pre>
 
 <p>输出结果：</p>
-<pre><code class="hljs plain">val in mc is: 100</code></pre>
+<pre><code class="hljs angelscript">val <span class="hljs-keyword">in</span> mc <span class="hljs-keyword">is</span>: <span class="hljs-number">100</span></code></pre>
 
 <h4 id="b-数组构造方法引用"><a href="#b-数组构造方法引用" class="headerlink" title="b.数组构造方法引用"></a>b.数组构造方法引用</h4><p><strong>组成语法格式：TypeName[]::new</strong></p>
 <p>例子：</p>
@@ -756,14 +778,27 @@ Arrays.sort(stringArray, String::compareToIgnoreCase);</code></pre>
 <!-- SCRIPTS -->
 <script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
 <script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
 <script  src="/js/main.js" ></script>
 
-
-  <script  src="/js/lazyload.js" ></script>
-
+<!-- Plugins -->
 
 
   
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
   <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
   <script>
     $(document).ready(function () {
@@ -772,7 +807,7 @@ Arrays.sort(stringArray, String::compareToIgnoreCase);</code></pre>
 
       tocbot.init({
         tocSelector: '#tocbot',
-        contentSelector: '.post-content',
+        contentSelector: 'article.markdown-body',
         headingSelector: 'h1,h2,h3,h4,h5,h6',
         linkClass: 'tocbot-link',
         activeLinkClass: 'tocbot-active-link',
@@ -788,20 +823,6 @@ Arrays.sort(stringArray, String::compareToIgnoreCase);</code></pre>
       }
     });
   </script>
-
-
-
-
-
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
-
-
-
-
-
-
-<!-- Plugins -->
 
 
 
@@ -867,6 +888,8 @@ Arrays.sort(stringArray, String::compareToIgnoreCase);</code></pre>
       }
     );
   </script>
+
+
 
 
 

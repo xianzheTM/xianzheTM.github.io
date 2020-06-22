@@ -20,21 +20,25 @@
   <title>C++变量类型 - 新日暮里</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
 
 
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_fmb4a04yx8h.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
 
 
 
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
-
-
 
 
 <link  rel="stylesheet" href="/css/main.css" />
@@ -42,6 +46,7 @@
 <!-- 自定义样式保持在最底部 -->
 
 
+  <script  src="/js/utils.js" ></script>
 <meta name="generator" content="Hexo 4.2.0"></head>
 
 
@@ -65,47 +70,62 @@
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/">
-              <i class="iconfont icon-home-fill"></i>
-              首页</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/archives/">
-              <i class="iconfont icon-archive-fill"></i>
-              归档</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/categories/">
-              <i class="iconfont icon-category-fill"></i>
-              分类</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/tags/">
-              <i class="iconfont icon-tags-fill"></i>
-              标签</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/about/">
-              <i class="iconfont icon-user-fill"></i>
-              关于</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
         
         
           <li class="nav-item" id="search-btn">
@@ -130,36 +150,38 @@
 
             
               
-                <div class="mt-3 post-meta">
-                  <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2018-07-29 17:12">
-                    2018年7月29日 下午
-                  </time>
-                </div>
-              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2018-07-29 17:12">
+      2018年7月29日 下午
+    </time>
+  </div>
 
-              <div class="mt-1">
-                
-                  
-                  <span class="post-meta mr-2">
-                    <i class="iconfont icon-chart"></i>
-                    1.8k 字
-                  </span>
-                
 
-                
-                  
-                  <span class="post-meta mr-2">
-                      <i class="iconfont icon-clock-fill"></i>
-                    
-                    
-                    20
-                     分钟
-                  </span>
-                
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.8k 字
+    </span>
+  
 
-                
-              </div>
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      20
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
             
           </div>
 
@@ -269,8 +291,8 @@
 &#125;</code></pre>
 
 <p>当上面的代码被编译和执行时，它会产生下列结果：</p>
-<pre><code class="hljs plain">30
-23.3333</code></pre>
+<pre><code class="hljs angelscript"><span class="hljs-number">30</span>
+<span class="hljs-number">23.3333</span></code></pre>
 
 <p>同样的，在函数声明时，提供一个函数名，而函数的实际定义则可以在任何地方进行。例如：</p>
 <pre><code class="hljs cpp"><span class="hljs-comment">// 函数声明</span>
@@ -296,10 +318,10 @@
 <li><strong>右值（rvalue）：</strong>术语右值（rvalue）指的是存储在内存中某些地址的数值。右值是不能对其进行赋值的表达式，也就是说，右值可以出现在赋值号的右边，但不能出现在赋值号的左边。</li>
 </ul>
 <p>变量是左值，因此可以出现在赋值号的左边。数值型的字面值是右值，因此不能被赋值，不能出现在赋值号的左边。下面是一个有效的语句：</p>
-<pre><code class="hljs plain">int g &#x3D; 20;</code></pre>
+<pre><code class="hljs angelscript"><span class="hljs-built_in">int</span> g = <span class="hljs-number">20</span>;</code></pre>
 
 <p>但是下面这个就不是一个有效的语句，会生成编译时错误：</p>
-<pre><code class="hljs plain">10 &#x3D; 20;</code></pre>
+<pre><code class="hljs basic"><span class="hljs-symbol">10 </span>= <span class="hljs-number">20</span>;</code></pre>
 
 <p>变量的类型间是可以互相转换的，转换又分为自动转换和强制转换。</p>
 <p><strong>自动转换规则：</strong></p>
@@ -445,14 +467,27 @@ a=b;
 <!-- SCRIPTS -->
 <script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
 <script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
 <script  src="/js/main.js" ></script>
 
-
-  <script  src="/js/lazyload.js" ></script>
-
+<!-- Plugins -->
 
 
   
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
   <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
   <script>
     $(document).ready(function () {
@@ -461,7 +496,7 @@ a=b;
 
       tocbot.init({
         tocSelector: '#tocbot',
-        contentSelector: '.post-content',
+        contentSelector: 'article.markdown-body',
         headingSelector: 'h1,h2,h3,h4,h5,h6',
         linkClass: 'tocbot-link',
         activeLinkClass: 'tocbot-active-link',
@@ -477,20 +512,6 @@ a=b;
       }
     });
   </script>
-
-
-
-
-
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
-
-
-
-
-
-
-<!-- Plugins -->
 
 
 
@@ -556,6 +577,8 @@ a=b;
       }
     );
   </script>
+
+
 
 
 

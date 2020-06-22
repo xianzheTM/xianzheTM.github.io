@@ -20,21 +20,25 @@
   <title>C++常量 - 新日暮里</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
 
 
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_fmb4a04yx8h.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
 
 
 
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
-
-
 
 
 <link  rel="stylesheet" href="/css/main.css" />
@@ -42,6 +46,7 @@
 <!-- 自定义样式保持在最底部 -->
 
 
+  <script  src="/js/utils.js" ></script>
 <meta name="generator" content="Hexo 4.2.0"></head>
 
 
@@ -65,47 +70,62 @@
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/">
-              <i class="iconfont icon-home-fill"></i>
-              首页</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/archives/">
-              <i class="iconfont icon-archive-fill"></i>
-              归档</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/categories/">
-              <i class="iconfont icon-category-fill"></i>
-              分类</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/tags/">
-              <i class="iconfont icon-tags-fill"></i>
-              标签</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
         
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/about/">
-              <i class="iconfont icon-user-fill"></i>
-              关于</a>
-          </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
         
         
           <li class="nav-item" id="search-btn">
@@ -130,36 +150,38 @@
 
             
               
-                <div class="mt-3 post-meta">
-                  <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2018-07-29 17:20">
-                    2018年7月29日 下午
-                  </time>
-                </div>
-              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2018-07-29 17:20">
+      2018年7月29日 下午
+    </time>
+  </div>
 
-              <div class="mt-1">
-                
-                  
-                  <span class="post-meta mr-2">
-                    <i class="iconfont icon-chart"></i>
-                    2.2k 字
-                  </span>
-                
 
-                
-                  
-                  <span class="post-meta mr-2">
-                      <i class="iconfont icon-clock-fill"></i>
-                    
-                    
-                    24
-                     分钟
-                  </span>
-                
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.1k 字
+    </span>
+  
 
-                
-              </div>
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      24
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
             
           </div>
 
@@ -270,13 +292,13 @@
 <h2 id="字符串常量"><a href="#字符串常量" class="headerlink" title="字符串常量"></a>字符串常量</h2><p>字符串字面值或常量是括在双引号 “” 中的。一个字符串包含类似于字符常量的字符：普通的字符、转义序列和通用的字符。</p>
 <p>您可以使用空格做分隔符，把一个很长的字符串常量进行分行。</p>
 <p>下面的实例显示了一些字符串常量。下面这三种形式所显示的字符串是相同的。</p>
-<pre><code class="hljs plain">&quot;hello, dear&quot;
+<pre><code class="hljs 1c"><span class="hljs-string">"hello, dear"</span>
 
-&quot;hello, \
+<span class="hljs-string">"hello, \</span>
 
-dear&quot;
+dear<span class="hljs-string">"</span>
 
-&quot;hello, &quot; &quot;d&quot; &quot;ear&quot;</code></pre>
+<span class="hljs-string">"hello, "</span> <span class="hljs-string">"d"</span> <span class="hljs-string">"ear"</span></code></pre>
 
 <h2 id="定义常量"><a href="#定义常量" class="headerlink" title="定义常量"></a>定义常量</h2><p>在 C++ 中，有两种简单的定义常量的方式：</p>
 <ul>
@@ -306,13 +328,13 @@ dear&quot;
 &#125;</code></pre>
 
 <p>宏定义是可以取消的</p>
-<pre><code class="hljs plain">定义： #define    N    21
-取消： #undef    N    12</code></pre>
+<pre><code class="hljs cpp">定义： <span class="hljs-meta">#<span class="hljs-meta-keyword">define</span>    N    21</span>
+取消： <span class="hljs-meta">#<span class="hljs-meta-keyword">undef</span>    N    12</span></code></pre>
 
 <p>define定义表达式时要注意“边缘效应”，例如如下定义：</p>
 <p>#define N 2+3 //我们预想的N值是5，我们这样使用N，int a = N/2; //我们预想的a的值是2，可实际上a的值是3。原因在于在预处理阶段，编译器将 a = N/2处理成了 a = 2+3/2；这就是宏定义的字符串替换的“边缘效应”因此要如下定义：#define N (2+3)。const定义的表达式则没有上述问题。const定义的常量叫做常变量原因有二：const定义常量像变量一样检查类型；const可以在任何地方定义常量，编译器对它的处理过程与变量相似，只是分配内存的地方不同.</p>
 <h2 id="const-关键字"><a href="#const-关键字" class="headerlink" title="const 关键字"></a>const 关键字</h2><p>您可以使用 <strong>const</strong> 前缀声明指定类型的常量，如下所示：</p>
-<pre><code class="hljs plain">const type variable &#x3D; value;</code></pre>
+<pre><code class="hljs routeros">const<span class="hljs-built_in"> type </span>variable = value;</code></pre>
 
 <p>具体请看下面的实例：</p>
 <pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
@@ -508,14 +530,27 @@ dear&quot;
 <!-- SCRIPTS -->
 <script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
 <script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
 <script  src="/js/main.js" ></script>
 
-
-  <script  src="/js/lazyload.js" ></script>
-
+<!-- Plugins -->
 
 
   
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
   <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
   <script>
     $(document).ready(function () {
@@ -524,7 +559,7 @@ dear&quot;
 
       tocbot.init({
         tocSelector: '#tocbot',
-        contentSelector: '.post-content',
+        contentSelector: 'article.markdown-body',
         headingSelector: 'h1,h2,h3,h4,h5,h6',
         linkClass: 'tocbot-link',
         activeLinkClass: 'tocbot-active-link',
@@ -540,20 +575,6 @@ dear&quot;
       }
     });
   </script>
-
-
-
-
-
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
-
-
-
-
-
-
-<!-- Plugins -->
 
 
 
@@ -619,6 +640,8 @@ dear&quot;
       }
     );
   </script>
+
+
 
 
 
