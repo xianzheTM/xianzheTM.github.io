@@ -168,6 +168,80 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/06/30/ThreadLocal/">ThreadLocal</a>
+
+      <a href="/2020/06/30/ThreadLocal/" class="index-excerpt">
+        
+        
+          
+        
+        <div>本文部分内容转载于简书:
+作者：ingxin
+链接：https://www.jianshu.com/p/3c5d7f09dfbd
+threadlocal使用方法很简单static final ThreadLocal sThreadLocal = new ThreadLocal();sThreadLocal.set()sThreadLocal.get()
+threadlocal而是一个线程内部的存储</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-06-30
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/java/">java</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/06/27/Servlet/">Servlet</a>
+
+      <a href="/2020/06/27/Servlet/" class="index-excerpt">
+        
+        
+          
+        
+        <div>servlet是Javaweb开发的重要部分.
+一个简单的项目结构如下图:
+
+现在的项目还是开发模式,采用war explored,将web模块发布到Tomcat,web文件夹下的WEB-INF文件夹内有lib文件夹和web.xml,前者是在Tomcat中运行时需要用到的jar包,后者是servlet的配置文件.
+&lt;?xml version="1.0" encoding="UTF-8"?&g</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-06-27
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/java/">java</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2020/06/22/JDBC/">JDBC</a>
 
       <a href="/2020/06/22/JDBC/" class="index-excerpt">
@@ -175,7 +249,15 @@
         
           
         
-        <div></div>
+        <div>driver是一种接口,规范了如何操作数据库.而具体如何实现还要看各大数据库厂商的实现.
+下面是几种获得数据库连接的方式:
+import org.junit.Test;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.Driver;
+import</div>
       </a>
 
       <div class="index-btm post-metas">
@@ -454,86 +536,6 @@ String[] arr = new </div>
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>&nbsp;2020-05-28
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/java/">java</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/27/%E5%B8%B8%E7%94%A8%E7%B1%BB%EF%BC%88%E5%A4%8D%E4%B9%A04%EF%BC%89/">常用类（复习4）</a>
-
-      <a href="/2020/05/27/%E5%B8%B8%E7%94%A8%E7%B1%BB%EF%BC%88%E5%A4%8D%E4%B9%A04%EF%BC%89/" class="index-excerpt">
-        
-        
-          
-        
-        <div>StringString内部是一个private final byte[] value,故它是不可变的。以前是char数组，现在改了。
-1.字面量是在方法区的字符串常量池
-2.new出来的在堆中
-3.字面量拼接的结果是在常量池
-4.拼接时若涉及到变量，那就是在堆
-5.intern()方法是“池化”的意思，将某字符串“放到”常量池。
-具体来说：堆中有“abcd”字符串对象，调用这个方法后会在常量池中</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-27
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/java/">java</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/25/%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%88%E5%A4%8D%E4%B9%A03%EF%BC%89/">多线程（复习3）</a>
-
-      <a href="/2020/05/25/%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%88%E5%A4%8D%E4%B9%A03%EF%BC%89/" class="index-excerpt">
-        
-        
-          
-        
-        <div>多线程。
-创建多线程的方式继承Thread类1.创建于继承于Thread类的子类
-2.重写子类的run()方法–&gt;将此线程要做的事写在run方法中
-3.创建子类对象
-4.调用子类的start()方法
-package com.ylxianzhe.thread;
-
-public class Test &#123;
-    public static void main(String[] args</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-25
           </div>
         
         

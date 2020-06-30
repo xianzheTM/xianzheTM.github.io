@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="希望这里能见证一个菜鸟到大神的路程">
+  <meta name="author" content="xianzheTM">
+  <meta name="keywords" content="">
+  <title>ThreadLocal - 新日暮里</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-06-30 13:10">
+      2020年6月30日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      36
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>本文部分内容转载于简书:</p>
+<p>作者：ingxin</p>
+<p>链接：<a href="https://www.jianshu.com/p/3c5d7f09dfbd" target="_blank" rel="noopener">https://www.jianshu.com/p/3c5d7f09dfbd</a></p>
+<p>threadlocal使用方法很简单<br>static final ThreadLocal<T> sThreadLocal = new ThreadLocal<T>();<br>sThreadLocal.set()<br>sThreadLocal.get()</T></T></p>
+<p>threadlocal而是一个线程内部的存储类，可以在指定线程内存储数据，数据存储以后，只有指定线程可以得到存储数据，官方解释如下。</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * This class provides thread-local variables.  These variables differ from</span>
+<span class="hljs-comment"> * their normal counterparts in that each thread that accesses one (via its</span>
+<span class="hljs-comment"> * &#123;<span class="hljs-doctag">@code</span> get&#125; or &#123;<span class="hljs-doctag">@code</span> set&#125; method) has its own, independently initialized</span>
+<span class="hljs-comment"> * copy of the variable.  &#123;<span class="hljs-doctag">@code</span> ThreadLocal&#125; instances are typically private</span>
+<span class="hljs-comment"> * static fields in classes that wish to associate state with a thread (e.g.,</span>
+<span class="hljs-comment"> * a user ID or Transaction ID).</span>
+<span class="hljs-comment"> */</span></code></pre>
+
+<p>大致意思就是ThreadLocal提供了线程内存储变量的能力，这些变量不同之处在于每一个线程读取的变量是对应的互相独立的。通过get和set方法就可以得到当前线程对应的值。</p>
+<p>做个不恰当的比喻，从表面上看ThreadLocal相当于维护了一个map，key就是当前的线程，value就是需要存储的对象。</p>
+<p>这里的这个比喻是不恰当的，实际上是ThreadLocal的静态内部类ThreadLocalMap为每个Thread都维护了一个数组table，ThreadLocal确定了一个数组下标，而这个下标就是value存储的对应位置。</p>
+<p>作为一个存储数据的类，关键点就在get和set方法。</p>
+<pre><code class="hljs java"><span class="hljs-comment">//set 方法</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">set</span><span class="hljs-params">(T value)</span> </span>&#123;
+      <span class="hljs-comment">//获取当前线程</span>
+      Thread t = Thread.currentThread();
+      <span class="hljs-comment">//实际存储的数据结构类型</span>
+      ThreadLocalMap map = getMap(t);
+      <span class="hljs-comment">//如果存在map就直接set，没有则创建map并set</span>
+      <span class="hljs-keyword">if</span> (map != <span class="hljs-keyword">null</span>)
+          map.set(<span class="hljs-keyword">this</span>, value);
+      <span class="hljs-keyword">else</span>
+          createMap(t, value);
+  &#125;
+  
+<span class="hljs-comment">//getMap方法</span>
+<span class="hljs-function">ThreadLocalMap <span class="hljs-title">getMap</span><span class="hljs-params">(Thread t)</span> </span>&#123;
+      <span class="hljs-comment">//thred中维护了一个ThreadLocalMap</span>
+      <span class="hljs-keyword">return</span> t.threadLocals;
+ &#125;
+ 
+<span class="hljs-comment">//createMap</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">createMap</span><span class="hljs-params">(Thread t, T firstValue)</span> </span>&#123;
+      <span class="hljs-comment">//实例化一个新的ThreadLocalMap，并赋值给线程的成员变量threadLocals</span>
+      t.threadLocals = <span class="hljs-keyword">new</span> ThreadLocalMap(<span class="hljs-keyword">this</span>, firstValue);
+&#125;</code></pre>
+
+<p>从上面代码可以看出每个线程持有一个ThreadLocalMap对象。每一个新的线程Thread都会实例化一个ThreadLocalMap并赋值给成员变量threadLocals，使用时若已经存在threadLocals则直接使用已经存在的对象。</p>
+<h1 id="Thread"><a href="#Thread" class="headerlink" title="Thread"></a>Thread</h1><pre><code class="hljs java"><span class="hljs-comment">/* ThreadLocal values pertaining to this thread. This map is maintained</span>
+<span class="hljs-comment">     * by the ThreadLocal class. */</span>
+    ThreadLocal.ThreadLocalMap threadLocals = <span class="hljs-keyword">null</span>;</code></pre>
+
+<p>Thread中关于ThreadLocalMap部分的相关声明，接下来看一下createMap方法中的实例化过程。</p>
+<h1 id="ThreadLocalMap"><a href="#ThreadLocalMap" class="headerlink" title="ThreadLocalMap"></a>ThreadLocalMap</h1><h2 id="set方法"><a href="#set方法" class="headerlink" title="set方法"></a>set方法</h2><pre><code class="hljs java"><span class="hljs-comment">//Entry为ThreadLocalMap静态内部类，对ThreadLocal的弱引用</span>
+<span class="hljs-comment">//同时让ThreadLocal和储值形成key-value的关系</span>
+<span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Entry</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">WeakReference</span>&lt;<span class="hljs-title">ThreadLocal</span>&lt;?&gt;&gt; </span>&#123;
+    <span class="hljs-comment">/** The value associated with this ThreadLocal. */</span>
+    Object value;
+
+    Entry(ThreadLocal&lt;?&gt; k, Object v) &#123;
+           <span class="hljs-keyword">super</span>(k);
+            value = v;
+    &#125;
+&#125;
+
+<span class="hljs-comment">//ThreadLocalMap构造方法</span>
+ThreadLocalMap(ThreadLocal&lt;?&gt; firstKey, Object firstValue) &#123;
+        <span class="hljs-comment">//内部成员数组，INITIAL_CAPACITY值为16的常量</span>
+        table = <span class="hljs-keyword">new</span> Entry[INITIAL_CAPACITY];
+        <span class="hljs-comment">//位运算，结果与取模相同，计算出需要存放的位置</span>
+        <span class="hljs-comment">//threadLocalHashCode比较有趣</span>
+        <span class="hljs-keyword">int</span> i = firstKey.threadLocalHashCode &amp; (INITIAL_CAPACITY - <span class="hljs-number">1</span>);
+        table[i] = <span class="hljs-keyword">new</span> Entry(firstKey, firstValue);
+        size = <span class="hljs-number">1</span>;
+        setThreshold(INITIAL_CAPACITY);
+&#125;</code></pre>
+
+<p>通过上面的代码不难看出在实例化ThreadLocalMap时创建了一个长度为16的Entry数组。通过hashCode与length位运算确定出一个索引值i，这个i就是被存储在table数组中的位置。</p>
+<p>前面讲过每个线程Thread持有一个ThreadLocalMap类型的实例threadLocals，结合此处的构造方法可以理解成每个线程Thread都持有一个Entry型的数组table，而一切的读取过程都是通过操作这个数组table完成的。</p>
+<p>显然table是set和get的焦点，在看具体的set和get方法前，先看下面这段代码。</p>
+<pre><code class="hljs java"><span class="hljs-comment">//在某一线程声明了ABC三种类型的ThreadLocal</span>
+ThreadLocal&lt;A&gt; sThreadLocalA = <span class="hljs-keyword">new</span> ThreadLocal&lt;A&gt;();
+ThreadLocal&lt;B&gt; sThreadLocalB = <span class="hljs-keyword">new</span> ThreadLocal&lt;B&gt;();
+ThreadLocal&lt;C&gt; sThreadLocalC = <span class="hljs-keyword">new</span> ThreadLocal&lt;C&gt;();</code></pre>
+
+<p>由前面我们知道对于一个Thread来说只有持有一个ThreadLocalMap，所以ABC对应同一个ThreadLocalMap对象。为了管理ABC，于是将他们存储在一个数组的不同位置，而这个数组就是上面提到的Entry型的数组table。</p>
+<p>那么问题来了，ABC在table中的位置是如何确定的？为了能正常够正常的访问对应的值，肯定存在一种方法计算出确定的索引值i。</p>
+<pre><code class="hljs java"><span class="hljs-comment">//ThreadLocalMap中set方法。</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">set</span><span class="hljs-params">(ThreadLocal&lt;?&gt; key, Object value)</span> </span>&#123;
+
+          <span class="hljs-comment">// We don't use a fast path as with get() because it is at</span>
+          <span class="hljs-comment">// least as common to use set() to create new entries as</span>
+          <span class="hljs-comment">// it is to replace existing ones, in which case, a fast</span>
+          <span class="hljs-comment">// path would fail more often than not.</span>
+
+          Entry[] tab = table;
+          <span class="hljs-keyword">int</span> len = tab.length;
+          <span class="hljs-comment">//获取索引值，这个地方是比较特别的地方</span>
+          <span class="hljs-keyword">int</span> i = key.threadLocalHashCode &amp; (len-<span class="hljs-number">1</span>);
+
+          <span class="hljs-comment">//遍历tab如果已经存在则更新值</span>
+          <span class="hljs-keyword">for</span> (Entry e = tab[i];
+               e != <span class="hljs-keyword">null</span>;
+               e = tab[i = nextIndex(i, len)]) &#123;
+              ThreadLocal&lt;?&gt; k = e.get();
+
+              <span class="hljs-keyword">if</span> (k == key) &#123;
+                  e.value = value;
+                  <span class="hljs-keyword">return</span>;
+              &#125;
+
+              <span class="hljs-keyword">if</span> (k == <span class="hljs-keyword">null</span>) &#123;
+                  replaceStaleEntry(key, value, i);
+                  <span class="hljs-keyword">return</span>;
+              &#125;
+          &#125;
+          
+          <span class="hljs-comment">//如果上面没有遍历成功则创建新值</span>
+          tab[i] = <span class="hljs-keyword">new</span> Entry(key, value);
+          <span class="hljs-keyword">int</span> sz = ++size;
+          <span class="hljs-comment">//满足条件数组扩容x2</span>
+          <span class="hljs-keyword">if</span> (!cleanSomeSlots(i, sz) &amp;&amp; sz &gt;= threshold)
+              rehash();
+      &#125;</code></pre>
+
+<p>在ThreadLocalMap中的set方法与构造方法能看到以下代码片段。</p>
+<ul>
+<li>int i = key.threadLocalHashCode &amp; (len-1)</li>
+<li>int i = firstKey.threadLocalHashCode &amp; (INITIAL_CAPACITY - 1)</li>
+<li>简而言之就是将threadLocalHashCode进行一个位运算（取模）得到索引i，threadLocalHashCode代码如下。</li>
+</ul>
+<pre><code class="hljs java"><span class="hljs-comment">//ThreadLocal中threadLocalHashCode相关代码.</span>
+
+<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> threadLocalHashCode = nextHashCode();
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * The next hash code to be given out. Updated atomically. Starts at</span>
+<span class="hljs-comment">    * zero.</span>
+<span class="hljs-comment">    */</span>
+<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> AtomicInteger nextHashCode =
+    <span class="hljs-keyword">new</span> AtomicInteger();
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * The difference between successively generated hash codes - turns</span>
+<span class="hljs-comment">    * implicit sequential thread-local IDs into near-optimally spread</span>
+<span class="hljs-comment">    * multiplicative hash values for power-of-two-sized tables.</span>
+<span class="hljs-comment">    */</span>
+<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> HASH_INCREMENT = <span class="hljs-number">0x61c88647</span>;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * Returns the next hash code.</span>
+<span class="hljs-comment">    */</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">nextHashCode</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-comment">//自增</span>
+    <span class="hljs-keyword">return</span> nextHashCode.getAndAdd(HASH_INCREMENT);
+&#125;</code></pre>
+
+<p>因为static的原因，在每次new ThreadLocal时因为threadLocalHashCode的初始化，会使threadLocalHashCode值自增一次，增量为0x61c88647。</p>
+<p>0x61c88647是斐波那契散列乘数,它的优点是通过它散列(hash)出来的结果分布会比较均匀，可以很大程度上避免hash冲突，已初始容量16为例，hash并与15位运算计算数组下标结果如下：<br>hashCode |    数组下标<br>-|-<br>0x61c88647 |    7<br>0xc3910c8e |    14<br>0x255992d5 |    5<br>0x8722191c |    12<br>0xe8ea9f63 |    3<br>0x4ab325aa |    10<br>0xac7babf1 |    1<br>0xe443238 |    8<br>0x700cb87f |    15</p>
+<p>总结如下：</p>
+<p><strong>对于某一ThreadLocal来讲，他的索引值i是确定的，在不同线程之间访问时访问的是不同的table数组的同一位置即都为table[i]，只不过这个不同线程之间的table是独立的。</strong></p>
+<p><strong>对于同一线程的不同ThreadLocal来讲，这些ThreadLocal实例共享一个table数组，然后每个ThreadLocal实例在table中的索引i是不同的。</strong></p>
+<pre><code class="hljs java">get()方法
+<span class="hljs-comment">//ThreadLocal中get方法</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> T <span class="hljs-title">get</span><span class="hljs-params">()</span> </span>&#123;
+    Thread t = Thread.currentThread();
+    ThreadLocalMap map = getMap(t);
+    <span class="hljs-keyword">if</span> (map != <span class="hljs-keyword">null</span>) &#123;
+        ThreadLocalMap.Entry e = map.getEntry(<span class="hljs-keyword">this</span>);
+        <span class="hljs-keyword">if</span> (e != <span class="hljs-keyword">null</span>) &#123;
+            <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"unchecked"</span>)
+            T result = (T)e.value;
+            <span class="hljs-keyword">return</span> result;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> setInitialValue();
+&#125;
+    
+<span class="hljs-comment">//ThreadLocalMap中getEntry方法</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> Entry <span class="hljs-title">getEntry</span><span class="hljs-params">(ThreadLocal&lt;?&gt; key)</span> </span>&#123;
+       <span class="hljs-keyword">int</span> i = key.threadLocalHashCode &amp; (table.length - <span class="hljs-number">1</span>);
+       Entry e = table[i];
+       <span class="hljs-keyword">if</span> (e != <span class="hljs-keyword">null</span> &amp;&amp; e.get() == key)
+            <span class="hljs-keyword">return</span> e;
+       <span class="hljs-keyword">else</span>
+            <span class="hljs-keyword">return</span> getEntryAfterMiss(key, i, e);
+   &#125;</code></pre>
+<p>理解了set方法，get方法也就清楚明了，无非是通过计算出索引直接从数组对应位置读取即可。</p>
+<p>ThreadLocal实现主要涉及Thread，ThreadLocal，ThreadLocalMap这三个类。关于ThreadLocal的实现流程正如上面写的那样，实际代码还有许多细节处理的部分并没有在这里写出来。</p>
+<h1 id="ThreadLocal特性"><a href="#ThreadLocal特性" class="headerlink" title="ThreadLocal特性"></a>ThreadLocal特性</h1><p>ThreadLocal和Synchronized都是为了解决多线程中相同变量的访问冲突问题，不同的点是</p>
+<ul>
+<li>Synchronized是通过线程等待，牺牲时间来解决访问冲突</li>
+<li>ThreadLocal是通过每个线程单独一份存储空间，牺牲空间来解决冲突，并且相比于Synchronized，ThreadLocal具有线程隔离的效果，只有在线程内才能获取到对应的值，线程外则不能访问到想要的值。</li>
+</ul>
+<p>正因为ThreadLocal的线程隔离特性，使他的应用场景相对来说更为特殊一些。在android中Looper、ActivityThread以及AMS中都用到了ThreadLocal。当某些数据是以线程为作用域并且不同线程具有不同的数据副本的时候，就可以考虑采用ThreadLocal。</p>
+<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><p>ThreadLocal是一个弱引用,当ThreadLocal变为null后,就会被回收,即ThreadLocalMap中entry中的key没了,但是ThreadLocalMap的生命周期和ThreadLocal并不一样,这是就出现了key没了,value还在的问题,所以要用remove方法来删除对应的value.</p>
+<p>ThreadLocal用来解决事务管理问题.在数据库层面进行事务操作是不够的,因为只能保证当前数据库连接的事务.如果对数据库的操作是在不同连接进行的,也就没法使操作在同一事务中进行.所以要用ThreadLocal保存数据库连接,使得相关的数据库操作都在同一个连接中的事务中.</p>
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.atguigu.utils;
+
+<span class="hljs-keyword">import</span> com.alibaba.druid.pool.DruidDataSource;
+<span class="hljs-keyword">import</span> com.alibaba.druid.pool.DruidDataSourceFactory;
+
+<span class="hljs-keyword">import</span> java.io.InputStream;
+<span class="hljs-keyword">import</span> java.sql.Connection;
+<span class="hljs-keyword">import</span> java.sql.SQLException;
+<span class="hljs-keyword">import</span> java.util.Properties;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JdbcUtils</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> DruidDataSource dataSource;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ThreadLocal&lt;Connection&gt; conns = <span class="hljs-keyword">new</span> ThreadLocal&lt;Connection&gt;();
+
+    <span class="hljs-keyword">static</span> &#123;
+        <span class="hljs-keyword">try</span> &#123;
+            Properties properties = <span class="hljs-keyword">new</span> Properties();
+            <span class="hljs-comment">// 读取 jdbc.properties属性配置文件</span>
+            InputStream inputStream = JdbcUtils.class.getClassLoader().getResourceAsStream("jdbc.properties");
+            <span class="hljs-comment">// 从流中加载数据</span>
+            properties.load(inputStream);
+            <span class="hljs-comment">// 创建 数据库连接 池</span>
+            dataSource = (DruidDataSource) DruidDataSourceFactory.createDataSource(properties);
+
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            e.printStackTrace();
+        &#125;
+
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 获取数据库连接池中的连接</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 如果返回null,说明获取连接失败&lt;br/&gt;有值就是获取连接成功</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Connection <span class="hljs-title">getConnection</span><span class="hljs-params">()</span></span>&#123;
+        Connection conn = conns.get();
+        <span class="hljs-keyword">if</span> (conn == <span class="hljs-keyword">null</span>) &#123;
+            <span class="hljs-keyword">try</span> &#123;
+                conn = dataSource.getConnection();<span class="hljs-comment">//从数据库连接池中获取连接</span>
+                conns.set(conn); <span class="hljs-comment">// 保存到ThreadLocal对象中，供后面的jdbc操作使用</span>
+                conn.setAutoCommit(<span class="hljs-keyword">false</span>); <span class="hljs-comment">// 设置为手动管理事务</span>
+            &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
+                e.printStackTrace();
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> conn;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 提交事务，并关闭释放连接</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">commitAndClose</span><span class="hljs-params">()</span></span>&#123;
+        Connection connection = conns.get();
+        <span class="hljs-keyword">if</span> (connection != <span class="hljs-keyword">null</span>) &#123; <span class="hljs-comment">// 如果不等于null，说明 之前使用过连接，操作过数据库</span>
+            <span class="hljs-keyword">try</span> &#123;
+                connection.commit(); <span class="hljs-comment">// 提交 事务</span>
+            &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
+                e.printStackTrace();
+            &#125; <span class="hljs-keyword">finally</span> &#123;
+                <span class="hljs-keyword">try</span> &#123;
+                    connection.close(); <span class="hljs-comment">// 关闭连接，资源资源</span>
+                &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
+                    e.printStackTrace();
+                &#125;
+            &#125;
+        &#125;
+        <span class="hljs-comment">// 一定要执行remove操作，否则就会出错。（因为Tomcat服务器底层使用了线程池技术）</span>
+        conns.remove();
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 回滚事务，并关闭释放连接</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">rollbackAndClose</span><span class="hljs-params">()</span></span>&#123;
+        Connection connection = conns.get();
+        <span class="hljs-keyword">if</span> (connection != <span class="hljs-keyword">null</span>) &#123; <span class="hljs-comment">// 如果不等于null，说明 之前使用过连接，操作过数据库</span>
+            <span class="hljs-keyword">try</span> &#123;
+                connection.rollback();<span class="hljs-comment">//回滚事务</span>
+            &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
+                e.printStackTrace();
+            &#125; <span class="hljs-keyword">finally</span> &#123;
+                <span class="hljs-keyword">try</span> &#123;
+                    connection.close(); <span class="hljs-comment">// 关闭连接，资源资源</span>
+                &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
+                    e.printStackTrace();
+                &#125;
+            &#125;
+        &#125;
+        <span class="hljs-comment">// 一定要执行remove操作，否则就会出错。（因为Tomcat服务器底层使用了线程池技术）</span>
+        conns.remove();
+    &#125;
+
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 关闭连接，放回数据库连接池</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> conn</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">    public static void close(Connection conn)&#123;</span>
+<span class="hljs-comment">        if (conn != null) &#123;</span>
+<span class="hljs-comment">            try &#123;</span>
+<span class="hljs-comment">                conn.close();</span>
+<span class="hljs-comment">            &#125; catch (SQLException e) &#123;</span>
+<span class="hljs-comment">                e.printStackTrace();</span>
+<span class="hljs-comment">            &#125;</span>
+<span class="hljs-comment">        &#125;</span>
+<span class="hljs-comment">    &#125; */</span>
+
+&#125;</code></pre>
+
+<p>一上面的代码为例,从数据库连接池获取的连接被保存在ThreadLocal中,确保了所有操作都是在同一连接中,这样保证了事务的可行性.一个用户进入tomcat,就是一个线程,一个线程就只有一个连接.在代码里有<code>conns.remove</code>,就是避免多线程时一个用户不用了,该线程连带ThreadLocal中的值被其他线程使用.</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/java/">java</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/06/27/Servlet/">
+                        <span class="hidden-mobile">Servlet</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "ThreadLocal&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
