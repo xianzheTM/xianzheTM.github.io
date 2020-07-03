@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="希望这里能见证一个菜鸟到大神的路程">
+  <meta name="author" content="xianzheTM">
+  <meta name="keywords" content="">
+  <title>Spring-AOP - 新日暮里</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-07-02 11:09">
+      2020年7月2日 上午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      787 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      10
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>AOP,不通过修改源代码的方式添加新功能.</p>
+<p>AOP使用动态代理实现功能增强.如果有接口,使用JDK动态代理,如果没有接口,使用CGLIB动态代理.前者是创建接口的实现类来增强被代理类功能.后者是通过创建子类来实现功能增强.</p>
+<p>连接点:类里面哪些方法可以被增强,这些方法成为连接点.</p>
+<p>切入点:实际被增强的方法就是切入点</p>
+<p>通知(增强):实际增强的逻辑部分,有五种类型,前置通知,后置通知,环绕通知,异常通知,最终通知.</p>
+<p>切面:是一种行为动作,把通知应用到切入点的过程.例如在登录前做日志记录之中前置通知就是切面.</p>
+<p>利用AspectJ实现AOP操作:</p>
+<p>切入点表达式:表示对类里哪个方法进行增强</p>
+<p>语法:execution([权限修饰符][返回类型][类的全类名]<a href="[参数列表]">方法名称</a>)</p>
+<p>例子:对com.company里UserDao的add方法增强:</p>
+<p>execution(* com.compony.UserDao.add(..))    //*表示所有修饰符,..表示方法参数,返回类型被省略</p>
+<p>例子:对对com.company里UserDao的所有方法增强:</p>
+<p>execution(* com.compony.UserDao.*(..)) </p>
+<p>对com.company里所有类的所有方法增强:</p>
+<p>execution(* com.compony.*.*(..)) </p>
+<p>进行通知的配置:先在spring中开启注解扫描,使用注解创建User和UserProxy对象,在增强类上添加注解,在spring配置文件中开启生成代理对象,然后配置不同类型的通知(在作为通知的方法上添加不同类型的注解和切入点表达式).</p>
+<p>示例:</p>
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.company.aopanno;
+
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Component;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> xianzheTM</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@version</span> 1.0</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2020/7/2 16:43</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-comment">//被增强类</span>
+<span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.println(<span class="hljs-string">"add"</span>);
+    &#125;
+&#125;</code></pre>
+
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> com.company.aopanno;
+
+<span class="hljs-keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;
+<span class="hljs-keyword">import</span> org.aspectj.lang.annotation.*;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Component;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> xianzheTM</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@version</span> 1.0</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2020/7/2 16:45</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-comment">//增强类</span>
+<span class="hljs-meta">@Component</span>
+<span class="hljs-meta">@Aspect</span><span class="hljs-comment">//表示生成代理对象</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserProxy</span> </span>&#123;
+    <span class="hljs-comment">//前置通知</span>
+    <span class="hljs-meta">@Before</span>(value = <span class="hljs-string">"execution(* com.company.aopanno.User.add(..))"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">before</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.println(<span class="hljs-string">"Before"</span>);
+    &#125;
+
+    <span class="hljs-meta">@After</span>(value = <span class="hljs-string">"execution(* com.company.aopanno.User.add(..))"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">after</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.println(<span class="hljs-string">"After"</span>);
+    &#125;
+
+    <span class="hljs-meta">@AfterReturning</span>(value = <span class="hljs-string">"execution(* com.company.aopanno.User.add(..))"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">afterReturn</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.println(<span class="hljs-string">"AfterReturning"</span>);
+    &#125;
+
+    <span class="hljs-meta">@AfterThrowing</span>(value = <span class="hljs-string">"execution(* com.company.aopanno.User.add(..))"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">afterThrowing</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.println(<span class="hljs-string">"AfterThrowing"</span>);
+    &#125;
+
+    <span class="hljs-meta">@Around</span>(value = <span class="hljs-string">"execution(* com.company.aopanno.User.add(..))"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">around</span><span class="hljs-params">(ProceedingJoinPoint proceedingJoinPoint)</span> <span class="hljs-keyword">throws</span> Throwable </span>&#123;
+        System.out.println(<span class="hljs-string">"环绕之前"</span>);
+        <span class="hljs-comment">//被增强的方法执行,方法可能有返回值</span>
+        Object proceed = proceedingJoinPoint.proceed();
+        System.out.println(<span class="hljs-string">"环绕之后"</span>);
+        <span class="hljs-keyword">return</span> proceed;
+    &#125;
+&#125;</code></pre>
+
+<p>After是最终通知,不管有没有异常都会执行,而AfterReturning遇到异常就不会执行.<br>现在调用User中的add方法结果如下:</p>
+<pre><code class="hljs pgsql">环绕之前
+<span class="hljs-keyword">Before</span>
+<span class="hljs-keyword">add</span>
+AfterReturning
+<span class="hljs-keyword">After</span>
+环绕之后</code></pre>
+
+<p>上面的代码可以做公共切入点的提取:</p>
+<pre><code class="hljs java"> <span class="hljs-meta">@Pointcut</span>(value = <span class="hljs-string">"execution(* com.company.aopanno.User.add(..))"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">pointdemo</span><span class="hljs-params">()</span> </span>&#123;
+
+&#125;
+
+<span class="hljs-comment">//前置通知</span>
+<span class="hljs-meta">@Before</span>(value = <span class="hljs-string">"pointdemo()"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">before</span><span class="hljs-params">()</span> </span>&#123;
+    System.out.println(<span class="hljs-string">"Before"</span>);
+&#125;</code></pre>
+
+<p>如果有多个增强类给一个切点,那么可以用@Order注解设置顺序.</p>
+<p>完全注解的方式:只需要在原来的配置类上加上注解@EnableAspectJAutoProxy,表示开启Aspectj生成代理对象.</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/spring/">spring</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/07/02/JdbcTemplate/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JdbcTemplate</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/07/01/Spring-IOC/">
+                        <span class="hidden-mobile">Spring</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Spring-AOP&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

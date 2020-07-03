@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="希望这里能见证一个菜鸟到大神的路程">
+  <meta name="author" content="xianzheTM">
+  <meta name="keywords" content="">
+  <title>JdbcTemplate - 新日暮里</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-07-02 20:57">
+      2020年7月2日 晚上
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      25
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>spring对jdbc进行了封装,使用JdbcTemplate方便实现对数据库操作.</p>
+<p>一些准备工作:</p>
+<p>配置数据库连接池,将JdbcTemplate加入Bean管理,开启组件扫描.</p>
+<pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://www.springframework.org/schema/beans"</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema-instance"</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:context</span>=<span class="hljs-string">"http://www.springframework.org/schema/context"</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd</span></span>
+<span class="hljs-tag"><span class="hljs-string">http://www.springframework.org/schema/context http://www.springframework.org/schema/beans/spring-context.xsd"</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">context:property-placeholder</span> <span class="hljs-attr">location</span>=<span class="hljs-string">"classpath:../druid.properties"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"dataSource"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"com.alibaba.druid.pool.DruidDataSource"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"driverClassName"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"$&#123;driverClassName&#125;"</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"url"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"$&#123;url&#125;"</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"username"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"$&#123;username&#125;"</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"password"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"$&#123;password&#125;"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+
+    <span class="hljs-comment">&lt;!--JdbcTemplate对象--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"jdbcTemplate"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"org.springframework.jdbc.core.JdbcTemplate"</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--注入dataSource,前一个是JdbcTemplate中的属性,set方法注入--&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"dataSource"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"dataSource"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">context:component-scan</span> <span class="hljs-attr">base-package</span>=<span class="hljs-string">"dao,service"</span>/&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span></code></pre>
+
+<p>BookService和BookDaoImpl代码;</p>
+<pre><code class="hljs java"><span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BookService</span> </span>&#123;
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> BookDao bookDao;
+&#125;
+
+<span class="hljs-meta">@Repository</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BookDaoImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">BookDao</span> </span>&#123;
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> JdbcTemplate jdbcTemplate;
+&#125;</code></pre>
+
+<p>具体的add方法.</p>
+<pre><code class="hljs java"><span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">(Book book)</span> </span>&#123;
+    <span class="hljs-comment">//language=MySQL</span>
+    String sql = <span class="hljs-string">"insert into test.book values (?,?)"</span>;
+    <span class="hljs-keyword">int</span> update = jdbcTemplate.update(sql, <span class="hljs-keyword">null</span>, book.getName());
+    System.out.println(update);
+&#125;</code></pre>
+
+<p>增删改的错做都差不多,下面看下查:</p>
+<p>返回某个值的查询:</p>
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">selectCount</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-comment">//language=MySQL</span>
+    String sql = <span class="hljs-string">"select count(*) from test.book"</span>;
+    <span class="hljs-keyword">return</span> jdbcTemplate.queryForObject(sql, Integer<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+&#125;</code></pre>
+
+<p>查询返回对象:</p>
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> Book <span class="hljs-title">findBookInfo</span><span class="hljs-params">(String id)</span> </span>&#123;
+    <span class="hljs-comment">//language=MySQL</span>
+    String sql = <span class="hljs-string">"select * from test.book where id=?"</span>;
+    <span class="hljs-keyword">return</span> jdbcTemplate.queryForObject(sql, <span class="hljs-keyword">new</span> BeanPropertyRowMapper&lt;Book&gt;(Book<span class="hljs-class">.<span class="hljs-keyword">class</span>), <span class="hljs-title">id</span>)</span>;
+&#125;</code></pre>
+<p>RowMapper接口类似于DBUtils里的handler,针对不同的返回值有不同的实现,这里是返回对象,所以用BeanPropertyRowMapper.</p>
+<p>返回一个集合:</p>
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;Book&gt; <span class="hljs-title">findAllBookInfo</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-comment">//language=MySQL</span>
+    String sql = <span class="hljs-string">"select * from book;"</span>;
+    <span class="hljs-keyword">return</span> jdbcTemplate.query(sql, <span class="hljs-keyword">new</span> BeanPropertyRowMapper&lt;Book&gt;(Book<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+&#125;</code></pre>
+
+<p>批量添加:</p>
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">batchAddBook</span><span class="hljs-params">(List&lt;Object[]&gt; batchArgs)</span> </span>&#123;
+    <span class="hljs-comment">//language=MySQL</span>
+    String sql = <span class="hljs-string">"insert into book values (?,?)"</span>;
+    jdbcTemplate.batchUpdate(sql, batchArgs);
+&#125;</code></pre>
+
+<p>批量修改和删除与此类似.</p>
+<p>事务的操作:</p>
+<p>在UserDaoImpl中有增加钱和减少钱的方法.而在UserService中有一个利用这两个方法的转账方法.</p>
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">accountMoney</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-keyword">try</span>&#123;
+        userDAo.reduceMoney();
+
+        userDao.addMoney();
+        <span class="hljs-comment">//没有异常提交事务</span>
+    &#125;<span class="hljs-keyword">catch</span>(Exception e)&#123;
+        <span class="hljs-comment">//有异常,回滚事务</span>
+    &#125;
+&#125;</code></pre>
+
+<p>事务的添加一般在Service层.用Spring管理事务有编程式和声明式两种.前一种就是上面那样写代码,不常用.后一种有注解和xml两种实现.</p>
+<p>Spring中的事务管理提供了一个接口:PlatformTransactionManager,它针对不同的框架实现不同的实现类.</p>
+<pre><code class="hljs xml"><span class="hljs-comment">&lt;!--创建事务管理器--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"transactionManager"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--注入数据源--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"dataSource"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"dataSource"</span>/&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span></code></pre>
+
+<p>在spring配置文件中开启事务注解要引入名称空间tx.</p>
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://www.springframework.org/schema/beans"</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema-instance"</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:context</span>=<span class="hljs-string">"http://www.springframework.org/schema/context"</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xmlns:tx</span>=<span class="hljs-string">"http://www.springframework.org/schema/tx"</span></span>
+<span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd</span></span>
+<span class="hljs-tag"><span class="hljs-string">http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd</span></span>
+<span class="hljs-tag"><span class="hljs-string">http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"</span>&gt;</span>
+<span class="hljs-comment">&lt;!--开启事务注解--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">tx:annotation-driven</span> <span class="hljs-attr">transaction-manager</span>=<span class="hljs-string">"transactionManager"</span>/&gt;</span></code></pre>
+
+<p>然后在service的类或者类里的方法上加上事务的注解.</p>
+<p>@Transactional注解可以加到类上,也可以加到方法上.该注解还有几个重要的属性:</p>
+<p><strong>propagation</strong>:事务的传播行为,多事务方法之间进行调用,这个过程中事务是如何进行管理的.事务方法指对数据库进行变化的操作.在add方法(加了事务)中调用update方法(没加事务)时,事务如何管理,前者如何影响后者.或者没有事务的调用有事务的,或者两个都有事务之间的调用.</p>
+<p>一共有七种行为:</p>
+<p><strong>required</strong>:<strong>如果有事务在运行就在这个事务内运行,否则就启动一个新事务,并在自己的事务内运行.add(有事务)调用update(没事务),update在add的事务中运行.若是add和update都没事务那就没事务.若是add没事务,update有事务就在update自己的事务中运行.</strong></p>
+<p><strong>required_new</strong>:<strong>当前的方法必须启动新事务,并在自己的事务中运行.如果有事务在运行就把旧事务挂起.</strong></p>
+<p><strong>supports</strong>:如果有事务就在事务中运行,否则可以不在事务中运行.</p>
+<p><strong>not_supported</strong>:以非事务方式执行操作，如果当前存在事务，就把当前事务挂起</p>
+<p><strong>nerver</strong>:当前方法不应该在事务中执行,如果有就抛异常</p>
+<p><strong>nested</strong>:如果有事务,当前方法就在该事务中嵌套事务内运行,否则就启动一个新事务在里面运行.</p>
+<p><strong>mandatory</strong>:当前方法必须在事务内运行,如果没有事务就抛异常</p>
+<p><strong>isolation</strong>:隔离级别</p>
+<p><strong>timeout</strong>:超时时间,事务提交的时限,超过时间后不提交就会回滚.默认值为-1,手动设置单位为秒</p>
+<p><strong>readOnly</strong>:是否只读</p>
+<p><strong>rollbackFor</strong>:回滚,设置出现哪些异常进行回滚</p>
+<p><strong>noRollbackFor</strong>:不回滚,设置出现哪些异常不进行回滚</p>
+<p>基于xml实现事务管理,仍旧需要用xml配置事务管理器和数据源:</p>
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">tx:advice</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"txadvice"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">tx:attributes</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">tx:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"accountMoney"</span> <span class="hljs-attr">propagation</span>=<span class="hljs-string">"REQUIRED"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tx:attributes</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">tx:advice</span>&gt;</span>
+<span class="hljs-comment">&lt;!--配置切入点和切面--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">aop:config</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--配置切入点--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aop:pointcut</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"pt"</span> <span class="hljs-attr">expression</span>=<span class="hljs-string">"execution(* service.*(..))"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aop:advisor</span> <span class="hljs-attr">advice-ref</span>=<span class="hljs-string">"txadvice"</span> <span class="hljs-attr">pointcut-ref</span>=<span class="hljs-string">"pt"</span>/&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">aop:config</span>&gt;</span></code></pre>
+
+<p>完全注解实现:</p>
+<pre><code class="hljs java"><span class="hljs-keyword">import</span> com.alibaba.druid.pool.DruidDataSource;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Bean;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.ComponentScan;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;
+<span class="hljs-keyword">import</span> org.springframework.jdbc.core.JdbcTemplate;
+<span class="hljs-keyword">import</span> org.springframework.jdbc.datasource.DataSourceTransactionManager;
+<span class="hljs-keyword">import</span> org.springframework.transaction.annotation.EnableTransactionManagement;
+
+<span class="hljs-keyword">import</span> javax.sql.DataSource;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> xianzheTM</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@version</span> 1.0</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2020/7/3 14:39</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Configuration</span>
+<span class="hljs-meta">@ComponentScan</span>(basePackages = <span class="hljs-string">"service"</span>)
+<span class="hljs-meta">@EnableTransactionManagement</span><span class="hljs-comment">//开启事务</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">config</span> </span>&#123;
+    <span class="hljs-comment">//创建数据库连接池</span>
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> DruidDataSource <span class="hljs-title">getDruidDataSource</span><span class="hljs-params">()</span> </span>&#123;
+        DruidDataSource dataSource = <span class="hljs-keyword">new</span> DruidDataSource();
+        dataSource.setDriverClassName(<span class="hljs-string">"com.mysql.cj.jdbc.Driver"</span>);
+        dataSource.setUrl(<span class="hljs-string">"jdbc:mysql://127.0.0.1:3306/test?rewriteBatchedStatements=true&amp;serverTimezone=GMT"</span>);
+        dataSource.setUsername(<span class="hljs-string">"root"</span>);
+        dataSource.setPassword(<span class="hljs-string">"root"</span>);
+        <span class="hljs-keyword">return</span> dataSource;
+    &#125;
+
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> JdbcTemplate <span class="hljs-title">getJdbcTemplate</span><span class="hljs-params">(DataSource dataSource)</span> </span>&#123;
+        JdbcTemplate jdbcTemplate = <span class="hljs-keyword">new</span> JdbcTemplate();
+        jdbcTemplate.setDataSource(dataSource);
+        <span class="hljs-keyword">return</span> jdbcTemplate;
+    &#125;
+
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> DataSourceTransactionManager <span class="hljs-title">getDataSourceTransactionManager</span><span class="hljs-params">(DataSource dataSource)</span> </span>&#123;
+        DataSourceTransactionManager dataSourceTransactionManager = <span class="hljs-keyword">new</span> DataSourceTransactionManager();
+        dataSourceTransactionManager.setDataSource(dataSource);
+        <span class="hljs-keyword">return</span> dataSourceTransactionManager;
+    &#125;
+&#125;</code></pre>
+
+<p>补充:</p>
+<p>spring中用junit4测试:</p>
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> Test;
+
+<span class="hljs-keyword">import</span> org.junit.Test;
+<span class="hljs-keyword">import</span> org.junit.runner.RunWith;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+<span class="hljs-keyword">import</span> org.springframework.test.context.ContextConfiguration;
+<span class="hljs-keyword">import</span> org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+<span class="hljs-keyword">import</span> service.BookService;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> xianzheTM</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@version</span> 1.0</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2020/7/3 15:45</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@RunWith</span>(SpringJUnit4ClassRunner<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+@ContextConfiguration("classpath:bean.xml")
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JTest4</span> </span>&#123;
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> BookService bookService;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test1</span><span class="hljs-params">()</span> </span>&#123;
+        bookService.findCount();
+    &#125;
+&#125;</code></pre>
+
+<p>基于junit5的测试</p>
+<pre><code class="hljs java"><span class="hljs-keyword">package</span> Test;
+
+<span class="hljs-keyword">import</span> org.junit.jupiter.api.Test;
+<span class="hljs-keyword">import</span> org.junit.jupiter.api.extension.ExtendWith;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+<span class="hljs-keyword">import</span> org.springframework.test.context.ContextConfiguration;
+<span class="hljs-keyword">import</span> org.springframework.test.context.junit.jupiter.SpringExtension;
+<span class="hljs-keyword">import</span> service.BookService;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> xianzheTM</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@version</span> 1.0</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2020/7/3 16:01</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@ExtendWith</span>(SpringExtension<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+@ContextConfiguration("classpath:bean.xml")
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JTest5</span> </span>&#123;
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> BookService bookService;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">()</span> </span>&#123;
+        bookService.findCount();
+    &#125;
+&#125;</code></pre>
+
+<p>测试类上的两个注解可以简化为一个:<code>@SpringJUnitConfig(locations = &quot;classpath:bean.xml&quot;)</code></p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/spring/">spring</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/07/03/Webflux/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Webflux</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/07/02/Spring-AOP/">
+                        <span class="hidden-mobile">Spring-AOP</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "JdbcTemplate&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

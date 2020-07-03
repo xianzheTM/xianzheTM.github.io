@@ -168,6 +168,143 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/03/Webflux/">Webflux</a>
+
+      <a href="/2020/07/03/Webflux/" class="index-excerpt">
+        
+        
+          
+        
+        <div></div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-03
+          </div>
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/02/JdbcTemplate/">JdbcTemplate</a>
+
+      <a href="/2020/07/02/JdbcTemplate/" class="index-excerpt">
+        
+        
+          
+        
+        <div>spring对jdbc进行了封装,使用JdbcTemplate方便实现对数据库操作.
+一些准备工作:
+配置数据库连接池,将JdbcTemplate加入Bean管理,开启组件扫描.
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+   </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-02
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/spring/">spring</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/02/Spring-AOP/">Spring-AOP</a>
+
+      <a href="/2020/07/02/Spring-AOP/" class="index-excerpt">
+        
+        
+          
+        
+        <div>AOP,不通过修改源代码的方式添加新功能.
+AOP使用动态代理实现功能增强.如果有接口,使用JDK动态代理,如果没有接口,使用CGLIB动态代理.前者是创建接口的实现类来增强被代理类功能.后者是通过创建子类来实现功能增强.
+连接点:类里面哪些方法可以被增强,这些方法成为连接点.
+切入点:实际被增强的方法就是切入点
+通知(增强):实际增强的逻辑部分,有五种类型,前置通知,后置通知,环绕通知,异常通知</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-02
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/spring/">spring</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/07/01/Spring-IOC/">Spring</a>
+
+      <a href="/2020/07/01/Spring-IOC/" class="index-excerpt">
+        
+        
+          
+        
+        <div>IOC容器(1).控制反转,把对象的创建和对象间的调用过程交给spring管理
+(2).使用IOC目的,降低耦合度
+IOC原理xml解析,工厂模式,反射
+对象之间的相互调用的原始方式是直接在A类中new一个B类对象,这样耦合度太高.改进就是用工厂,在工厂中创建对象.而IOC就是用xml解析得到bean的类名,然后在工厂中根据类名创建对象,进一步降低耦合.IOC的底层就是对象工厂.spring提供两</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-07-01
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/spring/">spring</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2020/06/30/json-ajax/">json ajax</a>
 
       <a href="/2020/06/30/json-ajax/" class="index-excerpt">
@@ -394,171 +531,11 @@ Comparator&lt;Integer&gt; comparator = new Comparator&lt;&gt;() &#123;
     </div>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/06/07/%E5%8F%8D%E5%B0%84/">反射</a>
-
-      <a href="/2020/06/07/%E5%8F%8D%E5%B0%84/" class="index-excerpt">
-        
-        
-          
-        
-        <div>下面是反射的用处的一些展示：
-package com.ylxianzhe.Reflect;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
-public class Test &#123;
-    @org.junit.Test
-    </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-06-07
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/java/">java</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/06/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
-
-      <a href="/2020/06/04/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="index-excerpt">
-        
-        
-          
-        
-        <div>@org.junit.Test
-public void test1() &#123;
-    InetAddress inet = null;
-    InetAddress localHost = null;
-    try &#123;
-        inet = InetAddress.getByName("www.baidu.com");//通过域名或则IP地址实例化
-        l</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-06-04
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/java/">java</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/06/01/IO%E6%B5%81%EF%BC%88%E5%A4%8D%E4%B9%A07%EF%BC%89/">IO流（复习7）</a>
-
-      <a href="/2020/06/01/IO%E6%B5%81%EF%BC%88%E5%A4%8D%E4%B9%A07%EF%BC%89/" class="index-excerpt">
-        
-        
-          
-        
-        <div>File类File类表示文件或者文件目录。File一般用于IO流的构造器，代表文件操作的起点和终点。
-package com.ylxianzhe.File;
-
-import org.junit.Test;
-
-import java.io.File;
-import java.io.IOException;
-
-public class FileTest &#123;
-    @Test
-    pub</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-06-01
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/java/">java</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/29/%E9%9B%86%E5%90%88%EF%BC%88%E5%A4%8D%E4%B9%A06%EF%BC%89/">集合（复习6）</a>
-
-      <a href="/2020/05/29/%E9%9B%86%E5%90%88%EF%BC%88%E5%A4%8D%E4%B9%A06%EF%BC%89/" class="index-excerpt">
-        
-        
-          
-        
-        <div>Java集合分为Collection接口和Map接口两个体系。Collection又分为List接口和Set接口，List元素有序，可重复。Set元素无序，不可重复。Map则是键值对。
-List：ArrayList,LinkedList,Vector
-Set:HashSet,LinkedHashSet,TreeSet
-Map:HashMap,LinkedHashMap,TreeMap,HashTa</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-29
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/java/">java</a>
-            
-          </div>
-        
-      </div>
-    </div>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/"><i class="iconfont icon-arrowright"></i></a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   
