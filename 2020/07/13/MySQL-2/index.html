@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      7.4k 字
+      7.6k 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      89
+      91
        分钟
     </span>
   
@@ -591,7 +591,8 @@
 
 <p>现在只有一个dataNode,名字为dn1.修改balance.</p>
 <p>具体架构如下:<br><img src="/2020/07/13/MySQL-2/%E7%BB%93%E6%9E%84.jpg" srcset="/img/loading.gif" alt="结构"></p>
-<h2 id="分库"><a href="#分库" class="headerlink" title="分库"></a>分库</h2><p>重要原则:要分库的表不能和另外的库里的表有关联.因为在不同机器上的不同库中的表不能join关联.</p>
+<h2 id="分库"><a href="#分库" class="headerlink" title="分库"></a>分库</h2><p>分库有水平分库和垂直分库两类,下面演示的是垂直分库.</p>
+<p>重要原则:要分库的表不能和另外的库里的表有关联.因为在不同机器上的不同库中的表不能join关联.</p>
 <p>设置分库:将库中的某一张表分离到另一个库中.</p>
 <p>具体配置如下:</p>
 <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">mycat:schema</span> <span class="hljs-attr">xmlns:mycat</span>=<span class="hljs-string">"http://io.mycat/"</span>&gt;</span>
@@ -627,7 +628,9 @@
 <p>图中没画dn1的readHost</p>
 </blockquote>
 <p><strong>当配置完成后再去创建相关的库.</strong>此外,建表的操作要在mycat中进行,mycat会拦截建表操作,发现建的是customer表就会在dn2(test_sm)中创建(假定为Linux),其他表就在dn1(test_mc)中创建.如果绕过mycat直接去查看两个数据库,则会在test_sm中看到只有customer表.<strong>所谓的分库是对于逻辑库来说,一个逻辑上的库的表放在物理上的不同库中</strong></p>
-<h2 id="分表"><a href="#分表" class="headerlink" title="分表"></a>分表</h2><p>对于order订单表进行分表操作,首先在schema.xml的schema标签的table子标签添加这张表,并且dataNode写明表被分到哪去.</p>
+<p>而水平分库则是将一张大表拆分到两个数据库中.</p>
+<h2 id="分表"><a href="#分表" class="headerlink" title="分表"></a>分表</h2><p>分表也分为水平分表和垂直分表.</p>
+<p>对于order订单表进行分表操作,首先在schema.xml的schema标签的table子标签添加这张表,并且dataNode写明表被分到哪去.</p>
 <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">schema</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"TESTDB"</span> <span class="hljs-attr">checkSQLschema</span>=<span class="hljs-string">"false"</span> <span class="hljs-attr">sqlMaxLimit</span>=<span class="hljs-string">"100"</span> <span class="hljs-attr">dataNode</span>=<span class="hljs-string">"dn1"</span>&gt;</span>
 		<span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"customer"</span> <span class="hljs-attr">dataNode</span>=<span class="hljs-string">"dn2"</span> &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span>
 		<span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"orders"</span> <span class="hljs-attr">dataNode</span>=<span class="hljs-string">"dn1,dn2"</span>  <span class="hljs-attr">rule</span>=<span class="hljs-string">"mod_rule"</span> &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span>
@@ -651,6 +654,7 @@
 
 <p>配置完成后在dn1和dn2中新建表(直接在物理库中,不是mycat中).</p>
 <p>插入数据则在mycat中进行.</p>
+<p>上面的分表严格来说叫水平分库分表,因为表的数据被拆分后放在不同的数据库中.</p>
 <p>现在有一张新表,订单详情表,该表含有order表的id作为外键.订单详情表作为订单表的”小弟”.</p>
 <p>如果在dn2中新建这张表并且插入数据,然后查询时join这张表和订单表,结果是出现错误.因为mycat拦截查询后,在dn2中有一部分订单表和全部订单详情表,可以正常查到,而在dn1中只有另一部分订单表,查不到,报错,因此mycat就会返回错误信息.</p>
 <p>所有订单详情表也要分表,而且这个表和订单表关系紧密,所以要用childtable标签把该表作为订单表的子表.</p>
@@ -664,6 +668,8 @@
 <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"dict_order_type"</span> <span class="hljs-attr">dataNode</span>=<span class="hljs-string">"dn1,dn2"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"global"</span> &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span></code></pre>
 
 <p>配置一个global类型即可.</p>
+<p>还有一种垂直分表,一般在数据库设计之初就进行,把一些字段分为两部分,不放在一个表里.</p>
+<p>总结:分库就是把数据拆分到多个数据库,分表就是把一个表拆为多个表;垂直拆分就是拆开表里的字段分开放或者拆开库里的表分开放,水平拆分就是拆分表里的数据.</p>
 <h2 id="全局序列"><a href="#全局序列" class="headerlink" title="全局序列"></a>全局序列</h2><p>id这种应该自增,但是分表后不能自增的字段,需要全局序列.这个序列生成有多种方式,其中本地文件和时间戳方式不推荐.可以使用数据库方式:</p>
 <p>利用数据库一个表 来进行计数累加。但是并不是每次生成序列都读写数据库，这样效率太低</p>
 <p>mycat会预加载一部分号段到mycat的内存中，这样大部分读写序列都是在内存中完成的。<br>如果内存中的号段用完了 mycat会再向数据库要一次。</p>
