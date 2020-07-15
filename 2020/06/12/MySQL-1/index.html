@@ -1416,46 +1416,45 @@ start transaction;#可选的</code></pre>
 <span class="hljs-keyword">where</span> <span class="hljs-keyword">id</span> = <span class="hljs-number">2</span>;
 <span class="hljs-keyword">rollback</span> <span class="hljs-keyword">to</span> a;</code></pre>
 
-<h1 id="视图"><a href="#视图" class="headerlink" title="视图:"></a>视图:</h1><pre><code class="hljs sql"><span class="hljs-comment">/*</span>
-<span class="hljs-comment">虚拟表,和普通表一样使用,该表不是真实存在的.</span>
-<span class="hljs-comment">/*</span>
-<span class="hljs-comment">use myemployees;</span>
-<span class="hljs-comment">select employee_id, last_name, job_title</span>
-<span class="hljs-comment">from employees</span>
-<span class="hljs-comment">         inner join jobs j on employees.job_id = j.job_id</span>
-<span class="hljs-comment">where employee_id &lt; 140;</span>
-<span class="hljs-comment"></span>
-<span class="hljs-comment">create view v1#创建一个视图</span>
-<span class="hljs-comment">as</span>
-<span class="hljs-comment">select employee_id, last_name, job_title</span>
-<span class="hljs-comment">from employees</span>
-<span class="hljs-comment">         inner join jobs j on employees.job_id = j.job_id;</span>
-<span class="hljs-comment"></span>
-<span class="hljs-comment">select *</span>
-<span class="hljs-comment">from v1</span>
-<span class="hljs-comment">where employee_id &lt; 140;</span>
-<span class="hljs-comment"></span>
-<span class="hljs-comment">create or replace view v1#修改视图方式一</span>
-<span class="hljs-comment">as</span>
-<span class="hljs-comment">select employee_id, last_name, job_title</span>
-<span class="hljs-comment">from employees</span>
-<span class="hljs-comment">         inner join jobs j on employees.job_id = j.job_id;</span>
-<span class="hljs-comment"></span>
-<span class="hljs-comment">alter view myemployees.v1#方式二</span>
-<span class="hljs-comment">    as</span>
-<span class="hljs-comment">        select employee_id, last_name, job_title</span>
-<span class="hljs-comment">        from employees</span>
-<span class="hljs-comment">                 inner join jobs j on employees.job_id = j.job_id</span>
-<span class="hljs-comment"></span>
-<span class="hljs-comment">drop view v1,v2...#删除视图</span>
-<span class="hljs-comment"></span>
-<span class="hljs-comment">desc myemployees.v1;</span>
-<span class="hljs-comment">show create view myemployees.v1;</span>
-<span class="hljs-comment"></span>
-<span class="hljs-comment">delete from v2 where employee_id=233;</span>
-<span class="hljs-comment"></span>
-<span class="hljs-comment">insert into myemployees.v2 (employee_id, last_name)#对视图插入数据,原始表也会有相应数据</span>
-<span class="hljs-comment">values ('99', 'test');</span></code></pre>
+<h1 id="视图"><a href="#视图" class="headerlink" title="视图:"></a>视图:</h1><pre><code class="hljs sql">虚拟表,和普通表一样使用,该表不是真实存在的.
+
+<span class="hljs-keyword">use</span> myemployees;
+<span class="hljs-keyword">select</span> employee_id, last_name, job_title
+<span class="hljs-keyword">from</span> employees
+         <span class="hljs-keyword">inner</span> <span class="hljs-keyword">join</span> jobs j <span class="hljs-keyword">on</span> employees.job_id = j.job_id
+<span class="hljs-keyword">where</span> employee_id &lt; <span class="hljs-number">140</span>;
+
+<span class="hljs-keyword">create</span> <span class="hljs-keyword">view</span> v1<span class="hljs-comment">#创建一个视图</span>
+<span class="hljs-keyword">as</span>
+<span class="hljs-keyword">select</span> employee_id, last_name, job_title
+<span class="hljs-keyword">from</span> employees
+         <span class="hljs-keyword">inner</span> <span class="hljs-keyword">join</span> jobs j <span class="hljs-keyword">on</span> employees.job_id = j.job_id;
+
+<span class="hljs-keyword">select</span> *
+<span class="hljs-keyword">from</span> v1
+<span class="hljs-keyword">where</span> employee_id &lt; <span class="hljs-number">140</span>;
+
+<span class="hljs-keyword">create</span> <span class="hljs-keyword">or</span> <span class="hljs-keyword">replace</span> <span class="hljs-keyword">view</span> v1<span class="hljs-comment">#修改视图方式一</span>
+<span class="hljs-keyword">as</span>
+<span class="hljs-keyword">select</span> employee_id, last_name, job_title
+<span class="hljs-keyword">from</span> employees
+         <span class="hljs-keyword">inner</span> <span class="hljs-keyword">join</span> jobs j <span class="hljs-keyword">on</span> employees.job_id = j.job_id;
+
+<span class="hljs-keyword">alter</span> <span class="hljs-keyword">view</span> myemployees.v1<span class="hljs-comment">#方式二</span>
+    <span class="hljs-keyword">as</span>
+        <span class="hljs-keyword">select</span> employee_id, last_name, job_title
+        <span class="hljs-keyword">from</span> employees
+                 <span class="hljs-keyword">inner</span> <span class="hljs-keyword">join</span> jobs j <span class="hljs-keyword">on</span> employees.job_id = j.job_id
+
+<span class="hljs-keyword">drop</span> <span class="hljs-keyword">view</span> v1,v2...<span class="hljs-comment">#删除视图</span>
+
+<span class="hljs-keyword">desc</span> myemployees.v1;
+<span class="hljs-keyword">show</span> <span class="hljs-keyword">create</span> <span class="hljs-keyword">view</span> myemployees.v1;
+
+<span class="hljs-keyword">delete</span> <span class="hljs-keyword">from</span> v2 <span class="hljs-keyword">where</span> employee_id=<span class="hljs-number">233</span>;
+
+<span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> myemployees.v2 (employee_id, last_name)<span class="hljs-comment">#对视图插入数据,原始表也会有相应数据</span>
+<span class="hljs-keyword">values</span> (<span class="hljs-string">'99'</span>, <span class="hljs-string">'test'</span>);</code></pre>
 <p>对视图的修改是非常少的,一般不修改,并且很多视图也不能修改:</p>
 <p>sql语句包含分组函数,distinct,group by,having,union,union all</p>
 <p>常量视图<code>create view v3 as select &#39;john&#39; name;</code></p>
