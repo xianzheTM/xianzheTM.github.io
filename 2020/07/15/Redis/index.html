@@ -623,8 +623,7 @@ sentinel auth-pass mymaster <span class="hljs-number">123456</span></code></pre>
 <p>注意启动的顺序。<strong>首先是主机（192.168.11.128）的 Redis 服务进程，然后启动从机的服务进程，最后启动 3 个哨兵的服务进程。</strong></p>
 <p>以上关于主从复制和哨兵模式都是redis关于高可用,高并发的策略,但是都不是最终策略.Redis的终极策略是搭建Redis集群.</p>
 <h2 id="Redis集群"><a href="#Redis集群" class="headerlink" title="Redis集群"></a>Redis集群</h2><p><strong>一、redis-cluster 设计</strong><br>Redis-Cluster 采用无中心结构，每个节点保存数据和整个集群状态, 每个节点都和其他所有节点连接。  </p>
-<p><img src="http://upload-images.jianshu.io/upload_images/12185313-0f55e1cc574cae70.png" srcset="/img/loading.gif" alt></p>
-<p>redis.png</p>
+<p><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/20200717163629.png" srcset="/img/loading.gif" alt></p>
 <p>其结构特点：<br>1、所有的 redis 节点彼此互联 (PING-PONG 机制), 内部使用二进制协议优化传输速度和带宽。<br>2、节点的 fail 是通过集群中超过半数的节点检测失效时才生效。<br>3、客户端与 redis 节点直连, 不需要中间 proxy 层. 客户端不需要连接集群所有节点, 连接集群中任何一个可用节点即可。<br>4、redis-cluster 把所有的物理节点映射到 [0-16383]slot 上（不一定是平均分配）,cluster 负责维护 node&lt;-&gt;slot&lt;-&gt;value。<br>5、Redis 集群预分好 16384 个桶，当需要在 Redis 集群中放置一个 key-value 时，根据 CRC16(key) mod 16384 的值，决定将一个 key 放到哪个桶中。</p>
 <p><strong>a.redis cluster 节点分配</strong><br>现在我们是三个主节点分别是：A, B, C 三个节点，它们可以是一台机器上的三个端口，也可以是三台不同的服务器。那么，采用哈希槽 (hash slot) 的方式来分配 16384 个 slot 的话，它们三个节点分别承担的 slot 区间是：</p>
 <ul>
