@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      7k 字
+      10.2k 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      77
+      124
        分钟
     </span>
   
@@ -477,8 +477,7 @@ List&lt;Object&gt; list = transaction.exec();</code></pre>
 <p><img src="https://pics5.baidu.com/feed/8326cffc1e178a82c532308ef2117b8ba977e8ae.jpeg?token=fea28817e45f0e091b5be3854d856fbb&s=BD48B55F1C784C095E61DCEB0300D036" srcset="/img/loading.gif" alt></p>
 <p>对比了这几个特性，剩下的就是看自己了。</p>
 <p><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/%E8%BF%B7%E8%B7%AF%E5%B8%96.png" srcset="/img/loading.gif" alt></p>
-<h2 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h2><h3 id="什么是主从复制"><a href="#什么是主从复制" class="headerlink" title="什么是主从复制"></a>什么是主从复制</h3><p><img src="https://segmentfault.com/img/bVboOBE?w=378&h=176" srcset="/img/loading.gif" alt></p>
-<p>主从复制，是指将一台 Redis 服务器的数据，复制到其他的 Redis 服务器。前者称为主节点 (master)，后者称为从节点 (slave), 数据的复制是单向的，只能由主节点到从节点。</p>
+<h2 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h2><h3 id="什么是主从复制"><a href="#什么是主从复制" class="headerlink" title="什么是主从复制"></a>什么是主从复制</h3><p>主从复制，是指将一台 Redis 服务器的数据，复制到其他的 Redis 服务器。前者称为主节点 (master)，后者称为从节点 (slave), 数据的复制是单向的，只能由主节点到从节点。</p>
 <p>默认情况下，每台 Redis 服务器都是主节点；且一个主节点可以有多个从节点 (或没有从节点)，但一个从节点只能有一个主节点。</p>
 <h3 id="主从复制的作用"><a href="#主从复制的作用" class="headerlink" title="主从复制的作用"></a>主从复制的作用</h3><ol>
 <li>数据冗余：主从复制实现了数据的热备份，是持久化之外的一种数据冗余方式。</li>
@@ -489,29 +488,29 @@ List&lt;Object&gt; list = transaction.exec();</code></pre>
 </ol>
 <h2 id="主从复制启用"><a href="#主从复制启用" class="headerlink" title="主从复制启用"></a>主从复制启用</h2><p>从节点开启主从复制，有 3 种方式：</p>
 <ol>
-<li>配置文件： 在从服务器的配置文件中加入：slaveof <masterip> <masterport></masterport></masterip></li>
-<li>启动命令： redis-server 启动命令后加入 –slaveof <masterip> <masterport></masterport></masterip></li>
-<li>客户端命令： Redis 服务器启动后，直接通过客户端执行命令：slaveof <masterip><br><masterport>，则该 Redis 实例成为从节点。</masterport></masterip></li>
+<li>配置文件： 在从服务器的配置文件中加入：slaveof &lt;masterip&gt; &lt;masterport&gt;</li>
+<li>启动命令： redis-server 启动命令后加入 –slaveof &lt;masterip&gt; &lt;masterport&gt;</li>
+<li>客户端命令： Redis 服务器启动后，直接通过客户端执行命令：slaveof &lt;masterip&gt;<br>&lt;masterport&gt;，则该 Redis 实例成为从节点。</li>
 </ol>
 <blockquote>
 <p>通过  info replication 命令可以看到复制的一些信息</p>
 </blockquote>
 <h2 id="主从复制原理"><a href="#主从复制原理" class="headerlink" title="主从复制原理"></a>主从复制原理</h2><p>主从复制过程大体可以分为 3 个阶段：连接建立阶段（即准备阶段）、数据同步阶段、命令传播阶段。</p>
-<p>在从节点执行 slaveof 命令后，复制过程便开始运作，下面图示大概可以看到，<br>从图中可以看出复制过程大致分为 6 个过程<br><img src="https://segmentfault.com/img/bVboOB0?w=676&h=815" srcset="/img/loading.gif" alt></p>
+<p>在从节点执行 slaveof 命令后，复制过程便开始运作，下面图示大概可以看到，<br>从图中可以看出复制过程大致分为 6 个过程<br><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/20200717160722.png" srcset="/img/loading.gif" alt></p>
 <blockquote>
 <p>主从配置之后的日志记录也可以看出这个流程</p>
 </blockquote>
 <p>1）保存主节点（master）信息。<br>执行 slaveof 后 Redis 会打印如下日志：</p>
-<p><img src="https://segmentfault.com/img/bVboOCg?w=1014&h=36" srcset="/img/loading.gif" alt></p>
-<p>2）从节点（slave）内部通过每秒运行的定时任务维护复制相关逻辑，当定时任务发现存在新的主节点后，会尝试与该节点建立网络连接<br><img src="https://segmentfault.com/img/bVboOCh?w=587&h=132" srcset="/img/loading.gif" alt><br>从节点与主节点建立网络连接</p>
+<p><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/20200717160849.png" srcset="/img/loading.gif" alt></p>
+<p>2）从节点（slave）内部通过每秒运行的定时任务维护复制相关逻辑，当定时任务发现存在新的主节点后，会尝试与该节点建立网络连接<br><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/20200717160910.png" srcset="/img/loading.gif" alt><br>从节点与主节点建立网络连接</p>
 <p>从节点会建立一个 socket 套接字，从节点建立了一个端口为 51234 的套接字，专门用于接受主节点发送的复制命令。从节点连接成功后打印如下日志：</p>
-<p><img src="https://segmentfault.com/img/bVboOCj?w=469&h=37" srcset="/img/loading.gif" alt></p>
+<p><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/20200717161129.png" srcset="/img/loading.gif" alt></p>
 <p>如果从节点无法建立连接，定时任务会无限重试直到连接成功或者执行 slaveof no one 取消复制</p>
 <p>关于连接失败，可以在从节点执行 info replication 查看 master_link_down_since_seconds 指标，它会记录与主节点连接失败的系统时间。从节点连接主节点失败时也会每秒打印如下日志，方便发现问题：</p>
 <pre><code class="hljs sas"># <span class="hljs-meta">Error</span> condition <span class="hljs-meta">on</span> socket for SYNC: &#123;socket_error_reason&#125;</code></pre>
 
-<p>3）发送 ping 命令。<br>连接建立成功后从节点发送 ping 请求进行首次通信，ping 请求主要目的如下：<br>· 检测主从之间网络套接字是否可用。<br>· 检测主节点当前是否可接受处理命令。<br>如果发送 ping 命令后，从节点没有收到主节点的 pong 回复或者超时，比如网络超时或者主节点正在阻塞无法响应命令，从节点会断开复制连接，下次定时任务会发起重连。<br><img src="https://segmentfault.com/img/bVboOCC?w=464&h=426" srcset="/img/loading.gif" alt><br><img src="https://segmentfault.com/img/bVboOCD?w=385&h=388" srcset="/img/loading.gif" alt></p>
-<p>从节点发送的 ping 命令成功返回，Redis 打印如下日志，并继续后续复制流程：<br><img src="https://segmentfault.com/img/bVboOCE?w=587&h=21" srcset="/img/loading.gif" alt></p>
+<p>3）发送 ping 命令。<br>连接建立成功后从节点发送 ping 请求进行首次通信，ping 请求主要目的如下：<br>· 检测主从之间网络套接字是否可用。<br>· 检测主节点当前是否可接受处理命令。<br>如果发送 ping 命令后，从节点没有收到主节点的 pong 回复或者超时，比如网络超时或者主节点正在阻塞无法响应命令，从节点会断开复制连接，下次定时任务会发起重连。<br><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/20200717161041.png" srcset="/img/loading.gif" alt><br><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/20200717161113.png" srcset="/img/loading.gif" alt></p>
+<p>从节点发送的 ping 命令成功返回，Redis 打印如下日志，并继续后续复制流程：<br><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/20200717161129.png" srcset="/img/loading.gif" alt></p>
 <p>4）权限验证。如果主节点设置了 requirepass 参数，则需要密码验证，从节点必须配置 masterauth 参数保证与主节点相同的密码才能通过验证；如果验证失败复制将终止，从节点重新发起复制流程。</p>
 <p>5）同步数据集。主从复制连接正常通信后，对于首次建立复制的场景，主节点会把持有的数据全部发送给从节点，这部分操作是耗时最长的步骤。</p>
 <p>6）命令持续复制。当主节点把当前的数据同步给从节点后，便完成了复制的建立流程。接下来主节点会持续地把写命令发送给从节点，保证主从数据一致性。</p>
@@ -545,6 +544,304 @@ List&lt;Object&gt; list = transaction.exec();</code></pre>
 <p>当哨兵监测到 master 宕机，会自动将 slave 切换成 master，然后通过发布订阅模式通知其他的从服务器，修改配置文件，让它们切换主机。</p>
 <p>然而一个哨兵进程对 Redis 服务器进行监控，可能会出现问题，为此，我们可以使用多个哨兵进行监控。各个哨兵之间还会进行监控，这样就形成了多哨兵模式。</p>
 <p>用文字描述一下故障切换（failover）的过程。假设主服务器宕机，哨兵 1 先检测到这个结果，系统并不会马上进行 failover 过程，仅仅是哨兵 1 主观的认为主服务器不可用，这个现象成为主观下线。当后面的哨兵也检测到主服务器不可用，并且数量达到一定值时，那么哨兵之间就会进行一次投票，投票的结果由一个哨兵发起，进行 failover 操作。切换成功后，就会通过发布订阅模式，让各个哨兵把自己监控的从服务器实现切换主机，这个过程称为客观下线。这样对于客户端而言，一切都是透明的。</p>
+<h2 id="二、Redis-配置哨兵模式"><a href="#二、Redis-配置哨兵模式" class="headerlink" title="二、Redis 配置哨兵模式"></a>二、Redis 配置哨兵模式</h2><p>配置 3 个哨兵和 1 主 2 从的 Redis 服务器来演示这个过程。</p>
+<table>
+<thead>
+<tr>
+<th>服务类型</th>
+<th>是否是主服务器</th>
+<th>IP 地址</th>
+<th>端口</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Redis</td>
+<td>是</td>
+<td>192.168.11.128</td>
+<td>6379</td>
+</tr>
+<tr>
+<td>Redis</td>
+<td>否</td>
+<td>192.168.11.129</td>
+<td>6379</td>
+</tr>
+<tr>
+<td>Redis</td>
+<td>否</td>
+<td>192.168.11.130</td>
+<td>6379</td>
+</tr>
+<tr>
+<td>Sentinel</td>
+<td>-</td>
+<td>192.168.11.128</td>
+<td>26379</td>
+</tr>
+<tr>
+<td>Sentinel</td>
+<td>-</td>
+<td>192.168.11.129</td>
+<td>26379</td>
+</tr>
+<tr>
+<td>Sentinel</td>
+<td>-</td>
+<td>192.168.11.130</td>
+<td>26379</td>
+</tr>
+</tbody></table>
+<p><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/20200717161324.png" srcset="/img/loading.gif" alt></p>
+<p>多哨兵监控 Redis</p>
+<p>首先配置 Redis 的主从服务器，修改 redis.conf 文件如下</p>
+<pre><code class="hljs yaml"><span class="hljs-comment"># 使得Redis服务器可以跨网络访问</span>
+<span class="hljs-string">bind</span> <span class="hljs-number">0.0</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span>
+<span class="hljs-comment"># 设置密码</span>
+<span class="hljs-string">requirepass</span> <span class="hljs-string">"123456"</span>
+<span class="hljs-comment"># 指定主服务器，注意：有关slaveof的配置只是配置从服务器，主服务器不需要配置</span>
+<span class="hljs-string">slaveof</span> <span class="hljs-number">192.168</span><span class="hljs-number">.11</span><span class="hljs-number">.128</span> <span class="hljs-number">6379</span>
+<span class="hljs-comment"># 主服务器密码，注意：有关slaveof的配置只是配置从服务器，主服务器不需要配置</span>
+<span class="hljs-string">masterauth</span> <span class="hljs-number">123456</span></code></pre>
+
+<p>上述内容主要是配置 Redis 服务器，从服务器比主服务器多一个 slaveof 的配置和密码。</p>
+<p>配置 3 个哨兵，每个哨兵的配置都是一样的。在 Redis 安装目录下有一个 sentinel.conf 文件，copy 一份进行修改</p>
+<pre><code class="hljs angelscript"># 禁止保护模式
+<span class="hljs-keyword">protected</span>-mode no
+# 配置监听的主服务器，这里sentinel monitor代表监控，mymaster代表服务器的名称，可以自定义，<span class="hljs-number">192.168</span><span class="hljs-number">.11</span><span class="hljs-number">.128</span>代表监控的主服务器，<span class="hljs-number">6379</span>代表端口，<span class="hljs-number">2</span>代表只有两个或两个以上的哨兵认为主服务器不可用的时候，才会进行failover操作。
+sentinel monitor mymaster <span class="hljs-number">192.168</span><span class="hljs-number">.11</span><span class="hljs-number">.128</span> <span class="hljs-number">6379</span> <span class="hljs-number">2</span>
+# sentinel author-pass定义服务的密码，mymaster是服务名称，<span class="hljs-number">123456</span>是Redis服务器密码
+# sentinel auth-pass &lt;master-name&gt; &lt;password&gt;
+sentinel auth-pass mymaster <span class="hljs-number">123456</span></code></pre>
+
+<p>上述关闭了保护模式，便于测试。</p>
+<p>有了上述的修改，我们可以进入 Redis 的安装目录的 src 目录，通过下面的命令启动服务器和哨兵</p>
+<pre><code class="hljs jboss-cli"><span class="hljs-comment"># 启动Redis服务器进程</span>
+<span class="hljs-string">./redis-server</span> <span class="hljs-string">../redis.conf</span>
+<span class="hljs-comment"># 启动哨兵进程</span>
+<span class="hljs-string">./redis-sentinel</span> <span class="hljs-string">../sentinel.conf</span></code></pre>
+
+<p>注意启动的顺序。<strong>首先是主机（192.168.11.128）的 Redis 服务进程，然后启动从机的服务进程，最后启动 3 个哨兵的服务进程。</strong></p>
+<p>以上关于主从复制和哨兵模式都是redis关于高可用,高并发的策略,但是都不是最终策略.Redis的终极策略是搭建Redis集群.</p>
+<h2 id="Redis集群"><a href="#Redis集群" class="headerlink" title="Redis集群"></a>Redis集群</h2><p><strong>一、redis-cluster 设计</strong><br>Redis-Cluster 采用无中心结构，每个节点保存数据和整个集群状态, 每个节点都和其他所有节点连接。  </p>
+<p><img src="http://upload-images.jianshu.io/upload_images/12185313-0f55e1cc574cae70.png" srcset="/img/loading.gif" alt></p>
+<p>redis.png</p>
+<p>其结构特点：<br>1、所有的 redis 节点彼此互联 (PING-PONG 机制), 内部使用二进制协议优化传输速度和带宽。<br>2、节点的 fail 是通过集群中超过半数的节点检测失效时才生效。<br>3、客户端与 redis 节点直连, 不需要中间 proxy 层. 客户端不需要连接集群所有节点, 连接集群中任何一个可用节点即可。<br>4、redis-cluster 把所有的物理节点映射到 [0-16383]slot 上（不一定是平均分配）,cluster 负责维护 node&lt;-&gt;slot&lt;-&gt;value。<br>5、Redis 集群预分好 16384 个桶，当需要在 Redis 集群中放置一个 key-value 时，根据 CRC16(key) mod 16384 的值，决定将一个 key 放到哪个桶中。</p>
+<p><strong>a.redis cluster 节点分配</strong><br>现在我们是三个主节点分别是：A, B, C 三个节点，它们可以是一台机器上的三个端口，也可以是三台不同的服务器。那么，采用哈希槽 (hash slot) 的方式来分配 16384 个 slot 的话，它们三个节点分别承担的 slot 区间是：</p>
+<ul>
+<li><p>节点 A 覆盖 0－5460;</p>
+</li>
+<li><p>节点 B 覆盖 5461－10922;</p>
+</li>
+<li><p>节点 C 覆盖 10923－16383.</p>
+<p>获取数据:<br>如果存入一个值，按照 redis cluster 哈希槽的<a href="http://lib.csdn.net/base/datastructure" target="_blank" rel="noopener">算法</a>： CRC16(‘key’)384 = 6782。 那么就会把这个 key 的存储分配到 B 上了。同样，当我连接 (A,B,C) 任何一个节点想获取’key’这个 key 时，也会这样的算法，然后内部跳转到 B 节点上获取数据</p>
+<p>新增一个主节点:<br>新增一个节点 D，redis cluster 的这种做法是从各个节点的前面各拿取一部分 slot 到 D 上，我会在接下来的实践中实验。大致就会变成这样：</p>
+</li>
+<li><p>节点 A 覆盖 1365-5460</p>
+</li>
+<li><p>节点 B 覆盖 6827-10922</p>
+</li>
+<li><p>节点 C 覆盖 12288-16383</p>
+</li>
+<li><p>节点 D 覆盖 0-1364,5461-6826,10923-12287</p>
+</li>
+</ul>
+<p>同样删除一个节点也是类似，移动完成后就可以删除这个节点了。</p>
+<p><strong>b.Redis Cluster 主从模式</strong><br>redis cluster 为了保证数据的高可用性，加入了主从模式，一个主节点对应一个或多个从节点，主节点提供数据存取，从节点则是从主节点拉取数据备份，当这个主节点挂掉后，就会有这个从节点选取一个来充当主节点，从而保证集群不会挂掉</p>
+<p>上面那个例子里, 集群有 ABC 三个主节点, 如果这 3 个节点都没有加入从节点，如果 B 挂掉了，我们就无法访问整个集群了。A 和 C 的 slot 也无法访问。</p>
+<p>所以我们在集群建立的时候，一定要为每个主节点都添加了从节点, 比如像这样, 集群包含主节点 A、B、C, 以及从节点 A1、B1、C1, 那么即使 B 挂掉系统也可以继续正确工作。</p>
+<p>B1 节点替代了 B 节点，所以 Redis 集群将会选择 B1 节点作为新的主节点，集群将会继续正确地提供服务。 当 B 重新开启后，它就会变成 B1 的从节点。</p>
+<p>不过需要注意，如果节点 B 和 B1 同时挂了，Redis 集群就无法继续正确地提供服务了。</p>
+<p><strong>二、redis 集群的搭建</strong><br>集群中至少应该有奇数个节点，所以至少有三个节点，每个节点至少有一个备份节点，所以下面使用 6 节点（主节点、备份节点由 redis-cluster 集群确定）<br>下载 <a href="https://redis.io/download" target="_blank" rel="noopener">redis</a><br><strong>1、安装 redis 节点指定端口</strong><br>解压 redis 压缩包，编译安装</p>
+<pre><code class="hljs angelscript">[<span class="hljs-symbol">root@</span>localhost redis<span class="hljs-number">-3.2</span><span class="hljs-number">.0</span>]# tar xzf redis<span class="hljs-number">-3.2</span><span class="hljs-number">.0</span>.tar.gz
+[<span class="hljs-symbol">root@</span>localhost redis<span class="hljs-number">-3.2</span><span class="hljs-number">.0</span>]# cd redis<span class="hljs-number">-3.2</span><span class="hljs-number">.0</span>
+[<span class="hljs-symbol">root@</span>localhost redis<span class="hljs-number">-3.2</span><span class="hljs-number">.0</span>]# make
+[<span class="hljs-symbol">root@</span>localhost redis01]# make install PREFIX=/usr/andy/redis-cluster</code></pre>
+
+<p>在 redis-cluster 下 修改 bin 文件夹为 redis01, 复制 redis.conf 配置文件<br>创建目录 redis-cluster 并在此目录下再创建 7000 7001 7002 7003 7004 7005 共 6 个目录，在 7000 中创建配置文件 redis.conf，内容如下：</p>
+<pre><code class="hljs yaml"><span class="hljs-string">daemonize</span> <span class="hljs-literal">yes</span> <span class="hljs-comment">#后台启动</span>
+<span class="hljs-string">port</span> <span class="hljs-number">7001</span> <span class="hljs-comment">#修改端口号，从7001到7006</span>
+<span class="hljs-string">cluster-enabled</span> <span class="hljs-literal">yes</span> <span class="hljs-comment">#开启cluster，去掉注释</span>
+<span class="hljs-string">cluster-config-file</span> <span class="hljs-string">nodes.conf</span> <span class="hljs-comment">#自动生成</span>
+<span class="hljs-string">cluster-node-timeout</span> <span class="hljs-number">15000</span> <span class="hljs-comment">#节点通信时间</span>
+<span class="hljs-string">appendonly</span> <span class="hljs-literal">yes</span> <span class="hljs-comment">#持久化方式</span></code></pre>
+
+<p>同时把 redis.conf 复制到其它目录中</p>
+<p><strong>2、安装 redis-trib 所需的 ruby 脚本</strong><br>注意：centos7 默认的 ruby 版本太低 (2.0)，要卸载重装 (最低 2.2)</p>
+<pre><code class="hljs cmake">yum <span class="hljs-keyword">remove</span> ruby
+yum <span class="hljs-keyword">install</span> ruby
+yum <span class="hljs-keyword">install</span> rubygems</code></pre>
+
+<p>复制 redis 解压文件 src 下的 redis-trib.rb 文件到 redis-cluster 目录并安装 gem</p>
+<pre><code class="hljs css"><span class="hljs-selector-tag">gem</span> <span class="hljs-selector-tag">install</span> <span class="hljs-selector-tag">redis-3</span><span class="hljs-selector-class">.x</span><span class="hljs-selector-class">.x</span><span class="hljs-selector-class">.gem</span></code></pre>
+
+<p>若不想安装 src 目录下的 gem，也可以直接<code>gem install redis</code>。</p>
+<p>注意，gem install 可能会报错<br>Unable to require openssl,install OpenSSL and rebuild ruby (preferred) or use ….<br>解决步骤：</p>
+<ol>
+<li>yum install openssl-devel -y</li>
+<li>在 ruby 安装包 / root/ruby-x.x.x/ext/openssl，执行 ruby ./extconf.rb</li>
+<li>执行 make, 若出现 make: *** No rule to make target <code>/include/ruby.h&#39;, needed by</code>ossl.o’. Stop.; 在 Makefile 顶部中的增加<code>top_srcdir = ../..</code></li>
+<li>执行 make install</li>
+</ol>
+<p><strong>3、启动所有的 redis 节点</strong><br>可以写一个命令脚本 start-all.sh</p>
+<pre><code class="hljs jboss-cli"><span class="hljs-keyword">cd</span> 7000
+redis-server redis.conf
+<span class="hljs-keyword">cd</span> <span class="hljs-string">..</span>
+<span class="hljs-keyword">cd</span> 7001
+redis-server redis.conf
+<span class="hljs-keyword">cd</span> <span class="hljs-string">..</span>
+<span class="hljs-keyword">cd</span> 7002
+redis-server redis.conf
+<span class="hljs-keyword">cd</span> <span class="hljs-string">..</span>
+<span class="hljs-keyword">cd</span> 7003
+redis-server redis.conf
+<span class="hljs-keyword">cd</span> <span class="hljs-string">..</span>
+<span class="hljs-keyword">cd</span> 7004
+redis-server redis.conf
+<span class="hljs-keyword">cd</span> <span class="hljs-string">..</span>
+<span class="hljs-keyword">cd</span> 7005
+redis-server redis.conf
+<span class="hljs-keyword">cd</span> <span class="hljs-string">..</span></code></pre>
+
+<p>设置权限启动</p>
+<pre><code class="hljs pgsql">[root@localhost redis-<span class="hljs-keyword">cluster</span>]# chmod <span class="hljs-number">777</span> <span class="hljs-keyword">start</span>-<span class="hljs-keyword">all</span>.sh 
+[root@localhost redis-<span class="hljs-keyword">cluster</span>]# ./<span class="hljs-keyword">start</span>-<span class="hljs-keyword">all</span>.sh</code></pre>
+
+<p>查看 redis 进程启动状态</p>
+<pre><code class="hljs angelscript">[<span class="hljs-symbol">root@</span>localhost redis<span class="hljs-number">-4.0</span><span class="hljs-number">.2</span>]# ps -ef|grep cluster
+root      <span class="hljs-number">54956</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">19</span>:<span class="hljs-number">17</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> redis-server *:<span class="hljs-number">7000</span> [cluster]
+root      <span class="hljs-number">54961</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">19</span>:<span class="hljs-number">17</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> redis-server *:<span class="hljs-number">7001</span> [cluster]
+root      <span class="hljs-number">54966</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">19</span>:<span class="hljs-number">17</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> redis-server *:<span class="hljs-number">7002</span> [cluster]
+root      <span class="hljs-number">54971</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">19</span>:<span class="hljs-number">17</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> redis-server *:<span class="hljs-number">7003</span> [cluster]
+root      <span class="hljs-number">54976</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">19</span>:<span class="hljs-number">17</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> redis-server *:<span class="hljs-number">7004</span> [cluster]
+root      <span class="hljs-number">54981</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">19</span>:<span class="hljs-number">17</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> redis-server *:<span class="hljs-number">7005</span> [cluster]
+root      <span class="hljs-number">55071</span>  <span class="hljs-number">24089</span>  <span class="hljs-number">0</span> <span class="hljs-number">19</span>:<span class="hljs-number">24</span> pts/<span class="hljs-number">0</span>    <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> grep --color=<span class="hljs-built_in">auto</span> cluster</code></pre>
+
+<p>可以看到 redis 的 6 个节点已经启动成功<br><strong>注意：这里并没有创建集群</strong></p>
+<p><strong>4、使用 redis-trib.rb 创建集群</strong><br>注意：redis-trib.rb 在 redis/src 目录下。</p>
+<pre><code class="hljs angelscript">./redis-trib.rb create --replicas <span class="hljs-number">1</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7003</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7004</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7005</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7000</span></code></pre>
+
+<p>使用 create 命令 –replicas 1 参数表示为每个主节点创建一个从节点，其他参数是实例的地址集合。</p>
+<pre><code class="hljs angelscript">[<span class="hljs-symbol">root@</span>localhost redis]# ./src/redis-trib.rb create --replicas <span class="hljs-number">1</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7003</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7004</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7005</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7000</span>
+&gt;&gt;&gt; Creating cluster
+&gt;&gt;&gt; Performing hash slots allocation on <span class="hljs-number">6</span> nodes...
+Using <span class="hljs-number">3</span> masters:
+<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span>
+<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>
+<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7003</span>
+Adding replica <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7004</span> to <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span>
+Adding replica <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7005</span> to <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>
+Adding replica <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7000</span> to <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7003</span>
+M: f4ee0a501f9aaf11351787a46ffb4659d45b7bd7 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span>
+   slots:<span class="hljs-number">0</span><span class="hljs-number">-5460</span> (<span class="hljs-number">5461</span> slots) master
+M: <span class="hljs-number">671</span>a0524a616da8b2f50f3d11a74aaf563578e41 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>
+   slots:<span class="hljs-number">5461</span><span class="hljs-number">-10922</span> (<span class="hljs-number">5462</span> slots) master
+M: <span class="hljs-number">18948</span>dab5b07e3726afd1b6a42d5bf6e2f411ba1 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7003</span>
+   slots:<span class="hljs-number">10923</span><span class="hljs-number">-16383</span> (<span class="hljs-number">5461</span> slots) master
+S: <span class="hljs-number">34e322</span>ca50a2842e9f3664442cb11c897defba06 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7004</span>
+   replicates f4ee0a501f9aaf11351787a46ffb4659d45b7bd7
+S: <span class="hljs-number">62</span>a00566233fbff4467c4031345b1db13cf12b46 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7005</span>
+   replicates <span class="hljs-number">671</span>a0524a616da8b2f50f3d11a74aaf563578e41
+S: <span class="hljs-number">2</span>cb649ad3584370c960e2036fb01db834a546114 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7000</span>
+   replicates <span class="hljs-number">18948</span>dab5b07e3726afd1b6a42d5bf6e2f411ba1
+Can I <span class="hljs-keyword">set</span> the above configuration? (type <span class="hljs-string">'yes'</span> to accept): yes
+&gt;&gt;&gt; Nodes configuration updated
+&gt;&gt;&gt; Assign a different config epoch to each node
+&gt;&gt;&gt; Sending CLUSTER MEET messages to join the cluster
+Waiting <span class="hljs-keyword">for</span> the cluster to join...
+&gt;&gt;&gt; Performing Cluster Check (using node <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span>)
+M: f4ee0a501f9aaf11351787a46ffb4659d45b7bd7 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span>
+   slots:<span class="hljs-number">0</span><span class="hljs-number">-5460</span> (<span class="hljs-number">5461</span> slots) master
+   <span class="hljs-number">1</span> additional replica(s)
+M: <span class="hljs-number">671</span>a0524a616da8b2f50f3d11a74aaf563578e41 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>
+   slots:<span class="hljs-number">5461</span><span class="hljs-number">-10922</span> (<span class="hljs-number">5462</span> slots) master
+   <span class="hljs-number">1</span> additional replica(s)
+S: <span class="hljs-number">2</span>cb649ad3584370c960e2036fb01db834a546114 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7000</span>
+   slots: (<span class="hljs-number">0</span> slots) slave
+   replicates <span class="hljs-number">18948</span>dab5b07e3726afd1b6a42d5bf6e2f411ba1
+S: <span class="hljs-number">34e322</span>ca50a2842e9f3664442cb11c897defba06 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7004</span>
+   slots: (<span class="hljs-number">0</span> slots) slave
+   replicates f4ee0a501f9aaf11351787a46ffb4659d45b7bd7
+M: <span class="hljs-number">18948</span>dab5b07e3726afd1b6a42d5bf6e2f411ba1 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7003</span>
+   slots:<span class="hljs-number">10923</span><span class="hljs-number">-16383</span> (<span class="hljs-number">5461</span> slots) master
+   <span class="hljs-number">1</span> additional replica(s)
+S: <span class="hljs-number">62</span>a00566233fbff4467c4031345b1db13cf12b46 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7005</span>
+   slots: (<span class="hljs-number">0</span> slots) slave
+   replicates <span class="hljs-number">671</span>a0524a616da8b2f50f3d11a74aaf563578e41
+[OK] All nodes agree about slots configuration.
+&gt;&gt;&gt; Check <span class="hljs-keyword">for</span> open slots...
+&gt;&gt;&gt; Check slots coverage...
+[OK] All <span class="hljs-number">16384</span> slots covered.</code></pre>
+
+<p>上面显示创建成功，有 3 个主节点，3 个从节点，每个节点都是成功连接状态。</p>
+<p><strong>三、redis 集群的测试</strong><br>测试存取值，客户端连接集群 redis-cli 需要带上 -c ，redis-cli -c -p 端口号</p>
+<pre><code class="hljs angelscript">[<span class="hljs-symbol">root@</span>localhost redis]# ./redis-cli -c -p <span class="hljs-number">7001</span>
+<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span>&gt; <span class="hljs-keyword">set</span> name andy
+-&gt; Redirected to slot [<span class="hljs-number">5798</span>] located at <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>
+OK
+<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>&gt; <span class="hljs-keyword">get</span> name
+<span class="hljs-string">"andy"</span>
+<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>&gt;</code></pre>
+
+<p>根据 redis-cluster 的 key 值分配，name 应该分配到节点 7002[5461-10922] 上，上面显示 redis cluster 自动从 7001 跳转到了 7002 节点。</p>
+<p>测试一下 7000 从节点获取 name 值</p>
+<pre><code class="hljs angelscript">[<span class="hljs-symbol">root@</span>localhost redis]# ./redis-cli -c -p <span class="hljs-number">7000</span>
+<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7000</span>&gt; <span class="hljs-keyword">get</span> name
+-&gt; Redirected to slot [<span class="hljs-number">5798</span>] located at <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>
+<span class="hljs-string">"andy"</span>
+<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>&gt;</code></pre>
+
+<p><strong>四、集群节点选举</strong><br>现在模拟将 7002 节点挂掉，按照 redis-cluster 原理会选举会将 7002 的从节点 7005 选举为主节点。</p>
+<pre><code class="hljs angelscript">[<span class="hljs-symbol">root@</span>localhost redis-cluster]# ps -ef | grep redis
+root       <span class="hljs-number">7966</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">12</span>:<span class="hljs-number">50</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">29</span> ./redis-server <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7000</span> [cluster]
+root       <span class="hljs-number">7950</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">12</span>:<span class="hljs-number">50</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">28</span> ./redis-server <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span> [cluster]
+root       <span class="hljs-number">7952</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">12</span>:<span class="hljs-number">50</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">29</span> ./redis-server <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span> [cluster]
+root       <span class="hljs-number">7956</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">12</span>:<span class="hljs-number">50</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">29</span> ./redis-server <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7003</span> [cluster]
+root       <span class="hljs-number">7960</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">12</span>:<span class="hljs-number">50</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">29</span> ./redis-server <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7004</span> [cluster]
+root       <span class="hljs-number">7964</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">12</span>:<span class="hljs-number">50</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">29</span> ./redis-server <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7005</span> [cluster]
+root      <span class="hljs-number">11346</span>  <span class="hljs-number">10581</span>  <span class="hljs-number">0</span> <span class="hljs-number">14</span>:<span class="hljs-number">57</span> pts/<span class="hljs-number">2</span>    <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> grep --color=<span class="hljs-built_in">auto</span> redis
+[<span class="hljs-symbol">root@</span>localhost redis-cluster]# kill <span class="hljs-number">7952</span></code></pre>
+
+<p>在查看集群中的 7002 节点</p>
+<pre><code class="hljs angelscript">[<span class="hljs-symbol">root@</span>localhost src]# ./redis-trib.rb check <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>
+&gt;&gt;&gt; Performing Cluster Check (using node <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>)
+S: <span class="hljs-number">671</span>a0524a616da8b2f50f3d11a74aaf563578e41 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>
+   slots: (<span class="hljs-number">0</span> slots) slave
+   replicates <span class="hljs-number">62</span>a00566233fbff4467c4031345b1db13cf12b46
+M: <span class="hljs-number">18948</span>dab5b07e3726afd1b6a42d5bf6e2f411ba1 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7003</span>
+   slots:<span class="hljs-number">10923</span><span class="hljs-number">-16383</span> (<span class="hljs-number">5461</span> slots) master
+   <span class="hljs-number">1</span> additional replica(s)
+M: <span class="hljs-number">62</span>a00566233fbff4467c4031345b1db13cf12b46 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7005</span>
+   slots:<span class="hljs-number">5461</span><span class="hljs-number">-10922</span> (<span class="hljs-number">5462</span> slots) master
+   <span class="hljs-number">1</span> additional replica(s)
+M: f4ee0a501f9aaf11351787a46ffb4659d45b7bd7 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span>
+   slots:<span class="hljs-number">0</span><span class="hljs-number">-5460</span> (<span class="hljs-number">5461</span> slots) master
+   <span class="hljs-number">1</span> additional replica(s)
+S: <span class="hljs-number">34e322</span>ca50a2842e9f3664442cb11c897defba06 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7004</span>
+   slots: (<span class="hljs-number">0</span> slots) slave
+   replicates f4ee0a501f9aaf11351787a46ffb4659d45b7bd7
+S: <span class="hljs-number">2</span>cb649ad3584370c960e2036fb01db834a546114 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7000</span>
+   slots: (<span class="hljs-number">0</span> slots) slave
+   replicates <span class="hljs-number">18948</span>dab5b07e3726afd1b6a42d5bf6e2f411ba1
+[OK] All nodes agree about slots configuration.
+&gt;&gt;&gt; Check <span class="hljs-keyword">for</span> open slots...
+&gt;&gt;&gt; Check slots coverage...
+[OK] All <span class="hljs-number">16384</span> slots covered.</code></pre>
+
+<p>可以看到集群连接不了 7002 节点，而 7005 有原来的 S 转换为 M 节点，代替了原来的 7002 节点。我们可以获取 name 值：</p>
+<pre><code class="hljs angelscript">[<span class="hljs-symbol">root@</span>localhost redis]# ./redis-cli -c -p <span class="hljs-number">7001</span>
+<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span>&gt; <span class="hljs-keyword">get</span> name
+-&gt; Redirected to slot [<span class="hljs-number">5798</span>] located at <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7005</span>
+<span class="hljs-string">"andy"</span>
+<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7005</span>&gt; 
+<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7005</span>&gt;</code></pre>
+
+<p>从 7001 节点连入，自动跳转到 7005 节点，并且获取 name 值。</p>
+<p>现在我们将 7002 节点恢复，看是否会自动加入集群中以及充当的 M 还是 S 节点。</p>
+<pre><code class="hljs angelscript">[<span class="hljs-symbol">root@</span>localhost redis-cluster]# cd <span class="hljs-number">7002</span>
+[<span class="hljs-symbol">root@</span>localhost <span class="hljs-number">7002</span>]# ./redis-server redis.conf 
+[<span class="hljs-symbol">root@</span>localhost <span class="hljs-number">7002</span>]#</code></pre>
+
+<p>再 check 一下 7002 节点，可以看到 7002 节点变成了 7005 的从节点。</p>
 
             </article>
             <hr>
