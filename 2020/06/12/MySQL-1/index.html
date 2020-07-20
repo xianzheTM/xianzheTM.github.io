@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"yl.dropsec.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="初步使用MySQL登录：mysql -h localhost -P 3306 -u root -p 显示数据库列表：show databases; 选择数据库：use sakila; 显示表列表：show tables; 合并起来写：show tables from world;，此时还是在sakila库中 显示现在在哪个库：select database(); 123create table t">
+  <meta name="description" content="MySQL使用.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL(1)">
 <meta property="og:url" content="https://yl.dropsec.xyz/2020/06/12/MySQL-1/index.html">
 <meta property="og:site_name" content="新日暮里">
-<meta property="og:description" content="初步使用MySQL登录：mysql -h localhost -P 3306 -u root -p 显示数据库列表：show databases; 选择数据库：use sakila; 显示表列表：show tables; 合并起来写：show tables from world;，此时还是在sakila库中 显示现在在哪个库：select database(); 123create table t">
+<meta property="og:description" content="MySQL使用.">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-06-12T08:28:25.000Z">
-<meta property="article:modified_time" content="2020-07-13T05:26:30.480Z">
+<meta property="article:modified_time" content="2020-07-20T05:33:16.372Z">
 <meta property="article:author" content="xianzheTM">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary">
@@ -214,7 +214,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-13 13:26:30" itemprop="dateModified" datetime="2020-07-13T13:26:30+08:00">2020-07-13</time>
+                <time title="修改时间：2020-07-20 13:33:16" itemprop="dateModified" datetime="2020-07-20T13:33:16+08:00">2020-07-20</time>
               </span>
 
           <br>
@@ -223,7 +223,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>25k</span>
+              <span>24k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -242,7 +242,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="初步使用MySQL"><a href="#初步使用MySQL" class="headerlink" title="初步使用MySQL"></a>初步使用MySQL</h1><p>登录：<code>mysql -h localhost -P 3306 -u root -p</code></p>
+        <p>MySQL使用.</p>
+<a id="more"></a>
+
+<h1 id="初步使用MySQL"><a href="#初步使用MySQL" class="headerlink" title="初步使用MySQL"></a>初步使用MySQL</h1><p>登录：<code>mysql -h localhost -P 3306 -u root -p</code></p>
 <p>显示数据库列表：<code>show databases;</code></p>
 <p>选择数据库：<code>use sakila;</code></p>
 <p>显示表列表：<code>show tables;</code></p>
@@ -300,7 +303,91 @@
 
 <p>　　　　语法：在创建表字段的最下面</p>
 <p>　　　　　　    constraint 约束名 约束类型(字段名)</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">exists</span> t_stuinfo</span><br><span class="line">(</span><br><span class="line">    <span class="keyword">id</span>      <span class="built_in">int</span>,</span><br><span class="line">    stuName <span class="built_in">varchar</span>(<span class="number">20</span>),</span><br><span class="line">    gender  <span class="built_in">char</span>(<span class="number">1</span>),</span><br><span class="line">    seat    <span class="built_in">int</span>,</span><br><span class="line">    age     <span class="built_in">int</span>,</span><br><span class="line">    majorId <span class="built_in">int</span>,</span><br><span class="line">    <span class="keyword">constraint</span> pk primary <span class="keyword">key</span> (<span class="keyword">id</span>),                                         <span class="comment">#约束名随意，主键不生效，但不报错。</span></span><br><span class="line">    <span class="keyword">constraint</span> uq <span class="keyword">unique</span> (seat),                                            <span class="comment">#唯一约束</span></span><br><span class="line">    <span class="keyword">constraint</span> ck <span class="keyword">check</span> (gender = <span class="string">'男'</span> <span class="keyword">or</span> gender = <span class="string">'女'</span>),                     <span class="comment">#检查约束，MySql不支持此约束，不报错但不生效</span></span><br><span class="line">    <span class="keyword">constraint</span> fk_stuinfo_major <span class="keyword">foreign</span> <span class="keyword">key</span> (majorId) <span class="keyword">references</span> major (<span class="keyword">id</span>) <span class="comment">#外键约束</span></span><br><span class="line">);   </span><br><span class="line">```  </span><br><span class="line">列级约束支持所有,但外没效果;表级不支持默认和非空,二者都不支持check.列级不可以起名字,表级可以,但是主键没效果.</span><br><span class="line"></span><br><span class="line"> 主键和唯一的区别</span><br><span class="line"></span><br><span class="line">约束名称|	保证唯一性|	是否允许为空	|一个表中可以有多少个|	是否允许组合</span><br><span class="line">-|-|-|-|-</span><br><span class="line">主键|	√|	×|	最多有<span class="number">1</span>个，可以没有	|√（不推荐）</span><br><span class="line">唯一	|√	|√	|可以有多个	|√（不推荐）</span><br><span class="line">外键：</span><br><span class="line"></span><br><span class="line">　　<span class="number">1.</span>要求在从表中设置外键关系</span><br><span class="line"></span><br><span class="line">　　<span class="number">2.</span>从表的外键列的类型和主表的关联列的类型要求一致或兼容，名称无要求。</span><br><span class="line"></span><br><span class="line">　　<span class="number">3.</span>**主表的关联列必须时一个<span class="keyword">Key</span>（一般为主键或唯一，外键也可以但无意义）**</span><br><span class="line"></span><br><span class="line">　　<span class="number">4.</span>**插入数据时，先插入主表，再插入从表**</span><br><span class="line"></span><br><span class="line">　　  **删除数据时，先删除从表，再删除主表**</span><br><span class="line"></span><br><span class="line">修改表时添加约束</span><br><span class="line"></span><br><span class="line">　　<span class="number">1.</span>添加非空约束</span><br><span class="line"></span><br><span class="line"> <span class="string">`alter table 表名称 modify column 列名 列类型 not null;`</span></span><br><span class="line"></span><br><span class="line">　　<span class="number">2.</span>添加默认约束</span><br><span class="line"></span><br><span class="line"> <span class="string">`alter table 表名称 modify column 列名 列类型 default 默认值;`</span></span><br><span class="line"></span><br><span class="line">　　<span class="number">3.</span>添加主键</span><br><span class="line"></span><br><span class="line">　　　　①列级约束方式</span><br><span class="line"></span><br><span class="line"> <span class="string">`alter table 表名称 modify column 列名 列类型 primary key;`</span></span><br><span class="line"></span><br><span class="line">　　　　②表级约束方式</span><br><span class="line"></span><br><span class="line"> <span class="string">`alter table 表名称 add primary key(id);`</span></span><br><span class="line"></span><br><span class="line">　　<span class="number">4.</span>添加唯一</span><br><span class="line"></span><br><span class="line">　　　　①列级约束</span><br><span class="line"></span><br><span class="line"> <span class="string">`alter table 表名称 modify column 列名 列类型 unique;`</span></span><br><span class="line"></span><br><span class="line">　　　　②表级约束</span><br><span class="line"></span><br><span class="line"> <span class="string">`alter table 表名称 add unique(列名称);`</span></span><br><span class="line"></span><br><span class="line">　　<span class="number">5</span>，添加外键（列级写法可行，但无效果）</span><br><span class="line"></span><br><span class="line">　　　　①表级约束</span><br><span class="line"></span><br><span class="line"><span class="string">`alter table 表名称 add constraint fk_stuinfo_magor foreign key(magorId) references major(id);`</span></span><br><span class="line"></span><br><span class="line">　　<span class="number">6.</span>添加通用写法（语法）</span><br><span class="line"></span><br><span class="line">　　　　①列级约束　</span><br><span class="line"></span><br><span class="line"> <span class="string">`alter table 表名称 modify column 列名 列类型 新约束;`</span></span><br><span class="line"></span><br><span class="line">　　　　②表级约束</span><br><span class="line"></span><br><span class="line"> <span class="string">`alter table 表名称 add [constraint 约束名] 约束类型(列名称) [外键的引用];`</span></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">修改表时删除约束</span><br><span class="line"></span><br><span class="line">　　<span class="number">1.</span>删除非空约束</span><br><span class="line"></span><br><span class="line"> <span class="string">`alter table 表名称 modify column 列名 列类型 [null];`</span></span><br><span class="line"></span><br><span class="line">　　<span class="number">2.</span>删除默认约束</span><br><span class="line"></span><br><span class="line"> <span class="string">`alter table 表名称 modify column 列名 列类型;`</span></span><br><span class="line"></span><br><span class="line">　　<span class="number">3.</span>删除主键</span><br><span class="line"></span><br><span class="line">　　　　①</span><br><span class="line"></span><br><span class="line"> <span class="string">`alter table 表名称 modify column id int;`</span></span><br><span class="line"></span><br><span class="line">　　　　②</span><br><span class="line"></span><br><span class="line"> <span class="string">`alter table 表名称 drop primary key;`</span></span><br><span class="line"></span><br><span class="line">　　<span class="number">4.</span>删除唯一</span><br><span class="line"></span><br><span class="line"><span class="string">`alter table 表名称 drop index(索引名) 设置唯一时的名称;`</span></span><br><span class="line"></span><br><span class="line">　　<span class="number">5.</span>删除外键</span><br><span class="line"></span><br><span class="line"><span class="string">`alter table 表名称 drop foreign key(索引名) 设置外键时的名称;`</span></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">标识列</span><br><span class="line"></span><br><span class="line">　　又称为自增长列，可以不用手动的插入值，系统提供默认的序列值</span><br><span class="line"></span><br><span class="line">　　特点：</span><br><span class="line"></span><br><span class="line">　　　　<span class="number">1.</span>标识列必须和一个<span class="keyword">Key</span>搭配（<span class="keyword">Key</span>指主键、唯一、外键....）</span><br><span class="line"></span><br><span class="line">　　　　<span class="number">2.</span>一个表最多有一个标识列</span><br><span class="line"></span><br><span class="line">　　　　<span class="number">3.</span>标识列的类型只能是数值型</span><br><span class="line"></span><br><span class="line">　　　　4.标识列可以通过SET auto_increment_increment = 3;设置步长（全局），可以通过**插入行时手动插入标识列值设置起始值**。</span><br><span class="line"></span><br><span class="line">``` sql</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tab_identity (<span class="keyword">id</span>, <span class="keyword">name</span>)<span class="comment">#id是自增长的,为它指定起始值10</span></span><br><span class="line"><span class="keyword">values</span> (<span class="number">10</span>, <span class="string">'john'</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">exists</span> t_stuinfo</span><br><span class="line">(</span><br><span class="line">    <span class="keyword">id</span>      <span class="built_in">int</span>,</span><br><span class="line">    stuName <span class="built_in">varchar</span>(<span class="number">20</span>),</span><br><span class="line">    gender  <span class="built_in">char</span>(<span class="number">1</span>),</span><br><span class="line">    seat    <span class="built_in">int</span>,</span><br><span class="line">    age     <span class="built_in">int</span>,</span><br><span class="line">    majorId <span class="built_in">int</span>,</span><br><span class="line">    <span class="keyword">constraint</span> pk primary <span class="keyword">key</span> (<span class="keyword">id</span>),                                         <span class="comment">#约束名随意，主键不生效，但不报错。</span></span><br><span class="line">    <span class="keyword">constraint</span> uq <span class="keyword">unique</span> (seat),                                            <span class="comment">#唯一约束</span></span><br><span class="line">    <span class="keyword">constraint</span> ck <span class="keyword">check</span> (gender = <span class="string">'男'</span> <span class="keyword">or</span> gender = <span class="string">'女'</span>),                     <span class="comment">#检查约束，MySql不支持此约束，不报错但不生效</span></span><br><span class="line">    <span class="keyword">constraint</span> fk_stuinfo_major <span class="keyword">foreign</span> <span class="keyword">key</span> (majorId) <span class="keyword">references</span> major (<span class="keyword">id</span>) <span class="comment">#外键约束</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>列级约束支持所有,但外没效果;表级不支持默认和非空,二者都不支持check.列级不可以起名字,表级可以,但是主键没效果.</p>
+<p> 主键和唯一的区别</p>
+<table>
+<thead>
+<tr>
+<th>约束名称</th>
+<th>保证唯一性</th>
+<th>是否允许为空</th>
+<th>一个表中可以有多少个</th>
+<th>是否允许组合</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主键</td>
+<td>√</td>
+<td>×</td>
+<td>最多有1个，可以没有</td>
+<td>√（不推荐）</td>
+</tr>
+<tr>
+<td>唯一</td>
+<td>√</td>
+<td>√</td>
+<td>可以有多个</td>
+<td>√（不推荐）</td>
+</tr>
+<tr>
+<td>外键：</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>　　1.要求在从表中设置外键关系</p>
+<p>　　2.从表的外键列的类型和主表的关联列的类型要求一致或兼容，名称无要求。</p>
+<p>　　3.<strong>主表的关联列必须时一个Key（一般为主键或唯一，外键也可以但无意义）</strong></p>
+<p>　　4.<strong>插入数据时，先插入主表，再插入从表</strong></p>
+<p>　　  <strong>删除数据时，先删除从表，再删除主表</strong></p>
+<p>修改表时添加约束</p>
+<p>　　1.添加非空约束</p>
+<p> <code>alter table 表名称 modify column 列名 列类型 not null;</code></p>
+<p>　　2.添加默认约束</p>
+<p> <code>alter table 表名称 modify column 列名 列类型 default 默认值;</code></p>
+<p>　　3.添加主键</p>
+<p>　　　　①列级约束方式</p>
+<p> <code>alter table 表名称 modify column 列名 列类型 primary key;</code></p>
+<p>　　　　②表级约束方式</p>
+<p> <code>alter table 表名称 add primary key(id);</code></p>
+<p>　　4.添加唯一</p>
+<p>　　　　①列级约束</p>
+<p> <code>alter table 表名称 modify column 列名 列类型 unique;</code></p>
+<p>　　　　②表级约束</p>
+<p> <code>alter table 表名称 add unique(列名称);</code></p>
+<p>　　5，添加外键（列级写法可行，但无效果）</p>
+<p>　　　　①表级约束</p>
+<p><code>alter table 表名称 add constraint fk_stuinfo_magor foreign key(magorId) references major(id);</code></p>
+<p>　　6.添加通用写法（语法）</p>
+<p>　　　　①列级约束　</p>
+<p> <code>alter table 表名称 modify column 列名 列类型 新约束;</code></p>
+<p>　　　　②表级约束</p>
+<p> <code>alter table 表名称 add [constraint 约束名] 约束类型(列名称) [外键的引用];</code></p>
+<p>修改表时删除约束</p>
+<p>　　1.删除非空约束</p>
+<p> <code>alter table 表名称 modify column 列名 列类型 [null];</code></p>
+<p>　　2.删除默认约束</p>
+<p> <code>alter table 表名称 modify column 列名 列类型;</code></p>
+<p>　　3.删除主键</p>
+<p>　　　　①</p>
+<p> <code>alter table 表名称 modify column id int;</code></p>
+<p>　　　　②</p>
+<p> <code>alter table 表名称 drop primary key;</code></p>
+<p>　　4.删除唯一</p>
+<p><code>alter table 表名称 drop index(索引名) 设置唯一时的名称;</code></p>
+<p>　　5.删除外键</p>
+<p><code>alter table 表名称 drop foreign key(索引名) 设置外键时的名称;</code></p>
+<p>标识列</p>
+<p>　　又称为自增长列，可以不用手动的插入值，系统提供默认的序列值</p>
+<p>　　特点：</p>
+<p>　　　　1.标识列必须和一个Key搭配（Key指主键、唯一、外键….）</p>
+<p>　　　　2.一个表最多有一个标识列</p>
+<p>　　　　3.标识列的类型只能是数值型</p>
+<p>　　　　4.标识列可以通过SET auto_increment_increment = 3;设置步长（全局），可以通过<strong>插入行时手动插入标识列值设置起始值</strong>。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tab_identity (<span class="keyword">id</span>, <span class="keyword">name</span>)<span class="comment">#id是自增长的,为它指定起始值10</span></span><br><span class="line"><span class="keyword">values</span> (<span class="number">10</span>, <span class="string">'john'</span>);</span><br></pre></td></tr></table></figure>
 
 <p>　　1.创建表时设置标识列</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">user</span></span><br><span class="line">(</span><br><span class="line">    <span class="keyword">id</span>   <span class="built_in">int</span> primary <span class="keyword">key</span> auto_increment,</span><br><span class="line">    <span class="keyword">name</span> <span class="built_in">varchar</span>(<span class="number">20</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
