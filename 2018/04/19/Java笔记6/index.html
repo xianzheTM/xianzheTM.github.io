@@ -1,218 +1,253 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
-
-
-
-
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="/img/favicon.png">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yl.dropsec.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="&amp;emsp;在上一篇中，虽然写到了继承，但是并没有详细深入。这篇来看看相关问题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java笔记6">
+<meta property="og:url" content="https://yl.dropsec.xyz/2018/04/19/Java%E7%AC%94%E8%AE%B06/index.html">
+<meta property="og:site_name" content="新日暮里">
+<meta property="og:description" content="&amp;emsp;在上一篇中，虽然写到了继承，但是并没有详细深入。这篇来看看相关问题。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-04-19T07:29:05.000Z">
+<meta property="article:modified_time" content="2020-05-07T14:19:16.000Z">
+<meta property="article:author" content="xianzheTM">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yl.dropsec.xyz/2018/04/19/Java%E7%AC%94%E8%AE%B06/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Java笔记6 | 新日暮里</title>
   
-  <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="希望这里能见证一个菜鸟到大神的路程">
-  <meta name="author" content="xianzheTM">
-  <meta name="keywords" content="">
-  <title>Java笔记6 - 新日暮里</title>
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
-  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
-
-  
-    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
-  
-
-  
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
 
 
-<link  rel="stylesheet" href="/css/main.css" />
 
-<!-- 自定义样式保持在最底部 -->
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-  <script  src="/js/utils.js" ></script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
+</head>
 
-<body>
-  <header style="height: 70vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand"
-       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                首页
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                归档
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                分类
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                标签
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
-          </li>
-        
-      </ul>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
-</nav>
 
-    <div class="view intro-2" id="background" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp">
-            <span class="h2" id="subtitle">
-              
-            </span>
+  <div class="site-meta">
 
-            
-              
-  <div class="mt-3 post-meta">
-    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2018-04-19 15:29">
-      2018年4月19日 下午
-    </time>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">新日暮里</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
   </div>
 
-
-<div class="mt-1">
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-chart"></i>
-      3.3k 字
-    </span>
-  
-
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-clock-fill"></i>
-      
-      
-      40
-       分钟
-    </span>
-  
-
-  
-  
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
 </div>
 
-            
-          </div>
 
-          
-        </div>
-      </div>
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
     </div>
-  </header>
+  </div>
 
-  <main>
+</div>
+    </header>
+
     
-      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
-        <div class="py-5" id="board">
-          <div class="post-content mx-auto" id="post">
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
             
-            <article class="markdown-body">
-              <p>&emsp;在上一篇中，虽然写到了继承，但是并没有详细深入。这篇来看看相关问题。</p>
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yl.dropsec.xyz/2018/04/19/Java%E7%AC%94%E8%AE%B06/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="xianzheTM">
+      <meta itemprop="description" content="希望这里能见证一个菜鸟到大神的路程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新日暮里">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java笔记6
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-19 15:29:05" itemprop="dateCreated datePublished" datetime="2018-04-19T15:29:05+08:00">2018-04-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-07 22:19:16" itemprop="dateModified" datetime="2020-05-07T22:19:16+08:00">2020-05-07</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>14 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&emsp;在上一篇中，虽然写到了继承，但是并没有详细深入。这篇来看看相关问题。</p>
 <a id="more"></a>
 
 <h1 id="继承共同行为"><a href="#继承共同行为" class="headerlink" title="继承共同行为"></a>继承共同行为</h1><p>&emsp;先做出如下假定：有个游戏有多个角色，包括剑士，魔法师等，每个角色都有血量，名字，等级，攻击方式等。<br>&emsp;观察发现，每个角色都有名字，血量，等级三个共同特点，那么就可以将这部份提升为一个父类role（我觉得基类可能是个更好的名字）。然后剑士，魔法师这些子类（派生类）继承这些共有的属性，扩展自己的方法（攻击方式）。</p>
 <h1 id="重新定义行为"><a href="#重新定义行为" class="headerlink" title="重新定义行为"></a>重新定义行为</h1><p>&emsp;进一步观察，发现每个角色都要攻击，那么就可以把“攻击”这个方法（<code>fight()</code>）提取到父类中。然后在子类中重写(Override)这个方法。父类中的fight()方法实际是空的，具体的攻击行为留到子类中重写。我这里写一个调用<code>fight()方法</code>的方法：</p>
-<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">drawFight</span><span class="hljs-params">(Role role)</span></span>&#123;
-    System.out.println(role.getName);
-    role.fight();
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">drawFight</span><span class="params">(Role role)</span></span>&#123;</span><br><span class="line">    System.out.println(role.getName);</span><br><span class="line">    role.fight();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;我将传入的参数定义为Role类型，这样不管我传入的时剑士还是魔法师类型都可以。这就是多态的表现形式。剑士是（is-a）Role类型。在重写这个方法时，如果一不小心写错了，例如fight()写成了Fight()，那就不是重写了。可以在重写的上一行添加标注<code>@Override</code>。它会检查该方法是否重新定义了某方法。</p>
 <h1 id="抽象方法和抽象类"><a href="#抽象方法和抽象类" class="headerlink" title="抽象方法和抽象类"></a>抽象方法和抽象类</h1><p>&emsp;在上面的例子中，父类中的fight()方法中是空的，问题是如果不使用子类的fight()方法就会出现没有攻击行为的情况。这种情况下可以把fight()理解为一个抽象方法，在前面加上<code>abstract</code>关键字。这表示这个方法是不完整的，同时，这个类也是不完整的，因此类也要加上<code>abstract</code>。当一个子类继承抽象类时，要么自己也保持抽象类，要么就是将这个抽象方法重写完整。这里只是简单提一下，具体细节在下篇讨论。</p>
@@ -222,43 +257,14 @@
 <h1 id="再论-和equals"><a href="#再论-和equals" class="headerlink" title="再论==和equals"></a>再论==和equals</h1><h2 id><a href="#" class="headerlink" title="=="></a>==</h2><p>&emsp;当比较的数据是基本数据类型，==在两个数据大小一致时返回true，即使两个数据的类型并不一致。<br><br>&emsp;当比较的是引用对象时，==只有在两个引用变量指向同一个对象时才返回true。同时，==不可以用于比较类型上没有父子关系的两个对象。<br></p>
 <h2 id="equals"><a href="#equals" class="headerlink" title="equals"></a>equals</h2><p>&emsp;本以为equals就是用来比较的是对象的值，但实际上还是有点区别的。首先，在Object中，equals和==的效果是一样的，都是比较两个是否是同一个对象（比较内存地址）<br>参考链接：<a href="https://blog.csdn.net/snowqoo/article/details/2455605" target="_blank" rel="noopener">https://blog.csdn.net/snowqoo/article/details/2455605</a>，<a href="https://www.cnblogs.com/www123----/p/7857298.html" target="_blank" rel="noopener">https://www.cnblogs.com/www123----/p/7857298.html</a>,<a href="https://www.cnblogs.com/yangzhilong/p/6391548.html" target="_blank" rel="noopener">https://www.cnblogs.com/yangzhilong/p/6391548.html</a></p>
 <h1 id="toString方法"><a href="#toString方法" class="headerlink" title="toString方法"></a>toString方法</h1><p>&emsp;有如下代码（不完整）</p>
-<pre><code class="hljs java">Person P = <span class="hljs-keyword">new</span> Person(<span class="hljs-string">"孙悟空"</span>);
-System.out.println(p);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Person P = <span class="keyword">new</span> Person(<span class="string">"孙悟空"</span>);</span><br><span class="line">System.out.println(p);</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;当答应一个对象时，会返回“类名+@+hashCode”值，这是调用了toString()方法。它是一个特殊的方法，用于在打印对象时输出“自我描述”信息。<code>System.out.println(p);</code>相当于<code>System.out.println(p.toString());</code>。但是原本的返回值的信息太简略了，可以重载Object类的toString()方法。</p>
 <h1 id="类成员"><a href="#类成员" class="headerlink" title="类成员"></a>类成员</h1><p>&emsp;在Java类中只能包含成员变量，方法，构造器，初始化块，内部类（包括接口，枚举）五种成员，static可以修饰除构造器之外的四种，用static修饰的成员属于类，而不属于某个对象。</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NullAccessStatic</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">()</span></span>&#123;
-        System.out.println(<span class="hljs-string">"static修饰的类方法"</span>);
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        NullAccessStatic nas=<span class="hljs-keyword">null</span>;
-        nas.test();
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NullAccessStatic</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"static修饰的类方法"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        NullAccessStatic nas=<span class="keyword">null</span>;</span><br><span class="line">        nas.test();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h1 id="单例-Singleton-类"><a href="#单例-Singleton-类" class="headerlink" title="单例(Singleton)类"></a>单例(Singleton)类</h1><p>&emsp;在某些时候，不需要根据类创建多个对象，只需要一个。</p>
-<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Singleton</span> </span>&#123;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Singleton instance;
-
-    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Singleton</span><span class="hljs-params">()</span> </span>&#123;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Singleton <span class="hljs-title">getinstance</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">if</span> (instance == <span class="hljs-keyword">null</span>) &#123;
-            instance = <span class="hljs-keyword">new</span> Singleton();
-        &#125;
-        <span class="hljs-keyword">return</span> instance;
-    &#125;
-&#125;
-
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SingletonTest</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        Singleton s1 = Singleton.getinstance();
-        Singleton s2 = Singleton.getinstance();
-        System.out.println(s1 == s2);
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getinstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            instance = <span class="keyword">new</span> Singleton();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Singleton s1 = Singleton.getinstance();</span><br><span class="line">        Singleton s2 = Singleton.getinstance();</span><br><span class="line">        System.out.println(s1 == s2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;首先需要将原来的构造函数隐藏起来，防止自由创建对象。在类中提供一个类变量存储对象的缓存，然后提供一个静态的方法用来在缓存为空时生成对象，如果缓存不为空，就将这个缓存返回。</p>
 <h1 id="final修饰符"><a href="#final修饰符" class="headerlink" title="final修饰符"></a>final修饰符</h1><p>&emsp;final关键字可用于修饰类，变量，方法，表示它们不可改变。final的变量获得了初始值后就不可改变，不是不可赋值。变量类型可以是类变量，实例变量，局部变量，形参。</p>
@@ -276,12 +282,7 @@ System.out.println(p);</code></pre>
 </ul>
 <p>&emsp;满足以上条件的变量将变成一个直接辆，比如<code>final int a=5</code>后，再使用a时，会将a直接替换为5。</p>
 <h2 id="final方法"><a href="#final方法" class="headerlink" title="final方法"></a>final方法</h2><p>&emsp;final修饰的方法时不能被重写。但有种特殊的情况：</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PrivateFinalMethodTest</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">()</span></span>&#123;&#125;
-&#125;
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Sub</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">PrivateFinalMethodTest</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">()</span></span>&#123;&#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PrivateFinalMethodTest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sub</span> <span class="keyword">extends</span> <span class="title">PrivateFinalMethodTest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;private修饰的父类方法，对于子类来说是不可见的，因此也就不存在重写父类方法。<br>对于final修饰的方法仅仅是不能被重写，但是可以重载。</p>
 <h2 id="final类"><a href="#final类" class="headerlink" title="final类"></a>final类</h2><p>&emsp;对于final类，它不能被继承。</p>
@@ -293,411 +294,219 @@ System.out.println(p);</code></pre>
 <li>如有必要，重写hashCode()和equals()方法。equals()方法根据关键成员变量来作为两个人对象是否相等的标准，除此之外，还要保证两个用equals()方法判断相等的对象的hashCode()也相等。</li>
 </ul>
 <p>&emsp;例如String这个类，它是根据String对象里的字符序列来作为相等的标准，其hashCode()方法也是根据字符序列计算得到的。下面给出例子：</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Address</span> </span>&#123;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String detail;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String postCode;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Address</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">this</span>.detail = <span class="hljs-string">""</span>;
-        <span class="hljs-keyword">this</span>.postCode = <span class="hljs-string">""</span>;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Address</span><span class="hljs-params">(String detail, String postCode)</span> </span>&#123;
-        <span class="hljs-keyword">this</span>.detail = detail;
-        <span class="hljs-keyword">this</span>.postCode = postCode;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getDetail</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.detail;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getPostCode</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.postCode;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">equals</span><span class="hljs-params">(Object obj)</span> </span>&#123;
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span> == obj) &#123;
-            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
-        &#125;
-        <span class="hljs-keyword">if</span> (obj != <span class="hljs-keyword">null</span> &amp;&amp; obj.getClass() == Address<span class="hljs-class">.<span class="hljs-keyword">class</span>) </span>&#123;
-            Address ad = (Address) obj;
-            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.getDetail().equals(ad.getDetail()) &amp;&amp; <span class="hljs-keyword">this</span>.getPostCode().equals(ad.getPostCode())) &#123;
-                <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
-            &#125;
-        &#125;
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">hashCode</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">return</span> detail.hashCode() + postCode.hashCode() * <span class="hljs-number">31</span>;
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Address</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String detail;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String postCode;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Address</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.detail = <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">this</span>.postCode = <span class="string">""</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Address</span><span class="params">(String detail, String postCode)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.detail = detail;</span><br><span class="line">        <span class="keyword">this</span>.postCode = postCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getDetail</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.detail;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getPostCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.postCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> == obj) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (obj != <span class="keyword">null</span> &amp;&amp; obj.getClass() == Address<span class="class">.<span class="keyword">class</span>) </span>&#123;</span><br><span class="line">            Address ad = (Address) obj;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.getDetail().equals(ad.getDetail()) &amp;&amp; <span class="keyword">this</span>.getPostCode().equals(ad.getPostCode())) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> detail.hashCode() + postCode.hashCode() * <span class="number">31</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;前面写过，final仅仅能表示修饰的引用变量的指向不变，其对象还是可以任意改变的。如果，在一个不可变类中定义了一个final的成员变量是引用类型的，那么这个不可变类就失败了，它可变。例：</p>
-<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Name</span></span>&#123;
-    <span class="hljs-keyword">private</span> String firstName;
-    <span class="hljs-keyword">private</span> String lastName;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Name</span><span class="hljs-params">()</span> </span>&#123;&#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Name</span><span class="hljs-params">(String firstName, String lastName)</span> </span>&#123;
-        <span class="hljs-keyword">super</span>();
-        <span class="hljs-keyword">this</span>.firstName = firstName;
-        <span class="hljs-keyword">this</span>.lastName = lastName;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getFirstName</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">return</span> firstName;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setFirstName</span><span class="hljs-params">(String firstName)</span> </span>&#123;
-        <span class="hljs-keyword">this</span>.firstName = firstName;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getLastName</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">return</span> lastName;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setLastName</span><span class="hljs-params">(String lastName)</span> </span>&#123;
-        <span class="hljs-keyword">this</span>.lastName = lastName;
-    &#125;
-&#125;
-
-
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> </span>&#123;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Name name;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person</span><span class="hljs-params">(Name name)</span></span>&#123;
-        <span class="hljs-keyword">this</span>.name=name;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> Name <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">return</span> name;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        <span class="hljs-comment">// TODO Auto-generated method stub</span>
-        Name n=<span class="hljs-keyword">new</span> Name(<span class="hljs-string">"aa"</span>,<span class="hljs-string">"bb"</span>);
-        Person p=<span class="hljs-keyword">new</span> Person(n);
-        System.out.println(p.getName().getFirstName());
-        n.setFirstName(<span class="hljs-string">"cc"</span>);
-        System.out.println(p.getName().getFirstName());
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Name</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String firstName;</span><br><span class="line">    <span class="keyword">private</span> String lastName;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Name</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Name</span><span class="params">(String firstName, String lastName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">this</span>.firstName = firstName;</span><br><span class="line">        <span class="keyword">this</span>.lastName = lastName;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getFirstName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> firstName;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFirstName</span><span class="params">(String firstName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.firstName = firstName;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getLastName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> lastName;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLastName</span><span class="params">(String lastName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.lastName = lastName;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Name name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(Name name)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name=name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Name <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">        Name n=<span class="keyword">new</span> Name(<span class="string">"aa"</span>,<span class="string">"bb"</span>);</span><br><span class="line">        Person p=<span class="keyword">new</span> Person(n);</span><br><span class="line">        System.out.println(p.getName().getFirstName());</span><br><span class="line">        n.setFirstName(<span class="string">"cc"</span>);</span><br><span class="line">        System.out.println(p.getName().getFirstName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;按上面的代码我可以随便修改Person对象p的值。请看下面修改的：</p>
-<pre><code class="hljs java"><span class="hljs-keyword">package</span> test1;
-
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> </span>&#123;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Name name;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person</span><span class="hljs-params">(Name name)</span> </span>&#123;
-        <span class="hljs-comment">// this.name=name;</span>
-        <span class="hljs-keyword">this</span>.name = <span class="hljs-keyword">new</span> Name(name.getFirstName(), name.getLastName());
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> Name <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Name(name.getFirstName(), name.getLastName());
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        <span class="hljs-comment">// TODO Auto-generated method stub</span>
-        Name n = <span class="hljs-keyword">new</span> Name(<span class="hljs-string">"aa"</span>, <span class="hljs-string">"bb"</span>);
-        Person p = <span class="hljs-keyword">new</span> Person(n);
-        System.out.println(p.getName().getFirstName());
-        n.setFirstName(<span class="hljs-string">"cc"</span>);
-        System.out.println(p.getName().getFirstName());
-    &#125;
-
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test1;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Name name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(Name name)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// this.name=name;</span></span><br><span class="line">        <span class="keyword">this</span>.name = <span class="keyword">new</span> Name(name.getFirstName(), name.getLastName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Name <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Name(name.getFirstName(), name.getLastName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">        Name n = <span class="keyword">new</span> Name(<span class="string">"aa"</span>, <span class="string">"bb"</span>);</span><br><span class="line">        Person p = <span class="keyword">new</span> Person(n);</span><br><span class="line">        System.out.println(p.getName().getFirstName());</span><br><span class="line">        n.setFirstName(<span class="string">"cc"</span>);</span><br><span class="line">        System.out.println(p.getName().getFirstName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;现在就无法修改p的值了，原理在于，原来p的name就是n的值，当修改n时，p的name也被改变。现在，在创建p时，调用构造函数后会创建一个临时Name对象，把传进来的name的值（即具体内容，而不是将引用/地址）给这个临时对象，然后将临时对象赋给p的name。在以后修改n时，不会对p有任何影响，因为n和临时变量只有数值上的传递。</p>
 <h2 id="缓存实例的不可变类"><a href="#缓存实例的不可变类" class="headerlink" title="缓存实例的不可变类"></a>缓存实例的不可变类</h2><p>&emsp;不可变类由于一旦创建就不可更改，所以可以方便的进行共享，应该考虑缓存这个实例。缓存的实现很多，这里先考虑用数组实现。</p>
-<pre><code class="hljs java"><span class="hljs-keyword">package</span> cacheImmutale;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cacheImmutale;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CacheImmutale</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> MAX_SIZE = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> CacheImmutale[] cache = <span class="keyword">new</span> CacheImmutale[MAX_SIZE];</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> pos = <span class="number">0</span>;<span class="comment">// 记录实例在缓存中的位置，cache[pos-1]是最新缓存的实例</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">CacheImmutale</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> CacheImmutale <span class="title">valueOf</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; MAX_SIZE; i++) &#123;<span class="comment">//遍历是否有相同的</span></span><br><span class="line">            <span class="keyword">if</span> (cache[i] != <span class="keyword">null</span> &amp;&amp; cache[i].getName().equals(name)) &#123;</span><br><span class="line">                <span class="keyword">return</span> cache[i];</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (pos == MAX_SIZE) &#123;<span class="comment">//如果满了就把第一个替换</span></span><br><span class="line">            cache[<span class="number">0</span>] = <span class="keyword">new</span> CacheImmutale(name);</span><br><span class="line">            pos = <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            cache[pos++] = <span class="keyword">new</span> CacheImmutale(name);<span class="comment">//新建一个CacheImmutale对象，将这个对象的name赋值，并保存在数组中</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cache[pos - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> == obj) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (obj != <span class="keyword">null</span> &amp;&amp; obj.getClass() == CacheImmutale<span class="class">.<span class="keyword">class</span>) </span>&#123;</span><br><span class="line">            CacheImmutale ci = (CacheImmutale) obj;</span><br><span class="line">            <span class="keyword">return</span> name.equals(ci.getName());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name.hashCode();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CacheImmutale</span> </span>&#123;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> MAX_SIZE = <span class="hljs-number">10</span>;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> CacheImmutale[] cache = <span class="hljs-keyword">new</span> CacheImmutale[MAX_SIZE];
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> pos = <span class="hljs-number">0</span>;<span class="hljs-comment">// 记录实例在缓存中的位置，cache[pos-1]是最新缓存的实例</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String name;
-
-    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">CacheImmutale</span><span class="hljs-params">(String name)</span> </span>&#123;
-        <span class="hljs-keyword">super</span>();
-        <span class="hljs-keyword">this</span>.name = name;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">return</span> name;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> CacheImmutale <span class="hljs-title">valueOf</span><span class="hljs-params">(String name)</span> </span>&#123;
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; MAX_SIZE; i++) &#123;<span class="hljs-comment">//遍历是否有相同的</span>
-            <span class="hljs-keyword">if</span> (cache[i] != <span class="hljs-keyword">null</span> &amp;&amp; cache[i].getName().equals(name)) &#123;
-                <span class="hljs-keyword">return</span> cache[i];
-            &#125;
-
-        &#125;
-        <span class="hljs-keyword">if</span> (pos == MAX_SIZE) &#123;<span class="hljs-comment">//如果满了就把第一个替换</span>
-            cache[<span class="hljs-number">0</span>] = <span class="hljs-keyword">new</span> CacheImmutale(name);
-            pos = <span class="hljs-number">1</span>;
-        &#125; <span class="hljs-keyword">else</span> &#123;
-            cache[pos++] = <span class="hljs-keyword">new</span> CacheImmutale(name);<span class="hljs-comment">//新建一个CacheImmutale对象，将这个对象的name赋值，并保存在数组中</span>
-        &#125;
-        <span class="hljs-keyword">return</span> cache[pos - <span class="hljs-number">1</span>];
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">equals</span><span class="hljs-params">(Object obj)</span> </span>&#123;
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span> == obj) &#123;
-            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
-        &#125;
-        <span class="hljs-keyword">if</span> (obj != <span class="hljs-keyword">null</span> &amp;&amp; obj.getClass() == CacheImmutale<span class="hljs-class">.<span class="hljs-keyword">class</span>) </span>&#123;
-            CacheImmutale ci = (CacheImmutale) obj;
-            <span class="hljs-keyword">return</span> name.equals(ci.getName());
-        &#125;
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">hashCode</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">return</span> name.hashCode();
-    &#125;
-&#125;</code></pre>
-
-<pre><code class="hljs java"><span class="hljs-keyword">package</span> cacheImmutale;
-
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CacheImmutaleTest</span> </span>&#123;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        <span class="hljs-comment">// TODO Auto-generated method stub</span>
-        CacheImmutale c1 = CacheImmutale.valueOf(<span class="hljs-string">"hello"</span>);
-        CacheImmutale c2 = CacheImmutale.valueOf(<span class="hljs-string">"hello"</span>);
-        System.out.println(c1 == c2);
-    &#125;
-
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cacheImmutale;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CacheImmutaleTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">        CacheImmutale c1 = CacheImmutale.valueOf(<span class="string">"hello"</span>);</span><br><span class="line">        CacheImmutale c2 = CacheImmutale.valueOf(<span class="string">"hello"</span>);</span><br><span class="line">        System.out.println(c1 == c2);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;分析上面的代码，根据<code>CacheImmutale</code>类创建的对象是一个不可更改的String字符串name，这个类有一个数组，用于保存输入的name。有两个细节要注意，第一：<code>cache[pos++] = new CacheImmutale(name);</code>pos++是先把pos的值传出去在自己加1，所以相当于<code>cache[pos] = new CacheImmutale(name);pos=pos+1;</code>注意不是将name的值赋给第一个。第二：为什么valueOf要返回cache数组中的一个？因为cache数组是CacheImmutale[]类型的，里面都是CacheImmutale类的对象，要把这个对象指向c1和c2，如果name相同，也就没有新建对象，c1和c2指向的是同一个对象。<br><br>&emsp;Integer类采用的就是类似的策略，如果用new，则每次都返回全新的对象，如果是valueOf()方法，则会启用缓存策略，但只缓存-128~127之间的。</p>
 
-            </article>
-            <hr>
-            <div>
-              <div class="post-metas mb-3">
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/java/">java</a>
-                    
-                  </div>
-                
-              </div>
-              
-                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
-              
-              
-                <div class="post-prevnext row">
-                  <div class="post-prev col-6">
-                    
-                    
-                      <a href="/2018/04/24/Java%E7%AC%94%E8%AE%B07/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Java笔记7</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </div>
-                  <div class="post-next col-6">
-                    
-                    
-                      <a href="/2018/04/19/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%94%E8%AE%B01/">
-                        <span class="hidden-mobile">数据库笔记1</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </div>
-                </div>
-              
-            </div>
+    </div>
 
-            
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
           </div>
-        </div>
-      </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/04/19/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%94%E8%AE%B01/" rel="prev" title="数据库笔记1">
+      <i class="fa fa-chevron-left"></i> 数据库笔记1
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/04/24/Java%E7%AC%94%E8%AE%B07/" rel="next" title="Java笔记7">
+      Java笔记7 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
+      </footer>
     
-      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
-        <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
-  <div id="tocbot"></div>
-</div>
-
-      </div>
-    
-  </div>
-</div>
-
-<!-- Custom -->
-
-
-    
-  </main>
-
+  </article>
   
-    <a id="scroll-top-button" href="#" role="button">
-      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-    </a>
   
-
-  
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-  
-
-  
-
-  
-
-  <footer class="mt-5">
-  <div class="text-center py-3">
-    <div>
-      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
-      <i class="iconfont icon-love"></i>
-      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
-        <span>Fluid</span></a>
-    </div>
-    
-
-    
-
-    
-  </div>
-</footer>
-
-<!-- SCRIPTS -->
-<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
-<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
-<script  src="/js/debouncer.js" ></script>
-<script  src="/js/main.js" ></script>
-
-<!-- Plugins -->
-
-
-  
-    <script  src="/js/lazyload.js" ></script>
   
 
 
 
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
+          </div>
+          
 
-
-
-
-
-
-
-  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
-  <script>
-    $(document).ready(function () {
-      var boardCtn = $('#board-ctn');
-      var boardTop = boardCtn.offset().top;
-
-      tocbot.init({
-        tocSelector: '#tocbot',
-        contentSelector: 'article.markdown-body',
-        headingSelector: 'h1,h2,h3,h4,h5,h6',
-        linkClass: 'tocbot-link',
-        activeLinkClass: 'tocbot-active-link',
-        listClass: 'tocbot-list',
-        isCollapsedClass: 'tocbot-is-collapsed',
-        collapsibleClass: 'tocbot-is-collapsible',
-        collapseDepth: 0,
-        scrollSmooth: true,
-        headingsOffset: -boardTop
-      });
-      if ($('.toc-list-item').length > 0) {
-        $('#toc').css('visibility', 'visible');
-      }
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
-  <script>
-    var typed = new Typed('#subtitle', {
-      strings: [
-        '  ',
-        "Java笔记6&nbsp;",
-      ],
-      cursorChar: "_",
-      typeSpeed: 70,
-      loop: false,
-    });
-    typed.stop();
-    $(document).ready(function () {
-      $(".typed-cursor").addClass("h2");
-      typed.start();
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
-      
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
     }
-    anchors.add(res.join(", "))
-  </script>
-
-
-
-  <script  src="/js/local-search.js" ></script>
-  <script>
-    var path = "/local-search.xml";
-    var inputArea = document.querySelector("#local-search-input");
-    inputArea.onclick = function () {
-      searchFunc(path, 'local-search-input', 'local-search-result');
-      this.onclick = null
-    }
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-  <script>
-    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
-      function () {
-        var element = document.createElement('a');
-        $(element).attr('data-fancybox', 'images');
-        $(element).attr('href', $(this).attr('src'));
-        $(this).wrap(element);
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
       }
-    );
-  </script>
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#继承共同行为"><span class="nav-number">1.</span> <span class="nav-text">继承共同行为</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重新定义行为"><span class="nav-number">2.</span> <span class="nav-text">重新定义行为</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#抽象方法和抽象类"><span class="nav-number">3.</span> <span class="nav-text">抽象方法和抽象类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#protected成员"><span class="nav-number">4.</span> <span class="nav-text">protected成员</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重写的一些小细节"><span class="nav-number">5.</span> <span class="nav-text">重写的一些小细节</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#能否继承private"><span class="nav-number">6.</span> <span class="nav-text">能否继承private</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#再论-和equals"><span class="nav-number">7.</span> <span class="nav-text">再论&#x3D;&#x3D;和equals</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">7.1.</span> <span class="nav-text">&#x3D;&#x3D;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#equals"><span class="nav-number">7.2.</span> <span class="nav-text">equals</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toString方法"><span class="nav-number">8.</span> <span class="nav-text">toString方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#类成员"><span class="nav-number">9.</span> <span class="nav-text">类成员</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#单例-Singleton-类"><span class="nav-number">10.</span> <span class="nav-text">单例(Singleton)类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#final修饰符"><span class="nav-number">11.</span> <span class="nav-text">final修饰符</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#final成员变量"><span class="nav-number">11.1.</span> <span class="nav-text">final成员变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#final局部变量"><span class="nav-number">11.2.</span> <span class="nav-text">final局部变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#final修饰基本类型和引用类型"><span class="nav-number">11.3.</span> <span class="nav-text">final修饰基本类型和引用类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可执行宏替换的final变量"><span class="nav-number">11.4.</span> <span class="nav-text">可执行宏替换的final变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#final方法"><span class="nav-number">11.5.</span> <span class="nav-text">final方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#final类"><span class="nav-number">11.6.</span> <span class="nav-text">final类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不可变类-immutable"><span class="nav-number">11.7.</span> <span class="nav-text">不可变类(immutable)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存实例的不可变类"><span class="nav-number">11.8.</span> <span class="nav-text">缓存实例的不可变类</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xianzheTM"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">xianzheTM</p>
+  <div class="site-description" itemprop="description">希望这里能见证一个菜鸟到大神的路程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xianzheTM" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xianzheTM" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ylxianzhe@outlook.com" title="E-Mail → mailto:ylxianzhe@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xianzheTM</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">687k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">19:05</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 
@@ -711,12 +520,9 @@ System.out.println(p);</code></pre>
 
 
 
+  
 
-
-
-
-
-
+  
 
 </body>
 </html>

@@ -1,772 +1,295 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
-
-
-
-
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="/img/favicon.png">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yl.dropsec.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="driver是一种接口,规范了如何操作数据库.而具体如何实现还要看各大数据库厂商的实现. 下面是几种获得数据库连接的方式: 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JDBC">
+<meta property="og:url" content="https://yl.dropsec.xyz/2020/06/22/JDBC/index.html">
+<meta property="og:site_name" content="新日暮里">
+<meta property="og:description" content="driver是一种接口,规范了如何操作数据库.而具体如何实现还要看各大数据库厂商的实现. 下面是几种获得数据库连接的方式: 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-22T02:11:19.000Z">
+<meta property="article:modified_time" content="2020-06-23T13:55:29.178Z">
+<meta property="article:author" content="xianzheTM">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yl.dropsec.xyz/2020/06/22/JDBC/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>JDBC | 新日暮里</title>
   
-  <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="希望这里能见证一个菜鸟到大神的路程">
-  <meta name="author" content="xianzheTM">
-  <meta name="keywords" content="">
-  <title>JDBC - 新日暮里</title>
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
-  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
-
-  
-    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
-  
-
-  
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
 
 
-<link  rel="stylesheet" href="/css/main.css" />
 
-<!-- 自定义样式保持在最底部 -->
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-  <script  src="/js/utils.js" ></script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
+</head>
 
-<body>
-  <header style="height: 70vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand"
-       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                首页
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                归档
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                分类
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                标签
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
-          </li>
-        
-      </ul>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
-</nav>
 
-    <div class="view intro-2" id="background" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp">
-            <span class="h2" id="subtitle">
-              
-            </span>
+  <div class="site-meta">
 
-            
-              
-  <div class="mt-3 post-meta">
-    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-06-22 10:11">
-      2020年6月22日 上午
-    </time>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">新日暮里</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
   </div>
 
-
-<div class="mt-1">
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-chart"></i>
-      4.2k 字
-    </span>
-  
-
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-clock-fill"></i>
-      
-      
-      66
-       分钟
-    </span>
-  
-
-  
-  
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
 </div>
 
-            
-          </div>
 
-          
-        </div>
-      </div>
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
     </div>
-  </header>
+  </div>
 
-  <main>
+</div>
+    </header>
+
     
-      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
-        <div class="py-5" id="board">
-          <div class="post-content mx-auto" id="post">
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
             
-            <article class="markdown-body">
-              <p>driver是一种接口,规范了如何操作数据库.而具体如何实现还要看各大数据库厂商的实现.</p>
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yl.dropsec.xyz/2020/06/22/JDBC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="xianzheTM">
+      <meta itemprop="description" content="希望这里能见证一个菜鸟到大神的路程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新日暮里">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JDBC
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-22 10:11:19" itemprop="dateCreated datePublished" datetime="2020-06-22T10:11:19+08:00">2020-06-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-23 21:55:29" itemprop="dateModified" datetime="2020-06-23T21:55:29+08:00">2020-06-23</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>21k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>36 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>driver是一种接口,规范了如何操作数据库.而具体如何实现还要看各大数据库厂商的实现.</p>
 <p>下面是几种获得数据库连接的方式:</p>
-<pre><code class="hljs java"><span class="hljs-keyword">import</span> org.junit.Test;
-
-<span class="hljs-keyword">import</span> java.io.IOException;
-<span class="hljs-keyword">import</span> java.io.InputStream;
-<span class="hljs-keyword">import</span> java.sql.Connection;
-<span class="hljs-keyword">import</span> java.sql.Driver;
-<span class="hljs-keyword">import</span> java.sql.DriverManager;
-<span class="hljs-keyword">import</span> java.sql.SQLException;
-<span class="hljs-keyword">import</span> java.util.Properties;
-
-<span class="hljs-comment">/**</span>
-<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> YLxia</span>
-<span class="hljs-comment"> */</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConnectionTest</span> </span>&#123;
-    <span class="hljs-meta">@Test</span><span class="hljs-comment">//方式一</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ConnectionTest1</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException </span>&#123;
-        <span class="hljs-comment">//获取driver的实现类对象</span>
-        Driver driver = <span class="hljs-keyword">new</span> com.mysql.jdbc.Driver();
-        String url = <span class="hljs-string">"jdbc:mysql://localhost:3306/test?serverTimezone=GMT"</span>;
-        Properties info = <span class="hljs-keyword">new</span> Properties();
-        info.setProperty(<span class="hljs-string">"user"</span>, <span class="hljs-string">"root"</span>);
-        info.setProperty(<span class="hljs-string">"password"</span>, <span class="hljs-string">"645866233"</span>);
-        Connection connect = driver.connect(url, info);
-        System.out.println(connect);
-    &#125;
-
-    <span class="hljs-meta">@Test</span><span class="hljs-comment">//方式二</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ConnectionTest2</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException </span>&#123;
-        Class driverclass = Class.forName(<span class="hljs-string">"com.mysql.jdbc.Driver"</span>);<span class="hljs-comment">//获取class实例四种方式之一</span>
-        Driver driver = (Driver) driverclass.newInstance();
-        String url = <span class="hljs-string">"jdbc:mysql://localhost:3306/test?serverTimezone=GMT"</span>;
-        Properties info = <span class="hljs-keyword">new</span> Properties();
-        info.setProperty(<span class="hljs-string">"user"</span>, <span class="hljs-string">"root"</span>);
-        info.setProperty(<span class="hljs-string">"password"</span>, <span class="hljs-string">"645866233"</span>);
-        Connection connect = driver.connect(url, info);
-        System.out.println(connect);
-    &#125;
-
-    <span class="hljs-meta">@Test</span><span class="hljs-comment">//方式三,用DriverManager替换driver</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ConnectionTest3</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
-        Class driverclass = Class.forName(<span class="hljs-string">"com.mysql.jdbc.Driver"</span>);<span class="hljs-comment">//获取class实例四种方式之一</span>
-        Driver driver = (Driver) driverclass.newInstance();
-        String url = <span class="hljs-string">"jdbc:mysql://localhost:3306/test?serverTimezone=GMT"</span>;
-        String user = <span class="hljs-string">"root"</span>;
-        String password = <span class="hljs-string">"645866233"</span>;
-        DriverManager.registerDriver(driver);
-        DriverManager.getConnection(url, user, password);
-    &#125;
-
-    <span class="hljs-meta">@Test</span><span class="hljs-comment">//方式四</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ConnectionTest4</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException, ClassNotFoundException </span>&#123;
-        Class.forName(<span class="hljs-string">"com.mysql.jdbc.Driver"</span>);<span class="hljs-comment">//加载驱动到内存,这句也可以省略,但不推荐</span>
-        <span class="hljs-comment">/*</span>
-<span class="hljs-comment">        MySQL8中的com.mysql.jdbc.Driver继承于com.mysql.cj.jdbc.Driver,而在后者中有个静态代码块,当驱动类加载后静态代码块就执行:</span>
-<span class="hljs-comment">        try &#123;</span>
-<span class="hljs-comment">            java.sql.DriverManager.registerDriver(new Driver());//注册驱动</span>
-<span class="hljs-comment">        &#125; catch (SQLException E) &#123;</span>
-<span class="hljs-comment">            throw new RuntimeException("Can't register driver!");</span>
-<span class="hljs-comment">        &#125;</span>
-<span class="hljs-comment">        综上,本质和第三种没区别</span>
-<span class="hljs-comment">         */</span>
-
-        String url = <span class="hljs-string">"jdbc:mysql://localhost:3306/test?serverTimezone=GMT"</span>;
-        String user = <span class="hljs-string">"root"</span>;
-        String password = <span class="hljs-string">"645866233"</span>;
-        DriverManager.getConnection(url, user, password);
-    &#125;
-
-    <span class="hljs-meta">@Test</span><span class="hljs-comment">//方式五</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Connection5</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException, ClassNotFoundException, SQLException </span>&#123;
-        <span class="hljs-comment">//将连接数据库需要的四个信息写在配置文件中</span>
-        <span class="hljs-comment">//读取配置文件信息</span>
-        InputStream is = ConnectionTest.class.getClassLoader().getResourceAsStream("jdbc.properties");
-        Properties pros = <span class="hljs-keyword">new</span> Properties();
-        pros.load(is);
-
-        String user = pros.getProperty(<span class="hljs-string">"user"</span>);
-        String password = pros.getProperty(<span class="hljs-string">"password"</span>);
-        String url = pros.getProperty(<span class="hljs-string">"url"</span>);
-        String driverClass = pros.getProperty(<span class="hljs-string">"driverClass"</span>);<span class="hljs-comment">//这里改用新版的com.mysql.cj.jdbc.Driver</span>
-
-        Class.forName(driverClass);
-        Connection connection = DriverManager.getConnection(url, user, password);
-        System.out.println(connection);
-    &#125;
-
-    <span class="hljs-meta">@Test</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Propertiestest</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
-        Properties properties = <span class="hljs-keyword">new</span> Properties();
-<span class="hljs-comment">//        FileInputStream fis = new FileInputStream("jdbc.properties");</span>
-<span class="hljs-comment">//        properties.load(fis);</span>
-
-        ClassLoader classLoader = ConnectionTest<span class="hljs-class">.<span class="hljs-keyword">class</span>.<span class="hljs-title">getClassLoader</span>()</span>;<span class="hljs-comment">//获取系统类加载器</span>
-        InputStream is = classLoader.getResourceAsStream(<span class="hljs-string">"jdbc.properties"</span>);
-        properties.load(is);
-
-        String user = properties.getProperty(<span class="hljs-string">"user"</span>);
-        String password = properties.getProperty(<span class="hljs-string">"password"</span>);
-        System.out.println(user + <span class="hljs-string">'+'</span> + password);
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.Driver;</span><br><span class="line"><span class="keyword">import</span> java.sql.DriverManager;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">import</span> java.util.Properties;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> YLxia</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConnectionTest</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Test</span><span class="comment">//方式一</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ConnectionTest1</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        <span class="comment">//获取driver的实现类对象</span></span><br><span class="line">        Driver driver = <span class="keyword">new</span> com.mysql.jdbc.Driver();</span><br><span class="line">        String url = <span class="string">"jdbc:mysql://localhost:3306/test?serverTimezone=GMT"</span>;</span><br><span class="line">        Properties info = <span class="keyword">new</span> Properties();</span><br><span class="line">        info.setProperty(<span class="string">"user"</span>, <span class="string">"root"</span>);</span><br><span class="line">        info.setProperty(<span class="string">"password"</span>, <span class="string">"645866233"</span>);</span><br><span class="line">        Connection connect = driver.connect(url, info);</span><br><span class="line">        System.out.println(connect);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span><span class="comment">//方式二</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ConnectionTest2</span><span class="params">()</span> <span class="keyword">throws</span> ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException </span>&#123;</span><br><span class="line">        Class driverclass = Class.forName(<span class="string">"com.mysql.jdbc.Driver"</span>);<span class="comment">//获取class实例四种方式之一</span></span><br><span class="line">        Driver driver = (Driver) driverclass.newInstance();</span><br><span class="line">        String url = <span class="string">"jdbc:mysql://localhost:3306/test?serverTimezone=GMT"</span>;</span><br><span class="line">        Properties info = <span class="keyword">new</span> Properties();</span><br><span class="line">        info.setProperty(<span class="string">"user"</span>, <span class="string">"root"</span>);</span><br><span class="line">        info.setProperty(<span class="string">"password"</span>, <span class="string">"645866233"</span>);</span><br><span class="line">        Connection connect = driver.connect(url, info);</span><br><span class="line">        System.out.println(connect);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span><span class="comment">//方式三,用DriverManager替换driver</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ConnectionTest3</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        Class driverclass = Class.forName(<span class="string">"com.mysql.jdbc.Driver"</span>);<span class="comment">//获取class实例四种方式之一</span></span><br><span class="line">        Driver driver = (Driver) driverclass.newInstance();</span><br><span class="line">        String url = <span class="string">"jdbc:mysql://localhost:3306/test?serverTimezone=GMT"</span>;</span><br><span class="line">        String user = <span class="string">"root"</span>;</span><br><span class="line">        String password = <span class="string">"645866233"</span>;</span><br><span class="line">        DriverManager.registerDriver(driver);</span><br><span class="line">        DriverManager.getConnection(url, user, password);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span><span class="comment">//方式四</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ConnectionTest4</span><span class="params">()</span> <span class="keyword">throws</span> SQLException, ClassNotFoundException </span>&#123;</span><br><span class="line">        Class.forName(<span class="string">"com.mysql.jdbc.Driver"</span>);<span class="comment">//加载驱动到内存,这句也可以省略,但不推荐</span></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        MySQL8中的com.mysql.jdbc.Driver继承于com.mysql.cj.jdbc.Driver,而在后者中有个静态代码块,当驱动类加载后静态代码块就执行:</span></span><br><span class="line"><span class="comment">        try &#123;</span></span><br><span class="line"><span class="comment">            java.sql.DriverManager.registerDriver(new Driver());//注册驱动</span></span><br><span class="line"><span class="comment">        &#125; catch (SQLException E) &#123;</span></span><br><span class="line"><span class="comment">            throw new RuntimeException("Can't register driver!");</span></span><br><span class="line"><span class="comment">        &#125;</span></span><br><span class="line"><span class="comment">        综上,本质和第三种没区别</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line"></span><br><span class="line">        String url = <span class="string">"jdbc:mysql://localhost:3306/test?serverTimezone=GMT"</span>;</span><br><span class="line">        String user = <span class="string">"root"</span>;</span><br><span class="line">        String password = <span class="string">"645866233"</span>;</span><br><span class="line">        DriverManager.getConnection(url, user, password);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span><span class="comment">//方式五</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Connection5</span><span class="params">()</span> <span class="keyword">throws</span> IOException, ClassNotFoundException, SQLException </span>&#123;</span><br><span class="line">        <span class="comment">//将连接数据库需要的四个信息写在配置文件中</span></span><br><span class="line">        <span class="comment">//读取配置文件信息</span></span><br><span class="line">        InputStream is = ConnectionTest.class.getClassLoader().getResourceAsStream("jdbc.properties");</span><br><span class="line">        Properties pros = <span class="keyword">new</span> Properties();</span><br><span class="line">        pros.load(is);</span><br><span class="line"></span><br><span class="line">        String user = pros.getProperty(<span class="string">"user"</span>);</span><br><span class="line">        String password = pros.getProperty(<span class="string">"password"</span>);</span><br><span class="line">        String url = pros.getProperty(<span class="string">"url"</span>);</span><br><span class="line">        String driverClass = pros.getProperty(<span class="string">"driverClass"</span>);<span class="comment">//这里改用新版的com.mysql.cj.jdbc.Driver</span></span><br><span class="line"></span><br><span class="line">        Class.forName(driverClass);</span><br><span class="line">        Connection connection = DriverManager.getConnection(url, user, password);</span><br><span class="line">        System.out.println(connection);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Propertiestest</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        Properties properties = <span class="keyword">new</span> Properties();</span><br><span class="line"><span class="comment">//        FileInputStream fis = new FileInputStream("jdbc.properties");</span></span><br><span class="line"><span class="comment">//        properties.load(fis);</span></span><br><span class="line"></span><br><span class="line">        ClassLoader classLoader = ConnectionTest<span class="class">.<span class="keyword">class</span>.<span class="title">getClassLoader</span>()</span>;<span class="comment">//获取系统类加载器</span></span><br><span class="line">        InputStream is = classLoader.getResourceAsStream(<span class="string">"jdbc.properties"</span>);</span><br><span class="line">        properties.load(is);</span><br><span class="line"></span><br><span class="line">        String user = properties.getProperty(<span class="string">"user"</span>);</span><br><span class="line">        String password = properties.getProperty(<span class="string">"password"</span>);</span><br><span class="line">        System.out.println(user + <span class="string">'+'</span> + password);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>执行SQL语句共有三种方式:</p>
 <p>Sataement:执行静态SQL语句并返回结果对象</p>
 <p>PreparedStatement:SQL语句被预编译存储在该对象中</p>
 <p>CallableStatement:用于执行存储过程</p>
 <p>下面代码演示了如何连接并使用预编译SQL语句:</p>
-<pre><code class="hljs java"><span class="hljs-keyword">import</span> org.junit.Test;
-
-<span class="hljs-keyword">import</span> java.io.IOException;
-<span class="hljs-keyword">import</span> java.io.InputStream;
-<span class="hljs-keyword">import</span> java.sql.Connection;
-<span class="hljs-keyword">import</span> java.sql.DriverManager;
-<span class="hljs-keyword">import</span> java.sql.PreparedStatement;
-<span class="hljs-keyword">import</span> java.sql.SQLException;
-<span class="hljs-keyword">import</span> java.text.ParseException;
-<span class="hljs-keyword">import</span> java.text.SimpleDateFormat;
-<span class="hljs-keyword">import</span> java.util.Date;
-<span class="hljs-keyword">import</span> java.util.Properties;
-
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PreParedStatementTest</span> </span>&#123;
-    <span class="hljs-meta">@Test</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">insertTest</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> ClassNotFoundException, SQLException, IOException, ParseException </span>&#123;
-        Connection connection = <span class="hljs-keyword">null</span>;
-        PreparedStatement ps = <span class="hljs-keyword">null</span>;<span class="hljs-comment">//预编译SQL语句,返回preparedstatement的实例</span>
-        <span class="hljs-keyword">try</span> &#123;
-            InputStream is = ConnectionTest.class.getClassLoader().getResourceAsStream("jdbc.properties");
-            Properties pros = <span class="hljs-keyword">new</span> Properties();
-            pros.load(is);
-
-            String user = pros.getProperty(<span class="hljs-string">"user"</span>);
-            String password = pros.getProperty(<span class="hljs-string">"password"</span>);
-            String url = pros.getProperty(<span class="hljs-string">"url"</span>);
-            String driverClass = pros.getProperty(<span class="hljs-string">"driverClass"</span>);<span class="hljs-comment">//这里改用新版的com.mysql.cj.jdbc.Driver</span>
-            <span class="hljs-comment">//加载驱动</span>
-            Class.forName(driverClass);
-            <span class="hljs-comment">//获取连接</span>
-            connection = DriverManager.getConnection(url, user, password);
-            <span class="hljs-comment">//预编译SQL语句</span>
-            String sql = <span class="hljs-string">"insert into test.customers(name,email,birth) values(?,?,?)"</span>;
-            ps = connection.prepareStatement(sql);
-            <span class="hljs-comment">//占位符填充</span>
-            ps.setString(<span class="hljs-number">1</span>, <span class="hljs-string">"哪吒"</span>);
-            ps.setString(<span class="hljs-number">2</span>, <span class="hljs-string">"yl@gmail.com"</span>);
-            SimpleDateFormat sdf = <span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">"yyyy-MM-dd"</span>);
-            Date date = sdf.parse(<span class="hljs-string">"1000-1-1"</span>);
-            ps.setDate(<span class="hljs-number">3</span>, <span class="hljs-keyword">new</span> java.sql.Date(date.getTime()));
-
-            <span class="hljs-comment">//执行,如果是查询操作有返回值则是true,如果是增删改操作则是false</span>
-            ps.execute();
-        &#125; <span class="hljs-keyword">catch</span> (IOException | ClassNotFoundException | SQLException | ParseException e) &#123;
-            e.printStackTrace();
-        &#125; <span class="hljs-keyword">finally</span> &#123;
-            <span class="hljs-comment">//资源关闭</span>
-            <span class="hljs-keyword">if</span> (ps != <span class="hljs-keyword">null</span>) &#123;
-                ps.close();
-            &#125;
-            <span class="hljs-keyword">if</span> (connection != <span class="hljs-keyword">null</span>) &#123;
-                connection.close();
-            &#125;
-        &#125;
-
-    &#125;
-
-    <span class="hljs-meta">@Test</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">updateTest</span><span class="hljs-params">()</span> </span>&#123;
-        Connection connection = <span class="hljs-keyword">null</span>;
-        PreparedStatement ps = <span class="hljs-keyword">null</span>;
-        <span class="hljs-keyword">try</span> &#123;
-            <span class="hljs-comment">//获取连接</span>
-            connection = JDBCUtils.getConnection();
-            <span class="hljs-comment">//预编译SQL语句</span>
-            String sql = <span class="hljs-string">"update test.customers set name = ? where  id= ? "</span>;
-            ps = connection.prepareStatement(sql);
-            <span class="hljs-comment">//填充占位符</span>
-            ps.setString(<span class="hljs-number">1</span>, <span class="hljs-string">"哪吒"</span>);
-            ps.setInt(<span class="hljs-number">2</span>, <span class="hljs-number">19</span>);
-            <span class="hljs-comment">//执行</span>
-            ps.execute();
-        &#125; <span class="hljs-keyword">catch</span> (IOException | ClassNotFoundException | SQLException e) &#123;
-            e.printStackTrace();
-        &#125; <span class="hljs-keyword">finally</span> &#123;
-            <span class="hljs-comment">//资源关闭</span>
-            JDBCUtils.closeResource(connection, ps);
-        &#125;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">update</span><span class="hljs-params">(String sql, Object... args)</span> </span>&#123;
-        Connection connection = <span class="hljs-keyword">null</span>;
-        PreparedStatement ps = <span class="hljs-keyword">null</span>;
-        <span class="hljs-keyword">try</span> &#123;
-            connection = JDBCUtils.getConnection();
-            ps = connection.prepareStatement(sql);
-            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; args.length; i++) &#123;
-                ps.setObject(i + <span class="hljs-number">1</span>, args[i]);
-            &#125;
-            <span class="hljs-keyword">return</span> ps.executeUpdate();<span class="hljs-comment">//返回DML所影响的行数,或者0表示没有任何返回(例如insert操作,返回结果为0,那么表示插入失败)</span>
-        &#125; <span class="hljs-keyword">catch</span> (IOException | ClassNotFoundException | SQLException e) &#123;
-            e.printStackTrace();
-        &#125; <span class="hljs-keyword">finally</span> &#123;
-            JDBCUtils.closeResource(connection, ps);
-        &#125;
-        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.DriverManager;</span><br><span class="line"><span class="keyword">import</span> java.sql.PreparedStatement;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">import</span> java.text.ParseException;</span><br><span class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.Properties;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PreParedStatementTest</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insertTest</span><span class="params">()</span> <span class="keyword">throws</span> ClassNotFoundException, SQLException, IOException, ParseException </span>&#123;</span><br><span class="line">        Connection connection = <span class="keyword">null</span>;</span><br><span class="line">        PreparedStatement ps = <span class="keyword">null</span>;<span class="comment">//预编译SQL语句,返回preparedstatement的实例</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            InputStream is = ConnectionTest.class.getClassLoader().getResourceAsStream("jdbc.properties");</span><br><span class="line">            Properties pros = <span class="keyword">new</span> Properties();</span><br><span class="line">            pros.load(is);</span><br><span class="line"></span><br><span class="line">            String user = pros.getProperty(<span class="string">"user"</span>);</span><br><span class="line">            String password = pros.getProperty(<span class="string">"password"</span>);</span><br><span class="line">            String url = pros.getProperty(<span class="string">"url"</span>);</span><br><span class="line">            String driverClass = pros.getProperty(<span class="string">"driverClass"</span>);<span class="comment">//这里改用新版的com.mysql.cj.jdbc.Driver</span></span><br><span class="line">            <span class="comment">//加载驱动</span></span><br><span class="line">            Class.forName(driverClass);</span><br><span class="line">            <span class="comment">//获取连接</span></span><br><span class="line">            connection = DriverManager.getConnection(url, user, password);</span><br><span class="line">            <span class="comment">//预编译SQL语句</span></span><br><span class="line">            String sql = <span class="string">"insert into test.customers(name,email,birth) values(?,?,?)"</span>;</span><br><span class="line">            ps = connection.prepareStatement(sql);</span><br><span class="line">            <span class="comment">//占位符填充</span></span><br><span class="line">            ps.setString(<span class="number">1</span>, <span class="string">"哪吒"</span>);</span><br><span class="line">            ps.setString(<span class="number">2</span>, <span class="string">"yl@gmail.com"</span>);</span><br><span class="line">            SimpleDateFormat sdf = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd"</span>);</span><br><span class="line">            Date date = sdf.parse(<span class="string">"1000-1-1"</span>);</span><br><span class="line">            ps.setDate(<span class="number">3</span>, <span class="keyword">new</span> java.sql.Date(date.getTime()));</span><br><span class="line"></span><br><span class="line">            <span class="comment">//执行,如果是查询操作有返回值则是true,如果是增删改操作则是false</span></span><br><span class="line">            ps.execute();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException | ClassNotFoundException | SQLException | ParseException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="comment">//资源关闭</span></span><br><span class="line">            <span class="keyword">if</span> (ps != <span class="keyword">null</span>) &#123;</span><br><span class="line">                ps.close();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (connection != <span class="keyword">null</span>) &#123;</span><br><span class="line">                connection.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Connection connection = <span class="keyword">null</span>;</span><br><span class="line">        PreparedStatement ps = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//获取连接</span></span><br><span class="line">            connection = JDBCUtils.getConnection();</span><br><span class="line">            <span class="comment">//预编译SQL语句</span></span><br><span class="line">            String sql = <span class="string">"update test.customers set name = ? where  id= ? "</span>;</span><br><span class="line">            ps = connection.prepareStatement(sql);</span><br><span class="line">            <span class="comment">//填充占位符</span></span><br><span class="line">            ps.setString(<span class="number">1</span>, <span class="string">"哪吒"</span>);</span><br><span class="line">            ps.setInt(<span class="number">2</span>, <span class="number">19</span>);</span><br><span class="line">            <span class="comment">//执行</span></span><br><span class="line">            ps.execute();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException | ClassNotFoundException | SQLException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="comment">//资源关闭</span></span><br><span class="line">            JDBCUtils.closeResource(connection, ps);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">update</span><span class="params">(String sql, Object... args)</span> </span>&#123;</span><br><span class="line">        Connection connection = <span class="keyword">null</span>;</span><br><span class="line">        PreparedStatement ps = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            connection = JDBCUtils.getConnection();</span><br><span class="line">            ps = connection.prepareStatement(sql);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; args.length; i++) &#123;</span><br><span class="line">                ps.setObject(i + <span class="number">1</span>, args[i]);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> ps.executeUpdate();<span class="comment">//返回DML所影响的行数,或者0表示没有任何返回(例如insert操作,返回结果为0,那么表示插入失败)</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException | ClassNotFoundException | SQLException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            JDBCUtils.closeResource(connection, ps);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>最后使用可变参数实现增删改的通用写法,其中IDBCUtils工具类的实现如下:</p>
-<pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.IOException;
-<span class="hljs-keyword">import</span> java.io.InputStream;
-<span class="hljs-keyword">import</span> java.sql.Connection;
-<span class="hljs-keyword">import</span> java.sql.DriverManager;
-<span class="hljs-keyword">import</span> java.sql.PreparedStatement;
-<span class="hljs-keyword">import</span> java.sql.SQLException;
-<span class="hljs-keyword">import</span> java.util.Properties;
-
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JDBCUtils</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Connection <span class="hljs-title">getConnection</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException, ClassNotFoundException, SQLException </span>&#123;
-        InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream(<span class="hljs-string">"jdbc.properties"</span>);
-        Properties pros = <span class="hljs-keyword">new</span> Properties();
-        pros.load(is);
-
-        String user = pros.getProperty(<span class="hljs-string">"user"</span>);
-        String password = pros.getProperty(<span class="hljs-string">"password"</span>);
-        String url = pros.getProperty(<span class="hljs-string">"url"</span>);
-        String driverClass = pros.getProperty(<span class="hljs-string">"driverClass"</span>);<span class="hljs-comment">//这里改用新版的com.mysql.cj.jdbc.Driver</span>
-
-        Class.forName(driverClass);
-        <span class="hljs-keyword">return</span> DriverManager.getConnection(url, user, password);
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">closeResource</span><span class="hljs-params">(Connection connection, PreparedStatement ps)</span> </span>&#123;
-        <span class="hljs-keyword">try</span> &#123;
-            <span class="hljs-keyword">if</span> (ps != <span class="hljs-keyword">null</span>) &#123;
-                ps.close();
-            &#125;
-        &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
-            e.printStackTrace();
-        &#125;
-        <span class="hljs-keyword">try</span> &#123;
-            <span class="hljs-keyword">if</span> (connection != <span class="hljs-keyword">null</span>) &#123;
-                connection.close();
-            &#125;
-        &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.DriverManager;</span><br><span class="line"><span class="keyword">import</span> java.sql.PreparedStatement;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">import</span> java.util.Properties;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JDBCUtils</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Connection <span class="title">getConnection</span><span class="params">()</span> <span class="keyword">throws</span> IOException, ClassNotFoundException, SQLException </span>&#123;</span><br><span class="line">        InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream(<span class="string">"jdbc.properties"</span>);</span><br><span class="line">        Properties pros = <span class="keyword">new</span> Properties();</span><br><span class="line">        pros.load(is);</span><br><span class="line"></span><br><span class="line">        String user = pros.getProperty(<span class="string">"user"</span>);</span><br><span class="line">        String password = pros.getProperty(<span class="string">"password"</span>);</span><br><span class="line">        String url = pros.getProperty(<span class="string">"url"</span>);</span><br><span class="line">        String driverClass = pros.getProperty(<span class="string">"driverClass"</span>);<span class="comment">//这里改用新版的com.mysql.cj.jdbc.Driver</span></span><br><span class="line"></span><br><span class="line">        Class.forName(driverClass);</span><br><span class="line">        <span class="keyword">return</span> DriverManager.getConnection(url, user, password);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">closeResource</span><span class="params">(Connection connection, PreparedStatement ps)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (ps != <span class="keyword">null</span>) &#123;</span><br><span class="line">                ps.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (connection != <span class="keyword">null</span>) &#123;</span><br><span class="line">                connection.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>查询与增删改不一样,需要处理查询的返回值.</p>
-<pre><code class="hljs java"><span class="hljs-meta">@Test</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testQuery1</span><span class="hljs-params">()</span> </span>&#123;
-    Connection connection = <span class="hljs-keyword">null</span>;
-    PreparedStatement ps = <span class="hljs-keyword">null</span>;
-    ResultSet resultSet = <span class="hljs-keyword">null</span>;
-    <span class="hljs-keyword">try</span> &#123;
-        connection = JDBCUtils.getConnection();
-        String sql = <span class="hljs-string">"select id,name,email,birth from test.customers where id=?"</span>;
-        ps = connection.prepareStatement(sql);
-        ps.setInt(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>);
-
-        resultSet = ps.executeQuery();
-        <span class="hljs-keyword">if</span> (resultSet.next()) &#123;<span class="hljs-comment">//判断结果集下一条是否有数据,如果true,指针下移</span>
-            <span class="hljs-comment">//处理当前数据的各个字段</span>
-            <span class="hljs-keyword">int</span> id = resultSet.getInt(<span class="hljs-number">1</span>);
-            String name = resultSet.getString(<span class="hljs-number">2</span>);
-            String email = resultSet.getString(<span class="hljs-number">3</span>);
-            java.sql.Date birth = resultSet.getDate(<span class="hljs-number">4</span>);
-            Customer customer = <span class="hljs-keyword">new</span> Customer(id, name, email, birth);
-            System.out.println(customer);
-        &#125;
-    &#125; <span class="hljs-keyword">catch</span> (IOException | ClassNotFoundException | SQLException e) &#123;
-        e.printStackTrace();
-    &#125; <span class="hljs-keyword">finally</span> &#123;
-        JDBCUtils.closeResource(connection, ps, resultSet);
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testQuery1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Connection connection = <span class="keyword">null</span>;</span><br><span class="line">    PreparedStatement ps = <span class="keyword">null</span>;</span><br><span class="line">    ResultSet resultSet = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        connection = JDBCUtils.getConnection();</span><br><span class="line">        String sql = <span class="string">"select id,name,email,birth from test.customers where id=?"</span>;</span><br><span class="line">        ps = connection.prepareStatement(sql);</span><br><span class="line">        ps.setInt(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        resultSet = ps.executeQuery();</span><br><span class="line">        <span class="keyword">if</span> (resultSet.next()) &#123;<span class="comment">//判断结果集下一条是否有数据,如果true,指针下移</span></span><br><span class="line">            <span class="comment">//处理当前数据的各个字段</span></span><br><span class="line">            <span class="keyword">int</span> id = resultSet.getInt(<span class="number">1</span>);</span><br><span class="line">            String name = resultSet.getString(<span class="number">2</span>);</span><br><span class="line">            String email = resultSet.getString(<span class="number">3</span>);</span><br><span class="line">            java.sql.Date birth = resultSet.getDate(<span class="number">4</span>);</span><br><span class="line">            Customer customer = <span class="keyword">new</span> Customer(id, name, email, birth);</span><br><span class="line">            System.out.println(customer);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException | ClassNotFoundException | SQLException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        JDBCUtils.closeResource(connection, ps, resultSet);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>针对一个表的通用操作:</p>
-<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> Customer <span class="hljs-title">query</span><span class="hljs-params">(String sql, Object... args)</span> </span>&#123;
-    Connection connection = <span class="hljs-keyword">null</span>;
-    PreparedStatement ps = <span class="hljs-keyword">null</span>;
-    ResultSet resultSet = <span class="hljs-keyword">null</span>;
-    <span class="hljs-keyword">try</span> &#123;
-        connection = JDBCUtils.getConnection();
-        ps = connection.prepareStatement(sql);
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; args.length; i++) &#123;
-            ps.setObject(i + <span class="hljs-number">1</span>, args[i]);
-        &#125;
-
-        resultSet = ps.executeQuery();
-        ResultSetMetaData metaData = resultSet.getMetaData();<span class="hljs-comment">//获取结果集的元数据</span>
-        <span class="hljs-keyword">int</span> columnCount = metaData.getColumnCount();
-        <span class="hljs-keyword">if</span> (resultSet.next()) &#123;
-            Customer customer = <span class="hljs-keyword">new</span> Customer();
-            <span class="hljs-comment">//处理结果集中一行数据的每一列</span>
-            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; columnCount; i++) &#123;
-                Object columnVal = resultSet.getObject(i + <span class="hljs-number">1</span>);
-                <span class="hljs-comment">//获取列名</span>
-                String columnName = metaData.getColumnName(i + <span class="hljs-number">1</span>);
-                <span class="hljs-comment">//给指定customer对象的对应属性赋值,通过反射,由列明找属性</span>
-                Field field = Customer<span class="hljs-class">.<span class="hljs-keyword">class</span>.<span class="hljs-title">getDeclaredField</span>(<span class="hljs-title">columnName</span>)</span>;
-                field.setAccessible(<span class="hljs-keyword">true</span>);
-                field.set(customer, columnVal);
-            &#125;
-            <span class="hljs-keyword">return</span> customer;
-        &#125;
-    &#125; <span class="hljs-keyword">catch</span> (IOException | ClassNotFoundException | SQLException | NoSuchFieldException | IllegalAccessException e) &#123;
-        e.printStackTrace();
-    &#125; <span class="hljs-keyword">finally</span> &#123;
-        JDBCUtils.closeResource(connection, ps, resultSet);
-    &#125;
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
-&#125;
-
-<span class="hljs-meta">@Test</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testQuery</span><span class="hljs-params">()</span></span>&#123;
-    String sql = <span class="hljs-string">"select id,name,birth,email from test.customers where id=?"</span>;
-    Customer customer = query(sql, <span class="hljs-number">1</span>);
-    System.out.println(customer);
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Customer <span class="title">query</span><span class="params">(String sql, Object... args)</span> </span>&#123;</span><br><span class="line">    Connection connection = <span class="keyword">null</span>;</span><br><span class="line">    PreparedStatement ps = <span class="keyword">null</span>;</span><br><span class="line">    ResultSet resultSet = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        connection = JDBCUtils.getConnection();</span><br><span class="line">        ps = connection.prepareStatement(sql);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; args.length; i++) &#123;</span><br><span class="line">            ps.setObject(i + <span class="number">1</span>, args[i]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        resultSet = ps.executeQuery();</span><br><span class="line">        ResultSetMetaData metaData = resultSet.getMetaData();<span class="comment">//获取结果集的元数据</span></span><br><span class="line">        <span class="keyword">int</span> columnCount = metaData.getColumnCount();</span><br><span class="line">        <span class="keyword">if</span> (resultSet.next()) &#123;</span><br><span class="line">            Customer customer = <span class="keyword">new</span> Customer();</span><br><span class="line">            <span class="comment">//处理结果集中一行数据的每一列</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; columnCount; i++) &#123;</span><br><span class="line">                Object columnVal = resultSet.getObject(i + <span class="number">1</span>);</span><br><span class="line">                <span class="comment">//获取列名</span></span><br><span class="line">                String columnName = metaData.getColumnName(i + <span class="number">1</span>);</span><br><span class="line">                <span class="comment">//给指定customer对象的对应属性赋值,通过反射,由列明找属性</span></span><br><span class="line">                Field field = Customer<span class="class">.<span class="keyword">class</span>.<span class="title">getDeclaredField</span>(<span class="title">columnName</span>)</span>;</span><br><span class="line">                field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">                field.set(customer, columnVal);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> customer;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException | ClassNotFoundException | SQLException | NoSuchFieldException | IllegalAccessException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        JDBCUtils.closeResource(connection, ps, resultSet);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testQuery</span><span class="params">()</span></span>&#123;</span><br><span class="line">    String sql = <span class="string">"select id,name,birth,email from test.customers where id=?"</span>;</span><br><span class="line">    Customer customer = query(sql, <span class="number">1</span>);</span><br><span class="line">    System.out.println(customer);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>上面代码中将结果写入一个customer对象,先用结果集元数据确定每一行有多少列,然后挨个处理,根据结果集元数据拿到了列名,然后用反射根据这个列名获取对应属性并赋值.但是当bean对象的属性名和列名不一致时就要为列起别名:在SQL语句中的每个字段后加别名.此外从元数据获取的也不能是列名了,而是别名,即getColumnLabel()方法.若是没有别名,该方法则会获取列名,故不管哪种情况都推荐使用getColumnLabel()方法.</p>
 <p>下面演示了针对不同表的通用写法,主要是使用了泛型和反射:</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> &lt;T&gt; <span class="hljs-function">T <span class="hljs-title">getInstance</span><span class="hljs-params">(Class&lt;T&gt; clazz, String sql, Object... args)</span> </span>&#123;
-   Connection connection = <span class="hljs-keyword">null</span>;
-   PreparedStatement ps = <span class="hljs-keyword">null</span>;
-   ResultSet resultSet = <span class="hljs-keyword">null</span>;
-   <span class="hljs-keyword">try</span> &#123;
-       connection = JDBCUtils.getConnection();
-       ps = connection.prepareStatement(sql);
-       <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; args.length; i++) &#123;
-           ps.setObject(i + <span class="hljs-number">1</span>, args[i]);
-       &#125;
-
-       resultSet = ps.executeQuery();
-       ResultSetMetaData metaData = resultSet.getMetaData();<span class="hljs-comment">//获取结果集的元数据</span>
-       <span class="hljs-keyword">int</span> columnCount = metaData.getColumnCount();
-       <span class="hljs-keyword">if</span> (resultSet.next()) &#123;
-           T t = clazz.getDeclaredConstructor().newInstance();
-           <span class="hljs-comment">//处理结果集中一行数据的每一列</span>
-           <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; columnCount; i++) &#123;
-               Object columnVal = resultSet.getObject(i + <span class="hljs-number">1</span>);
-               <span class="hljs-comment">//获取列名</span>
-               String columnName = metaData.getColumnLabel(i + <span class="hljs-number">1</span>);
-               <span class="hljs-comment">//给指定customer对象的对应属性赋值,通过反射,由列明找属性</span>
-               Field field = clazz.getDeclaredField(columnName);
-               field.setAccessible(<span class="hljs-keyword">true</span>);
-               field.set(t, columnVal);
-           &#125;
-           <span class="hljs-keyword">return</span> t;
-       &#125;
-   &#125; <span class="hljs-keyword">catch</span> (IOException | ClassNotFoundException | SQLException | NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InstantiationException | InvocationTargetException e) &#123;
-       e.printStackTrace();
-   &#125; <span class="hljs-keyword">finally</span> &#123;
-       JDBCUtils.closeResource(connection, ps, resultSet);
-   &#125;
-   <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">getInstance</span><span class="params">(Class&lt;T&gt; clazz, String sql, Object... args)</span> </span>&#123;</span><br><span class="line">   Connection connection = <span class="keyword">null</span>;</span><br><span class="line">   PreparedStatement ps = <span class="keyword">null</span>;</span><br><span class="line">   ResultSet resultSet = <span class="keyword">null</span>;</span><br><span class="line">   <span class="keyword">try</span> &#123;</span><br><span class="line">       connection = JDBCUtils.getConnection();</span><br><span class="line">       ps = connection.prepareStatement(sql);</span><br><span class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; args.length; i++) &#123;</span><br><span class="line">           ps.setObject(i + <span class="number">1</span>, args[i]);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       resultSet = ps.executeQuery();</span><br><span class="line">       ResultSetMetaData metaData = resultSet.getMetaData();<span class="comment">//获取结果集的元数据</span></span><br><span class="line">       <span class="keyword">int</span> columnCount = metaData.getColumnCount();</span><br><span class="line">       <span class="keyword">if</span> (resultSet.next()) &#123;</span><br><span class="line">           T t = clazz.getDeclaredConstructor().newInstance();</span><br><span class="line">           <span class="comment">//处理结果集中一行数据的每一列</span></span><br><span class="line">           <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; columnCount; i++) &#123;</span><br><span class="line">               Object columnVal = resultSet.getObject(i + <span class="number">1</span>);</span><br><span class="line">               <span class="comment">//获取列名</span></span><br><span class="line">               String columnName = metaData.getColumnLabel(i + <span class="number">1</span>);</span><br><span class="line">               <span class="comment">//给指定customer对象的对应属性赋值,通过反射,由列明找属性</span></span><br><span class="line">               Field field = clazz.getDeclaredField(columnName);</span><br><span class="line">               field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">               field.set(t, columnVal);</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">return</span> t;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125; <span class="keyword">catch</span> (IOException | ClassNotFoundException | SQLException | NoSuchFieldException | IllegalAccessException | NoSuchMethodException | InstantiationException | InvocationTargetException e) &#123;</span><br><span class="line">       e.printStackTrace();</span><br><span class="line">   &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">       JDBCUtils.closeResource(connection, ps, resultSet);</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>PreparedStatement比普通的Statement的优势不仅在于可以防止SQL注入,前者还可以操作BLOB数据(二进制数据,例如图片)和进行批量操作.</p>
-<pre><code class="hljs java"><span class="hljs-comment">//像数据表插入blob数据</span>
-   <span class="hljs-meta">@Test</span>
-   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testInsert</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException, IOException, ClassNotFoundException </span>&#123;
-       Connection connection = JDBCUtils.getConnection();
-       String sql = <span class="hljs-string">"insert into test.customers(name, email, birth, photo) VALUES (?,?,?,?)"</span>;
-       PreparedStatement ps = connection.prepareStatement(sql);
-
-       ps.setString(<span class="hljs-number">1</span>, <span class="hljs-string">"my"</span>);
-       ps.setString(<span class="hljs-number">2</span>, <span class="hljs-string">"yl@outlook.com"</span>);
-       ps.setString(<span class="hljs-number">3</span>, <span class="hljs-string">"1998-7-14"</span>);
-       FileInputStream fis = <span class="hljs-keyword">new</span> FileInputStream(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"F:\\迷路帖.png"</span>));
-       ps.setBlob(<span class="hljs-number">4</span>, fis);
-
-       ps.executeUpdate();
-       JDBCUtils.closeResource(connection, ps);
-   &#125;
-
-   <span class="hljs-meta">@Test</span>
-   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testQuery2</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException, IOException, ClassNotFoundException </span>&#123;
-       Connection connection = <span class="hljs-keyword">null</span>;
-       PreparedStatement ps = <span class="hljs-keyword">null</span>;
-       ResultSet resultSet = <span class="hljs-keyword">null</span>;
-       <span class="hljs-keyword">try</span> &#123;
-           connection = JDBCUtils.getConnection();
-           String sql = <span class="hljs-string">"select * from test.customers WHERE name=?;"</span>;
-           ps = connection.prepareStatement(sql);
-           ps.setString(<span class="hljs-number">1</span>, <span class="hljs-string">"my"</span>);
-
-           resultSet = ps.executeQuery();
-           <span class="hljs-keyword">if</span> (resultSet.next()) &#123;
-               <span class="hljs-keyword">int</span> id = resultSet.getInt(<span class="hljs-number">1</span>);
-               String name = resultSet.getString(<span class="hljs-number">2</span>);
-               String email = resultSet.getString(<span class="hljs-number">3</span>);
-               java.sql.Date birth = resultSet.getDate(<span class="hljs-string">"birth"</span>);<span class="hljs-comment">//还可以用列别名来获取值</span>
-
-               Customer customer = <span class="hljs-keyword">new</span> Customer(id, name, email, birth);
-               System.out.println(customer);
-               Blob photo = resultSet.getBlob(<span class="hljs-string">"photo"</span>);
-               InputStream is = photo.getBinaryStream();
-               FileOutputStream fos = <span class="hljs-keyword">new</span> FileOutputStream(<span class="hljs-string">"1.png"</span>);
-               <span class="hljs-keyword">byte</span>[] buffer = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">1024</span>];
-               <span class="hljs-keyword">int</span> len;
-               <span class="hljs-keyword">while</span> ((len = is.read(buffer)) != -<span class="hljs-number">1</span>) &#123;
-                   fos.write(buffer, <span class="hljs-number">0</span>, len);
-               &#125;
-               is.close();
-               fos.close();
-           &#125;
-       &#125; <span class="hljs-keyword">catch</span> (IOException | ClassNotFoundException | SQLException e) &#123;
-           e.printStackTrace();
-       &#125; <span class="hljs-keyword">finally</span> &#123;
-           JDBCUtils.closeResource(connection, ps, resultSet);
-       &#125;
-   &#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//像数据表插入blob数据</span></span><br><span class="line">   <span class="meta">@Test</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testInsert</span><span class="params">()</span> <span class="keyword">throws</span> SQLException, IOException, ClassNotFoundException </span>&#123;</span><br><span class="line">       Connection connection = JDBCUtils.getConnection();</span><br><span class="line">       String sql = <span class="string">"insert into test.customers(name, email, birth, photo) VALUES (?,?,?,?)"</span>;</span><br><span class="line">       PreparedStatement ps = connection.prepareStatement(sql);</span><br><span class="line"></span><br><span class="line">       ps.setString(<span class="number">1</span>, <span class="string">"my"</span>);</span><br><span class="line">       ps.setString(<span class="number">2</span>, <span class="string">"yl@outlook.com"</span>);</span><br><span class="line">       ps.setString(<span class="number">3</span>, <span class="string">"1998-7-14"</span>);</span><br><span class="line">       FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(<span class="string">"F:\\迷路帖.png"</span>));</span><br><span class="line">       ps.setBlob(<span class="number">4</span>, fis);</span><br><span class="line"></span><br><span class="line">       ps.executeUpdate();</span><br><span class="line">       JDBCUtils.closeResource(connection, ps);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Test</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testQuery2</span><span class="params">()</span> <span class="keyword">throws</span> SQLException, IOException, ClassNotFoundException </span>&#123;</span><br><span class="line">       Connection connection = <span class="keyword">null</span>;</span><br><span class="line">       PreparedStatement ps = <span class="keyword">null</span>;</span><br><span class="line">       ResultSet resultSet = <span class="keyword">null</span>;</span><br><span class="line">       <span class="keyword">try</span> &#123;</span><br><span class="line">           connection = JDBCUtils.getConnection();</span><br><span class="line">           String sql = <span class="string">"select * from test.customers WHERE name=?;"</span>;</span><br><span class="line">           ps = connection.prepareStatement(sql);</span><br><span class="line">           ps.setString(<span class="number">1</span>, <span class="string">"my"</span>);</span><br><span class="line"></span><br><span class="line">           resultSet = ps.executeQuery();</span><br><span class="line">           <span class="keyword">if</span> (resultSet.next()) &#123;</span><br><span class="line">               <span class="keyword">int</span> id = resultSet.getInt(<span class="number">1</span>);</span><br><span class="line">               String name = resultSet.getString(<span class="number">2</span>);</span><br><span class="line">               String email = resultSet.getString(<span class="number">3</span>);</span><br><span class="line">               java.sql.Date birth = resultSet.getDate(<span class="string">"birth"</span>);<span class="comment">//还可以用列别名来获取值</span></span><br><span class="line"></span><br><span class="line">               Customer customer = <span class="keyword">new</span> Customer(id, name, email, birth);</span><br><span class="line">               System.out.println(customer);</span><br><span class="line">               Blob photo = resultSet.getBlob(<span class="string">"photo"</span>);</span><br><span class="line">               InputStream is = photo.getBinaryStream();</span><br><span class="line">               FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(<span class="string">"1.png"</span>);</span><br><span class="line">               <span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">               <span class="keyword">int</span> len;</span><br><span class="line">               <span class="keyword">while</span> ((len = is.read(buffer)) != -<span class="number">1</span>) &#123;</span><br><span class="line">                   fos.write(buffer, <span class="number">0</span>, len);</span><br><span class="line">               &#125;</span><br><span class="line">               is.close();</span><br><span class="line">               fos.close();</span><br><span class="line">           &#125;</span><br><span class="line">       &#125; <span class="keyword">catch</span> (IOException | ClassNotFoundException | SQLException e) &#123;</span><br><span class="line">           e.printStackTrace();</span><br><span class="line">       &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">           JDBCUtils.closeResource(connection, ps, resultSet);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 <p>对于blob文件,MySQL8默认的最大值是4M:<code>max_allowed_packet=4M</code>.</p>
 <p>PreparedStatement性能也比普通语句高:</p>
-<pre><code class="hljs java"><span class="hljs-comment">//对于删改查,本身就能批量处理数据,但是要批量增加数据就比较麻烦,除非使用存储过程</span>
-<span class="hljs-meta">@Test</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">()</span> </span>&#123;
-    Connection connection = <span class="hljs-keyword">null</span>;
-    PreparedStatement ps = <span class="hljs-keyword">null</span>;
-    <span class="hljs-keyword">try</span> &#123;
-        connection = JDBCUtils.getConnection();
-        String sql = <span class="hljs-string">"insert into test.goods(NAME) values (?)"</span>;<span class="hljs-comment">//如果是使用Statement,SQL语句就要写在循环里,这样就会产生非常多的SQL对象</span>
-        <span class="hljs-comment">//预编译语句会被缓存下来,每次调用重复的,只要填充占位符即可,而普通语句每次都要编译</span>
-        ps = connection.prepareStatement(sql);
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; <span class="hljs-number">2000</span>; i++) &#123;
-            ps.setString(<span class="hljs-number">1</span>, <span class="hljs-string">"name_"</span> + i);
-            ps.executeUpdate();
-        &#125;
-    &#125; <span class="hljs-keyword">catch</span> (IOException | ClassNotFoundException | SQLException e) &#123;
-        e.printStackTrace();
-    &#125; <span class="hljs-keyword">finally</span> &#123;
-        JDBCUtils.closeResource(connection, ps);
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//对于删改查,本身就能批量处理数据,但是要批量增加数据就比较麻烦,除非使用存储过程</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Connection connection = <span class="keyword">null</span>;</span><br><span class="line">    PreparedStatement ps = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        connection = JDBCUtils.getConnection();</span><br><span class="line">        String sql = <span class="string">"insert into test.goods(NAME) values (?)"</span>;<span class="comment">//如果是使用Statement,SQL语句就要写在循环里,这样就会产生非常多的SQL对象</span></span><br><span class="line">        <span class="comment">//预编译语句会被缓存下来,每次调用重复的,只要填充占位符即可,而普通语句每次都要编译</span></span><br><span class="line">        ps = connection.prepareStatement(sql);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">2000</span>; i++) &#123;</span><br><span class="line">            ps.setString(<span class="number">1</span>, <span class="string">"name_"</span> + i);</span><br><span class="line">            ps.executeUpdate();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException | ClassNotFoundException | SQLException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        JDBCUtils.closeResource(connection, ps);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>但是这种方式还不够快,下面还有改进方法,使用批处理,这种方法尤其要注意插入语句的values不能写成value,前者比后者快几十倍.</p>
-<pre><code class="hljs java"><span class="hljs-comment">//另一种批量操作方式</span>
-    <span class="hljs-meta">@Test</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test2</span><span class="hljs-params">()</span> </span>&#123;
-        Connection connection = <span class="hljs-keyword">null</span>;
-        PreparedStatement ps = <span class="hljs-keyword">null</span>;
-        <span class="hljs-keyword">try</span> &#123;
-            <span class="hljs-keyword">long</span> start = System.currentTimeMillis();
-            connection = JDBCUtils.getConnection();
-            String sql = <span class="hljs-string">"insert into test.goods(NAME) values (?)"</span>;<span class="hljs-comment">//如果是使用Statement,SQL语句就要写在循环里,这样就会产生非常多的SQL对象</span>
-            <span class="hljs-comment">//预编译语句会被缓存下来,每次调用重复的,只要填充占位符即可,而普通语句每次都要编译</span>
-            ps = connection.prepareStatement(sql);
-            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">8000</span>; i++) &#123;
-                ps.setString(<span class="hljs-number">1</span>, <span class="hljs-string">"name_"</span> + i);
-                <span class="hljs-comment">//默认Mysql是不支持批处理的,需要在url加上rewriteBatchedStatements=true</span>
-                <span class="hljs-comment">//"攒"SQL</span>
-                ps.addBatch();
-                <span class="hljs-keyword">if</span> (i % <span class="hljs-number">100</span> == <span class="hljs-number">0</span>) &#123;
-                    <span class="hljs-comment">//执行batch</span>
-                    ps.executeBatch();
-                    <span class="hljs-comment">//清空batch</span>
-                    ps.clearBatch();
-                &#125;
-            &#125;
-            <span class="hljs-keyword">long</span> end = System.currentTimeMillis();
-            System.out.println(end - start);
-        &#125; <span class="hljs-keyword">catch</span> (IOException | ClassNotFoundException | SQLException e) &#123;
-            e.printStackTrace();
-        &#125; <span class="hljs-keyword">finally</span> &#123;
-            JDBCUtils.closeResource(connection, ps);
-        &#125;
-    &#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//另一种批量操作方式</span></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Connection connection = <span class="keyword">null</span>;</span><br><span class="line">        PreparedStatement ps = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">            connection = JDBCUtils.getConnection();</span><br><span class="line">            String sql = <span class="string">"insert into test.goods(NAME) values (?)"</span>;<span class="comment">//如果是使用Statement,SQL语句就要写在循环里,这样就会产生非常多的SQL对象</span></span><br><span class="line">            <span class="comment">//预编译语句会被缓存下来,每次调用重复的,只要填充占位符即可,而普通语句每次都要编译</span></span><br><span class="line">            ps = connection.prepareStatement(sql);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">8000</span>; i++) &#123;</span><br><span class="line">                ps.setString(<span class="number">1</span>, <span class="string">"name_"</span> + i);</span><br><span class="line">                <span class="comment">//默认Mysql是不支持批处理的,需要在url加上rewriteBatchedStatements=true</span></span><br><span class="line">                <span class="comment">//"攒"SQL</span></span><br><span class="line">                ps.addBatch();</span><br><span class="line">                <span class="keyword">if</span> (i % <span class="number">100</span> == <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="comment">//执行batch</span></span><br><span class="line">                    ps.executeBatch();</span><br><span class="line">                    <span class="comment">//清空batch</span></span><br><span class="line">                    ps.clearBatch();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">long</span> end = System.currentTimeMillis();</span><br><span class="line">            System.out.println(end - start);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException | ClassNotFoundException | SQLException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            JDBCUtils.closeResource(connection, ps);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
 <p>在此基础上,关闭自动提交,避免每次executeBatch都向MySQL写入数据.让它最后一次性提交:</p>
-<pre><code class="hljs java"><span class="hljs-comment">//更快的方式</span>
-<span class="hljs-meta">@Test</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test3</span><span class="hljs-params">()</span> </span>&#123;
-    Connection connection = <span class="hljs-keyword">null</span>;
-    PreparedStatement ps = <span class="hljs-keyword">null</span>;
-    <span class="hljs-keyword">try</span> &#123;
-        <span class="hljs-keyword">long</span> start = System.currentTimeMillis();
-        connection = JDBCUtils.getConnection();
-        <span class="hljs-comment">//设置不允许自动提交</span>
-        connection.setAutoCommit(<span class="hljs-keyword">false</span>);
-        String sql = <span class="hljs-string">"insert into test.goods(NAME) values (?)"</span>;<span class="hljs-comment">//如果是使用Statement,SQL语句就要写在循环里,这样就会产生非常多的SQL对象</span>
-        <span class="hljs-comment">//预编译语句会被缓存下来,每次调用重复的,只要填充占位符即可,而普通语句每次都要编译</span>
-        ps = connection.prepareStatement(sql);
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">8000</span>; i++) &#123;
-            ps.setString(<span class="hljs-number">1</span>, <span class="hljs-string">"name_"</span> + i);
-            <span class="hljs-comment">//默认Mysql是不支持批处理的,需要在url加上rewriteBatchedStatements=true</span>
-            <span class="hljs-comment">//"攒"SQL</span>
-            ps.addBatch();
-            <span class="hljs-keyword">if</span> (i % <span class="hljs-number">100</span> == <span class="hljs-number">0</span>) &#123;
-                <span class="hljs-comment">//执行batch</span>
-                ps.executeBatch();
-                <span class="hljs-comment">//清空batch</span>
-                ps.clearBatch();
-            &#125;
-        &#125;
-        connection.commit();
-        <span class="hljs-keyword">long</span> end = System.currentTimeMillis();
-        System.out.println(end - start);
-    &#125; <span class="hljs-keyword">catch</span> (IOException | ClassNotFoundException | SQLException e) &#123;
-        e.printStackTrace();
-    &#125; <span class="hljs-keyword">finally</span> &#123;
-        JDBCUtils.closeResource(connection, ps);
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//更快的方式</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Connection connection = <span class="keyword">null</span>;</span><br><span class="line">    PreparedStatement ps = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">        connection = JDBCUtils.getConnection();</span><br><span class="line">        <span class="comment">//设置不允许自动提交</span></span><br><span class="line">        connection.setAutoCommit(<span class="keyword">false</span>);</span><br><span class="line">        String sql = <span class="string">"insert into test.goods(NAME) values (?)"</span>;<span class="comment">//如果是使用Statement,SQL语句就要写在循环里,这样就会产生非常多的SQL对象</span></span><br><span class="line">        <span class="comment">//预编译语句会被缓存下来,每次调用重复的,只要填充占位符即可,而普通语句每次都要编译</span></span><br><span class="line">        ps = connection.prepareStatement(sql);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">8000</span>; i++) &#123;</span><br><span class="line">            ps.setString(<span class="number">1</span>, <span class="string">"name_"</span> + i);</span><br><span class="line">            <span class="comment">//默认Mysql是不支持批处理的,需要在url加上rewriteBatchedStatements=true</span></span><br><span class="line">            <span class="comment">//"攒"SQL</span></span><br><span class="line">            ps.addBatch();</span><br><span class="line">            <span class="keyword">if</span> (i % <span class="number">100</span> == <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="comment">//执行batch</span></span><br><span class="line">                ps.executeBatch();</span><br><span class="line">                <span class="comment">//清空batch</span></span><br><span class="line">                ps.clearBatch();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        connection.commit();</span><br><span class="line">        <span class="keyword">long</span> end = System.currentTimeMillis();</span><br><span class="line">        System.out.println(end - start);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException | ClassNotFoundException | SQLException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        JDBCUtils.closeResource(connection, ps);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>关闭自动提交还用于MySQL的事务:</p>
-<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">updateWithTransaction</span><span class="hljs-params">(Connection connection, String sql, Object @NotNull ... args)</span> </span>&#123;
-    <span class="hljs-comment">//将连接作为参数传进来,是的多个DML语句共用一个连接</span>
-    PreparedStatement ps = <span class="hljs-keyword">null</span>;
-    <span class="hljs-keyword">try</span> &#123;
-        ps = connection.prepareStatement(sql);
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; args.length; i++) &#123;
-            ps.setObject(i + <span class="hljs-number">1</span>, args[i]);
-        &#125;
-        ps.execute();
-    &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
-        e.printStackTrace();
-    &#125; <span class="hljs-keyword">finally</span> &#123;
-        JDBCUtils.closeResource(<span class="hljs-keyword">null</span>, ps);
-    &#125;
-&#125;
-
-<span class="hljs-meta">@Test</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testUpdateWithTx</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException </span>&#123;
-    Connection connection = <span class="hljs-keyword">null</span>;
-    <span class="hljs-keyword">try</span> &#123;
-        connection = JDBCUtils.getConnection();
-        connection.setAutoCommit(<span class="hljs-keyword">false</span>);
-        String sql1 = <span class="hljs-string">"update test.user_table set balance = balance - 100 where user = ?"</span>;
-        updateWithTransaction(connection, sql1, <span class="hljs-string">"AA"</span>);
-        <span class="hljs-comment">//中间出现异常</span>
-        System.out.println(<span class="hljs-number">10</span> / <span class="hljs-number">0</span>);
-
-        String sql2 = <span class="hljs-string">"update test.user_table set balance = balance + 100 where user = ?"</span>;
-        updateWithTransaction(connection, sql2, <span class="hljs-string">"BB"</span>);
-        System.out.println(<span class="hljs-string">"提交成功"</span>);
-        connection.commit();
-    &#125; <span class="hljs-keyword">catch</span> (IOException | ClassNotFoundException | SQLException e) &#123;
-        <span class="hljs-comment">//回滚数据</span>
-        <span class="hljs-keyword">assert</span> connection != <span class="hljs-keyword">null</span>;
-        connection.rollback();
-        e.printStackTrace();
-    &#125; <span class="hljs-keyword">finally</span> &#123;
-        <span class="hljs-keyword">assert</span> connection != <span class="hljs-keyword">null</span>;
-        connection.setAutoCommit(<span class="hljs-keyword">true</span>);<span class="hljs-comment">//将自动提交改回默认状态,在数据库连接池中可能会影响别人</span>
-        JDBCUtils.closeResource(connection, <span class="hljs-keyword">null</span>);
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateWithTransaction</span><span class="params">(Connection connection, String sql, Object @NotNull ... args)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//将连接作为参数传进来,是的多个DML语句共用一个连接</span></span><br><span class="line">    PreparedStatement ps = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        ps = connection.prepareStatement(sql);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; args.length; i++) &#123;</span><br><span class="line">            ps.setObject(i + <span class="number">1</span>, args[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        ps.execute();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        JDBCUtils.closeResource(<span class="keyword">null</span>, ps);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testUpdateWithTx</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">    Connection connection = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        connection = JDBCUtils.getConnection();</span><br><span class="line">        connection.setAutoCommit(<span class="keyword">false</span>);</span><br><span class="line">        String sql1 = <span class="string">"update test.user_table set balance = balance - 100 where user = ?"</span>;</span><br><span class="line">        updateWithTransaction(connection, sql1, <span class="string">"AA"</span>);</span><br><span class="line">        <span class="comment">//中间出现异常</span></span><br><span class="line">        System.out.println(<span class="number">10</span> / <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        String sql2 = <span class="string">"update test.user_table set balance = balance + 100 where user = ?"</span>;</span><br><span class="line">        updateWithTransaction(connection, sql2, <span class="string">"BB"</span>);</span><br><span class="line">        System.out.println(<span class="string">"提交成功"</span>);</span><br><span class="line">        connection.commit();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException | ClassNotFoundException | SQLException e) &#123;</span><br><span class="line">        <span class="comment">//回滚数据</span></span><br><span class="line">        <span class="keyword">assert</span> connection != <span class="keyword">null</span>;</span><br><span class="line">        connection.rollback();</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">assert</span> connection != <span class="keyword">null</span>;</span><br><span class="line">        connection.setAutoCommit(<span class="keyword">true</span>);<span class="comment">//将自动提交改回默认状态,在数据库连接池中可能会影响别人</span></span><br><span class="line">        JDBCUtils.closeResource(connection, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>在MySQL中可以设置隔离级别,应对脏读,不可重复读,幻读问题:</p>
-<pre><code class="hljs sql"><span class="hljs-keyword">set</span> <span class="hljs-keyword">session</span> <span class="hljs-keyword">transaction</span> <span class="hljs-keyword">isolation</span> <span class="hljs-keyword">level</span> <span class="hljs-keyword">serializable</span>;<span class="hljs-comment">#设置当前会话的隔离级别</span>
-
-<span class="hljs-keyword">set</span> <span class="hljs-keyword">global</span> <span class="hljs-keyword">transaction</span> <span class="hljs-keyword">isolation</span> <span class="hljs-keyword">level</span> <span class="hljs-keyword">read</span> committed;<span class="hljs-comment">#设置全局隔离级别</span></code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> <span class="keyword">session</span> <span class="keyword">transaction</span> <span class="keyword">isolation</span> <span class="keyword">level</span> <span class="keyword">serializable</span>;<span class="comment">#设置当前会话的隔离级别</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> <span class="keyword">transaction</span> <span class="keyword">isolation</span> <span class="keyword">level</span> <span class="keyword">read</span> committed;<span class="comment">#设置全局隔离级别</span></span><br></pre></td></tr></table></figure>
 
 <p>在Java中也可以设置:</p>
-<pre><code class="hljs java"><span class="hljs-keyword">int</span> transactionIsolation = connection.getTransactionIsolation();<span class="hljs-comment">//获取隔离级别</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> transactionIsolation = connection.getTransactionIsolation();<span class="comment">//获取隔离级别</span></span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>int TRANSACTION_NONE             = 0;//不支持事务<br>int TRANSACTION_READ_UNCOMMITTED = 1;//允许读未提交数据<br>int TRANSACTION_READ_COMMITTED   = 2;//允许事务读取已经提交的变更,可避免脏读<br>int TRANSACTION_REPEATABLE_READ  = 4;//REPEATABLE READ:确保事务多次从同一个字段读取出相同的值,在这个事务期间禁止其他事务修改该字段,可以避免脏读和不可重复读(默认级别)<br>int TRANSACTION_SERIALIZABLE     = 8;//类似于Java中的加锁,可以避免所有并发问题,但性能较低</p>
 </blockquote>
-<pre><code class="hljs java">connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);<span class="hljs-comment">//设置隔离级别</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);<span class="comment">//设置隔离级别</span></span><br></pre></td></tr></table></figure>
 
 <p>对于数据库操作,一般是以下逻辑:</p>
 <blockquote>
@@ -775,363 +298,216 @@
 <p>BaseDAO中提供了增删改查等操作的关键代码,但是真正进行增删改查操作的是在xxxDaoImpl中,在这里传入具体的SQL语句给继承来的insert,delete等方法.</p>
 <p>数据库连接池技术:</p>
 <p>C3P0连接池:</p>
-<pre><code class="hljs java"><span class="hljs-meta">@Test</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test2</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException </span>&#123;
-    ComboPooledDataSource cpds = <span class="hljs-keyword">new</span> ComboPooledDataSource(<span class="hljs-string">"hello"</span>);<span class="hljs-comment">//通过配置文件获得连接池</span>
-    Connection connection = cpds.getConnection();<span class="hljs-comment">//通过连接池获得一个连接</span>
-    System.out.println(connection);
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">    ComboPooledDataSource cpds = <span class="keyword">new</span> ComboPooledDataSource(<span class="string">"hello"</span>);<span class="comment">//通过配置文件获得连接池</span></span><br><span class="line">    Connection connection = cpds.getConnection();<span class="comment">//通过连接池获得一个连接</span></span><br><span class="line">    System.out.println(connection);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>需要一个c3p0的xml配置文件,命名为c3p0-config.xml,其中<code>&lt;named-config name=&quot;hello&quot;&gt;</code>表明配置名称.</p>
 <p>dbcp连接池:</p>
-<pre><code class="hljs java"><span class="hljs-meta">@Test</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test2</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
-    Properties properties = <span class="hljs-keyword">new</span> Properties();
-    InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream(<span class="hljs-string">"dbcp.properties"</span>);
-    properties.load(is);
-    BasicDataSource source = BasicDataSourceFactory.createDataSource(properties);
-    Connection connection = source.getConnection();
-    System.out.println(connection);
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    Properties properties = <span class="keyword">new</span> Properties();</span><br><span class="line">    InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream(<span class="string">"dbcp.properties"</span>);</span><br><span class="line">    properties.load(is);</span><br><span class="line">    BasicDataSource source = BasicDataSourceFactory.createDataSource(properties);</span><br><span class="line">    Connection connection = source.getConnection();</span><br><span class="line">    System.out.println(connection);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>druid连接池:</p>
-<pre><code class="hljs java"><span class="hljs-meta">@Test</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">getConnection</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
-    Properties properties = <span class="hljs-keyword">new</span> Properties();
-    InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream(<span class="hljs-string">"druid.properties"</span>);
-    properties.load(is);
-    DataSource source = DruidDataSourceFactory.createDataSource(properties);
-    Connection connection = source.getConnection();
-    System.out.println(connection);
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getConnection</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    Properties properties = <span class="keyword">new</span> Properties();</span><br><span class="line">    InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream(<span class="string">"druid.properties"</span>);</span><br><span class="line">    properties.load(is);</span><br><span class="line">    DataSource source = DruidDataSourceFactory.createDataSource(properties);</span><br><span class="line">    Connection connection = source.getConnection();</span><br><span class="line">    System.out.println(connection);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>对于一些常用的增删改查操作,其实也有第三方包实现,下面使用Apache-DBUtils:</p>
-<pre><code class="hljs java"><span class="hljs-meta">@Test</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testInsert</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException </span>&#123;
-    Connection connection = <span class="hljs-keyword">null</span>;
-    <span class="hljs-keyword">try</span> &#123;
-        QueryRunner runner = <span class="hljs-keyword">new</span> QueryRunner();
-        connection = JDBCUtils.getConnection3();
-        String sql = <span class="hljs-string">"insert into test.customers(name,email,birth) values(?,?,?)"</span>;
-        <span class="hljs-keyword">int</span> count = runner.update(connection, sql, <span class="hljs-string">"蔡徐坤"</span>, <span class="hljs-string">"cxk@gmail.com"</span>, <span class="hljs-string">"1997-08-14"</span>);
-        System.out.println(count);
-    &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
-        e.printStackTrace();
-    &#125; <span class="hljs-keyword">finally</span> &#123;
-        JDBCUtils.closeResource(connection, <span class="hljs-keyword">null</span>);
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testInsert</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">    Connection connection = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        QueryRunner runner = <span class="keyword">new</span> QueryRunner();</span><br><span class="line">        connection = JDBCUtils.getConnection3();</span><br><span class="line">        String sql = <span class="string">"insert into test.customers(name,email,birth) values(?,?,?)"</span>;</span><br><span class="line">        <span class="keyword">int</span> count = runner.update(connection, sql, <span class="string">"蔡徐坤"</span>, <span class="string">"cxk@gmail.com"</span>, <span class="string">"1997-08-14"</span>);</span><br><span class="line">        System.out.println(count);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        JDBCUtils.closeResource(connection, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>插入数据比较简单,但是对于查询数据,需要做一些特别的处理:</p>
-<pre><code class="hljs java"><span class="hljs-meta">@Test</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">QueryTest1</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException </span>&#123;
-    Connection connection = <span class="hljs-keyword">null</span>;
-    <span class="hljs-keyword">try</span> &#123;
-        QueryRunner runner = <span class="hljs-keyword">new</span> QueryRunner();
-        connection = JDBCUtils.getConnection3();
-        String sql = <span class="hljs-string">"select id,name,email,birth from test.customers where id = ?"</span>;
-        BeanHandler&lt;Customer&gt; handler = <span class="hljs-keyword">new</span> BeanHandler&lt;Customer&gt;(Customer<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;<span class="hljs-comment">//BeanHandler是ResultSetHandler的实现类,该接口有多种实现类,</span>
-        <span class="hljs-comment">//用于对应处理各种类型的结果集.BeanHandler用于封装一条记录</span>
-        Customer customer = runner.query(connection, sql, handler, <span class="hljs-number">10</span>);
-        System.out.println(customer);
-    &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
-        e.printStackTrace();
-    &#125; <span class="hljs-keyword">finally</span> &#123;
-        JDBCUtils.closeResource(connection, <span class="hljs-keyword">null</span>);
-    &#125;
-
-&#125;
-
-<span class="hljs-meta">@Test</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">QueryTest2</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException </span>&#123;
-    Connection connection = <span class="hljs-keyword">null</span>;
-    <span class="hljs-keyword">try</span> &#123;
-        QueryRunner runner = <span class="hljs-keyword">new</span> QueryRunner();
-        connection = JDBCUtils.getConnection3();
-        String sql = <span class="hljs-string">"select id,name,email,birth from test.customers where id &lt; ?"</span>;
-        BeanListHandler&lt;Customer&gt; handler = <span class="hljs-keyword">new</span> BeanListHandler&lt;Customer&gt;(Customer<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;<span class="hljs-comment">//BeanHandler是ResultSetHandler的实现类,该接口有多种实现类,</span>
-        <span class="hljs-comment">//用于对应处理各种类型的结果集.BeanHandler用于封装一条记录</span>
-        List&lt;Customer&gt; customers = runner.query(connection, sql, handler, <span class="hljs-number">10</span>);
-        customers.forEach(System.out::println);
-    &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
-        e.printStackTrace();
-    &#125; <span class="hljs-keyword">finally</span> &#123;
-        JDBCUtils.closeResource(connection, <span class="hljs-keyword">null</span>);
-    &#125;
-&#125;
-
-<span class="hljs-meta">@Test</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">QueryTest3</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException </span>&#123;
-    Connection connection = <span class="hljs-keyword">null</span>;
-    <span class="hljs-keyword">try</span> &#123;
-        QueryRunner runner = <span class="hljs-keyword">new</span> QueryRunner();
-        connection = JDBCUtils.getConnection3();
-        String sql = <span class="hljs-string">"select max(birth) from test.customers "</span>;
-        ScalarHandler&lt;Date&gt; handler = <span class="hljs-keyword">new</span> ScalarHandler&lt;&gt;();<span class="hljs-comment">//用ScalaHandler处理返回的特殊值</span>
-        Date birth = runner.query(connection, sql, handler);
-        System.out.println(birth);
-    &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
-        e.printStackTrace();
-    &#125; <span class="hljs-keyword">finally</span> &#123;
-        JDBCUtils.closeResource(connection, <span class="hljs-keyword">null</span>);
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">QueryTest1</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">    Connection connection = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        QueryRunner runner = <span class="keyword">new</span> QueryRunner();</span><br><span class="line">        connection = JDBCUtils.getConnection3();</span><br><span class="line">        String sql = <span class="string">"select id,name,email,birth from test.customers where id = ?"</span>;</span><br><span class="line">        BeanHandler&lt;Customer&gt; handler = <span class="keyword">new</span> BeanHandler&lt;Customer&gt;(Customer<span class="class">.<span class="keyword">class</span>)</span>;<span class="comment">//BeanHandler是ResultSetHandler的实现类,该接口有多种实现类,</span></span><br><span class="line">        <span class="comment">//用于对应处理各种类型的结果集.BeanHandler用于封装一条记录</span></span><br><span class="line">        Customer customer = runner.query(connection, sql, handler, <span class="number">10</span>);</span><br><span class="line">        System.out.println(customer);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        JDBCUtils.closeResource(connection, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">QueryTest2</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">    Connection connection = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        QueryRunner runner = <span class="keyword">new</span> QueryRunner();</span><br><span class="line">        connection = JDBCUtils.getConnection3();</span><br><span class="line">        String sql = <span class="string">"select id,name,email,birth from test.customers where id &lt; ?"</span>;</span><br><span class="line">        BeanListHandler&lt;Customer&gt; handler = <span class="keyword">new</span> BeanListHandler&lt;Customer&gt;(Customer<span class="class">.<span class="keyword">class</span>)</span>;<span class="comment">//BeanHandler是ResultSetHandler的实现类,该接口有多种实现类,</span></span><br><span class="line">        <span class="comment">//用于对应处理各种类型的结果集.BeanHandler用于封装一条记录</span></span><br><span class="line">        List&lt;Customer&gt; customers = runner.query(connection, sql, handler, <span class="number">10</span>);</span><br><span class="line">        customers.forEach(System.out::println);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        JDBCUtils.closeResource(connection, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">QueryTest3</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">    Connection connection = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        QueryRunner runner = <span class="keyword">new</span> QueryRunner();</span><br><span class="line">        connection = JDBCUtils.getConnection3();</span><br><span class="line">        String sql = <span class="string">"select max(birth) from test.customers "</span>;</span><br><span class="line">        ScalarHandler&lt;Date&gt; handler = <span class="keyword">new</span> ScalarHandler&lt;&gt;();<span class="comment">//用ScalaHandler处理返回的特殊值</span></span><br><span class="line">        Date birth = runner.query(connection, sql, handler);</span><br><span class="line">        System.out.println(birth);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        JDBCUtils.closeResource(connection, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>主要是要注意ResultSetHandler的选择.还可以自定义Handler:</p>
-<pre><code class="hljs java"><span class="hljs-meta">@Test</span><span class="hljs-comment">//自定义ResultSetHandler实现类</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">QueryTest4</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException </span>&#123;
-    Connection connection = <span class="hljs-keyword">null</span>;
-    <span class="hljs-keyword">try</span> &#123;
-        QueryRunner runner = <span class="hljs-keyword">new</span> QueryRunner();
-        connection = JDBCUtils.getConnection3();
-        String sql = <span class="hljs-string">"select id,name,email,birth from test.customers where id = ?"</span>;
-        ResultSetHandler&lt;Customer&gt; handler = <span class="hljs-keyword">new</span> ResultSetHandler&lt;&gt;() &#123;
-            <span class="hljs-meta">@Override</span>
-            <span class="hljs-function"><span class="hljs-keyword">public</span> Customer <span class="hljs-title">handle</span><span class="hljs-params">(ResultSet resultSet)</span> <span class="hljs-keyword">throws</span> SQLException </span>&#123;<span class="hljs-comment">//传入了结果集</span>
-                <span class="hljs-keyword">if</span> (resultSet.next()) &#123;
-                    <span class="hljs-keyword">int</span> id = resultSet.getInt(<span class="hljs-string">"id"</span>);
-                    String name = resultSet.getString(<span class="hljs-string">"name"</span>);
-                    String email = resultSet.getString(<span class="hljs-string">"email"</span>);
-                    java.sql.Date birth = resultSet.getDate(<span class="hljs-string">"birth"</span>);
-                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Customer(id, name, email, birth);
-                &#125;
-                <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
-            &#125;
-        &#125;;
-        Customer customer = runner.query(connection, sql, handler, <span class="hljs-number">23</span>);
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span><span class="comment">//自定义ResultSetHandler实现类</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">QueryTest4</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">    Connection connection = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        QueryRunner runner = <span class="keyword">new</span> QueryRunner();</span><br><span class="line">        connection = JDBCUtils.getConnection3();</span><br><span class="line">        String sql = <span class="string">"select id,name,email,birth from test.customers where id = ?"</span>;</span><br><span class="line">        ResultSetHandler&lt;Customer&gt; handler = <span class="keyword">new</span> ResultSetHandler&lt;&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Customer <span class="title">handle</span><span class="params">(ResultSet resultSet)</span> <span class="keyword">throws</span> SQLException </span>&#123;<span class="comment">//传入了结果集</span></span><br><span class="line">                <span class="keyword">if</span> (resultSet.next()) &#123;</span><br><span class="line">                    <span class="keyword">int</span> id = resultSet.getInt(<span class="string">"id"</span>);</span><br><span class="line">                    String name = resultSet.getString(<span class="string">"name"</span>);</span><br><span class="line">                    String email = resultSet.getString(<span class="string">"email"</span>);</span><br><span class="line">                    java.sql.Date birth = resultSet.getDate(<span class="string">"birth"</span>);</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> Customer(id, name, email, birth);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        Customer customer = runner.query(connection, sql, handler, <span class="number">23</span>);</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        JDBCUtils.closeResource(connection, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
 
-    &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
-        e.printStackTrace();
-    &#125; <span class="hljs-keyword">finally</span> &#123;
-        JDBCUtils.closeResource(connection, <span class="hljs-keyword">null</span>);
-    &#125;
-&#125;</code></pre>
-            </article>
-            <hr>
-            <div>
-              <div class="post-metas mb-3">
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/java/">java</a>
-                    
-                  </div>
-                
-              </div>
-              
-                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
-              
-              
-                <div class="post-prevnext row">
-                  <div class="post-prev col-6">
-                    
-                    
-                      <a href="/2020/06/27/Servlet/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Servlet</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </div>
-                  <div class="post-next col-6">
-                    
-                    
-                      <a href="/2020/06/12/MySQL-1/">
-                        <span class="hidden-mobile">MySQL(1)</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </div>
-                </div>
-              
-            </div>
+    
+    
+    
 
-            
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
           </div>
-        </div>
-      </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/12/MySQL-1/" rel="prev" title="MySQL(1)">
+      <i class="fa fa-chevron-left"></i> MySQL(1)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/27/Servlet/" rel="next" title="Servlet">
+      Servlet <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
+      </footer>
     
-      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
-        <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
-  <div id="tocbot"></div>
-</div>
-
-      </div>
-    
-  </div>
-</div>
-
-<!-- Custom -->
-
-
-    
-  </main>
-
+  </article>
   
-    <a id="scroll-top-button" href="#" role="button">
-      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-    </a>
   
-
-  
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-  
-
-  
-
-  
-
-  <footer class="mt-5">
-  <div class="text-center py-3">
-    <div>
-      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
-      <i class="iconfont icon-love"></i>
-      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
-        <span>Fluid</span></a>
-    </div>
-    
-
-    
-
-    
-  </div>
-</footer>
-
-<!-- SCRIPTS -->
-<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
-<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
-<script  src="/js/debouncer.js" ></script>
-<script  src="/js/main.js" ></script>
-
-<!-- Plugins -->
-
-
-  
-    <script  src="/js/lazyload.js" ></script>
   
 
 
 
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
+          </div>
+          
 
-
-
-
-
-
-
-  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
-  <script>
-    $(document).ready(function () {
-      var boardCtn = $('#board-ctn');
-      var boardTop = boardCtn.offset().top;
-
-      tocbot.init({
-        tocSelector: '#tocbot',
-        contentSelector: 'article.markdown-body',
-        headingSelector: 'h1,h2,h3,h4,h5,h6',
-        linkClass: 'tocbot-link',
-        activeLinkClass: 'tocbot-active-link',
-        listClass: 'tocbot-list',
-        isCollapsedClass: 'tocbot-is-collapsed',
-        collapsibleClass: 'tocbot-is-collapsible',
-        collapseDepth: 0,
-        scrollSmooth: true,
-        headingsOffset: -boardTop
-      });
-      if ($('.toc-list-item').length > 0) {
-        $('#toc').css('visibility', 'visible');
-      }
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
-  <script>
-    var typed = new Typed('#subtitle', {
-      strings: [
-        '  ',
-        "JDBC&nbsp;",
-      ],
-      cursorChar: "_",
-      typeSpeed: 70,
-      loop: false,
-    });
-    typed.stop();
-    $(document).ready(function () {
-      $(".typed-cursor").addClass("h2");
-      typed.start();
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
-      
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
     }
-    anchors.add(res.join(", "))
-  </script>
-
-
-
-  <script  src="/js/local-search.js" ></script>
-  <script>
-    var path = "/local-search.xml";
-    var inputArea = document.querySelector("#local-search-input");
-    inputArea.onclick = function () {
-      searchFunc(path, 'local-search-input', 'local-search-result');
-      this.onclick = null
-    }
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-  <script>
-    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
-      function () {
-        var element = document.createElement('a');
-        $(element).attr('data-fancybox', 'images');
-        $(element).attr('href', $(this).attr('src'));
-        $(this).wrap(element);
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
       }
-    );
-  </script>
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xianzheTM"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">xianzheTM</p>
+  <div class="site-description" itemprop="description">希望这里能见证一个菜鸟到大神的路程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xianzheTM" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xianzheTM" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ylxianzhe@outlook.com" title="E-Mail → mailto:ylxianzhe@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xianzheTM</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">687k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">19:05</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 
@@ -1145,12 +521,9 @@
 
 
 
+  
 
-
-
-
-
-
+  
 
 </body>
 </html>

@@ -1,239 +1,257 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
-
-
-
-
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="/img/favicon.png">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yl.dropsec.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="气温骤降，头疼的厉害。 今天发生了一些难过的事，心情真的不好，状态糟糕透了，但是这件事也激励我要努力学习，加油！ 继续学习Java。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java笔记3">
+<meta property="og:url" content="https://yl.dropsec.xyz/2018/04/06/Java%E7%AC%94%E8%AE%B03/index.html">
+<meta property="og:site_name" content="新日暮里">
+<meta property="og:description" content="气温骤降，头疼的厉害。 今天发生了一些难过的事，心情真的不好，状态糟糕透了，但是这件事也激励我要努力学习，加油！ 继续学习Java。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-04-06T15:10:50.000Z">
+<meta property="article:modified_time" content="2020-05-07T14:19:14.000Z">
+<meta property="article:author" content="xianzheTM">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yl.dropsec.xyz/2018/04/06/Java%E7%AC%94%E8%AE%B03/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Java笔记3 | 新日暮里</title>
   
-  <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="希望这里能见证一个菜鸟到大神的路程">
-  <meta name="author" content="xianzheTM">
-  <meta name="keywords" content="">
-  <title>Java笔记3 - 新日暮里</title>
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
-  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
-
-  
-    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
-  
-
-  
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
 
 
-<link  rel="stylesheet" href="/css/main.css" />
 
-<!-- 自定义样式保持在最底部 -->
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-  <script  src="/js/utils.js" ></script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
+</head>
 
-<body>
-  <header style="height: 70vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand"
-       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                首页
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                归档
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                分类
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                标签
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
-          </li>
-        
-      </ul>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
-</nav>
 
-    <div class="view intro-2" id="background" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp">
-            <span class="h2" id="subtitle">
-              
-            </span>
+  <div class="site-meta">
 
-            
-              
-  <div class="mt-3 post-meta">
-    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2018-04-06 23:10">
-      2018年4月6日 晚上
-    </time>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">新日暮里</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
   </div>
 
-
-<div class="mt-1">
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-chart"></i>
-      2.5k 字
-    </span>
-  
-
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-clock-fill"></i>
-      
-      
-      32
-       分钟
-    </span>
-  
-
-  
-  
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
 </div>
 
-            
-          </div>
 
-          
-        </div>
-      </div>
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
     </div>
-  </header>
+  </div>
 
-  <main>
+</div>
+    </header>
+
     
-      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
-        <div class="py-5" id="board">
-          <div class="post-content mx-auto" id="post">
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
             
-            <article class="markdown-body">
-              <p>气温骤降，头疼的厉害。</p>
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yl.dropsec.xyz/2018/04/06/Java%E7%AC%94%E8%AE%B03/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="xianzheTM">
+      <meta itemprop="description" content="希望这里能见证一个菜鸟到大神的路程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新日暮里">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java笔记3
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-06 23:10:50" itemprop="dateCreated datePublished" datetime="2018-04-06T23:10:50+08:00">2018-04-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-07 22:19:14" itemprop="dateModified" datetime="2020-05-07T22:19:14+08:00">2020-05-07</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>气温骤降，头疼的厉害。</p>
 <p>今天发生了一些难过的事，心情真的不好，状态糟糕透了，但是这件事也激励我要努力学习，加油！</p>
 <p>继续学习Java。</p>
 <a id="more"></a>
 
 <p>1.构造函数</p>
-<pre><code class="hljs java">
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CashCard</span> </span>&#123;
-
-​    String number;
-
-​    <span class="hljs-keyword">int</span> balance;
-
-​    <span class="hljs-keyword">int</span> bonus;
-
-​    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">CashCard</span><span class="hljs-params">(String number, <span class="hljs-keyword">int</span> balance, <span class="hljs-keyword">int</span> bonus)</span> </span>&#123;
-
-​        <span class="hljs-keyword">this</span>.number = number;
-
-​        <span class="hljs-keyword">this</span>.balance = balance;
-
-​        <span class="hljs-keyword">this</span>.bonus = bonus;
-
-​    &#125;
-
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CashCard</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​    String number;</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">int</span> balance;</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">int</span> bonus;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> <span class="title">CashCard</span><span class="params">(String number, <span class="keyword">int</span> balance, <span class="keyword">int</span> bonus)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">this</span>.number = number;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">this</span>.balance = balance;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">this</span>.bonus = bonus;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>构造函数与类名称同名，不用声明返回类型。构造函数支持函数重载。若没有写构造函数，编译程序会自动加入一个内容为空，参数为空的构造函数。所以新建对象的语法就是这么来的。</p>
-<pre><code class="hljs java">
-CashCard card = <span class="hljs-keyword">new</span> CashCard();</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">CashCard card = <span class="keyword">new</span> CashCard();</span><br></pre></td></tr></table></figure>
 
 <p>在使用方法重载时要注意自动装箱和拆箱，会依照以下顺序处理：</p>
 <p>（1）还没有装箱前可符合变量个数和类型的方法</p>
@@ -242,126 +260,17 @@ CashCard card = <span class="hljs-keyword">new</span> CashCard();</code></pre>
 <p>（4）找不到合适的，报错</p>
 <hr>
 <p>2.封装对象的方法</p>
-<pre><code class="hljs java">
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CashCard</span> </span>&#123;
-
-​    String number;
-
-​    <span class="hljs-keyword">int</span> balance;
-
-​    <span class="hljs-keyword">int</span> bonus;
-
-​    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">CashCard</span><span class="hljs-params">(String number, <span class="hljs-keyword">int</span> balance, <span class="hljs-keyword">int</span> bonus)</span> </span>&#123;
-
-​        <span class="hljs-keyword">this</span>.number = number;
-
-​        <span class="hljs-keyword">this</span>.balance = balance;
-
-​        <span class="hljs-keyword">this</span>.bonus = bonus;
-
-​    &#125;
-
-​    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">store</span><span class="hljs-params">(<span class="hljs-keyword">int</span> money)</span> </span>&#123;
-
-​        <span class="hljs-keyword">if</span> (money &gt; <span class="hljs-number">0</span>) &#123;
-
-​            <span class="hljs-keyword">this</span>.balance += money;
-
-​            <span class="hljs-keyword">if</span> (money &gt;= <span class="hljs-number">1000</span>) &#123;
-
-​                <span class="hljs-keyword">this</span>.bonus++;
-
-​            &#125;
-
-​        &#125; <span class="hljs-keyword">else</span> &#123;
-
-​            System.out.print(<span class="hljs-string">"储值是负的"</span>);
-
-​        &#125;
-
-​    &#125;
-
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CashCard</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​    String number;</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">int</span> balance;</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">int</span> bonus;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> <span class="title">CashCard</span><span class="params">(String number, <span class="keyword">int</span> balance, <span class="keyword">int</span> bonus)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">this</span>.number = number;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">this</span>.balance = balance;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">this</span>.bonus = bonus;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">void</span> <span class="title">store</span><span class="params">(<span class="keyword">int</span> money)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">if</span> (money &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">​            <span class="keyword">this</span>.balance += money;</span><br><span class="line"></span><br><span class="line">​            <span class="keyword">if</span> (money &gt;= <span class="number">1000</span>) &#123;</span><br><span class="line"></span><br><span class="line">​                <span class="keyword">this</span>.bonus++;</span><br><span class="line"></span><br><span class="line">​            &#125;</span><br><span class="line"></span><br><span class="line">​        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">​            System.out.print(<span class="string">"储值是负的"</span>);</span><br><span class="line"></span><br><span class="line">​        &#125;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>在这个对象中我写了一个方法在里面，所以每次存钱的时候我就只管调用<code>store</code>方法，而不需要自己操作数据成员。方法名称要小写，也支持重载。</p>
 <hr>
 <p>3.getters和setters</p>
 <p>对于上面的代码还有个问题是用户可以直接访问数据成员，这显然是不安全的。我们应该将他们改为<code>private</code>，但是也要提供一个可靠的方法供用户使用修改数据。</p>
-<pre><code class="hljs java">
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CashCard</span> </span>&#123;
-
-​    <span class="hljs-keyword">private</span> String number;
-
-​    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> balance;
-
-​    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> bonus;
-
-​    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">CashCard</span><span class="hljs-params">(String number, <span class="hljs-keyword">int</span> balance, <span class="hljs-keyword">int</span> bonus)</span> </span>&#123;
-
-​        <span class="hljs-keyword">this</span>.number = number;
-
-​        <span class="hljs-keyword">this</span>.balance = balance;
-
-​        <span class="hljs-keyword">this</span>.bonus = bonus;
-
-​    &#125;
-
-​    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getNumber</span><span class="hljs-params">()</span> </span>&#123;
-
-​        <span class="hljs-keyword">return</span> number;
-
-​    &#125;
-
-​    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setNumber</span><span class="hljs-params">(String number)</span> </span>&#123;
-
-​        <span class="hljs-keyword">this</span>.number = number;
-
-​    &#125;
-
-​    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getBalance</span><span class="hljs-params">()</span> </span>&#123;
-
-​        <span class="hljs-keyword">return</span> balance;
-
-​    &#125;
-
-​    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setBalance</span><span class="hljs-params">(<span class="hljs-keyword">int</span> balance)</span> </span>&#123;
-
-​        <span class="hljs-keyword">this</span>.balance = balance;
-
-​    &#125;
-
-​    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getBonus</span><span class="hljs-params">()</span> </span>&#123;
-
-​        <span class="hljs-keyword">return</span> bonus;
-
-​    &#125;
-
-​    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setBonus</span><span class="hljs-params">(<span class="hljs-keyword">int</span> bonus)</span> </span>&#123;
-
-​        <span class="hljs-keyword">this</span>.bonus = bonus;
-
-​    &#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CashCard</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">private</span> String number;</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">private</span> <span class="keyword">int</span> balance;</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">private</span> <span class="keyword">int</span> bonus;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> <span class="title">CashCard</span><span class="params">(String number, <span class="keyword">int</span> balance, <span class="keyword">int</span> bonus)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">this</span>.number = number;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">this</span>.balance = balance;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">this</span>.bonus = bonus;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> String <span class="title">getNumber</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">return</span> number;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNumber</span><span class="params">(String number)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">this</span>.number = number;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getBalance</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">return</span> balance;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBalance</span><span class="params">(<span class="keyword">int</span> balance)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">this</span>.balance = balance;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getBonus</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">return</span> bonus;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBonus</span><span class="params">(<span class="keyword">int</span> bonus)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">this</span>.bonus = bonus;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br></pre></td></tr></table></figure>
 
 <p>所以有get和set方法，这种写法是固定的。在eclipse中，在空白处单击右键-&gt;source-&gt;generate Getters and Setters可自动生成。</p>
 <p>构造函数的功能其实和get,set方法有一定重复，他们都可以用来赋值，但是用途是不一样的。</p>
-<pre><code class="hljs java">
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">test</span> </span>&#123;
-
-​    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-
-​        CashCard card = <span class="hljs-keyword">new</span> CashCard(<span class="hljs-string">"a1"</span>,<span class="hljs-number">1000</span>,<span class="hljs-number">10</span>);
-
-​        card.setNumber(<span class="hljs-string">"a2"</span>);
-
-​        card.setBalance(<span class="hljs-number">500</span>);
-
-​        card.setBonus(<span class="hljs-number">20</span>);
-
-​        System.out.print(card.getNumber()+card.getBalance()+card.getBonus());
-
-​    &#125;
-
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​        CashCard card = <span class="keyword">new</span> CashCard(<span class="string">"a1"</span>,<span class="number">1000</span>,<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">​        card.setNumber(<span class="string">"a2"</span>);</span><br><span class="line"></span><br><span class="line">​        card.setBalance(<span class="number">500</span>);</span><br><span class="line"></span><br><span class="line">​        card.setBonus(<span class="number">20</span>);</span><br><span class="line"></span><br><span class="line">​        System.out.print(card.getNumber()+card.getBalance()+card.getBonus());</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>可以看出，构造函数在一次性赋全部值时比较方便，而set方法则适合对单个值的修改。当然，事无绝对，可以对构造函数进行重载，条条大路通罗马，方法不止一个。</p>
 <hr>
@@ -370,310 +279,68 @@ CashCard card = <span class="hljs-keyword">new</span> CashCard();</code></pre>
 <p>（2）如果想在其他的类程序代码中使用包的类或对象成员，则该类或对象必须是公开的，要加<code>public</code>声明。</p>
 <p>（3）使用this</p>
 <p>除了被声明为static的地方外，this可以出现在类中的任何地方，<em>在对象建立后，this为这个对象的别名（参考名称）</em>。例如：</p>
-<pre><code class="hljs java">
-CashCard card = <span class="hljs-keyword">new</span> CashCard(<span class="hljs-string">"a1"</span>,<span class="hljs-number">500</span>,<span class="hljs-number">20</span>);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">CashCard card = <span class="keyword">new</span> CashCard(<span class="string">"a1"</span>,<span class="number">500</span>,<span class="number">20</span>);</span><br></pre></td></tr></table></figure>
 
-<pre><code class="hljs java">
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">CashCard</span><span class="hljs-params">(String number, <span class="hljs-keyword">int</span> balance, <span class="hljs-keyword">int</span> bonus)</span> </span>&#123;
-
-​    <span class="hljs-keyword">this</span>.number = number;
-
-​    <span class="hljs-keyword">this</span>.balance = balance;
-
-​    <span class="hljs-keyword">this</span>.bonus = bonus;
-
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">CashCard</span><span class="params">(String number, <span class="keyword">int</span> balance, <span class="keyword">int</span> bonus)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">this</span>.number = number;</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">this</span>.balance = balance;</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">this</span>.bonus = bonus;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>在这里，构造函数中的this指代了新对象card，将传入的参数给了card。</p>
 <p>在上面我写到，构造函数可以重载，this在这里也有应用。</p>
-<pre><code class="hljs java">
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Some</span> </span>&#123;
-
-​    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> a = <span class="hljs-number">10</span>;
-
-​    <span class="hljs-keyword">private</span> String text = <span class="hljs-string">"n.a."</span>;
-
-​    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Some</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a)</span> </span>&#123;
-
-​        <span class="hljs-keyword">if</span> (a &gt; <span class="hljs-number">0</span>) &#123;
-
-​            <span class="hljs-keyword">this</span>.a = a;
-
-​        &#125;
-
-​    &#125;
-
-​    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Some</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, String text)</span> </span>&#123;
-
-​        <span class="hljs-keyword">if</span> (a &gt; <span class="hljs-number">0</span>) &#123;
-
-​            <span class="hljs-keyword">this</span>.a = a;
-
-​        &#125;
-
-​        <span class="hljs-keyword">if</span> (text != <span class="hljs-keyword">null</span>) &#123;
-
-​            <span class="hljs-keyword">this</span>.text = text;
-
-​        &#125;
-
-​    &#125;
-
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Some</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">private</span> <span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">private</span> String text = <span class="string">"n.a."</span>;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> <span class="title">Some</span><span class="params">(<span class="keyword">int</span> a)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">if</span> (a &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">​            <span class="keyword">this</span>.a = a;</span><br><span class="line"></span><br><span class="line">​        &#125;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> <span class="title">Some</span><span class="params">(<span class="keyword">int</span> a, String text)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">if</span> (a &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">​            <span class="keyword">this</span>.a = a;</span><br><span class="line"></span><br><span class="line">​        &#125;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">if</span> (text != <span class="keyword">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">​            <span class="keyword">this</span>.text = text;</span><br><span class="line"></span><br><span class="line">​        &#125;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>两个构造函数中有部分重复的，这不是一个好的代码。所以我们可以在一个构造函数中再次调用另一个构造函数。写成：</p>
-<pre><code class="hljs java">
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Some</span> </span>&#123;
-
-​    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> a = <span class="hljs-number">10</span>;
-
-​    <span class="hljs-keyword">private</span> String text = <span class="hljs-string">"n.a."</span>;
-
-​    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Some</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a)</span> </span>&#123;
-
-​        <span class="hljs-keyword">if</span> (a &gt; <span class="hljs-number">0</span>) &#123;
-
-​            <span class="hljs-keyword">this</span>.a = a;
-
-​        &#125;
-
-​    &#125;
-
-​    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Some</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, String text)</span> </span>&#123;
-
-​        <span class="hljs-keyword">this</span>(a);
-
-​        <span class="hljs-keyword">if</span> (text != <span class="hljs-keyword">null</span>) &#123;
-
-​            <span class="hljs-keyword">this</span>.text = text;
-
-​        &#125;
-
-​    &#125;
-
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Some</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">private</span> <span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">private</span> String text = <span class="string">"n.a."</span>;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> <span class="title">Some</span><span class="params">(<span class="keyword">int</span> a)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">if</span> (a &gt; <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">​            <span class="keyword">this</span>.a = a;</span><br><span class="line"></span><br><span class="line">​        &#125;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> <span class="title">Some</span><span class="params">(<span class="keyword">int</span> a, String text)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">this</span>(a);</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">if</span> (text != <span class="keyword">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">​            <span class="keyword">this</span>.text = text;</span><br><span class="line"></span><br><span class="line">​        &#125;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>上面说过this是对象的参考名称，this(a)可以看成是Some(a)，这样一来，意义就明确了，就是调用了<code>public Some(int a)</code>这个构造函数。注意，this()调用只能出现在构造函数的第一行。</p>
 <p>有点小细节：</p>
 <p>如果在<em>创建对象之后和调用构造函数之前</em>有想要执行的流程可以这么写：</p>
-<pre><code class="hljs java">
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">other</span></span>&#123;
-
-​    &#123;
-
-​        System.out.println(<span class="hljs-string">"对象初始区块"</span>)；
-
-​    &#125;
-
-​    other()&#123;
-
-​        System.out.println(<span class="hljs-string">"调用other()构造函数"</span>)；
-
-​    &#125;
-
-​    other(<span class="hljs-keyword">int</span> o)&#123;
-
-​        <span class="hljs-keyword">this</span>();
-
-​        System.out.println(<span class="hljs-string">"调用other(int o)构造函数"</span>)；
-
-​    &#125;
-
-&#125;
-
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Aa</span></span>&#123;
-
-​    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>&#123;
-
-​        <span class="hljs-keyword">new</span> other(<span class="hljs-number">1</span>);
-
-​    &#125;
-
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">other</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​    &#123;</span><br><span class="line"></span><br><span class="line">​        System.out.println(<span class="string">"对象初始区块"</span>)；</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">​    other()&#123;</span><br><span class="line"></span><br><span class="line">​        System.out.println(<span class="string">"调用other()构造函数"</span>)；</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">​    other(<span class="keyword">int</span> o)&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">this</span>();</span><br><span class="line"></span><br><span class="line">​        System.out.println(<span class="string">"调用other(int o)构造函数"</span>)；</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Aa</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">new</span> other(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>在这里是先执行对象初始区块后在执行指定的构造函数。</p>
 <p>(4)final关键字</p>
 <p>一旦使用了final就不能更改。有点意思的是：</p>
-<pre><code class="hljs java">
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Something</span></span>&#123;
-
-​    <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> x;
-
-​    <span class="hljs-comment">//....</span>
-
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Something</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">final</span> <span class="keyword">int</span> x;</span><br><span class="line"></span><br><span class="line">​    <span class="comment">//....</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>对对象成员使用final且不给赋值表示的是延迟对象成员值的指定。所以在构造函数中一定要有对改数据成员指定值的动作。而且，有构造函数重载时，要注意做到每个构造函数都有指定值或默认值，不能有一个没有，因为有可能调用到那个没有指定值或默认值的构造函数。</p>
 <p>(5)static</p>
 <p>对于一个类，可以根据他建立多个对象，每个对象都具有类中规定的数据成员。例如我建立两个CashCard对象，那么就有六个数据成员。但是有的时候，类中的数据是个常数，例如Pi,这样的数据显然不需要每个都拥有。那么可以这么写：</p>
-<pre><code class="hljs java">
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Ball</span></span>&#123;
-
-​    <span class="hljs-keyword">double</span> radius;
-
-​    <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">double</span> PI = <span class="hljs-number">3.1415</span>;
-
-​    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">double</span> <span class="hljs-title">toRadians</span><span class="hljs-params">(<span class="hljs-keyword">double</span> angdeg)</span></span>&#123;
-
-​        <span class="hljs-keyword">return</span> angdeg * (Ball.PI/<span class="hljs-number">180</span>);
-
-​    &#125;
-
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Ball</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">double</span> radius;</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">double</span> PI = <span class="number">3.1415</span>;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">static</span> <span class="keyword">double</span> <span class="title">toRadians</span><span class="params">(<span class="keyword">double</span> angdeg)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">return</span> angdeg * (Ball.PI/<span class="number">180</span>);</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>被声明为static的成员，是将类名称作为名称空间，不会让个别对象拥有，而是属于类。</p>
-<pre><code class="hljs java">
-System.out.println(Ball.PI);
-
-System.out.println(Ball.toRadians(<span class="hljs-number">100</span>));</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">System.out.println(Ball.PI);</span><br><span class="line"></span><br><span class="line">System.out.println(Ball.toRadians(<span class="number">100</span>));</span><br></pre></td></tr></table></figure>
 
 <p>类比到<code>System.out.println</code>，out是System类的，查看API文档发现out是java.io.PrintStream类型。</p>
-<pre><code class="hljs java">
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Ball</span></span>&#123;
-
-​    <span class="hljs-keyword">double</span> radius;
-
-​    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doSome</span><span class="hljs-params">()</span></span>&#123;
-
-​        <span class="hljs-keyword">double</span> r=<span class="hljs-keyword">this</span>.radius;
-
-​    &#125;
-
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Ball</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">double</span> radius;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">doSome</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">double</span> r=<span class="keyword">this</span>.radius;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>由于static是属于类的，所以在static中使用this是不对的。就是说，在静态区访问非静态区是不对的，最简单的理解就是this是在建立对象后的别名，但是在上面的代码中，我压根就没建立对象。</p>
 <p>下面这种也是不对的;</p>
-<pre><code class="hljs java">
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Ball</span></span>&#123;
-
-​    <span class="hljs-keyword">double</span> radius;
-
-​    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doSome</span><span class="hljs-params">()</span></span>&#123;
-
-​        <span class="hljs-keyword">double</span> r=radius;
-
-​    &#125;
-
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Ball</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">double</span> radius;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">doSome</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">double</span> r=radius;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>虽然没写this，但实际隐含了this。什么意思？假如我新建两个对象，例如ball1和ball2，在类中调用doSome,没法确定用哪个radius。静态的对非静态的调用就是有这种问题：调用的东西可能根本还没建立或者建立了多个。this有关的东西不止这点，后面还会再出现。</p>
 <p>用import可以导入包，而使用import static则可以把静态成员导入。</p>
-<pre><code class="hljs java">
-<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> java.lang.System.in;
-
-<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> java.lang.System.out;
-
-<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> java.util.Scanner;
-
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ImportStatic</span></span>&#123;
-
-​    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>&#123;
-
-​        Scanner scanner = <span class="hljs-keyword">new</span> Scanner(in);
-
-​        out.print(<span class="hljs-string">"name?"</span>);
-
-​        out.printf(<span class="hljs-string">"%s hello! %n"</span>,scannner.nextline());
-
-​    &#125;
-
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> java.lang.System.in;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> java.lang.System.out;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImportStatic</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​        Scanner scanner = <span class="keyword">new</span> Scanner(in);</span><br><span class="line"></span><br><span class="line">​        out.print(<span class="string">"name?"</span>);</span><br><span class="line"></span><br><span class="line">​        out.printf(<span class="string">"%s hello! %n"</span>,scannner.nextline());</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <hr>
 <p>5.不定长度变量</p>
 <p>观察<code>System.out.printf(&quot;%d&quot;,10);</code>，printf方法的变量是不定个数的。在自己写方法时也可以做到这样。</p>
-<pre><code class="hljs java">
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MathTool</span></span>&#123;
-
-​    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">sum</span><span class="hljs-params">(<span class="hljs-keyword">int</span>... number)</span></span>&#123;
-
-​        <span class="hljs-keyword">int</span> sum = <span class="hljs-number">0</span>;
-
-​        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> number : numbers)&#123;
-
-​            sum+=number;
-
-​        &#125;
-
-​        <span class="hljs-keyword">return</span> sum;
-
-​    &#125;
-
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MathTool</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span>... number)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">for</span>(<span class="keyword">int</span> number : numbers)&#123;</span><br><span class="line"></span><br><span class="line">​            sum+=number;</span><br><span class="line"></span><br><span class="line">​        &#125;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">return</span> sum;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>当使用这种方法后，就可以这样调用<code>System.out.print(MathTool.sum(1,2,3));</code>这种写法的本质是将参数改为一个数组，前面的调用相当于<code>MathTool.sum(new int[] {1,2,3})</code>。在参数不只有不定长度变量而还有其它的变量时，不定长度参数要放在最后一个，也不允许声明两个以上不定长度变量。</p>
 <hr>
 <p>6.内部类</p>
 <p>简单说，就是在类里面再定义一个类。</p>
-<pre><code class="hljs java">
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Some</span></span>&#123;
-
-​    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Othes</span></span>&#123;
-
-​    &#125;
-
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Some</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​    <span class="class"><span class="keyword">class</span> <span class="title">Othes</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>要使用Some中的Other类，则必须先建立Some的实例：</p>
-<pre><code class="hljs java">
-Some s = <span class="hljs-keyword">new</span> Some();
-
-Some.Other o = s.<span class="hljs-keyword">new</span> Other();</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Some s = <span class="keyword">new</span> Some();</span><br><span class="line"></span><br><span class="line">Some.Other o = s.<span class="keyword">new</span> Other();</span><br></pre></td></tr></table></figure>
 
 <p>内部类也可以使用public，protected或private声明。一个被声明为static的内部类，通常是将外部类作为名称空间，所以可以这么写：<code>Some.Other o = new Some.Other();</code>内部static类可以存取外部static类，外部非static不可以。</p>
 <p>方法中也可以声明类，通常用于方法中的计算，外部无法使用。</p>
 <p>这部分我没怎么理解透彻。</p>
 <p>7.传值调用</p>
-<pre><code class="hljs java">
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CallByValue</span></span>&#123;
-
-​    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>&#123;
-
-​        Customer c1 = <span class="hljs-keyword">new</span> Customer(<span class="hljs-string">"Justin"</span>);
-
-​        some(c1);
-
-​        System.out.println(c1.name);
-
-​        Customer c2 = <span class="hljs-keyword">new</span> Customer(<span class="hljs-string">"Justin"</span>);
-
-​        some(c2);
-
-​        System.out.println(c2.name);
-
-​    &#125;
-
-​    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">some</span><span class="hljs-params">(customer c)</span></span>&#123;
-
-​        c,name = <span class="hljs-string">"John"</span>;
-
-​    &#125;
-
-​    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">other</span><span class="hljs-params">(Customer c)</span></span>&#123;
-
-​        c = <span class="hljs-keyword">new</span> Customer(<span class="hljs-string">"Bill"</span>);
-
-​    &#125;
-
-&#125;
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Customer</span></span>&#123;
-
-​    String name;
-
-​    Customer(String name)&#123;
-
-​        <span class="hljs-keyword">this</span>.name = name;
-
-​    &#125;
-
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CallByValue</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​        Customer c1 = <span class="keyword">new</span> Customer(<span class="string">"Justin"</span>);</span><br><span class="line"></span><br><span class="line">​        some(c1);</span><br><span class="line"></span><br><span class="line">​        System.out.println(c1.name);</span><br><span class="line"></span><br><span class="line">​        Customer c2 = <span class="keyword">new</span> Customer(<span class="string">"Justin"</span>);</span><br><span class="line"></span><br><span class="line">​        some(c2);</span><br><span class="line"></span><br><span class="line">​        System.out.println(c2.name);</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">some</span><span class="params">(customer c)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​        c,name = <span class="string">"John"</span>;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">​    <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">other</span><span class="params">(Customer c)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​        c = <span class="keyword">new</span> Customer(<span class="string">"Bill"</span>);</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Customer</span></span>&#123;</span><br><span class="line"></span><br><span class="line">​    String name;</span><br><span class="line"></span><br><span class="line">​    Customer(String name)&#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">this</span>.name = name;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>结果是:</p>
-<pre><code class="hljs java">
-John
-
-Justin</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">John</span><br><span class="line"></span><br><span class="line">Justin</span><br></pre></td></tr></table></figure>
 
 <p>首先建立两个对象，c1&amp;c2,name都是Justin。some(c1)将c1(参考而不是整个对象)传递给some()方法的参数c，也就是说现在是c和c1一起指向一个Customer对象。接着，”John”被要求给c参考的对象。</p>
 <p>但是在other()方法中，原本c和c1一起指向一个Customer对象，但是c又被要求指向一个新的name是”Bill”的对象，而c1并没有被更改什么。</p>
@@ -681,235 +348,202 @@ Justin</code></pre>
 <p> <a href="https://www.cnblogs.com/chen-kh/p/6696303.html" target="_blank" rel="noopener">https://www.cnblogs.com/chen-kh/p/6696303.html</a></p>
 <p> <a href="https://blog.csdn.net/zzp_403184692/article/details/8184751" target="_blank" rel="noopener">https://blog.csdn.net/zzp_403184692/article/details/8184751</a></p>
 
-            </article>
-            <hr>
-            <div>
-              <div class="post-metas mb-3">
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/java/">java</a>
-                    
-                  </div>
-                
-              </div>
-              
-                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
-              
-              
-                <div class="post-prevnext row">
-                  <div class="post-prev col-6">
-                    
-                    
-                      <a href="/2018/04/08/Java%E7%AC%94%E8%AE%B04/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Java笔记4</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </div>
-                  <div class="post-next col-6">
-                    
-                    
-                      <a href="/2018/04/02/Java%E7%AC%94%E8%AE%B02/">
-                        <span class="hidden-mobile">Java笔记2</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </div>
-                </div>
-              
-            </div>
+    </div>
 
-            
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
           </div>
-        </div>
-      </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/04/02/Java%E7%AC%94%E8%AE%B02/" rel="prev" title="Java笔记2">
+      <i class="fa fa-chevron-left"></i> Java笔记2
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/04/08/Java%E7%AC%94%E8%AE%B04/" rel="next" title="Java笔记4">
+      Java笔记4 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
+      </footer>
     
-      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
-        <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
-  <div id="tocbot"></div>
-</div>
-
-      </div>
-    
-  </div>
-</div>
-
-<!-- Custom -->
-
-
-    
-  </main>
-
+  </article>
   
-    <a id="scroll-top-button" href="#" role="button">
-      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-    </a>
   
-
-  
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-  
-
-  
-
-  
-
-  <footer class="mt-5">
-  <div class="text-center py-3">
-    <div>
-      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
-      <i class="iconfont icon-love"></i>
-      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
-        <span>Fluid</span></a>
-    </div>
-    
-
-    
-
-    
-  </div>
-</footer>
-
-<!-- SCRIPTS -->
-<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
-<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
-<script  src="/js/debouncer.js" ></script>
-<script  src="/js/main.js" ></script>
-
-<!-- Plugins -->
-
-
-  
-    <script  src="/js/lazyload.js" ></script>
   
 
 
 
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
+          </div>
+          
 
-
-
-
-
-
-
-  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
-  <script>
-    $(document).ready(function () {
-      var boardCtn = $('#board-ctn');
-      var boardTop = boardCtn.offset().top;
-
-      tocbot.init({
-        tocSelector: '#tocbot',
-        contentSelector: 'article.markdown-body',
-        headingSelector: 'h1,h2,h3,h4,h5,h6',
-        linkClass: 'tocbot-link',
-        activeLinkClass: 'tocbot-active-link',
-        listClass: 'tocbot-list',
-        isCollapsedClass: 'tocbot-is-collapsed',
-        collapsibleClass: 'tocbot-is-collapsible',
-        collapseDepth: 0,
-        scrollSmooth: true,
-        headingsOffset: -boardTop
-      });
-      if ($('.toc-list-item').length > 0) {
-        $('#toc').css('visibility', 'visible');
-      }
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
-  <script>
-    var typed = new Typed('#subtitle', {
-      strings: [
-        '  ',
-        "Java笔记3&nbsp;",
-      ],
-      cursorChar: "_",
-      typeSpeed: 70,
-      loop: false,
-    });
-    typed.stop();
-    $(document).ready(function () {
-      $(".typed-cursor").addClass("h2");
-      typed.start();
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
-      
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
     }
-    anchors.add(res.join(", "))
-  </script>
-
-
-
-  <script  src="/js/local-search.js" ></script>
-  <script>
-    var path = "/local-search.xml";
-    var inputArea = document.querySelector("#local-search-input");
-    inputArea.onclick = function () {
-      searchFunc(path, 'local-search-input', 'local-search-result');
-      this.onclick = null
-    }
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-  <script>
-    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
-      function () {
-        var element = document.createElement('a');
-        $(element).attr('data-fancybox', 'images');
-        $(element).attr('href', $(this).attr('src'));
-        $(this).wrap(element);
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
       }
-    );
-  </script>
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xianzheTM"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">xianzheTM</p>
+  <div class="site-description" itemprop="description">希望这里能见证一个菜鸟到大神的路程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xianzheTM" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xianzheTM" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ylxianzhe@outlook.com" title="E-Mail → mailto:ylxianzhe@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xianzheTM</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">687k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">19:05</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 
@@ -923,12 +557,9 @@ Justin</code></pre>
 
 
 
+  
 
-
-
-
-
-
+  
 
 </body>
 </html>

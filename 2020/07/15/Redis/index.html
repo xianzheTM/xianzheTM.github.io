@@ -1,210 +1,267 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
-
-
-
-
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="/img/favicon.png">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yl.dropsec.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="安装 下载压缩包 传到Linux服务器解压 到文件目录下用make命令编译 make PREFIX&#x3D;&#x2F;usr&#x2F;local&#x2F;redis install安装到指定目录 到上一步的目录下.&#x2F;redis-server启动服务端 .&#x2F;redis-cli进入客户端,如果是非本机连接:redis-cli -h IP地址 -p 端口(默认IP为本机,端口6379)  配置将解压文件夹里的redis.conf移动到">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis">
+<meta property="og:url" content="https://yl.dropsec.xyz/2020/07/15/Redis/index.html">
+<meta property="og:site_name" content="新日暮里">
+<meta property="og:description" content="安装 下载压缩包 传到Linux服务器解压 到文件目录下用make命令编译 make PREFIX&#x3D;&#x2F;usr&#x2F;local&#x2F;redis install安装到指定目录 到上一步的目录下.&#x2F;redis-server启动服务端 .&#x2F;redis-cli进入客户端,如果是非本机连接:redis-cli -h IP地址 -p 端口(默认IP为本机,端口6379)  配置将解压文件夹里的redis.conf移动到">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pics1.baidu.com/feed/e7cd7b899e510fb3aa8c05042b22c093d0430ca7.jpeg?token=7ed4cf784a82d04e60b8dc72cf7e3c24&s=EDBAA5565D1859C85444707E02005071">
+<meta property="og:image" content="https://pics5.baidu.com/feed/023b5bb5c9ea15cefb035bc8431132f53b87b21e.jpeg?token=a72f072d65d2de548d71bb459cd0bf4f&s=05AAFE168FF04C8A10FD2DEE0300E032">
+<meta property="og:image" content="https://pics5.baidu.com/feed/1c950a7b02087bf43b4490d50ac25f2a11dfcf7e.jpeg?token=22f387ba78130c6115420059481b2393&s=EF48A15796784D8816E1D9EB03007024">
+<meta property="og:image" content="https://pics3.baidu.com/feed/32fa828ba61ea8d3c2502e396b1b3848251f58b0.jpeg?token=394597ccd73bd15778c518b5c5be6998&s=2D62E7169D305F8A847546E20200B036">
+<meta property="og:image" content="https://pics7.baidu.com/feed/09fa513d269759ee28454d2c4cea4b106c22dfd3.jpeg?token=86eda46b8bcd54a7a0e7d8a37d87bee8&s=EDB2A4579D317B824660D4DF0200E036">
+<meta property="og:image" content="https://pics5.baidu.com/feed/b17eca8065380cd7df69859ba056a5325982816c.jpeg?token=a060f459d81c409c3d6c7208d2118888&s=AF4AA5574ED85CC841D04BE60300A036">
+<meta property="og:image" content="https://pics5.baidu.com/feed/8326cffc1e178a82c532308ef2117b8ba977e8ae.jpeg?token=fea28817e45f0e091b5be3854d856fbb&s=BD48B55F1C784C095E61DCEB0300D036">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/20200717160722.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/20200717160849.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/20200717160910.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/20200717161129.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/20200717161041.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/20200717161113.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/20200717161129%20(1).png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/20200717153700.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/20200717160225.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/20200717161324.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/20200717163629.png">
+<meta property="article:published_time" content="2020-07-15T14:05:29.000Z">
+<meta property="article:modified_time" content="2020-07-19T13:49:08.552Z">
+<meta property="article:author" content="xianzheTM">
+<meta property="article:tag" content="redis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pics1.baidu.com/feed/e7cd7b899e510fb3aa8c05042b22c093d0430ca7.jpeg?token=7ed4cf784a82d04e60b8dc72cf7e3c24&s=EDBAA5565D1859C85444707E02005071">
+
+<link rel="canonical" href="https://yl.dropsec.xyz/2020/07/15/Redis/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Redis | 新日暮里</title>
   
-  <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="希望这里能见证一个菜鸟到大神的路程">
-  <meta name="author" content="xianzheTM">
-  <meta name="keywords" content="">
-  <title>Redis - 新日暮里</title>
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
-  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
-
-  
-    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
-  
-
-  
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
 
 
-<link  rel="stylesheet" href="/css/main.css" />
 
-<!-- 自定义样式保持在最底部 -->
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-  <script  src="/js/utils.js" ></script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
+</head>
 
-<body>
-  <header style="height: 70vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand"
-       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                首页
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                归档
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                分类
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                标签
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
-          </li>
-        
-      </ul>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
-</nav>
 
-    <div class="view intro-2" id="background" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp">
-            <span class="h2" id="subtitle">
-              
-            </span>
+  <div class="site-meta">
 
-            
-              
-  <div class="mt-3 post-meta">
-    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-07-15 22:05">
-      2020年7月15日 晚上
-    </time>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">新日暮里</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
   </div>
 
-
-<div class="mt-1">
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-chart"></i>
-      10.2k 字
-    </span>
-  
-
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-clock-fill"></i>
-      
-      
-      124
-       分钟
-    </span>
-  
-
-  
-  
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
 </div>
 
-            
-          </div>
 
-          
-        </div>
-      </div>
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
     </div>
-  </header>
+  </div>
 
-  <main>
+</div>
+    </header>
+
     
-      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
-        <div class="py-5" id="board">
-          <div class="post-content mx-auto" id="post">
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
             
-            <article class="markdown-body">
-              <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><ul>
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yl.dropsec.xyz/2020/07/15/Redis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="xianzheTM">
+      <meta itemprop="description" content="希望这里能见证一个菜鸟到大神的路程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新日暮里">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redis
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-15 22:05:29" itemprop="dateCreated datePublished" datetime="2020-07-15T22:05:29+08:00">2020-07-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-19 21:49:08" itemprop="dateModified" datetime="2020-07-19T21:49:08+08:00">2020-07-19</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>21k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>34 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><ul>
 <li>下载压缩包</li>
 <li>传到Linux服务器解压</li>
 <li>到文件目录下用make命令编译</li>
@@ -213,37 +270,7 @@
 <li><code>./redis-cli</code>进入客户端,如果是非本机连接:redis-cli -h IP地址 -p 端口(默认IP为本机,端口6379)</li>
 </ul>
 <h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>将解压文件夹里的redis.conf移动到安装目录,然后编辑该文件.</p>
-<pre><code class="hljs yaml"><span class="hljs-comment">#表示现在只能本机访问</span>
-<span class="hljs-string">bind</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>
-
-<span class="hljs-comment">#端口号</span>
-<span class="hljs-string">port</span> <span class="hljs-number">6379</span>
-
-<span class="hljs-comment">#让redis以守护进程方式运行</span>
-<span class="hljs-string">daemonize</span> <span class="hljs-literal">yes</span>
-
-<span class="hljs-comment">#设置数据库的数量，默认数据库为0，可以使用SELECT &lt;dbid&gt;命令在连接上指定数据库id</span>
-<span class="hljs-string">databases</span> <span class="hljs-number">16</span>
-
-<span class="hljs-comment">#指定在多长时间内，有多少次更新操作，就将数据同步到数据文件，可以多个条件配合</span>
-<span class="hljs-comment">#save &lt;seconds&gt; &lt;changes&gt;</span>
-<span class="hljs-comment">#Redis默认配置文件中提供了三个条件：</span>
-<span class="hljs-string">save</span> <span class="hljs-number">900</span> <span class="hljs-number">1</span>
-<span class="hljs-string">save</span> <span class="hljs-number">300</span> <span class="hljs-number">10</span>
-<span class="hljs-string">save</span> <span class="hljs-number">60</span> <span class="hljs-number">10000</span>
-<span class="hljs-comment">#分别表示900秒（15分钟）内有1个更改，300秒（5分钟）内有10个更改以及60秒内有10000个更改。</span>
-
-<span class="hljs-comment">#指定存储至本地数据库时是否压缩数据，默认为yes，Redis采用LZF(压缩算法）压缩，如果为了节省CPU时间，可以关闭该选项，但会导致数据库文件变的巨大</span>
-<span class="hljs-string">rdbcompression</span> <span class="hljs-literal">yes</span>
-
-<span class="hljs-comment">#指定本地数据库文件名，默认值为dump.rdb</span>
-<span class="hljs-string">dbfilename</span> <span class="hljs-string">dump.rdb</span>
-
-<span class="hljs-comment">#指定本地数据库存放目录</span>
-<span class="hljs-string">dir</span> <span class="hljs-string">./</span>
-
-<span class="hljs-comment">#设置Redis连接密码，如果配置了连接密码，客户端在连接Redis时需要通过AUTH &lt;password&gt;命令提供密码，默认关闭</span>
-<span class="hljs-string">requirepass</span> <span class="hljs-string">foobared</span></code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#表示现在只能本机访问</span><br><span class="line">bind 127.0.0.1</span><br><span class="line"></span><br><span class="line">#端口号</span><br><span class="line">port 6379</span><br><span class="line"></span><br><span class="line">#让redis以守护进程方式运行</span><br><span class="line">daemonize yes</span><br><span class="line"></span><br><span class="line">#设置数据库的数量，默认数据库为0，可以使用SELECT &lt;dbid&gt;命令在连接上指定数据库id</span><br><span class="line">databases 16</span><br><span class="line"></span><br><span class="line">#指定在多长时间内，有多少次更新操作，就将数据同步到数据文件，可以多个条件配合</span><br><span class="line">#save &lt;seconds&gt; &lt;changes&gt;</span><br><span class="line">#Redis默认配置文件中提供了三个条件：</span><br><span class="line">save 900 1</span><br><span class="line">save 300 10</span><br><span class="line">save 60 10000</span><br><span class="line">#分别表示900秒（15分钟）内有1个更改，300秒（5分钟）内有10个更改以及60秒内有10000个更改。</span><br><span class="line"></span><br><span class="line">#指定存储至本地数据库时是否压缩数据，默认为yes，Redis采用LZF(压缩算法）压缩，如果为了节省CPU时间，可以关闭该选项，但会导致数据库文件变的巨大</span><br><span class="line">rdbcompression yes</span><br><span class="line"></span><br><span class="line">#指定本地数据库文件名，默认值为dump.rdb</span><br><span class="line">dbfilename dump.rdb</span><br><span class="line"></span><br><span class="line">#指定本地数据库存放目录</span><br><span class="line">dir .&#x2F;</span><br><span class="line"></span><br><span class="line">#设置Redis连接密码，如果配置了连接密码，客户端在连接Redis时需要通过AUTH &lt;password&gt;命令提供密码，默认关闭</span><br><span class="line">requirepass foobared</span><br></pre></td></tr></table></figure>
 
 <p>编辑文件内有一段include,用来引入其它配置文件,有共用的配置文件时需要用到.</p>
 <h1 id="Redis内存维护策略"><a href="#Redis内存维护策略" class="headerlink" title="Redis内存维护策略"></a>Redis内存维护策略</h1><h2 id="为数据设置超时时间"><a href="#为数据设置超时时间" class="headerlink" title="为数据设置超时时间"></a>为数据设置超时时间</h2><p><code>ttl key1</code>查询key1的过期时间.没有设置过期时间的就是永不过期.-1为永不过期,-2表示已过期</p>
@@ -276,40 +303,13 @@
 <p><code>Flushdb</code>清空当前库</p>
 <p><code>Flushall</code>清空全部</p>
 <h2 id="string"><a href="#string" class="headerlink" title="string"></a>string</h2><p>string是最基本的类型,它是二进制安全的,可以包含任意数据,例如图片或者序列化的对象.value最大值为512M.</p>
-<pre><code class="hljs gams">
-<span class="hljs-keyword">set</span> k1 <span class="hljs-comment">v1</span>
-ok
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">set k1 v1</span><br><span class="line">ok</span><br><span class="line"></span><br><span class="line">get k1</span><br><span class="line">&quot;v1&quot;</span><br><span class="line"></span><br><span class="line">append k1 234&#x2F;&#x2F;在k1的value后追加234</span><br><span class="line">(integer)5</span><br><span class="line"></span><br><span class="line">strlen k1</span><br><span class="line">(integer)5</span><br><span class="line"></span><br><span class="line">setnx k1 abc&#x2F;&#x2F;SET if Not eXists</span><br><span class="line"></span><br><span class="line">set k2 12</span><br><span class="line">incr k2&#x2F;&#x2F;为k2自增1,注意要类型匹配能够加的才加</span><br><span class="line"></span><br><span class="line">decr k2&#x2F;&#x2F;减一</span><br><span class="line"></span><br><span class="line">incrby&#x2F;decrby k2 step&#x2F;&#x2F;自定义加减的步长</span><br></pre></td></tr></table></figure>
 
-get <span class="hljs-comment">k1</span>
-<span class="hljs-string">"v1"</span>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mset k1 v1 k2 v2&#x2F;&#x2F;一次设置多个值</span><br><span class="line"></span><br><span class="line">mget k1 k2&#x2F;&#x2F;一次获取多个值</span><br><span class="line"></span><br><span class="line">msetnx k1 v1 k2 v2&#x2F;&#x2F;当k1,k2不存在时设置值</span><br></pre></td></tr></table></figure>
 
-append <span class="hljs-comment">k1 234</span>//在<span class="hljs-comment">k1</span>的<span class="hljs-comment">value</span>后追加<span class="hljs-comment">234</span>
-(integer)5
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">getrange k1 0 2&#x2F;&#x2F;获取指定key的指定范围内的子字符串,闭集</span><br><span class="line">&#x2F;&#x2F;与之类似的setrange是设置范围内的值</span><br></pre></td></tr></table></figure>
 
-strlen <span class="hljs-comment">k1</span>
-(integer)5
-
-setnx <span class="hljs-comment">k1 abc</span>//<span class="hljs-comment">SET if Not eXists</span>
-
-<span class="hljs-keyword">set</span> <span class="hljs-comment">k2 12</span>
-incr <span class="hljs-comment">k2</span>//为<span class="hljs-comment">k2</span>自增<span class="hljs-comment">1,</span>注意要类型匹配能够加的才加
-
-decr <span class="hljs-comment">k2</span>//减一
-
-incrby/decrby k2 step<span class="hljs-comment">//自定义加减的步长</span></code></pre>
-
-<pre><code class="hljs x86asm">mset <span class="hljs-built_in">k1</span> v1 <span class="hljs-built_in">k2</span> v2//一次设置多个值
-
-mget <span class="hljs-built_in">k1</span> <span class="hljs-built_in">k2</span>//一次获取多个值
-
-msetnx <span class="hljs-built_in">k1</span> v1 <span class="hljs-built_in">k2</span> v2//当<span class="hljs-built_in">k1</span>,<span class="hljs-built_in">k2</span>不存在时设置值</code></pre>
-
-<pre><code class="hljs angelscript">getrange k1 <span class="hljs-number">0</span> <span class="hljs-number">2</span><span class="hljs-comment">//获取指定key的指定范围内的子字符串,闭集</span>
-<span class="hljs-comment">//与之类似的setrange是设置范围内的值</span></code></pre>
-
-<pre><code class="hljs dts">setex <span class="hljs-params">&lt;key&gt;</span> <span class="hljs-params">&lt;过期时间&gt;</span> <span class="hljs-params">&lt;value&gt;</span>
-
-getset <span class="hljs-params">&lt;key&gt;</span> <span class="hljs-params">&lt;value&gt;</span><span class="hljs-comment">//以新换旧,同时获得旧值</span></code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setex &lt;key&gt; &lt;过期时间&gt; &lt;value&gt;</span><br><span class="line"></span><br><span class="line">getset &lt;key&gt; &lt;value&gt;&#x2F;&#x2F;以新换旧,同时获得旧值</span><br></pre></td></tr></table></figure>
 
 <p>严格来说,Redis中只有string类型,下面几种集合类型内部都是放的string.</p>
 <h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><p>List是一个字符串列表,按照插入顺序排序.底层是一个双向链表,两端操作性能高.</p>
@@ -334,10 +334,10 @@ getset <span class="hljs-params">&lt;key&gt;</span> <span class="hljs-params">&l
 <p>sdiff <key1> <key2>:差集</key2></key1></p>
 <h2 id="hash"><a href="#hash" class="headerlink" title="hash"></a>hash</h2><p>键值对,类似于Map&lt;String,String&gt;.</p>
 <p>hset <key> <filed> <value>:key是hash的名字,filed是键值对的键</value></filed></key></p>
-<pre><code class="hljs angelscript">hset userInfo user:<span class="hljs-number">1010</span>:uid <span class="hljs-number">1010</span></code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hset userInfo user:1010:uid 1010</span><br></pre></td></tr></table></figure>
 
 <p>hmset <key> <filed> <value> <filed> <value>:设置多个键值对</value></filed></value></filed></key></p>
-<pre><code class="hljs css"><span class="hljs-selector-tag">hmset</span> <span class="hljs-selector-tag">userInfo</span> <span class="hljs-selector-tag">user</span><span class="hljs-selector-pseudo">:1010</span><span class="hljs-selector-pseudo">:username</span> <span class="hljs-selector-tag">admin</span> <span class="hljs-selector-tag">user</span><span class="hljs-selector-pseudo">:1010</span><span class="hljs-selector-pseudo">:passwd</span> 123</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hmset userInfo user:1010:username admin user:1010:passwd 123</span><br></pre></td></tr></table></figure>
 
 <p>hget key filed:取出键值对的值</p>
 <p>hexists key <filed>:判断是否存在</filed></p>
@@ -356,18 +356,7 @@ getset <span class="hljs-params">&lt;key&gt;</span> <span class="hljs-params">&l
 <p>zcount <key> <min> <max>:统计分数区间内的个数</max></min></key></p>
 <p>zrank <key> <value>:返回该元素在集合中的排名,从0开始</value></key></p>
 <h2 id="用Java操作redis"><a href="#用Java操作redis" class="headerlink" title="用Java操作redis"></a>用Java操作redis</h2><p>需要用Jedis这个包,然后调用其方法即可.Jedis的方法与上面的方法完全一样.</p>
-<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-    Jedis jedis = <span class="hljs-keyword">new</span> Jedis(<span class="hljs-string">"127.0.0.1"</span>, <span class="hljs-number">6379</span>);
-    String result = jedis.ping();
-    System.out.println(result);
-    <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">while</span> (i &lt; <span class="hljs-number">1000</span>) &#123;
-        String value = UUID.randomUUID().toString().replace(<span class="hljs-string">"-"</span>, <span class="hljs-string">""</span>).substring(<span class="hljs-number">0</span>, <span class="hljs-number">8</span>);
-        jedis.lpush(<span class="hljs-string">"name"</span>, value);
-        i++;
-    &#125;
-    jedis.close();
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Jedis jedis = <span class="keyword">new</span> Jedis(<span class="string">"127.0.0.1"</span>, <span class="number">6379</span>);</span><br><span class="line">    String result = jedis.ping();</span><br><span class="line">    System.out.println(result);</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; <span class="number">1000</span>) &#123;</span><br><span class="line">        String value = UUID.randomUUID().toString().replace(<span class="string">"-"</span>, <span class="string">""</span>).substring(<span class="number">0</span>, <span class="number">8</span>);</span><br><span class="line">        jedis.lpush(<span class="string">"name"</span>, value);</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line">    jedis.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h1 id="Redis事务"><a href="#Redis事务" class="headerlink" title="Redis事务"></a>Redis事务</h1><p>Redis事务的主要作用就是串联多个命令防止别的命令插队.</p>
 <p>Multi开始事务,将后续命令加入队列,Exec执行事务(队列里的命令),discard取消事务.</p>
@@ -381,21 +370,17 @@ getset <span class="hljs-params">&lt;key&gt;</span> <span class="hljs-params">&l
 </ul>
 <p>现在设想一个场景:商品页面售货,有大量请求进来购买,服务器用redis记录商品数量,当数量小于等于0时停止售卖.</p>
 <p>为了测试Redis在高并发情况下的事务,现在安装一个高并发模拟工具</p>
-<pre><code class="hljs routeros">sudo apt-<span class="hljs-builtin-name">get</span> install apache2-utils</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install apache2-utils</span><br></pre></td></tr></table></figure>
 
 <p>这里面有一个ab工具用来模拟并发,执行命令:</p>
-<pre><code class="hljs angelscript">ab -n <span class="hljs-number">1000</span> -c <span class="hljs-number">200</span> -p /opt/postfile -T <span class="hljs-string">"application/x-www-form-urlencoded"</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">8080</span>/Redis/doseckill</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ab -n 1000 -c 200 -p &#x2F;opt&#x2F;postfile -T &quot;application&#x2F;x-www-form-urlencoded&quot; 127.0.0.1:8080&#x2F;Redis&#x2F;doseckill</span><br></pre></td></tr></table></figure>
 
 <p>-n表示请求个数,-c并发数(瞬间发送的请求个数),-p表示要发送的数据文件,-T表示请求头信息,后面是请求地址.</p>
 <p>在没有启用事务且并发较高的情况下,有可能出现商品数量已经小于0,但仍在售卖的现象.例如有100个请求获取到商品数量为5,然后它们都去给数量减一,结果就造成数量为-95,出现超卖的问题.</p>
 <p>这里其实应该使用watch监视库存.</p>
-<pre><code class="hljs java">Jedis jedis = <span class="hljs-keyword">new</span> Jedis(<span class="hljs-string">"127.0.0.1"</span>, <span class="hljs-number">6379</span>);
-jedis.watch(kc);<span class="hljs-comment">//监视redis中key为kc的值</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Jedis jedis = <span class="keyword">new</span> Jedis(<span class="string">"127.0.0.1"</span>, <span class="number">6379</span>);</span><br><span class="line">jedis.watch(kc);<span class="comment">//监视redis中key为kc的值</span></span><br></pre></td></tr></table></figure>
 
-<pre><code class="hljs java">Transaction transaction = jedis.multi();
-transaction.decr(kcKey);
-transaction.sadd(userKey,uid);
-List&lt;Object&gt; list = transaction.exec();</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Transaction transaction = jedis.multi();</span><br><span class="line">transaction.decr(kcKey);</span><br><span class="line">transaction.sadd(userKey,uid);</span><br><span class="line">List&lt;Object&gt; list = transaction.exec();</span><br></pre></td></tr></table></figure>
 <p>接着判断这个集合,如果为空表示事务执行失败.</p>
 <p>但是这有个问题,使用watch后,一次并发的200次请求只有一个能成功让数量减一,而其它199个都因为事务的原因不能减.这不符合逻辑,因为此时商品数量还有.如果向参数设置那样一共就1000个请求,五次并发就没了,商品只卖了5个.</p>
 <p>如何改进?这里使用lua脚本.该脚本有一定原子性,不会被其它命令插队.只需要让每个请求执行这个脚本即可.</p>
@@ -404,11 +389,11 @@ List&lt;Object&gt; list = transaction.exec();</code></pre>
 <p>既然RDB机制是通过把某个时刻的所有数据生成一个快照来保存，那么就应该有一种触发机制，是实现这个过程。对于RDB来说，提供了三种机制：save、bgsave、自动化。</p>
 <p>1、save 触发方式</p>
 <p>该命令会阻塞当前 Redis 服务器，执行 save 命令期间，Redis 不能处理其他命令，直到 RDB 过程完成为止。具体流程如下：</p>
-<p><img src="https://pics1.baidu.com/feed/e7cd7b899e510fb3aa8c05042b22c093d0430ca7.jpeg?token=7ed4cf784a82d04e60b8dc72cf7e3c24&s=EDBAA5565D1859C85444707E02005071" srcset="/img/loading.gif" alt></p>
+<p><img src="https://pics1.baidu.com/feed/e7cd7b899e510fb3aa8c05042b22c093d0430ca7.jpeg?token=7ed4cf784a82d04e60b8dc72cf7e3c24&s=EDBAA5565D1859C85444707E02005071" alt></p>
 <p>执行完成时候如果存在老的 RDB 文件，就把新的替代掉旧的。我们的客户端可能都是几万或者是几十万，这种方式显然不可取。</p>
 <p>2、bgsave 触发方式</p>
 <p>执行该命令时，Redis 会在后台异步进行快照操作，快照同时还可以响应客户端请求。具体流程如下：</p>
-<p><img src="https://pics5.baidu.com/feed/023b5bb5c9ea15cefb035bc8431132f53b87b21e.jpeg?token=a72f072d65d2de548d71bb459cd0bf4f&s=05AAFE168FF04C8A10FD2DEE0300E032" srcset="/img/loading.gif" alt></p>
+<p><img src="https://pics5.baidu.com/feed/023b5bb5c9ea15cefb035bc8431132f53b87b21e.jpeg?token=a72f072d65d2de548d71bb459cd0bf4f&s=05AAFE168FF04C8A10FD2DEE0300E032" alt></p>
 <p>具体操作是 Redis 进程执行 fork 操作创建子进程，RDB 持久化过程由子进程负责，完成后自动结束。阻塞只发生在 fork 阶段，一般时间很短。基本上 Redis 内部所有的 RDB 操作都是采用 bgsave 命令。</p>
 <p>3、自动触发</p>
 <p>自动触发是由我们的配置文件来完成的。在 redis.conf 配置文件中，里面有如下配置，我们可以去设置：</p>
@@ -426,7 +411,7 @@ List&lt;Object&gt; list = transaction.exec();</code></pre>
 <p>⑤dbfilename ：设置快照的文件名，默认是 dump.rdb</p>
 <p>⑥dir：设置快照文件的存放路径，这个配置项一定是个目录，而不能是文件名。</p>
 <p>我们可以修改这些配置来实现我们想要的效果。因为第三种方式是配置的，所以我们对前两种进行一个对比：</p>
-<p><img src="https://pics5.baidu.com/feed/1c950a7b02087bf43b4490d50ac25f2a11dfcf7e.jpeg?token=22f387ba78130c6115420059481b2393&s=EF48A15796784D8816E1D9EB03007024" srcset="/img/loading.gif" alt></p>
+<p><img src="https://pics5.baidu.com/feed/1c950a7b02087bf43b4490d50ac25f2a11dfcf7e.jpeg?token=22f387ba78130c6115420059481b2393&s=EF48A15796784D8816E1D9EB03007024" alt></p>
 <p>4、RDB 的优势和劣势</p>
 <p>①、优势</p>
 <p>（1）RDB 文件紧凑，全量备份，非常适合用于进行备份和灾难恢复。</p>
@@ -453,17 +438,17 @@ List&lt;Object&gt; list = transaction.exec();</code></pre>
 <p>　　　　 auto-aof-rewrite-min-size 64mb</p>
 <p>1、持久化原理</p>
 <p>他的原理看下面这张图：</p>
-<p><img src="https://pics3.baidu.com/feed/32fa828ba61ea8d3c2502e396b1b3848251f58b0.jpeg?token=394597ccd73bd15778c518b5c5be6998&s=2D62E7169D305F8A847546E20200B036" srcset="/img/loading.gif" alt></p>
+<p><img src="https://pics3.baidu.com/feed/32fa828ba61ea8d3c2502e396b1b3848251f58b0.jpeg?token=394597ccd73bd15778c518b5c5be6998&s=2D62E7169D305F8A847546E20200B036" alt></p>
 <p>每当有一个写命令过来时，就直接保存在我们的 AOF 文件中。</p>
 <p>2、文件重写原理</p>
 <p>AOF 的方式也同时带来了另一个问题。持久化文件会变的越来越大。为了压缩 aof 的持久化文件。redis 提供了 bgrewriteaof 命令。将内存中的数据以命令的方式保存到临时文件中，同时会 fork 出一条新进程来将文件重写。</p>
-<p><img src="https://pics7.baidu.com/feed/09fa513d269759ee28454d2c4cea4b106c22dfd3.jpeg?token=86eda46b8bcd54a7a0e7d8a37d87bee8&s=EDB2A4579D317B824660D4DF0200E036" srcset="/img/loading.gif" alt></p>
+<p><img src="https://pics7.baidu.com/feed/09fa513d269759ee28454d2c4cea4b106c22dfd3.jpeg?token=86eda46b8bcd54a7a0e7d8a37d87bee8&s=EDB2A4579D317B824660D4DF0200E036" alt></p>
 <p>重写 aof 文件的操作，并没有读取旧的 aof 文件，而是将整个内存中的数据库内容用命令的方式重写了一个新的 aof 文件，这点和快照有点类似。</p>
 <p>3、AOF 也有三种触发机制</p>
 <p>（1）每修改同步 always：同步持久化 每次发生数据变更会被立即记录到磁盘 性能较差但数据完整性比较好</p>
 <p>（2）每秒同步 everysec：异步操作，每秒记录 如果一秒内宕机，有数据丢失</p>
 <p>（3）不同 no：从不同步</p>
-<p><img src="https://pics5.baidu.com/feed/b17eca8065380cd7df69859ba056a5325982816c.jpeg?token=a060f459d81c409c3d6c7208d2118888&s=AF4AA5574ED85CC841D04BE60300A036" srcset="/img/loading.gif" alt></p>
+<p><img src="https://pics5.baidu.com/feed/b17eca8065380cd7df69859ba056a5325982816c.jpeg?token=a060f459d81c409c3d6c7208d2118888&s=AF4AA5574ED85CC841D04BE60300A036" alt></p>
 <p>4、优点</p>
 <p>（1）AOF 可以更好的保护数据不丢失，一般 AOF 会每隔 1 秒，通过一个后台线程执行一次 fsync 操作，最多丢失 1 秒钟的数据。（2）AOF 日志文件没有任何磁盘寻址的开销，写入性能非常高，文件不容易破损。</p>
 <p>（3）AOF 日志文件即使过大的时候，出现后台重写操作，也不会影响客户端的读写。</p>
@@ -474,9 +459,8 @@ List&lt;Object&gt; list = transaction.exec();</code></pre>
 <p>（3）以前 AOF 发生过 bug，就是通过 AOF 记录的日志，进行数据恢复的时候，没有恢复一模一样的数据出来。</p>
 <p>四、RDB 和 AOF 到底该如何选择</p>
 <p>选择的话，两者加一起才更好。因为两个持久化机制你明白了，剩下的就是看自己的需求了，需求不同选择的也不一定，但是通常都是结合使用。有一张图可供总结：</p>
-<p><img src="https://pics5.baidu.com/feed/8326cffc1e178a82c532308ef2117b8ba977e8ae.jpeg?token=fea28817e45f0e091b5be3854d856fbb&s=BD48B55F1C784C095E61DCEB0300D036" srcset="/img/loading.gif" alt></p>
+<p><img src="https://pics5.baidu.com/feed/8326cffc1e178a82c532308ef2117b8ba977e8ae.jpeg?token=fea28817e45f0e091b5be3854d856fbb&s=BD48B55F1C784C095E61DCEB0300D036" alt></p>
 <p>对比了这几个特性，剩下的就是看自己了。</p>
-<p><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/%E8%BF%B7%E8%B7%AF%E5%B8%96.png" srcset="/img/loading.gif" alt></p>
 <h2 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h2><h3 id="什么是主从复制"><a href="#什么是主从复制" class="headerlink" title="什么是主从复制"></a>什么是主从复制</h3><p>主从复制，是指将一台 Redis 服务器的数据，复制到其他的 Redis 服务器。前者称为主节点 (master)，后者称为从节点 (slave), 数据的复制是单向的，只能由主节点到从节点。</p>
 <p>默认情况下，每台 Redis 服务器都是主节点；且一个主节点可以有多个从节点 (或没有从节点)，但一个从节点只能有一个主节点。</p>
 <h3 id="主从复制的作用"><a href="#主从复制的作用" class="headerlink" title="主从复制的作用"></a>主从复制的作用</h3><ol>
@@ -496,21 +480,21 @@ List&lt;Object&gt; list = transaction.exec();</code></pre>
 <p>通过  info replication 命令可以看到复制的一些信息</p>
 </blockquote>
 <h2 id="主从复制原理"><a href="#主从复制原理" class="headerlink" title="主从复制原理"></a>主从复制原理</h2><p>主从复制过程大体可以分为 3 个阶段：连接建立阶段（即准备阶段）、数据同步阶段、命令传播阶段。</p>
-<p>在从节点执行 slaveof 命令后，复制过程便开始运作，下面图示大概可以看到，<br>从图中可以看出复制过程大致分为 6 个过程<br><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/20200717160722.png" srcset="/img/loading.gif" alt></p>
+<p>在从节点执行 slaveof 命令后，复制过程便开始运作，下面图示大概可以看到，<br>从图中可以看出复制过程大致分为 6 个过程<br><img src="https://gitee.com/xianzhetm/photo/raw/master/img/20200717160722.png" alt="20200717160722"></p>
 <blockquote>
 <p>主从配置之后的日志记录也可以看出这个流程</p>
 </blockquote>
 <p>1）保存主节点（master）信息。<br>执行 slaveof 后 Redis 会打印如下日志：</p>
-<p><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/20200717160849.png" srcset="/img/loading.gif" alt></p>
-<p>2）从节点（slave）内部通过每秒运行的定时任务维护复制相关逻辑，当定时任务发现存在新的主节点后，会尝试与该节点建立网络连接<br><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/20200717160910.png" srcset="/img/loading.gif" alt><br>从节点与主节点建立网络连接</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/20200717160849.png" alt="20200717160849"></p>
+<p>2）从节点（slave）内部通过每秒运行的定时任务维护复制相关逻辑，当定时任务发现存在新的主节点后，会尝试与该节点建立网络连接<br><img src="https://gitee.com/xianzhetm/photo/raw/master/img/20200717160910.png" alt="20200717160910"><br>从节点与主节点建立网络连接</p>
 <p>从节点会建立一个 socket 套接字，从节点建立了一个端口为 51234 的套接字，专门用于接受主节点发送的复制命令。从节点连接成功后打印如下日志：</p>
-<p><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/20200717161129.png" srcset="/img/loading.gif" alt></p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/20200717161129.png" alt="20200717161129"></p>
 <p>如果从节点无法建立连接，定时任务会无限重试直到连接成功或者执行 slaveof no one 取消复制</p>
 <p>关于连接失败，可以在从节点执行 info replication 查看 master_link_down_since_seconds 指标，它会记录与主节点连接失败的系统时间。从节点连接主节点失败时也会每秒打印如下日志，方便发现问题：</p>
-<pre><code class="hljs sas"># <span class="hljs-meta">Error</span> condition <span class="hljs-meta">on</span> socket for SYNC: &#123;socket_error_reason&#125;</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># Error condition on socket for SYNC: &#123;socket_error_reason&#125;</span><br></pre></td></tr></table></figure>
 
-<p>3）发送 ping 命令。<br>连接建立成功后从节点发送 ping 请求进行首次通信，ping 请求主要目的如下：<br>· 检测主从之间网络套接字是否可用。<br>· 检测主节点当前是否可接受处理命令。<br>如果发送 ping 命令后，从节点没有收到主节点的 pong 回复或者超时，比如网络超时或者主节点正在阻塞无法响应命令，从节点会断开复制连接，下次定时任务会发起重连。<br><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/20200717161041.png" srcset="/img/loading.gif" alt><br><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/20200717161113.png" srcset="/img/loading.gif" alt></p>
-<p>从节点发送的 ping 命令成功返回，Redis 打印如下日志，并继续后续复制流程：<br><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/20200717161129.png" srcset="/img/loading.gif" alt></p>
+<p>3）发送 ping 命令。<br>连接建立成功后从节点发送 ping 请求进行首次通信，ping 请求主要目的如下：<br>· 检测主从之间网络套接字是否可用。<br>· 检测主节点当前是否可接受处理命令。<br>如果发送 ping 命令后，从节点没有收到主节点的 pong 回复或者超时，比如网络超时或者主节点正在阻塞无法响应命令，从节点会断开复制连接，下次定时任务会发起重连。<br><img src="https://gitee.com/xianzhetm/photo/raw/master/img/20200717161041.png" alt="20200717161041"><br><img src="https://gitee.com/xianzhetm/photo/raw/master/img/20200717161113.png" alt="20200717161113"></p>
+<p>从节点发送的 ping 命令成功返回，Redis 打印如下日志，并继续后续复制流程：<br><img src="https://gitee.com/xianzhetm/photo/raw/master/img/20200717161129%20(1).png" alt="20200717161129 (1)"></p>
 <p>4）权限验证。如果主节点设置了 requirepass 参数，则需要密码验证，从节点必须配置 masterauth 参数保证与主节点相同的密码才能通过验证；如果验证失败复制将终止，从节点重新发起复制流程。</p>
 <p>5）同步数据集。主从复制连接正常通信后，对于首次建立复制的场景，主节点会把持有的数据全部发送给从节点，这部分操作是耗时最长的步骤。</p>
 <p>6）命令持续复制。当主节点把当前的数据同步给从节点后，便完成了复制的建立流程。接下来主节点会持续地把写命令发送给从节点，保证主从数据一致性。</p>
@@ -524,7 +508,7 @@ List&lt;Object&gt; list = transaction.exec();</code></pre>
 <li>主服务器快照发送完毕后开始向从服务器发送缓冲区中的写命令； </li>
 <li>从服务器完成对快照的载入，开始接收命令请求，并执行来自主服务器缓冲区的写命令；</li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/20200717153700.png" srcset="/img/loading.gif" alt></p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/20200717153700.png" alt="20200717153700"></p>
 <p>完成上面几个步骤后就完成了从服务器数据初始化的所有操作，从服务器此时可以接收来自用户的读请求。</p>
 <p><strong>增量同步</strong></p>
 <p>Redis 增量复制是指 Slave 初始化后开始正常工作时主服务器发生的写操作同步到从服务器的过程。<br>增量复制的过程主要是主服务器每执行一个写命令就会向从服务器发送相同的写命令，从服务器接收并执行收到的写命令。</p>
@@ -538,7 +522,7 @@ List&lt;Object&gt; list = transaction.exec();</code></pre>
 </li>
 </ul>
 <h2 id="一、哨兵模式概述"><a href="#一、哨兵模式概述" class="headerlink" title="一、哨兵模式概述"></a>一、哨兵模式概述</h2><p>哨兵模式是一种特殊的模式，首先 Redis 提供了哨兵的命令，哨兵是一个独立的进程，作为进程，它会独立运行。其原理是哨兵通过发送命令，等待 Redis 服务器响应，从而监控运行的多个 Redis 实例。</p>
-<p><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/20200717160225.png" srcset="/img/loading.gif" alt></p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/20200717160225.png" alt="20200717160225"></p>
 <p>这里的哨兵有两个作用</p>
 <p>通过发送命令，让 Redis 服务器返回监控其运行状态，包括主服务器和<strong>从服务器</strong>。</p>
 <p>当哨兵监测到 master 宕机，会自动将 slave 切换成 master，然后通过发布订阅模式通知其他的从服务器，修改配置文件，让它们切换主机。</p>
@@ -591,39 +575,23 @@ List&lt;Object&gt; list = transaction.exec();</code></pre>
 <td>26379</td>
 </tr>
 </tbody></table>
-<p><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/20200717161324.png" srcset="/img/loading.gif" alt></p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/20200717161324.png" alt="20200717161324"></p>
 <p>多哨兵监控 Redis</p>
 <p>首先配置 Redis 的主从服务器，修改 redis.conf 文件如下</p>
-<pre><code class="hljs yaml"><span class="hljs-comment"># 使得Redis服务器可以跨网络访问</span>
-<span class="hljs-string">bind</span> <span class="hljs-number">0.0</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span>
-<span class="hljs-comment"># 设置密码</span>
-<span class="hljs-string">requirepass</span> <span class="hljs-string">"123456"</span>
-<span class="hljs-comment"># 指定主服务器，注意：有关slaveof的配置只是配置从服务器，主服务器不需要配置</span>
-<span class="hljs-string">slaveof</span> <span class="hljs-number">192.168</span><span class="hljs-number">.11</span><span class="hljs-number">.128</span> <span class="hljs-number">6379</span>
-<span class="hljs-comment"># 主服务器密码，注意：有关slaveof的配置只是配置从服务器，主服务器不需要配置</span>
-<span class="hljs-string">masterauth</span> <span class="hljs-number">123456</span></code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 使得Redis服务器可以跨网络访问</span><br><span class="line">bind 0.0.0.0</span><br><span class="line"># 设置密码</span><br><span class="line">requirepass &quot;123456&quot;</span><br><span class="line"># 指定主服务器，注意：有关slaveof的配置只是配置从服务器，主服务器不需要配置</span><br><span class="line">slaveof 192.168.11.128 6379</span><br><span class="line"># 主服务器密码，注意：有关slaveof的配置只是配置从服务器，主服务器不需要配置</span><br><span class="line">masterauth 123456</span><br></pre></td></tr></table></figure>
 
 <p>上述内容主要是配置 Redis 服务器，从服务器比主服务器多一个 slaveof 的配置和密码。</p>
 <p>配置 3 个哨兵，每个哨兵的配置都是一样的。在 Redis 安装目录下有一个 sentinel.conf 文件，copy 一份进行修改</p>
-<pre><code class="hljs angelscript"># 禁止保护模式
-<span class="hljs-keyword">protected</span>-mode no
-# 配置监听的主服务器，这里sentinel monitor代表监控，mymaster代表服务器的名称，可以自定义，<span class="hljs-number">192.168</span><span class="hljs-number">.11</span><span class="hljs-number">.128</span>代表监控的主服务器，<span class="hljs-number">6379</span>代表端口，<span class="hljs-number">2</span>代表只有两个或两个以上的哨兵认为主服务器不可用的时候，才会进行failover操作。
-sentinel monitor mymaster <span class="hljs-number">192.168</span><span class="hljs-number">.11</span><span class="hljs-number">.128</span> <span class="hljs-number">6379</span> <span class="hljs-number">2</span>
-# sentinel author-pass定义服务的密码，mymaster是服务名称，<span class="hljs-number">123456</span>是Redis服务器密码
-# sentinel auth-pass &lt;master-name&gt; &lt;password&gt;
-sentinel auth-pass mymaster <span class="hljs-number">123456</span></code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 禁止保护模式</span><br><span class="line">protected-mode no</span><br><span class="line"># 配置监听的主服务器，这里sentinel monitor代表监控，mymaster代表服务器的名称，可以自定义，192.168.11.128代表监控的主服务器，6379代表端口，2代表只有两个或两个以上的哨兵认为主服务器不可用的时候，才会进行failover操作。</span><br><span class="line">sentinel monitor mymaster 192.168.11.128 6379 2</span><br><span class="line"># sentinel author-pass定义服务的密码，mymaster是服务名称，123456是Redis服务器密码</span><br><span class="line"># sentinel auth-pass &lt;master-name&gt; &lt;password&gt;</span><br><span class="line">sentinel auth-pass mymaster 123456</span><br></pre></td></tr></table></figure>
 
 <p>上述关闭了保护模式，便于测试。</p>
 <p>有了上述的修改，我们可以进入 Redis 的安装目录的 src 目录，通过下面的命令启动服务器和哨兵</p>
-<pre><code class="hljs jboss-cli"><span class="hljs-comment"># 启动Redis服务器进程</span>
-<span class="hljs-string">./redis-server</span> <span class="hljs-string">../redis.conf</span>
-<span class="hljs-comment"># 启动哨兵进程</span>
-<span class="hljs-string">./redis-sentinel</span> <span class="hljs-string">../sentinel.conf</span></code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 启动Redis服务器进程</span><br><span class="line">.&#x2F;redis-server ..&#x2F;redis.conf</span><br><span class="line"># 启动哨兵进程</span><br><span class="line">.&#x2F;redis-sentinel ..&#x2F;sentinel.conf</span><br></pre></td></tr></table></figure>
 
 <p>注意启动的顺序。<strong>首先是主机（192.168.11.128）的 Redis 服务进程，然后启动从机的服务进程，最后启动 3 个哨兵的服务进程。</strong></p>
 <p>以上关于主从复制和哨兵模式都是redis关于高可用,高并发的策略,但是都不是最终策略.Redis的终极策略是搭建Redis集群.</p>
 <h2 id="Redis集群"><a href="#Redis集群" class="headerlink" title="Redis集群"></a>Redis集群</h2><p><strong>一、redis-cluster 设计</strong><br>Redis-Cluster 采用无中心结构，每个节点保存数据和整个集群状态, 每个节点都和其他所有节点连接。  </p>
-<p><img src="https://raw.githubusercontent.com/xianzheTM/photo/master/20200717163629.png" srcset="/img/loading.gif" alt></p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/20200717163629.png" alt="20200717163629"></p>
 <p>其结构特点：<br>1、所有的 redis 节点彼此互联 (PING-PONG 机制), 内部使用二进制协议优化传输速度和带宽。<br>2、节点的 fail 是通过集群中超过半数的节点检测失效时才生效。<br>3、客户端与 redis 节点直连, 不需要中间 proxy 层. 客户端不需要连接集群所有节点, 连接集群中任何一个可用节点即可。<br>4、redis-cluster 把所有的物理节点映射到 [0-16383]slot 上（不一定是平均分配）,cluster 负责维护 node&lt;-&gt;slot&lt;-&gt;value。<br>5、Redis 集群预分好 16384 个桶，当需要在 Redis 集群中放置一个 key-value 时，根据 CRC16(key) mod 16384 的值，决定将一个 key 放到哪个桶中。</p>
 <p><strong>a.redis cluster 节点分配</strong><br>现在我们是三个主节点分别是：A, B, C 三个节点，它们可以是一台机器上的三个端口，也可以是三台不同的服务器。那么，采用哈希槽 (hash slot) 的方式来分配 16384 个 slot 的话，它们三个节点分别承担的 slot 区间是：</p>
 <ul>
@@ -651,27 +619,17 @@ sentinel auth-pass mymaster <span class="hljs-number">123456</span></code></pre>
 <p>B1 节点替代了 B 节点，所以 Redis 集群将会选择 B1 节点作为新的主节点，集群将会继续正确地提供服务。 当 B 重新开启后，它就会变成 B1 的从节点。</p>
 <p>不过需要注意，如果节点 B 和 B1 同时挂了，Redis 集群就无法继续正确地提供服务了。</p>
 <p><strong>二、redis 集群的搭建</strong><br>集群中至少应该有奇数个节点，所以至少有三个节点，每个节点至少有一个备份节点，所以下面使用 6 节点（主节点、备份节点由 redis-cluster 集群确定）<br>下载 <a href="https://redis.io/download" target="_blank" rel="noopener">redis</a><br><strong>1、安装 redis 节点指定端口</strong><br>解压 redis 压缩包，编译安装</p>
-<pre><code class="hljs angelscript">[<span class="hljs-symbol">root@</span>localhost redis<span class="hljs-number">-3.2</span><span class="hljs-number">.0</span>]# tar xzf redis<span class="hljs-number">-3.2</span><span class="hljs-number">.0</span>.tar.gz
-[<span class="hljs-symbol">root@</span>localhost redis<span class="hljs-number">-3.2</span><span class="hljs-number">.0</span>]# cd redis<span class="hljs-number">-3.2</span><span class="hljs-number">.0</span>
-[<span class="hljs-symbol">root@</span>localhost redis<span class="hljs-number">-3.2</span><span class="hljs-number">.0</span>]# make
-[<span class="hljs-symbol">root@</span>localhost redis01]# make install PREFIX=/usr/andy/redis-cluster</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost redis-3.2.0]# tar xzf redis-3.2.0.tar.gz</span><br><span class="line">[root@localhost redis-3.2.0]# cd redis-3.2.0</span><br><span class="line">[root@localhost redis-3.2.0]# make</span><br><span class="line">[root@localhost redis01]# make install PREFIX&#x3D;&#x2F;usr&#x2F;andy&#x2F;redis-cluster</span><br></pre></td></tr></table></figure>
 
 <p>在 redis-cluster 下 修改 bin 文件夹为 redis01, 复制 redis.conf 配置文件<br>创建目录 redis-cluster 并在此目录下再创建 7000 7001 7002 7003 7004 7005 共 6 个目录，在 7000 中创建配置文件 redis.conf，内容如下：</p>
-<pre><code class="hljs yaml"><span class="hljs-string">daemonize</span> <span class="hljs-literal">yes</span> <span class="hljs-comment">#后台启动</span>
-<span class="hljs-string">port</span> <span class="hljs-number">7001</span> <span class="hljs-comment">#修改端口号，从7001到7006</span>
-<span class="hljs-string">cluster-enabled</span> <span class="hljs-literal">yes</span> <span class="hljs-comment">#开启cluster，去掉注释</span>
-<span class="hljs-string">cluster-config-file</span> <span class="hljs-string">nodes.conf</span> <span class="hljs-comment">#自动生成</span>
-<span class="hljs-string">cluster-node-timeout</span> <span class="hljs-number">15000</span> <span class="hljs-comment">#节点通信时间</span>
-<span class="hljs-string">appendonly</span> <span class="hljs-literal">yes</span> <span class="hljs-comment">#持久化方式</span></code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">daemonize yes #后台启动</span><br><span class="line">port 7001 #修改端口号，从7001到7006</span><br><span class="line">cluster-enabled yes #开启cluster，去掉注释</span><br><span class="line">cluster-config-file nodes.conf #自动生成</span><br><span class="line">cluster-node-timeout 15000 #节点通信时间</span><br><span class="line">appendonly yes #持久化方式</span><br></pre></td></tr></table></figure>
 
 <p>同时把 redis.conf 复制到其它目录中</p>
 <p><strong>2、安装 redis-trib 所需的 ruby 脚本</strong><br>注意：centos7 默认的 ruby 版本太低 (2.0)，要卸载重装 (最低 2.2)</p>
-<pre><code class="hljs cmake">yum <span class="hljs-keyword">remove</span> ruby
-yum <span class="hljs-keyword">install</span> ruby
-yum <span class="hljs-keyword">install</span> rubygems</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum remove ruby</span><br><span class="line">yum install ruby</span><br><span class="line">yum install rubygems</span><br></pre></td></tr></table></figure>
 
 <p>复制 redis 解压文件 src 下的 redis-trib.rb 文件到 redis-cluster 目录并安装 gem</p>
-<pre><code class="hljs css"><span class="hljs-selector-tag">gem</span> <span class="hljs-selector-tag">install</span> <span class="hljs-selector-tag">redis-3</span><span class="hljs-selector-class">.x</span><span class="hljs-selector-class">.x</span><span class="hljs-selector-class">.gem</span></code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem install redis-3.x.x.gem</span><br></pre></td></tr></table></figure>
 
 <p>若不想安装 src 目录下的 gem，也可以直接<code>gem install redis</code>。</p>
 <p>注意，gem install 可能会报错<br>Unable to require openssl,install OpenSSL and rebuild ruby (preferred) or use ….<br>解决步骤：</p>
@@ -682,389 +640,243 @@ yum <span class="hljs-keyword">install</span> rubygems</code></pre>
 <li>执行 make install</li>
 </ol>
 <p><strong>3、启动所有的 redis 节点</strong><br>可以写一个命令脚本 start-all.sh</p>
-<pre><code class="hljs jboss-cli"><span class="hljs-keyword">cd</span> 7000
-redis-server redis.conf
-<span class="hljs-keyword">cd</span> <span class="hljs-string">..</span>
-<span class="hljs-keyword">cd</span> 7001
-redis-server redis.conf
-<span class="hljs-keyword">cd</span> <span class="hljs-string">..</span>
-<span class="hljs-keyword">cd</span> 7002
-redis-server redis.conf
-<span class="hljs-keyword">cd</span> <span class="hljs-string">..</span>
-<span class="hljs-keyword">cd</span> 7003
-redis-server redis.conf
-<span class="hljs-keyword">cd</span> <span class="hljs-string">..</span>
-<span class="hljs-keyword">cd</span> 7004
-redis-server redis.conf
-<span class="hljs-keyword">cd</span> <span class="hljs-string">..</span>
-<span class="hljs-keyword">cd</span> 7005
-redis-server redis.conf
-<span class="hljs-keyword">cd</span> <span class="hljs-string">..</span></code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">cd 7000</span><br><span class="line">redis-server redis.conf</span><br><span class="line">cd ..</span><br><span class="line">cd 7001</span><br><span class="line">redis-server redis.conf</span><br><span class="line">cd ..</span><br><span class="line">cd 7002</span><br><span class="line">redis-server redis.conf</span><br><span class="line">cd ..</span><br><span class="line">cd 7003</span><br><span class="line">redis-server redis.conf</span><br><span class="line">cd ..</span><br><span class="line">cd 7004</span><br><span class="line">redis-server redis.conf</span><br><span class="line">cd ..</span><br><span class="line">cd 7005</span><br><span class="line">redis-server redis.conf</span><br><span class="line">cd ..</span><br></pre></td></tr></table></figure>
 
 <p>设置权限启动</p>
-<pre><code class="hljs pgsql">[root@localhost redis-<span class="hljs-keyword">cluster</span>]# chmod <span class="hljs-number">777</span> <span class="hljs-keyword">start</span>-<span class="hljs-keyword">all</span>.sh 
-[root@localhost redis-<span class="hljs-keyword">cluster</span>]# ./<span class="hljs-keyword">start</span>-<span class="hljs-keyword">all</span>.sh</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost redis-cluster]# chmod 777 start-all.sh </span><br><span class="line">[root@localhost redis-cluster]# .&#x2F;start-all.sh</span><br></pre></td></tr></table></figure>
 
 <p>查看 redis 进程启动状态</p>
-<pre><code class="hljs angelscript">[<span class="hljs-symbol">root@</span>localhost redis<span class="hljs-number">-4.0</span><span class="hljs-number">.2</span>]# ps -ef|grep cluster
-root      <span class="hljs-number">54956</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">19</span>:<span class="hljs-number">17</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> redis-server *:<span class="hljs-number">7000</span> [cluster]
-root      <span class="hljs-number">54961</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">19</span>:<span class="hljs-number">17</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> redis-server *:<span class="hljs-number">7001</span> [cluster]
-root      <span class="hljs-number">54966</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">19</span>:<span class="hljs-number">17</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> redis-server *:<span class="hljs-number">7002</span> [cluster]
-root      <span class="hljs-number">54971</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">19</span>:<span class="hljs-number">17</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> redis-server *:<span class="hljs-number">7003</span> [cluster]
-root      <span class="hljs-number">54976</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">19</span>:<span class="hljs-number">17</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> redis-server *:<span class="hljs-number">7004</span> [cluster]
-root      <span class="hljs-number">54981</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">19</span>:<span class="hljs-number">17</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> redis-server *:<span class="hljs-number">7005</span> [cluster]
-root      <span class="hljs-number">55071</span>  <span class="hljs-number">24089</span>  <span class="hljs-number">0</span> <span class="hljs-number">19</span>:<span class="hljs-number">24</span> pts/<span class="hljs-number">0</span>    <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> grep --color=<span class="hljs-built_in">auto</span> cluster</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost redis-4.0.2]# ps -ef|grep cluster</span><br><span class="line">root      54956      1  0 19:17 ?        00:00:00 redis-server *:7000 [cluster]</span><br><span class="line">root      54961      1  0 19:17 ?        00:00:00 redis-server *:7001 [cluster]</span><br><span class="line">root      54966      1  0 19:17 ?        00:00:00 redis-server *:7002 [cluster]</span><br><span class="line">root      54971      1  0 19:17 ?        00:00:00 redis-server *:7003 [cluster]</span><br><span class="line">root      54976      1  0 19:17 ?        00:00:00 redis-server *:7004 [cluster]</span><br><span class="line">root      54981      1  0 19:17 ?        00:00:00 redis-server *:7005 [cluster]</span><br><span class="line">root      55071  24089  0 19:24 pts&#x2F;0    00:00:00 grep --color&#x3D;auto cluster</span><br></pre></td></tr></table></figure>
 
 <p>可以看到 redis 的 6 个节点已经启动成功<br><strong>注意：这里并没有创建集群</strong></p>
 <p><strong>4、使用 redis-trib.rb 创建集群</strong><br>注意：redis-trib.rb 在 redis/src 目录下。</p>
-<pre><code class="hljs angelscript">./redis-trib.rb create --replicas <span class="hljs-number">1</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7003</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7004</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7005</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7000</span></code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;redis-trib.rb create --replicas 1 127.0.0.1:7001 127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005 127.0.0.1:7000</span><br></pre></td></tr></table></figure>
 
 <p>使用 create 命令 –replicas 1 参数表示为每个主节点创建一个从节点，其他参数是实例的地址集合。</p>
-<pre><code class="hljs angelscript">[<span class="hljs-symbol">root@</span>localhost redis]# ./src/redis-trib.rb create --replicas <span class="hljs-number">1</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7003</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7004</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7005</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7000</span>
-&gt;&gt;&gt; Creating cluster
-&gt;&gt;&gt; Performing hash slots allocation on <span class="hljs-number">6</span> nodes...
-Using <span class="hljs-number">3</span> masters:
-<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span>
-<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>
-<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7003</span>
-Adding replica <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7004</span> to <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span>
-Adding replica <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7005</span> to <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>
-Adding replica <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7000</span> to <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7003</span>
-M: f4ee0a501f9aaf11351787a46ffb4659d45b7bd7 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span>
-   slots:<span class="hljs-number">0</span><span class="hljs-number">-5460</span> (<span class="hljs-number">5461</span> slots) master
-M: <span class="hljs-number">671</span>a0524a616da8b2f50f3d11a74aaf563578e41 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>
-   slots:<span class="hljs-number">5461</span><span class="hljs-number">-10922</span> (<span class="hljs-number">5462</span> slots) master
-M: <span class="hljs-number">18948</span>dab5b07e3726afd1b6a42d5bf6e2f411ba1 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7003</span>
-   slots:<span class="hljs-number">10923</span><span class="hljs-number">-16383</span> (<span class="hljs-number">5461</span> slots) master
-S: <span class="hljs-number">34e322</span>ca50a2842e9f3664442cb11c897defba06 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7004</span>
-   replicates f4ee0a501f9aaf11351787a46ffb4659d45b7bd7
-S: <span class="hljs-number">62</span>a00566233fbff4467c4031345b1db13cf12b46 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7005</span>
-   replicates <span class="hljs-number">671</span>a0524a616da8b2f50f3d11a74aaf563578e41
-S: <span class="hljs-number">2</span>cb649ad3584370c960e2036fb01db834a546114 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7000</span>
-   replicates <span class="hljs-number">18948</span>dab5b07e3726afd1b6a42d5bf6e2f411ba1
-Can I <span class="hljs-keyword">set</span> the above configuration? (type <span class="hljs-string">'yes'</span> to accept): yes
-&gt;&gt;&gt; Nodes configuration updated
-&gt;&gt;&gt; Assign a different config epoch to each node
-&gt;&gt;&gt; Sending CLUSTER MEET messages to join the cluster
-Waiting <span class="hljs-keyword">for</span> the cluster to join...
-&gt;&gt;&gt; Performing Cluster Check (using node <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span>)
-M: f4ee0a501f9aaf11351787a46ffb4659d45b7bd7 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span>
-   slots:<span class="hljs-number">0</span><span class="hljs-number">-5460</span> (<span class="hljs-number">5461</span> slots) master
-   <span class="hljs-number">1</span> additional replica(s)
-M: <span class="hljs-number">671</span>a0524a616da8b2f50f3d11a74aaf563578e41 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>
-   slots:<span class="hljs-number">5461</span><span class="hljs-number">-10922</span> (<span class="hljs-number">5462</span> slots) master
-   <span class="hljs-number">1</span> additional replica(s)
-S: <span class="hljs-number">2</span>cb649ad3584370c960e2036fb01db834a546114 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7000</span>
-   slots: (<span class="hljs-number">0</span> slots) slave
-   replicates <span class="hljs-number">18948</span>dab5b07e3726afd1b6a42d5bf6e2f411ba1
-S: <span class="hljs-number">34e322</span>ca50a2842e9f3664442cb11c897defba06 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7004</span>
-   slots: (<span class="hljs-number">0</span> slots) slave
-   replicates f4ee0a501f9aaf11351787a46ffb4659d45b7bd7
-M: <span class="hljs-number">18948</span>dab5b07e3726afd1b6a42d5bf6e2f411ba1 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7003</span>
-   slots:<span class="hljs-number">10923</span><span class="hljs-number">-16383</span> (<span class="hljs-number">5461</span> slots) master
-   <span class="hljs-number">1</span> additional replica(s)
-S: <span class="hljs-number">62</span>a00566233fbff4467c4031345b1db13cf12b46 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7005</span>
-   slots: (<span class="hljs-number">0</span> slots) slave
-   replicates <span class="hljs-number">671</span>a0524a616da8b2f50f3d11a74aaf563578e41
-[OK] All nodes agree about slots configuration.
-&gt;&gt;&gt; Check <span class="hljs-keyword">for</span> open slots...
-&gt;&gt;&gt; Check slots coverage...
-[OK] All <span class="hljs-number">16384</span> slots covered.</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost redis]# .&#x2F;src&#x2F;redis-trib.rb create --replicas 1 127.0.0.1:7001 127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005 127.0.0.1:7000</span><br><span class="line">&gt;&gt;&gt; Creating cluster</span><br><span class="line">&gt;&gt;&gt; Performing hash slots allocation on 6 nodes...</span><br><span class="line">Using 3 masters:</span><br><span class="line">127.0.0.1:7001</span><br><span class="line">127.0.0.1:7002</span><br><span class="line">127.0.0.1:7003</span><br><span class="line">Adding replica 127.0.0.1:7004 to 127.0.0.1:7001</span><br><span class="line">Adding replica 127.0.0.1:7005 to 127.0.0.1:7002</span><br><span class="line">Adding replica 127.0.0.1:7000 to 127.0.0.1:7003</span><br><span class="line">M: f4ee0a501f9aaf11351787a46ffb4659d45b7bd7 127.0.0.1:7001</span><br><span class="line">   slots:0-5460 (5461 slots) master</span><br><span class="line">M: 671a0524a616da8b2f50f3d11a74aaf563578e41 127.0.0.1:7002</span><br><span class="line">   slots:5461-10922 (5462 slots) master</span><br><span class="line">M: 18948dab5b07e3726afd1b6a42d5bf6e2f411ba1 127.0.0.1:7003</span><br><span class="line">   slots:10923-16383 (5461 slots) master</span><br><span class="line">S: 34e322ca50a2842e9f3664442cb11c897defba06 127.0.0.1:7004</span><br><span class="line">   replicates f4ee0a501f9aaf11351787a46ffb4659d45b7bd7</span><br><span class="line">S: 62a00566233fbff4467c4031345b1db13cf12b46 127.0.0.1:7005</span><br><span class="line">   replicates 671a0524a616da8b2f50f3d11a74aaf563578e41</span><br><span class="line">S: 2cb649ad3584370c960e2036fb01db834a546114 127.0.0.1:7000</span><br><span class="line">   replicates 18948dab5b07e3726afd1b6a42d5bf6e2f411ba1</span><br><span class="line">Can I set the above configuration? (type &#39;yes&#39; to accept): yes</span><br><span class="line">&gt;&gt;&gt; Nodes configuration updated</span><br><span class="line">&gt;&gt;&gt; Assign a different config epoch to each node</span><br><span class="line">&gt;&gt;&gt; Sending CLUSTER MEET messages to join the cluster</span><br><span class="line">Waiting for the cluster to join...</span><br><span class="line">&gt;&gt;&gt; Performing Cluster Check (using node 127.0.0.1:7001)</span><br><span class="line">M: f4ee0a501f9aaf11351787a46ffb4659d45b7bd7 127.0.0.1:7001</span><br><span class="line">   slots:0-5460 (5461 slots) master</span><br><span class="line">   1 additional replica(s)</span><br><span class="line">M: 671a0524a616da8b2f50f3d11a74aaf563578e41 127.0.0.1:7002</span><br><span class="line">   slots:5461-10922 (5462 slots) master</span><br><span class="line">   1 additional replica(s)</span><br><span class="line">S: 2cb649ad3584370c960e2036fb01db834a546114 127.0.0.1:7000</span><br><span class="line">   slots: (0 slots) slave</span><br><span class="line">   replicates 18948dab5b07e3726afd1b6a42d5bf6e2f411ba1</span><br><span class="line">S: 34e322ca50a2842e9f3664442cb11c897defba06 127.0.0.1:7004</span><br><span class="line">   slots: (0 slots) slave</span><br><span class="line">   replicates f4ee0a501f9aaf11351787a46ffb4659d45b7bd7</span><br><span class="line">M: 18948dab5b07e3726afd1b6a42d5bf6e2f411ba1 127.0.0.1:7003</span><br><span class="line">   slots:10923-16383 (5461 slots) master</span><br><span class="line">   1 additional replica(s)</span><br><span class="line">S: 62a00566233fbff4467c4031345b1db13cf12b46 127.0.0.1:7005</span><br><span class="line">   slots: (0 slots) slave</span><br><span class="line">   replicates 671a0524a616da8b2f50f3d11a74aaf563578e41</span><br><span class="line">[OK] All nodes agree about slots configuration.</span><br><span class="line">&gt;&gt;&gt; Check for open slots...</span><br><span class="line">&gt;&gt;&gt; Check slots coverage...</span><br><span class="line">[OK] All 16384 slots covered.</span><br></pre></td></tr></table></figure>
 
 <p>上面显示创建成功，有 3 个主节点，3 个从节点，每个节点都是成功连接状态。</p>
-<p><strong>三、redis 集群的测试</strong><br>测试存取值，客户端连接集群 redis-cli 需要带上 -c ，redis-cli -c -p 端口号</p>
-<pre><code class="hljs angelscript">[<span class="hljs-symbol">root@</span>localhost redis]# ./redis-cli -c -p <span class="hljs-number">7001</span>
-<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span>&gt; <span class="hljs-keyword">set</span> name andy
--&gt; Redirected to slot [<span class="hljs-number">5798</span>] located at <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>
-OK
-<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>&gt; <span class="hljs-keyword">get</span> name
-<span class="hljs-string">"andy"</span>
-<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>&gt;</code></pre>
+<p><strong>三、redis 集群的测试</strong><br>测试存取值，客户端连接集群 redis-cli <strong>需要带上 -c</strong> ，redis-cli -c -p 端口号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost redis]# .&#x2F;redis-cli -c -p 7001</span><br><span class="line">127.0.0.1:7001&gt; set name andy</span><br><span class="line">-&gt; Redirected to slot [5798] located at 127.0.0.1:7002</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:7002&gt; get name</span><br><span class="line">&quot;andy&quot;</span><br><span class="line">127.0.0.1:7002&gt;</span><br></pre></td></tr></table></figure>
 
 <p>根据 redis-cluster 的 key 值分配，name 应该分配到节点 7002[5461-10922] 上，上面显示 redis cluster 自动从 7001 跳转到了 7002 节点。</p>
 <p>测试一下 7000 从节点获取 name 值</p>
-<pre><code class="hljs angelscript">[<span class="hljs-symbol">root@</span>localhost redis]# ./redis-cli -c -p <span class="hljs-number">7000</span>
-<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7000</span>&gt; <span class="hljs-keyword">get</span> name
--&gt; Redirected to slot [<span class="hljs-number">5798</span>] located at <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>
-<span class="hljs-string">"andy"</span>
-<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>&gt;</code></pre>
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost redis]# .&#x2F;redis-cli -c -p 7000</span><br><span class="line">127.0.0.1:7000&gt; get name</span><br><span class="line">-&gt; Redirected to slot [5798] located at 127.0.0.1:7002</span><br><span class="line">&quot;andy&quot;</span><br><span class="line">127.0.0.1:7002&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意不要使用mset,mget这种一次管理多个值的方式,因为这几个值可能不在一起.在分开的服务器无法正确重定向.可以使用大括号将键值对加入一个组,放在一起.</p>
+</blockquote>
 <p><strong>四、集群节点选举</strong><br>现在模拟将 7002 节点挂掉，按照 redis-cluster 原理会选举会将 7002 的从节点 7005 选举为主节点。</p>
-<pre><code class="hljs angelscript">[<span class="hljs-symbol">root@</span>localhost redis-cluster]# ps -ef | grep redis
-root       <span class="hljs-number">7966</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">12</span>:<span class="hljs-number">50</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">29</span> ./redis-server <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7000</span> [cluster]
-root       <span class="hljs-number">7950</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">12</span>:<span class="hljs-number">50</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">28</span> ./redis-server <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span> [cluster]
-root       <span class="hljs-number">7952</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">12</span>:<span class="hljs-number">50</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">29</span> ./redis-server <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span> [cluster]
-root       <span class="hljs-number">7956</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">12</span>:<span class="hljs-number">50</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">29</span> ./redis-server <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7003</span> [cluster]
-root       <span class="hljs-number">7960</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">12</span>:<span class="hljs-number">50</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">29</span> ./redis-server <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7004</span> [cluster]
-root       <span class="hljs-number">7964</span>      <span class="hljs-number">1</span>  <span class="hljs-number">0</span> <span class="hljs-number">12</span>:<span class="hljs-number">50</span> ?        <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">29</span> ./redis-server <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7005</span> [cluster]
-root      <span class="hljs-number">11346</span>  <span class="hljs-number">10581</span>  <span class="hljs-number">0</span> <span class="hljs-number">14</span>:<span class="hljs-number">57</span> pts/<span class="hljs-number">2</span>    <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span> grep --color=<span class="hljs-built_in">auto</span> redis
-[<span class="hljs-symbol">root@</span>localhost redis-cluster]# kill <span class="hljs-number">7952</span></code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost redis-cluster]# ps -ef | grep redis</span><br><span class="line">root       7966      1  0 12:50 ?        00:00:29 .&#x2F;redis-server 127.0.0.1:7000 [cluster]</span><br><span class="line">root       7950      1  0 12:50 ?        00:00:28 .&#x2F;redis-server 127.0.0.1:7001 [cluster]</span><br><span class="line">root       7952      1  0 12:50 ?        00:00:29 .&#x2F;redis-server 127.0.0.1:7002 [cluster]</span><br><span class="line">root       7956      1  0 12:50 ?        00:00:29 .&#x2F;redis-server 127.0.0.1:7003 [cluster]</span><br><span class="line">root       7960      1  0 12:50 ?        00:00:29 .&#x2F;redis-server 127.0.0.1:7004 [cluster]</span><br><span class="line">root       7964      1  0 12:50 ?        00:00:29 .&#x2F;redis-server 127.0.0.1:7005 [cluster]</span><br><span class="line">root      11346  10581  0 14:57 pts&#x2F;2    00:00:00 grep --color&#x3D;auto redis</span><br><span class="line">[root@localhost redis-cluster]# kill 7952</span><br></pre></td></tr></table></figure>
 
 <p>在查看集群中的 7002 节点</p>
-<pre><code class="hljs angelscript">[<span class="hljs-symbol">root@</span>localhost src]# ./redis-trib.rb check <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>
-&gt;&gt;&gt; Performing Cluster Check (using node <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>)
-S: <span class="hljs-number">671</span>a0524a616da8b2f50f3d11a74aaf563578e41 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7002</span>
-   slots: (<span class="hljs-number">0</span> slots) slave
-   replicates <span class="hljs-number">62</span>a00566233fbff4467c4031345b1db13cf12b46
-M: <span class="hljs-number">18948</span>dab5b07e3726afd1b6a42d5bf6e2f411ba1 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7003</span>
-   slots:<span class="hljs-number">10923</span><span class="hljs-number">-16383</span> (<span class="hljs-number">5461</span> slots) master
-   <span class="hljs-number">1</span> additional replica(s)
-M: <span class="hljs-number">62</span>a00566233fbff4467c4031345b1db13cf12b46 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7005</span>
-   slots:<span class="hljs-number">5461</span><span class="hljs-number">-10922</span> (<span class="hljs-number">5462</span> slots) master
-   <span class="hljs-number">1</span> additional replica(s)
-M: f4ee0a501f9aaf11351787a46ffb4659d45b7bd7 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span>
-   slots:<span class="hljs-number">0</span><span class="hljs-number">-5460</span> (<span class="hljs-number">5461</span> slots) master
-   <span class="hljs-number">1</span> additional replica(s)
-S: <span class="hljs-number">34e322</span>ca50a2842e9f3664442cb11c897defba06 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7004</span>
-   slots: (<span class="hljs-number">0</span> slots) slave
-   replicates f4ee0a501f9aaf11351787a46ffb4659d45b7bd7
-S: <span class="hljs-number">2</span>cb649ad3584370c960e2036fb01db834a546114 <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7000</span>
-   slots: (<span class="hljs-number">0</span> slots) slave
-   replicates <span class="hljs-number">18948</span>dab5b07e3726afd1b6a42d5bf6e2f411ba1
-[OK] All nodes agree about slots configuration.
-&gt;&gt;&gt; Check <span class="hljs-keyword">for</span> open slots...
-&gt;&gt;&gt; Check slots coverage...
-[OK] All <span class="hljs-number">16384</span> slots covered.</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost src]# .&#x2F;redis-trib.rb check 127.0.0.1:7002</span><br><span class="line">&gt;&gt;&gt; Performing Cluster Check (using node 127.0.0.1:7002)</span><br><span class="line">S: 671a0524a616da8b2f50f3d11a74aaf563578e41 127.0.0.1:7002</span><br><span class="line">   slots: (0 slots) slave</span><br><span class="line">   replicates 62a00566233fbff4467c4031345b1db13cf12b46</span><br><span class="line">M: 18948dab5b07e3726afd1b6a42d5bf6e2f411ba1 127.0.0.1:7003</span><br><span class="line">   slots:10923-16383 (5461 slots) master</span><br><span class="line">   1 additional replica(s)</span><br><span class="line">M: 62a00566233fbff4467c4031345b1db13cf12b46 127.0.0.1:7005</span><br><span class="line">   slots:5461-10922 (5462 slots) master</span><br><span class="line">   1 additional replica(s)</span><br><span class="line">M: f4ee0a501f9aaf11351787a46ffb4659d45b7bd7 127.0.0.1:7001</span><br><span class="line">   slots:0-5460 (5461 slots) master</span><br><span class="line">   1 additional replica(s)</span><br><span class="line">S: 34e322ca50a2842e9f3664442cb11c897defba06 127.0.0.1:7004</span><br><span class="line">   slots: (0 slots) slave</span><br><span class="line">   replicates f4ee0a501f9aaf11351787a46ffb4659d45b7bd7</span><br><span class="line">S: 2cb649ad3584370c960e2036fb01db834a546114 127.0.0.1:7000</span><br><span class="line">   slots: (0 slots) slave</span><br><span class="line">   replicates 18948dab5b07e3726afd1b6a42d5bf6e2f411ba1</span><br><span class="line">[OK] All nodes agree about slots configuration.</span><br><span class="line">&gt;&gt;&gt; Check for open slots...</span><br><span class="line">&gt;&gt;&gt; Check slots coverage...</span><br><span class="line">[OK] All 16384 slots covered.</span><br></pre></td></tr></table></figure>
 
 <p>可以看到集群连接不了 7002 节点，而 7005 有原来的 S 转换为 M 节点，代替了原来的 7002 节点。我们可以获取 name 值：</p>
-<pre><code class="hljs angelscript">[<span class="hljs-symbol">root@</span>localhost redis]# ./redis-cli -c -p <span class="hljs-number">7001</span>
-<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7001</span>&gt; <span class="hljs-keyword">get</span> name
--&gt; Redirected to slot [<span class="hljs-number">5798</span>] located at <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7005</span>
-<span class="hljs-string">"andy"</span>
-<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7005</span>&gt; 
-<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7005</span>&gt;</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost redis]# .&#x2F;redis-cli -c -p 7001</span><br><span class="line">127.0.0.1:7001&gt; get name</span><br><span class="line">-&gt; Redirected to slot [5798] located at 127.0.0.1:7005</span><br><span class="line">&quot;andy&quot;</span><br><span class="line">127.0.0.1:7005&gt; </span><br><span class="line">127.0.0.1:7005&gt;</span><br></pre></td></tr></table></figure>
 
 <p>从 7001 节点连入，自动跳转到 7005 节点，并且获取 name 值。</p>
 <p>现在我们将 7002 节点恢复，看是否会自动加入集群中以及充当的 M 还是 S 节点。</p>
-<pre><code class="hljs angelscript">[<span class="hljs-symbol">root@</span>localhost redis-cluster]# cd <span class="hljs-number">7002</span>
-[<span class="hljs-symbol">root@</span>localhost <span class="hljs-number">7002</span>]# ./redis-server redis.conf 
-[<span class="hljs-symbol">root@</span>localhost <span class="hljs-number">7002</span>]#</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost redis-cluster]# cd 7002</span><br><span class="line">[root@localhost 7002]# .&#x2F;redis-server redis.conf </span><br><span class="line">[root@localhost 7002]#</span><br></pre></td></tr></table></figure>
 
 <p>再 check 一下 7002 节点，可以看到 7002 节点变成了 7005 的从节点。</p>
 
-            </article>
-            <hr>
-            <div>
-              <div class="post-metas mb-3">
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/redis/">redis</a>
-                    
-                  </div>
-                
-              </div>
-              
-                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
-              
-              
-                <div class="post-prevnext row">
-                  <div class="post-prev col-6">
-                    
-                    
-                  </div>
-                  <div class="post-next col-6">
-                    
-                    
-                      <a href="/2020/07/15/MySQL%E9%94%81/">
-                        <span class="hidden-mobile">MySQL锁</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </div>
-                </div>
-              
-            </div>
+    </div>
 
-            
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/redis/" rel="tag"># redis</a>
           </div>
-        </div>
-      </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/15/MySQL%E9%94%81/" rel="prev" title="MySQL锁">
+      <i class="fa fa-chevron-left"></i> MySQL锁
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/17/MyBatisPlus/" rel="next" title="MyBatisPlus">
+      MyBatisPlus <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
+      </footer>
     
-      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
-        <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
-  <div id="tocbot"></div>
-</div>
-
-      </div>
-    
-  </div>
-</div>
-
-<!-- Custom -->
-
-
-    
-  </main>
-
+  </article>
   
-    <a id="scroll-top-button" href="#" role="button">
-      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-    </a>
   
-
-  
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-  
-
-  
-
-  
-
-  <footer class="mt-5">
-  <div class="text-center py-3">
-    <div>
-      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
-      <i class="iconfont icon-love"></i>
-      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
-        <span>Fluid</span></a>
-    </div>
-    
-
-    
-
-    
-  </div>
-</footer>
-
-<!-- SCRIPTS -->
-<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
-<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
-<script  src="/js/debouncer.js" ></script>
-<script  src="/js/main.js" ></script>
-
-<!-- Plugins -->
-
-
-  
-    <script  src="/js/lazyload.js" ></script>
   
 
 
 
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
+          </div>
+          
 
-
-
-
-
-
-
-  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
-  <script>
-    $(document).ready(function () {
-      var boardCtn = $('#board-ctn');
-      var boardTop = boardCtn.offset().top;
-
-      tocbot.init({
-        tocSelector: '#tocbot',
-        contentSelector: 'article.markdown-body',
-        headingSelector: 'h1,h2,h3,h4,h5,h6',
-        linkClass: 'tocbot-link',
-        activeLinkClass: 'tocbot-active-link',
-        listClass: 'tocbot-list',
-        isCollapsedClass: 'tocbot-is-collapsed',
-        collapsibleClass: 'tocbot-is-collapsible',
-        collapseDepth: 0,
-        scrollSmooth: true,
-        headingsOffset: -boardTop
-      });
-      if ($('.toc-list-item').length > 0) {
-        $('#toc').css('visibility', 'visible');
-      }
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
-  <script>
-    var typed = new Typed('#subtitle', {
-      strings: [
-        '  ',
-        "Redis&nbsp;",
-      ],
-      cursorChar: "_",
-      typeSpeed: 70,
-      loop: false,
-    });
-    typed.stop();
-    $(document).ready(function () {
-      $(".typed-cursor").addClass("h2");
-      typed.start();
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
-      
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
     }
-    anchors.add(res.join(", "))
-  </script>
-
-
-
-  <script  src="/js/local-search.js" ></script>
-  <script>
-    var path = "/local-search.xml";
-    var inputArea = document.querySelector("#local-search-input");
-    inputArea.onclick = function () {
-      searchFunc(path, 'local-search-input', 'local-search-result');
-      this.onclick = null
-    }
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-  <script>
-    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
-      function () {
-        var element = document.createElement('a');
-        $(element).attr('data-fancybox', 'images');
-        $(element).attr('href', $(this).attr('src'));
-        $(this).wrap(element);
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
       }
-    );
-  </script>
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置"><span class="nav-number">2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis内存维护策略"><span class="nav-number">3.</span> <span class="nav-text">Redis内存维护策略</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为数据设置超时时间"><span class="nav-number">3.1.</span> <span class="nav-text">为数据设置超时时间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LRU算法"><span class="nav-number">3.2.</span> <span class="nav-text">LRU算法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis数据类型"><span class="nav-number">4.</span> <span class="nav-text">Redis数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#string"><span class="nav-number">4.1.</span> <span class="nav-text">string</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#List"><span class="nav-number">4.2.</span> <span class="nav-text">List</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Set"><span class="nav-number">4.3.</span> <span class="nav-text">Set</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hash"><span class="nav-number">4.4.</span> <span class="nav-text">hash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zset"><span class="nav-number">4.5.</span> <span class="nav-text">zset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用Java操作redis"><span class="nav-number">4.6.</span> <span class="nav-text">用Java操作redis</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis事务"><span class="nav-number">5.</span> <span class="nav-text">Redis事务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#持久化"><span class="nav-number">6.</span> <span class="nav-text">持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RDB"><span class="nav-number">6.1.</span> <span class="nav-text">RDB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从复制"><span class="nav-number">6.2.</span> <span class="nav-text">主从复制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是主从复制"><span class="nav-number">6.2.1.</span> <span class="nav-text">什么是主从复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主从复制的作用"><span class="nav-number">6.2.2.</span> <span class="nav-text">主从复制的作用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从复制启用"><span class="nav-number">6.3.</span> <span class="nav-text">主从复制启用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从复制原理"><span class="nav-number">6.4.</span> <span class="nav-text">主从复制原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从复制的细节"><span class="nav-number">6.5.</span> <span class="nav-text">主从复制的细节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#额外的注意点"><span class="nav-number">6.6.</span> <span class="nav-text">额外的注意点:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一、哨兵模式概述"><span class="nav-number">6.7.</span> <span class="nav-text">一、哨兵模式概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、Redis-配置哨兵模式"><span class="nav-number">6.8.</span> <span class="nav-text">二、Redis 配置哨兵模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis集群"><span class="nav-number">6.9.</span> <span class="nav-text">Redis集群</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xianzheTM"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">xianzheTM</p>
+  <div class="site-description" itemprop="description">希望这里能见证一个菜鸟到大神的路程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xianzheTM" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xianzheTM" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ylxianzhe@outlook.com" title="E-Mail → mailto:ylxianzhe@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xianzheTM</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">687k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">19:05</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 
@@ -1078,12 +890,9 @@ S: <span class="hljs-number">2</span>cb649ad3584370c960e2036fb01db834a546114 <sp
 
 
 
+  
 
-
-
-
-
-
+  
 
 </body>
 </html>

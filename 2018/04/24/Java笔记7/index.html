@@ -1,210 +1,250 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
-
-
-
-
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="/img/favicon.png">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yl.dropsec.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="&amp;emsp;这章主要写接口，内部类和Lambda表达式。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java笔记7">
+<meta property="og:url" content="https://yl.dropsec.xyz/2018/04/24/Java%E7%AC%94%E8%AE%B07/index.html">
+<meta property="og:site_name" content="新日暮里">
+<meta property="og:description" content="&amp;emsp;这章主要写接口，内部类和Lambda表达式。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yl.dropsec.xyz/2018/04/24/Java%E7%AC%94%E8%AE%B07/class.png">
+<meta property="article:published_time" content="2018-04-24T02:42:12.000Z">
+<meta property="article:modified_time" content="2020-05-22T04:58:58.467Z">
+<meta property="article:author" content="xianzheTM">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yl.dropsec.xyz/2018/04/24/Java%E7%AC%94%E8%AE%B07/class.png">
+
+<link rel="canonical" href="https://yl.dropsec.xyz/2018/04/24/Java%E7%AC%94%E8%AE%B07/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Java笔记7 | 新日暮里</title>
   
-  <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="希望这里能见证一个菜鸟到大神的路程">
-  <meta name="author" content="xianzheTM">
-  <meta name="keywords" content="">
-  <title>Java笔记7 - 新日暮里</title>
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
-  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
-
-  
-    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
-  
-
-  
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
 
 
-<link  rel="stylesheet" href="/css/main.css" />
 
-<!-- 自定义样式保持在最底部 -->
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-  <script  src="/js/utils.js" ></script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
+</head>
 
-<body>
-  <header style="height: 70vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand"
-       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                首页
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                归档
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                分类
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                标签
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
-          </li>
-        
-      </ul>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
-</nav>
 
-    <div class="view intro-2" id="background" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp">
-            <span class="h2" id="subtitle">
-              
-            </span>
+  <div class="site-meta">
 
-            
-              
-  <div class="mt-3 post-meta">
-    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2018-04-24 10:42">
-      2018年4月24日 上午
-    </time>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">新日暮里</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
   </div>
 
-
-<div class="mt-1">
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-chart"></i>
-      8.5k 字
-    </span>
-  
-
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-clock-fill"></i>
-      
-      
-      101
-       分钟
-    </span>
-  
-
-  
-  
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
 </div>
 
-            
-          </div>
 
-          
-        </div>
-      </div>
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
     </div>
-  </header>
+  </div>
 
-  <main>
+</div>
+    </header>
+
     
-      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
-        <div class="py-5" id="board">
-          <div class="post-content mx-auto" id="post">
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
             
-            <article class="markdown-body">
-              <p>&emsp;这章主要写接口，内部类和Lambda表达式。</p>
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yl.dropsec.xyz/2018/04/24/Java%E7%AC%94%E8%AE%B07/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="xianzheTM">
+      <meta itemprop="description" content="希望这里能见证一个菜鸟到大神的路程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新日暮里">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java笔记7
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-24 10:42:12" itemprop="dateCreated datePublished" datetime="2018-04-24T10:42:12+08:00">2018-04-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-22 12:58:58" itemprop="dateModified" datetime="2020-05-22T12:58:58+08:00">2020-05-22</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>18k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>30 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&emsp;这章主要写接口，内部类和Lambda表达式。</p>
 <a id="more"></a>
 
 <h1 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h1><p>&emsp;假定有个Shape类，需要一个calPerimeter()方法计算各种图形的周长，但是在这个类中显然不可能将所有图形的计算周长的方法全都实现，具体的应该交给各个子类自己实现。在父类中就需要一个抽象方法，具体的方法留待子类实现。<br><br>&emsp;在抽象类中可以没有抽象方法，但是抽象方法必须在抽象类中。具体遵循下面的规则：</p>
@@ -220,36 +260,10 @@
 </ul>
 <p>&emsp;具体代码我这里偷个懒。<br><br>&emsp;关于abstract和其他关键字的配合使用要注意，final永远不能和其一起，因为final表示不能被重写。abstract也不能用于修饰成员变量，局部变量和构造器。在和static配合使用时，不可以同时修饰某个方法，调用一个类中的没有方法体的方法肯定会出错；但是在调用一个抽象类中的静态方法是可以的；它们两个可以同时修饰内部类。private和abstract的使用也是，不能同时修饰某个方法。<br><br>&emsp;不论如何搭配使用，最简单的规则在于不能违反抽象的初衷，不能妨碍子类的重写，就比如private修饰的方法如果加上abstract，子类无法访问到也就无法进行重写，显然是不合适的。<br>&emsp;关于抽象还有一个参考链接，写的不错：<a href="https://blog.csdn.net/wei_zhi/article/details/52736350" target="_blank" rel="noopener">https://blog.csdn.net/wei_zhi/article/details/52736350</a></p>
 <h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><p>&emsp;抽象类是从多个类中抽象出的模板，对抽象类更彻底的抽象就是“接口”(interface)，接口里的方法全是抽象方法，而在Java8中允许在接口中定义默认方法。<br><br>&emsp;关于什么是接口，接口的作用我也说不好，贴出个知乎链接，前几个回答写的都很好;<a href="https://www.zhihu.com/question/20111251" target="_blank" rel="noopener">https://www.zhihu.com/question/20111251</a><br><br>&emsp;接口的定义方式：</p>
-<pre><code class="hljs java">[修饰符] <span class="hljs-class"><span class="hljs-keyword">interface</span> 接口名 <span class="hljs-keyword">extends</span> 父接口1,父接口2...</span>
-<span class="hljs-class"></span>&#123;
-    零到多个常量定义
-    零到多个抽象方法定义
-    零到多个内部类，内部接口，内部枚举
-    零到多个默认方法或类方法定义(这里用类方法这个名字貌似不太合适，其实就是静态方法)
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[修饰符] <span class="class"><span class="keyword">interface</span> 接口名 <span class="keyword">extends</span> 父接口1,父接口2...</span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    零到多个常量定义</span><br><span class="line">    零到多个抽象方法定义</span><br><span class="line">    零到多个内部类，内部接口，内部枚举</span><br><span class="line">    零到多个默认方法或类方法定义(这里用类方法这个名字貌似不太合适，其实就是静态方法)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;修饰符可以是public或者默认的包访问控制权限，接口的命名与类的命名类似，一个源文件中只能有一个public的接口，且名字应和源文件名字相同。<br><br>&emsp;由于接口定义的是一种规范，是完全抽象出来的东西，因此不能有构造器和初始化块。作为规范，接口是公共的，所以接口里的东西都是公共的，不论是否加上了public修饰符。<br><br>&emsp;对于接口中常量，系统会自动加上public static final这三个修饰符，同时，这也意味着只能在定义是指定默认值。<br><br>&emsp;接口中定义的抽象方法在没有关键字abstract时也会自动加上，类方法和默认方法必须要有方法体。接口中的内部类，内部接口，内部枚举都采用public static修饰。</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Output</span> </span>&#123;
-    <span class="hljs-keyword">int</span> MAX_CACHE_LINE = <span class="hljs-number">50</span>;
-
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">out</span><span class="hljs-params">()</span></span>;
-
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">getData</span><span class="hljs-params">(String msg)</span></span>;
-
-    <span class="hljs-function"><span class="hljs-keyword">default</span> <span class="hljs-keyword">void</span> <span class="hljs-title">print</span><span class="hljs-params">(String... msgs)</span> </span>&#123;
-        <span class="hljs-keyword">for</span> (String msg : msgs) &#123;
-            System.out.println(msg);
-        &#125;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">default</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">()</span> </span>&#123;
-        System.out.println(<span class="hljs-string">"默认的test()方法"</span>);
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">static</span> String <span class="hljs-title">staticTest</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">return</span> <span class="hljs-string">"接口里的类方法"</span>;
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Output</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> MAX_CACHE_LINE = <span class="number">50</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">out</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">getData</span><span class="params">(String msg)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(String... msgs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (String msg : msgs) &#123;</span><br><span class="line">            System.out.println(msg);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"默认的test()方法"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">static</span> String <span class="title">staticTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"接口里的类方法"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;对于默认方法，必须使用default修饰，不能使用static修饰，相对的接口中的类方法只能用static修饰，不能用default修饰。同样，他俩都会被加上public。</p>
 <h2 id="接口的继承"><a href="#接口的继承" class="headerlink" title="接口的继承"></a>接口的继承</h2><p>&emsp;接口的继承不同与父类的继承，它支持一个接口继承多个直接父接口，通过extends关键字，之间用逗号隔开。</p>
@@ -260,47 +274,7 @@
 <li>被其他类实现</li>
 </ul>
 <p>&emsp;一个类可以实现一个或多个接口。子类继承父类使用extends关键字，而实现接口用implements关键字，implements必须放在extends后。一个类使用了implements关键字后，必须实现这些接口中定义的全部抽象方法，否则该类将保留继承到的抽象方法，所以要定义为抽象类。</p>
-<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Product</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getProduceTime</span><span class="hljs-params">()</span></span>;
-&#125;
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Printer</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Output</span>,<span class="hljs-title">Product</span></span>&#123;
-    <span class="hljs-keyword">private</span> String[] printData=<span class="hljs-keyword">new</span> String[MAX_CACHE_LINE];
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> dataNum=<span class="hljs-number">0</span>;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">out</span><span class="hljs-params">()</span></span>&#123;
-        <span class="hljs-keyword">while</span> (dataNum&gt;<span class="hljs-number">0</span>)&#123;
-            System.out.println(<span class="hljs-string">"打印机打印："</span>+printData[<span class="hljs-number">0</span>]);
-            System.arraycopy(printData, <span class="hljs-number">1</span>, printData, <span class="hljs-number">0</span>, --dataNum);<span class="hljs-comment">//从指定数组的指定位置开始复制到指定数组的指定位置，length为复制长度</span>
-        &#125;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">getData</span><span class="hljs-params">(String msg)</span></span>&#123;
-        <span class="hljs-keyword">if</span>(dataNum&gt;=MAX_CACHE_LINE)&#123;
-            System.out.println(<span class="hljs-string">"输出队列已满，添加失败"</span>);
-        &#125;<span class="hljs-keyword">else</span>&#123;
-            <span class="hljs-comment">//把打印数据添加到队列中，以保存的数据量加一</span>
-            printData[dataNum++]=msg;
-        &#125;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getProduceTime</span><span class="hljs-params">()</span></span>&#123;<span class="hljs-comment">//实现接口中的方法</span>
-        <span class="hljs-keyword">return</span> <span class="hljs-number">45</span>;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        <span class="hljs-comment">//创建一个Printer对象，当成Output使用</span>
-        Output o=<span class="hljs-keyword">new</span> Printer();
-        o.getData(<span class="hljs-string">"天国之秋"</span>);
-        o.getData(<span class="hljs-string">"世界文明史"</span>);
-        o.out();
-        o.getData(<span class="hljs-string">"文明的冲突与世界历史的重建"</span>);
-        o.getData(<span class="hljs-string">"21世纪资本论"</span>);
-        o.out();
-        o.print(<span class="hljs-string">"孙悟空"</span>,<span class="hljs-string">"猪八戒"</span>,<span class="hljs-string">"沙僧"</span>);
-        o.test();
-        <span class="hljs-comment">//创建一个Printer对象，当成Product使用</span>
-        Product p=<span class="hljs-keyword">new</span> Printer();
-        System.out.println(p.getProduceTime());
-        Object obj=p;
-
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Product</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">getProduceTime</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Printer</span> <span class="keyword">implements</span> <span class="title">Output</span>,<span class="title">Product</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String[] printData=<span class="keyword">new</span> String[MAX_CACHE_LINE];</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> dataNum=<span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">out</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (dataNum&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            System.out.println(<span class="string">"打印机打印："</span>+printData[<span class="number">0</span>]);</span><br><span class="line">            System.arraycopy(printData, <span class="number">1</span>, printData, <span class="number">0</span>, --dataNum);<span class="comment">//从指定数组的指定位置开始复制到指定数组的指定位置，length为复制长度</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getData</span><span class="params">(String msg)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(dataNum&gt;=MAX_CACHE_LINE)&#123;</span><br><span class="line">            System.out.println(<span class="string">"输出队列已满，添加失败"</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="comment">//把打印数据添加到队列中，以保存的数据量加一</span></span><br><span class="line">            printData[dataNum++]=msg;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getProduceTime</span><span class="params">()</span></span>&#123;<span class="comment">//实现接口中的方法</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">45</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//创建一个Printer对象，当成Output使用</span></span><br><span class="line">        Output o=<span class="keyword">new</span> Printer();</span><br><span class="line">        o.getData(<span class="string">"天国之秋"</span>);</span><br><span class="line">        o.getData(<span class="string">"世界文明史"</span>);</span><br><span class="line">        o.out();</span><br><span class="line">        o.getData(<span class="string">"文明的冲突与世界历史的重建"</span>);</span><br><span class="line">        o.getData(<span class="string">"21世纪资本论"</span>);</span><br><span class="line">        o.out();</span><br><span class="line">        o.print(<span class="string">"孙悟空"</span>,<span class="string">"猪八戒"</span>,<span class="string">"沙僧"</span>);</span><br><span class="line">        o.test();</span><br><span class="line">        <span class="comment">//创建一个Printer对象，当成Product使用</span></span><br><span class="line">        Product p=<span class="keyword">new</span> Printer();</span><br><span class="line">        System.out.println(p.getProduceTime());</span><br><span class="line">        Object obj=p;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;从上面的程序可以看出，<code>Product p=new Printer();</code>Product接口修饰了其实现类的对象，同理，Object也是如此。对象o也可以直接使用接口中的默认方法。<br><br>&emsp;由于接口里的方法都是public的，所以在实现类中的方法也必须是public的。</p>
 <h2 id="接口和抽象类"><a href="#接口和抽象类" class="headerlink" title="接口和抽象类"></a>接口和抽象类</h2><p>&emsp;接口和抽象类都具有一下特征：</p>
@@ -317,68 +291,21 @@
 <li>接口中不能有初始化块，抽象类则可以</li>
 </ul>
 <h2 id="面向接口编程"><a href="#面向接口编程" class="headerlink" title="面向接口编程"></a>面向接口编程</h2><h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><p>&emsp;假定程序中有个Computer类需要一个输出的设备，一般可以直接组合（即包含）一个Printer类(上面的代码)在里面，修改Computer类就可以，但是如果有多个类组合了Printer类的话，一旦Printer类要被替代，那就要修改所有类中的Printer类，非常麻烦。<br><br>&emsp;但是假如在Computer中组合一个Output（接口）的类，那就会很方便。因为它需要的是一个符合Output接口规范的类，所以不论Printer类还是修改后的BatterPrinter类，只要符合规范就可以直接被使用。</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Computer</span></span>&#123;
-    <span class="hljs-keyword">private</span> Output out;<span class="hljs-comment">//用接口修饰成员变量</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Computer</span><span class="hljs-params">(Output out)</span></span>&#123;
-        <span class="hljs-keyword">this</span>.out = out;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">keyIn</span><span class="hljs-params">(String msg)</span></span>&#123;
-        out.getData(msg);
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">print</span><span class="hljs-params">()</span></span>&#123;
-        out.out();
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Computer</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Output out;<span class="comment">//用接口修饰成员变量</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Computer</span><span class="params">(Output out)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.out = out;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">keyIn</span><span class="params">(String msg)</span></span>&#123;</span><br><span class="line">        out.getData(msg);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span>&#123;</span><br><span class="line">        out.out();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;再贴出Output的代码：</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Output</span> </span>&#123;
-    <span class="hljs-keyword">int</span> MAX_CACHE_LINE = <span class="hljs-number">50</span>;
-
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">out</span><span class="hljs-params">()</span></span>;
-
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">getData</span><span class="hljs-params">(String msg)</span></span>;
-
-    <span class="hljs-function"><span class="hljs-keyword">default</span> <span class="hljs-keyword">void</span> <span class="hljs-title">print</span><span class="hljs-params">(String... msgs)</span> </span>&#123;
-        <span class="hljs-keyword">for</span> (String msg : msgs) &#123;
-            System.out.println(msg);
-        &#125;
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Output</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> MAX_CACHE_LINE = <span class="number">50</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">out</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">getData</span><span class="params">(String msg)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(String... msgs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (String msg : msgs) &#123;</span><br><span class="line">            System.out.println(msg);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;同时，在Computer类中也不负责具体的Output接口的实现类的对象产生，这部分工作交给了一个Output工厂。</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OutputFactory</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> Output <span class="hljs-title">getOutput</span><span class="hljs-params">()</span></span>&#123;
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Printer();
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>&#123;
-        OutputFactory of = <span class="hljs-keyword">new</span> OutputFactory();
-        Computer c = <span class="hljs-keyword">new</span> Computer(of.getOutput());
-        c.keyIn(<span class="hljs-string">"天国之秋"</span>);
-        c.keyIn(<span class="hljs-string">"阿拉伯的劳伦斯"</span>);
-        c.print();
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OutputFactory</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Output <span class="title">getOutput</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Printer();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        OutputFactory of = <span class="keyword">new</span> OutputFactory();</span><br><span class="line">        Computer c = <span class="keyword">new</span> Computer(of.getOutput());</span><br><span class="line">        c.keyIn(<span class="string">"天国之秋"</span>);</span><br><span class="line">        c.keyIn(<span class="string">"阿拉伯的劳伦斯"</span>);</span><br><span class="line">        c.print();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;在OutputFactory这个类中，getOutput的返回值是符合Output接口的Printer类。这个类被传入computer的构造函数，现在Computer类的对象c中就具有了Printer()对象。c.keyIn则调用Printer()对象的getData方法，将文字存储进去。c.print()则调用了out()方法。<br><br>&emsp;如果需要改进Printer()方法，则只要将getOutput的返回值改为改进后的类的对象。不需要担心在调用c.keyIn方法时不兼容，因为getOutput的返回类型是Output的，computer的构造器接受的也是Output的，只要符合Output接口规范的类在里面都可以使用。</p>
 <h3 id="命令模式"><a href="#命令模式" class="headerlink" title="命令模式"></a>命令模式</h3><p>&emsp;接口还有一个妙用，请看代码：</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Command</span></span>&#123;<span class="hljs-comment">//Command接口，要求接受一个数组</span>
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">process</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] target)</span></span>;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Command</span></span>&#123;<span class="comment">//Command接口，要求接受一个数组</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="keyword">int</span>[] target)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProcessArray</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">process</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] target , Command cmd)</span></span>&#123;<span class="hljs-comment">//注意这里传入了Command接口的实现对象</span>
-        cmd.process(target);<span class="hljs-comment">//这里调用了传入cmd的process方法</span>
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProcessArray</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="keyword">int</span>[] target , Command cmd)</span></span>&#123;<span class="comment">//注意这里传入了Command接口的实现对象</span></span><br><span class="line">        cmd.process(target);<span class="comment">//这里调用了传入cmd的process方法</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CommandTest</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>&#123;
-        ProcessArray pa = <span class="hljs-keyword">new</span> ProcessArray();
-        <span class="hljs-keyword">int</span>[] target = &#123;<span class="hljs-number">3</span>,-<span class="hljs-number">4</span>,<span class="hljs-number">6</span>,<span class="hljs-number">4</span>&#125;;
-        pa.process(target,<span class="hljs-keyword">new</span> PrintCommand());
-        pa.process(target,<span class="hljs-keyword">new</span> AddCommand());
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommandTest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        ProcessArray pa = <span class="keyword">new</span> ProcessArray();</span><br><span class="line">        <span class="keyword">int</span>[] target = &#123;<span class="number">3</span>,-<span class="number">4</span>,<span class="number">6</span>,<span class="number">4</span>&#125;;</span><br><span class="line">        pa.process(target,<span class="keyword">new</span> PrintCommand());</span><br><span class="line">        pa.process(target,<span class="keyword">new</span> AddCommand());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;假定根据Command接口实现了PrintCommand和AddCommand类，一个具有打印数组的方法，一个具有累加数组的方法。根据ProcessArray类中的方法，就可以实现不同的方法。这样子就实现了ProcessArray类中的process方法与真正的处理方法的分离。</p>
 <h1 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h1><p>&emsp;内部类主要有以下作用和区别：</p>
@@ -393,63 +320,20 @@
 <h2 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h2><p>&emsp;用static修饰的内部类变成了属于外部类所有，不再和外部类的实例绑在一起。<br><br>&emsp;静态内部类可以包含静态成员。静态内部类可以访问外部的静态成员，但是外部的非静态成员还是不能访问。因为，静态内部类是寄生在外部类中的，并不和某个外部类对象产生关联，没有持有他的引用，也就找不到相关的成员变量。<br><br>&emsp;在接口中也是可以定义内部类的，但只能是static的。</p>
 <h2 id="使用内部类"><a href="#使用内部类" class="headerlink" title="使用内部类"></a>使用内部类</h2><h3 id="在外部类中使用内部类"><a href="#在外部类中使用内部类" class="headerlink" title="在外部类中使用内部类"></a>在外部类中使用内部类</h3><p>&emsp;在外部类中使用内部类没有什么特别的地方，直接在外部类中声明并使用内部类就行。</p>
 <h3 id="在外部类以外的地方"><a href="#在外部类以外的地方" class="headerlink" title="在外部类以外的地方"></a>在外部类以外的地方</h3><p>&emsp;如果希望在外部类使用内部类（包括静态和非静态），则内部类不能有private。具体语法格式：<code>OuterClass.InnerClass varName=new OuterInatance.new InnerConstructor()</code>，首先需要用内部类来声明一个内部类的引用变量，然后要在外部类实例中再new一个内部类实例。非静态内部类的构造器必须要在外部类的实例中调用。<br><br>&emsp;如果需要创建内部类的子类，则尤其要注意上面一点。因为子类在调用自生构造器之前会调用父类的构造器，所以必须保证子类可以访问到父类的构造器，这就要求必须存在一个外部类对象。</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SubClass</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Out</span>.<span class="hljs-title">In</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SubClass</span><span class="hljs-params">(Out out)</span></span>&#123;
-        out.<span class="hljs-keyword">super</span>(<span class="hljs-string">"hello"</span>);
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SubClass</span> <span class="keyword">extends</span> <span class="title">Out</span>.<span class="title">In</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SubClass</span><span class="params">(Out out)</span></span>&#123;</span><br><span class="line">        out.<span class="keyword">super</span>(<span class="string">"hello"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;上面代码的意思就是，在调用SubClass类的父类In类的构造器时，需要一个外部类的实例。非静态内部类的子类不一定是内部类，但是同样要保留一个引用，该引用指向父类的外部类的对象。当内部类的子类的对象存在时，也一定存在外部类的对象。</p>
 <h3 id="在外部类以外使用静态类"><a href="#在外部类以外使用静态类" class="headerlink" title="在外部类以外使用静态类"></a>在外部类以外使用静态类</h3><p>&emsp;创建静态内部类实例的语法和非静态内部类的语法是类似的：<code>OuterClass.InnerClass varName=new OuterClass.InnerConstructor()</code>，最明显的区别就是不需要通过外部类的实例调用内部类的构造器了。同样，内部类的子类的使用也更简单，无需外部类实例。</p>
 <h3 id="一点小疑问"><a href="#一点小疑问" class="headerlink" title="一点小疑问"></a>一点小疑问</h3><p>&emsp;内部类是外部类的一个成员，那么能否像重写方法一样在外部类的子类中重写内部类呢？是不能的。因为前面写过，内部类的类名不只是它的名字，而是外部类和内部类用’$’连起来的，父类的内部类名字是OuterA$InnerB.class，子类的名字就可能是OuterC$InnerB.class，它们实际不重名。</p>
 <h2 id="局部内部类"><a href="#局部内部类" class="headerlink" title="局部内部类"></a>局部内部类</h2><p>&emsp;如果把内部类放在方法里，那就是局部内部类。它的上一级单元是方法，所以用static修饰这种内部类是没有意义的。与局部变量类似，局部内部类也不能用static和public等修饰。关于局部内部类的所有操作都和局部变量类似，只能在方法内部有用。请看代码：</p>
-<pre><code class="hljs java"><span class="hljs-keyword">package</span> test5;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test5;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">outer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="class"><span class="keyword">class</span> <span class="title">InnerBase</span></span>&#123;</span><br><span class="line">            <span class="keyword">int</span> a;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="class"><span class="keyword">class</span> <span class="title">InnerSub</span> <span class="keyword">extends</span> <span class="title">InnerBase</span></span>&#123;</span><br><span class="line">            <span class="keyword">int</span> b;</span><br><span class="line">        &#125;</span><br><span class="line">        InnerSub is=<span class="keyword">new</span> InnerSub();</span><br><span class="line">        is.a=<span class="number">5</span>;</span><br><span class="line">        is.b=<span class="number">5</span>;</span><br><span class="line">        System.out.println(<span class="string">"InnerSub的对象的a和b的实例变量是："</span>+is.a+<span class="string">","</span>+is.b);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">outer</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">InnerBase</span></span>&#123;
-            <span class="hljs-keyword">int</span> a;
-        &#125;
-        <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">InnerSub</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">InnerBase</span></span>&#123;
-            <span class="hljs-keyword">int</span> b;
-        &#125;
-        InnerSub is=<span class="hljs-keyword">new</span> InnerSub();
-        is.a=<span class="hljs-number">5</span>;
-        is.b=<span class="hljs-number">5</span>;
-        System.out.println(<span class="hljs-string">"InnerSub的对象的a和b的实例变量是："</span>+is.a+<span class="hljs-string">","</span>+is.b);
-    &#125;
-&#125;</code></pre>
-
-<p>&emsp;有意思的是生成的class文件<img src="/2018/04/24/Java%E7%AC%94%E8%AE%B07/class.png" srcset="/img/loading.gif" alt="class">，针对局部内部类和其子类，它们的生成class中间都有个数字，这是因为一个类中可能存在多个方法语句，每个语句中有种同名的局部内部类，所以需要加以区分。</p>
+<p>&emsp;有意思的是生成的class文件<img src="/2018/04/24/Java%E7%AC%94%E8%AE%B07/class.png" alt="class">，针对局部内部类和其子类，它们的生成class中间都有个数字，这是因为一个类中可能存在多个方法语句，每个语句中有种同名的局部内部类，所以需要加以区分。</p>
 <h2 id="匿名内部类"><a href="#匿名内部类" class="headerlink" title="匿名内部类"></a>匿名内部类</h2><p>&emsp;定义匿名内部类的格式：</p>
-<pre><code class="hljs java"><span class="hljs-keyword">new</span> 实现接口() | 父类构造器(实参列表)&#123;
-    <span class="hljs-comment">//类体部分</span>
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> 实现接口() | 父类构造器(实参列表)&#123;</span><br><span class="line">    <span class="comment">//类体部分</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;直接给出代码：</p>
-<pre><code class="hljs java"><span class="hljs-comment">/**</span>
-<span class="hljs-comment"> * Product</span>
-<span class="hljs-comment"> */</span><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> <span class="hljs-title">getPrice</span><span class="hljs-params">()</span></span>;
- <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span></span>;
-
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AnonymousTest</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">(Product P)</span> </span>&#123;
-        System.out.println(<span class="hljs-string">"购买了一个"</span> + P.getName() + <span class="hljs-string">",花掉了"</span> + P.getPrice());
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        AnonymousTest ta = <span class="hljs-keyword">new</span> AnonymousTest();
-        ta.test(<span class="hljs-keyword">new</span> Product() &#123;
-            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> <span class="hljs-title">getPrice</span><span class="hljs-params">()</span> </span>&#123;
-                <span class="hljs-keyword">return</span> <span class="hljs-number">567.8</span>;
-            &#125;
-
-            <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>&#123;
-                <span class="hljs-keyword">return</span> <span class="hljs-string">"配件"</span>;
-            &#125;
-        &#125;);
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Product</span></span><br><span class="line"><span class="comment"> */</span><span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getPrice</span><span class="params">()</span></span>;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AnonymousTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(Product P)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"购买了一个"</span> + P.getName() + <span class="string">",花掉了"</span> + P.getPrice());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        AnonymousTest ta = <span class="keyword">new</span> AnonymousTest();</span><br><span class="line">        ta.test(<span class="keyword">new</span> Product() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getPrice</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="number">567.8</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="string">"配件"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;是不是觉得奇怪，怎么和上面的语法格式不太一样？匿名内部类因为使用了new关键字，所以会创建对象，只不过是没有引用变量显式的指向它，而且，匿名内部类是实现接口或调用父类构造器的，然而这里却没有出现接口的实现类和子类的名字，所以是匿名的。可以简单理解为，在不实现接口或继承父类的情况下，创建基于它们的对象。<br><br>&emsp;再来看上面的代码，test()方法需要一个Product接口实现类的对象，但是因为内容都很简单，为此实现一个类出来不划算，所以采用了匿名内部类。ta.test()接受了匿名内部类的对象。<br><br>&emsp;关于匿名内部类有些注意点：</p>
 <ul>
@@ -459,123 +343,29 @@
 </ul>
 <p>&emsp;在Java8之前，局部内部类，匿名内部类访问的局部变量必须是final修饰的，Java8之后不需要这样了。在Java8中，这种变量可以使用final修饰，也可以不使用，但是都是按照final的方式来用的。因此被匿名内部类和局部内部类访问的局部变量是不能重新赋值的。</p>
 <h1 id="Lambda表达式"><a href="#Lambda表达式" class="headerlink" title="Lambda表达式"></a>Lambda表达式</h1><p>&emsp;Lam表达式支持将代码块作为方法参数，允许使用更简洁的代码来创建只有一个抽象方法的接口（函数式接口）。<br><br>&emsp;先再看下命令模式中的代码：</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Command</span></span>&#123;<span class="hljs-comment">//Command接口，要求接受一个数组</span>
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">process</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] target)</span></span>;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Command</span></span>&#123;<span class="comment">//Command接口，要求接受一个数组</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="keyword">int</span>[] target)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProcessArray</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">process</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] target , Command cmd)</span></span>&#123;<span class="hljs-comment">//注意这里传入了Command接口的实现对象</span>
-        cmd.process(target);<span class="hljs-comment">//这里调用了传入cmd的process方法</span>
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProcessArray</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="keyword">int</span>[] target , Command cmd)</span></span>&#123;<span class="comment">//注意这里传入了Command接口的实现对象</span></span><br><span class="line">        cmd.process(target);<span class="comment">//这里调用了传入cmd的process方法</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CommandTest</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>&#123;
-        ProcessArray pa = <span class="hljs-keyword">new</span> ProcessArray();
-        <span class="hljs-keyword">int</span>[] target = &#123;<span class="hljs-number">3</span>,-<span class="hljs-number">4</span>,<span class="hljs-number">6</span>,<span class="hljs-number">4</span>&#125;;
-        pa.process(target,<span class="hljs-keyword">new</span> PrintCommand());
-        pa.process(target,<span class="hljs-keyword">new</span> AddCommand());
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommandTest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        ProcessArray pa = <span class="keyword">new</span> ProcessArray();</span><br><span class="line">        <span class="keyword">int</span>[] target = &#123;<span class="number">3</span>,-<span class="number">4</span>,<span class="number">6</span>,<span class="number">4</span>&#125;;</span><br><span class="line">        pa.process(target,<span class="keyword">new</span> PrintCommand());</span><br><span class="line">        pa.process(target,<span class="keyword">new</span> AddCommand());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AddCommand</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Command</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">proocess</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] target)</span></span>&#123;
-        <span class="hljs-keyword">int</span> sum=<span class="hljs-number">0</span>;
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> tmp : target)&#123;
-            sum=sum+tmp;
-        &#125;
-        System.out.println(<span class="hljs-string">"数组元素的总和："</span>+sum);
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AddCommand</span> <span class="keyword">implements</span> <span class="title">Command</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">proocess</span><span class="params">(<span class="keyword">int</span>[] target)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> sum=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> tmp : target)&#123;</span><br><span class="line">            sum=sum+tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"数组元素的总和："</span>+sum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;但是上面的代码需要我分别实现各个操作过程。接着试着用匿名内部类来改写：</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CommandTest</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span> <span class="hljs-params">(String[] args)</span></span>&#123;
-        ProcessArray pa = <span class="hljs-keyword">new</span> ProcessArray();
-        <span class="hljs-keyword">int</span>[] target = &#123;<span class="hljs-number">3</span>,-<span class="hljs-number">4</span>,<span class="hljs-number">6</span>,<span class="hljs-number">4</span>&#125;;
-        pa.procsee(target,<span class="hljs-keyword">new</span> Command&#123;            <span class="hljs-comment">//使用匿名内部类</span>
-            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">process</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] target)</span></span>&#123;
-                <span class="hljs-keyword">int</span> sum=<span class="hljs-number">0</span>;
-                <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> tmp : target)&#123;
-                    sum=sum+tmp;
-                &#125;
-                System.out.println(<span class="hljs-string">"数组元素的总和："</span>+sum);
-            &#125;
-        &#125;);
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommandTest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        ProcessArray pa = <span class="keyword">new</span> ProcessArray();</span><br><span class="line">        <span class="keyword">int</span>[] target = &#123;<span class="number">3</span>,-<span class="number">4</span>,<span class="number">6</span>,<span class="number">4</span>&#125;;</span><br><span class="line">        pa.procsee(target,<span class="keyword">new</span> Command&#123;            <span class="comment">//使用匿名内部类</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="keyword">int</span>[] target)</span></span>&#123;</span><br><span class="line">                <span class="keyword">int</span> sum=<span class="number">0</span>;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> tmp : target)&#123;</span><br><span class="line">                    sum=sum+tmp;</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(<span class="string">"数组元素的总和："</span>+sum);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;注意有两个process，ProcessArray和接口中的，是不一样的。ProcessArray的对象的process方法接受数组和Command接口的实现类的对象，然后调用这个对象的process方法处理数组。而用匿名内部类时，直接根据接口创建一个对象。这样可以避免不必要的接口实现。<br><br>&emsp;而使用Lambda可以将匿名内部类进一步简化：</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CommandTest</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        ProcessArray pa = <span class="hljs-keyword">new</span> ProcessArray();
-        <span class="hljs-keyword">int</span>[] array = &#123;<span class="hljs-number">3</span>, -<span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">4</span>&#125;;
-        pa.process(array, (<span class="hljs-keyword">int</span>[] target) -&gt; &#123;
-            <span class="hljs-keyword">int</span> sum = <span class="hljs-number">0</span>;
-            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> tmp : target) &#123;
-                sum = sum + tmp;
-            &#125;
-            System.out.println(<span class="hljs-string">"数组元素的总和："</span> + sum);
-        &#125;);
-    &#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommandTest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ProcessArray pa = <span class="keyword">new</span> ProcessArray();</span><br><span class="line">        <span class="keyword">int</span>[] array = &#123;<span class="number">3</span>, -<span class="number">4</span>, <span class="number">6</span>, <span class="number">4</span>&#125;;</span><br><span class="line">        pa.process(array, (<span class="keyword">int</span>[] target) -&gt; &#123;</span><br><span class="line">            <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> tmp : target) &#123;</span><br><span class="line">                sum = sum + tmp;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(<span class="string">"数组元素的总和："</span> + sum);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;从上面的代码来看，Lambda表达式仍然是创建了一个对象，只是省略了非常多的东西，不需要new Xxx(){}，也不需要指出重写的方法的名字和返回值类型（上面的代码没用到），只要括号和括号中的参数列表。<br><br>&emsp;形参列表允许省略参数类型，如果只有一个参数，连括号也可以省略。代码块如果只要一条语句，花括号也可以省略。Lambda代码块只有一条return语句。如果，代码块中只有一条省略了return的语句，那就会直接返回这条语句的值。<br><br>&emsp;先看代码：</p>
-<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Eatable</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">taste</span><span class="hljs-params">()</span></span>;
-&#125;
-
-<span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Flyable</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">fly</span><span class="hljs-params">(String weather)</span></span>;
-&#125;
-
-<span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Addable</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span></span>;
-&#125;
-
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LambdaTest</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">eat</span><span class="hljs-params">(Eatable e)</span> </span>&#123;
-        System.out.println(e);
-        e.taste();
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">drive</span><span class="hljs-params">(Flyable f)</span> </span>&#123;
-        System.out.println(<span class="hljs-string">"我正在驾驶："</span> + f);
-        f.fly(<span class="hljs-string">"【碧空如洗的晴日】"</span>);
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">(Addable add)</span> </span>&#123;
-        System.out.println(<span class="hljs-string">"5和3的和为："</span> + add.add(<span class="hljs-number">5</span>, <span class="hljs-number">3</span>));
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        LambdaTest lq = <span class="hljs-keyword">new</span> LambdaTest();
-        lq.eat(() -&gt; System.out.println(<span class="hljs-string">"苹果的味道不错"</span>));
-        lq.drive(weather -&gt; &#123;
-            System.out.println(<span class="hljs-string">"今天天气是："</span> + weather);
-            System.out.println(<span class="hljs-string">"直升机平稳飞行"</span>);
-        &#125;);
-        lq.test((a, b) -&gt; &#123;
-            <span class="hljs-keyword">return</span> a + b;
-        &#125;);
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Eatable</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">taste</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Flyable</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">fly</span><span class="params">(String weather)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Addable</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LambdaTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">(Eatable e)</span> </span>&#123;</span><br><span class="line">        System.out.println(e);</span><br><span class="line">        e.taste();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drive</span><span class="params">(Flyable f)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"我正在驾驶："</span> + f);</span><br><span class="line">        f.fly(<span class="string">"【碧空如洗的晴日】"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(Addable add)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"5和3的和为："</span> + add.add(<span class="number">5</span>, <span class="number">3</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        LambdaTest lq = <span class="keyword">new</span> LambdaTest();</span><br><span class="line">        lq.eat(() -&gt; System.out.println(<span class="string">"苹果的味道不错"</span>));</span><br><span class="line">        lq.drive(weather -&gt; &#123;</span><br><span class="line">            System.out.println(<span class="string">"今天天气是："</span> + weather);</span><br><span class="line">            System.out.println(<span class="string">"直升机平稳飞行"</span>);</span><br><span class="line">        &#125;);</span><br><span class="line">        lq.test((a, b) -&gt; &#123;</span><br><span class="line">            <span class="keyword">return</span> a + b;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;先来看看<code>lq.eat(() -&gt; System.out.println(&quot;苹果的味道不错&quot;));</code>这句的意思，在LambdaQs的类体中查看eat()方法，这个方法需要一个Eatable接口的实现类的对象，下面的也是。Lambda表达式实际上会被当成一个任意类型的对象，具体是何种类型取决于运行环境的需要。但是这里面具体是如何运行的呢？</p>
 <h2 id="Lambda表达式与函数式接口"><a href="#Lambda表达式与函数式接口" class="headerlink" title="Lambda表达式与函数式接口"></a>Lambda表达式与函数式接口</h2><p>&emsp;Lambda表达式的类型（也被叫“目标类型”），必须是“函数式接口”，这种接口只有一个抽象方法，但是可以包含多个默认方法，类方法。Java8还提供了@FunctionalInterface注解。<br><br>&emsp;以Java本身提供的Runnable接口为例：</p>
-<pre><code class="hljs java"><span class="hljs-comment">//Runable接口中只包含一个无参数的方法</span>
-<span class="hljs-comment">//Lambda表达式代表的匿名方法实现了Runnable接口中唯一的，无参数的方法</span>
-<span class="hljs-comment">//因此下面的Lambda表达式创建了一个对象</span>
-Runnable r = () -&gt; &#123;
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">100</span>;i++)&#123;
-        System.out.println();
-    &#125;
-&#125;;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Runable接口中只包含一个无参数的方法</span></span><br><span class="line"><span class="comment">//Lambda表达式代表的匿名方法实现了Runnable接口中唯一的，无参数的方法</span></span><br><span class="line"><span class="comment">//因此下面的Lambda表达式创建了一个对象</span></span><br><span class="line">Runnable r = () -&gt; &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">100</span>;i++)&#123;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;Lambda表达式实现的是<strong>特定函数式接口中的唯一方法</strong>。注意这句话的意思。</p>
-<pre><code class="hljs java">Object obj = () -&gt; &#123;
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">100</span>;i++)&#123;
-        System.out.println();
-    &#125;
-&#125;;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Object obj = () -&gt; &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">100</span>;i++)&#123;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;如果这样写，就会得到错误，因为Object不是一个函数式接口。如果要保证有一个明确的函数式接口，有三种常见方式：</p>
 <ul>
@@ -583,77 +373,25 @@ Runnable r = () -&gt; &#123;
 <li>将Lambda表达式作为函数式接口的参数传给某个方法</li>
 <li>使用函数式接口对Lambda表达式进行强制类型转换</li>
 </ul>
-<pre><code class="hljs java">Object obj = (Runnable)() -&gt; &#123;
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">100</span>;i++)&#123;
-        System.out.println();
-    &#125;
-&#125;;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Object obj = (Runnable)() -&gt; &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">100</span>;i++)&#123;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;接着回过头再来看一下Lambda表达式到底是如何来的。</p>
-<h3 id="Lambda的演变"><a href="#Lambda的演变" class="headerlink" title="Lambda的演变"></a>Lambda的演变</h3><h4 id="最初的命令模式"><a href="#最初的命令模式" class="headerlink" title="最初的命令模式"></a>最初的命令模式</h4><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Command</span></span>&#123;<span class="hljs-comment">//Command接口，要求接受一个数组</span>
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">process</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] target)</span></span>;
-&#125;</code></pre>
+<h3 id="Lambda的演变"><a href="#Lambda的演变" class="headerlink" title="Lambda的演变"></a>Lambda的演变</h3><h4 id="最初的命令模式"><a href="#最初的命令模式" class="headerlink" title="最初的命令模式"></a>最初的命令模式</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Command</span></span>&#123;<span class="comment">//Command接口，要求接受一个数组</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="keyword">int</span>[] target)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProcessArray</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">process</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] target , Command cmd)</span></span>&#123;<span class="hljs-comment">//注意这里传入了Command接口的实现对象</span>
-        cmd.process(target);<span class="hljs-comment">//这里调用了传入cmd的process方法</span>
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProcessArray</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="keyword">int</span>[] target , Command cmd)</span></span>&#123;<span class="comment">//注意这里传入了Command接口的实现对象</span></span><br><span class="line">        cmd.process(target);<span class="comment">//这里调用了传入cmd的process方法</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CommandTest</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>&#123;
-        ProcessArray pa = <span class="hljs-keyword">new</span> ProcessArray();
-        <span class="hljs-keyword">int</span>[] target = &#123;<span class="hljs-number">3</span>,-<span class="hljs-number">4</span>,<span class="hljs-number">6</span>,<span class="hljs-number">4</span>&#125;;
-        pa.process(target,<span class="hljs-keyword">new</span> PrintCommand());
-        pa.process(target,<span class="hljs-keyword">new</span> AddCommand());
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommandTest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        ProcessArray pa = <span class="keyword">new</span> ProcessArray();</span><br><span class="line">        <span class="keyword">int</span>[] target = &#123;<span class="number">3</span>,-<span class="number">4</span>,<span class="number">6</span>,<span class="number">4</span>&#125;;</span><br><span class="line">        pa.process(target,<span class="keyword">new</span> PrintCommand());</span><br><span class="line">        pa.process(target,<span class="keyword">new</span> AddCommand());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AddCommand</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Command</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">proocess</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] target)</span></span>&#123;
-        <span class="hljs-keyword">int</span> sum=<span class="hljs-number">0</span>;
-        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> tmp : target)&#123;
-            sum=sum+tmp;
-        &#125;
-        System.out.println(<span class="hljs-string">"数组元素的总和："</span>+sum);
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AddCommand</span> <span class="keyword">implements</span> <span class="title">Command</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">proocess</span><span class="params">(<span class="keyword">int</span>[] target)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> sum=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> tmp : target)&#123;</span><br><span class="line">            sum=sum+tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"数组元素的总和："</span>+sum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="使用匿名内部类"><a href="#使用匿名内部类" class="headerlink" title="使用匿名内部类"></a>使用匿名内部类</h4><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CommandTest</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span> <span class="hljs-params">(String[] args)</span></span>&#123;
-        ProcessArray pa = <span class="hljs-keyword">new</span> ProcessArray();
-        <span class="hljs-keyword">int</span>[] target = &#123;<span class="hljs-number">3</span>,-<span class="hljs-number">4</span>,<span class="hljs-number">6</span>,<span class="hljs-number">4</span>&#125;;
-        pa.procsee(target,<span class="hljs-keyword">new</span> Command&#123;            <span class="hljs-comment">//使用匿名内部类</span>
-            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">process</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[] target)</span></span>&#123;
-                <span class="hljs-keyword">int</span> sum=<span class="hljs-number">0</span>;
-                <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> tmp : target)&#123;
-                    sum=sum+tmp;
-                &#125;
-                System.out.println(<span class="hljs-string">"数组元素的总和："</span>+sum);
-            &#125;
-        &#125;);
-    &#125;
-&#125;</code></pre>
+<h4 id="使用匿名内部类"><a href="#使用匿名内部类" class="headerlink" title="使用匿名内部类"></a>使用匿名内部类</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommandTest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        ProcessArray pa = <span class="keyword">new</span> ProcessArray();</span><br><span class="line">        <span class="keyword">int</span>[] target = &#123;<span class="number">3</span>,-<span class="number">4</span>,<span class="number">6</span>,<span class="number">4</span>&#125;;</span><br><span class="line">        pa.procsee(target,<span class="keyword">new</span> Command&#123;            <span class="comment">//使用匿名内部类</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="keyword">int</span>[] target)</span></span>&#123;</span><br><span class="line">                <span class="keyword">int</span> sum=<span class="number">0</span>;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> tmp : target)&#123;</span><br><span class="line">                    sum=sum+tmp;</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(<span class="string">"数组元素的总和："</span>+sum);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;匿名内部类不过是把接口中的抽象方法实现，但是没有具体的类而已。</p>
 <h4 id="Lambda表达式的演变"><a href="#Lambda表达式的演变" class="headerlink" title="Lambda表达式的演变"></a>Lambda表达式的演变</h4><ol>
 <li>把外面的壳子去掉</li>
 </ol>
 <p>&emsp;只保留参数列表和方法题。参数和方法题之间用‘-&gt;’链接。为什么可以去掉？因为<strong>特定函数式接口中的唯一方法</strong>这句话，只有一个方法，当然可以知道省略的是哪个。</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CommandTest</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span> <span class="hljs-params">(String[] args)</span></span>&#123;
-        ProcessArray pa = <span class="hljs-keyword">new</span> ProcessArray();
-        <span class="hljs-keyword">int</span>[] target = &#123;<span class="hljs-number">3</span>,-<span class="hljs-number">4</span>,<span class="hljs-number">6</span>,<span class="hljs-number">4</span>&#125;;
-        pa.procsee(target,<span class="hljs-keyword">new</span> Command&#123;            <span class="hljs-comment">//使用匿名内部类</span>
-            (<span class="hljs-keyword">int</span>[] target)-&gt;&#123;
-                <span class="hljs-keyword">int</span> sum=<span class="hljs-number">0</span>;
-                <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> tmp : target)&#123;
-                    sum=sum+tmp;
-                &#125;
-                System.out.println(<span class="hljs-string">"数组元素的总和："</span>+sum);
-            &#125;
-        &#125;);
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommandTest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        ProcessArray pa = <span class="keyword">new</span> ProcessArray();</span><br><span class="line">        <span class="keyword">int</span>[] target = &#123;<span class="number">3</span>,-<span class="number">4</span>,<span class="number">6</span>,<span class="number">4</span>&#125;;</span><br><span class="line">        pa.procsee(target,<span class="keyword">new</span> Command&#123;            <span class="comment">//使用匿名内部类</span></span><br><span class="line">            (<span class="keyword">int</span>[] target)-&gt;&#123;</span><br><span class="line">                <span class="keyword">int</span> sum=<span class="number">0</span>;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> tmp : target)&#123;</span><br><span class="line">                    sum=sum+tmp;</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(<span class="string">"数组元素的总和："</span>+sum);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ol start="2">
 <li>把return和{}去掉</li>
@@ -663,102 +401,60 @@ Runnable r = () -&gt; &#123;
 <li>把参数类型和圆括号去掉</li>
 </ol>
 <p>&emsp;只有一个参数时可以去掉，类似int[] target这样的，括号也不能去。</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CommandTest</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span> <span class="hljs-params">(String[] args)</span></span>&#123;
-        ProcessArray pa = <span class="hljs-keyword">new</span> ProcessArray();
-        <span class="hljs-keyword">int</span>[] target = &#123;<span class="hljs-number">3</span>,-<span class="hljs-number">4</span>,<span class="hljs-number">6</span>,<span class="hljs-number">4</span>&#125;;
-        pa.procsee(target,<span class="hljs-keyword">new</span> Command&#123;            <span class="hljs-comment">//使用匿名内部类</span>
-                target-&gt;&#123;
-                <span class="hljs-keyword">int</span> sum=<span class="hljs-number">0</span>;
-                <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> tmp : target)&#123;
-                    sum=sum+tmp;
-                &#125;
-                System.out.println(<span class="hljs-string">"数组元素的总和："</span>+sum);
-            &#125;
-        &#125;);
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommandTest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        ProcessArray pa = <span class="keyword">new</span> ProcessArray();</span><br><span class="line">        <span class="keyword">int</span>[] target = &#123;<span class="number">3</span>,-<span class="number">4</span>,<span class="number">6</span>,<span class="number">4</span>&#125;;</span><br><span class="line">        pa.procsee(target,<span class="keyword">new</span> Command&#123;            <span class="comment">//使用匿名内部类</span></span><br><span class="line">                target-&gt;&#123;</span><br><span class="line">                <span class="keyword">int</span> sum=<span class="number">0</span>;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> tmp : target)&#123;</span><br><span class="line">                    sum=sum+tmp;</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(<span class="string">"数组元素的总和："</span>+sum);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ol start="4">
 <li>直接把表达式传递进去或者作为参数传递进去</li>
 </ol>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CommandTest</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span> <span class="hljs-params">(String[] args)</span></span>&#123;
-        ProcessArray pa = <span class="hljs-keyword">new</span> ProcessArray();
-        <span class="hljs-keyword">int</span>[] target = &#123;<span class="hljs-number">3</span>,-<span class="hljs-number">4</span>,<span class="hljs-number">6</span>,<span class="hljs-number">4</span>&#125;;
-        pa.procsee(target, target-&gt;&#123;
-                <span class="hljs-keyword">int</span> sum=<span class="hljs-number">0</span>;
-                <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> tmp : target)&#123;
-                    sum=sum+tmp;
-                &#125;
-                System.out.println(<span class="hljs-string">"数组元素的总和："</span>+sum);
-            &#125;
-        );
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CommandTest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        ProcessArray pa = <span class="keyword">new</span> ProcessArray();</span><br><span class="line">        <span class="keyword">int</span>[] target = &#123;<span class="number">3</span>,-<span class="number">4</span>,<span class="number">6</span>,<span class="number">4</span>&#125;;</span><br><span class="line">        pa.procsee(target, target-&gt;&#123;</span><br><span class="line">                <span class="keyword">int</span> sum=<span class="number">0</span>;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> tmp : target)&#123;</span><br><span class="line">                    sum=sum+tmp;</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(<span class="string">"数组元素的总和："</span>+sum);</span><br><span class="line">            &#125;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;再把变量名字改一下就和上面的一样了（上面的没省略变量类型）。这种演变分的方法请看链接<a href="http://how2j.cn/k/lambda/lambda-lamdba-tutorials/697.html#nowhere" target="_blank" rel="noopener">http://how2j.cn/k/lambda/lambda-lamdba-tutorials/697.html#nowhere</a>，非常不错的教程。<br><br>&emsp;仔细观察发现，要想使用Lambda表达式，最重要的就是Lambda实现的匿名方法的参数列表要和函数式接口中唯一的抽象方法的接口一样。这意味这在前面提到过的Runnable强制转换可以用来改变Lambda表达式的用处，只要参数列表是一样的，就可以通过强制转换通用。&lt;/br?<br>&emsp;Lambda表达式的本质是用简洁的语法来创建函数式接口的实例。</p>
 <h2 id="方法引用和构造器"><a href="#方法引用和构造器" class="headerlink" title="方法引用和构造器"></a>方法引用和构造器</h2><p>&emsp;当Lambda表达式只有一条语句时还可以使用方法引用和构造器引用。</p>
 <h3 id="引用类方法"><a href="#引用类方法" class="headerlink" title="引用类方法"></a>引用类方法</h3><p>&emsp;定义了如下函数式接口：</p>
-<pre><code class="hljs java"><span class="hljs-meta">@FunctionalInterface</span>
-<span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Converter</span></span>&#123;
-    <span class="hljs-function">Integer <span class="hljs-title">convert</span><span class="hljs-params">(String from)</span></span>;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Converter</span></span>&#123;</span><br><span class="line">    <span class="function">Integer <span class="title">convert</span><span class="params">(String from)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;该接口的要求是传入一个字符串并将其转化为Integer类型。分析后发现，不需要单独将实现类写出来，因为可以直接使用<code>Integer.valueOf</code>方法转化。下面的代码使用Lambda表达式创建一个Converter接口的对象。</p>
-<pre><code class="hljs java">Converter converter1 = from -&gt; Integer.valueOf(from);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Converter converter1 = from -&gt; Integer.valueOf(from);</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;接下来使用这个对象：</p>
-<pre><code class="hljs java">Integer val = converter1.convert(<span class="hljs-string">"99"</span>);
-System.out.println(val);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Integer val = converter1.convert(<span class="string">"99"</span>);</span><br><span class="line">System.out.println(val);</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;由于Lambda表达式创建了一个Converter对象，这个对象具有Lambda表达式代表的匿名方法，所以可以将参数传进去调用这个对象的方法。<br><br>&emsp;对于这里的Lambda表达式，引用了Integer类的valueOf()类方法，所以还可以换种方式：</p>
-<pre><code class="hljs java">Converter converter1 = Integer::valueOf;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Converter converter1 = Integer::valueOf;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;乍看肯定会说卧槽，这是怎么变得。我觉得要是直接从接口写出来这种有点转不过弯，还是一步步来吧。上面的类引用方法简单来说就是使用某个类的类方法来实现接口中的抽象方法。</p>
 <h3 id="引用特定对象的实例方法"><a href="#引用特定对象的实例方法" class="headerlink" title="引用特定对象的实例方法"></a>引用特定对象的实例方法</h3><p>&emsp;现在还是用上面的那个接口，只不过要求变了，要求输入一个字符串，然后返回在给定字符串中的索引值（Integer）。</p>
-<pre><code class="hljs java">Converter converter2 = from -&gt; <span class="hljs-string">"hellojava"</span>.indexOf(from);  <span class="hljs-comment">//使用现成的indexOf方法</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Converter converter2 = from -&gt; <span class="string">"hellojava"</span>.indexOf(from);  <span class="comment">//使用现成的indexOf方法</span></span><br></pre></td></tr></table></figure>
 
 <p>&emsp;原本indexOf方法返回的是int类型，这里自动装箱为Interger。</p>
-<pre><code class="hljs java">Integer val = converter2.convert(<span class="hljs-string">"ll"</span>);
-System.out.println(val);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Integer val = converter2.convert(<span class="string">"ll"</span>);</span><br><span class="line">System.out.println(val);</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;结果为2，也可以采用下面的简写：</p>
-<pre><code class="hljs java">Converter converter1 = <span class="hljs-string">"hellojava"</span>::indexOf;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Converter converter1 = <span class="string">"hellojava"</span>::indexOf;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;上面的实例引用方法就是使用具体的实例的方法来实现接口中的抽象方法。</p>
 <h3 id="引用某类对象的实例方法"><a href="#引用某类对象的实例方法" class="headerlink" title="引用某类对象的实例方法"></a>引用某类对象的实例方法</h3><p>&emsp;这回换一个接口：</p>
-<pre><code class="hljs java"><span class="hljs-meta">@FunctionalInterface</span>
-<span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">MyTest</span></span>&#123;
-    <span class="hljs-function">String <span class="hljs-title">test</span><span class="hljs-params">(String a,<span class="hljs-keyword">int</span> b,<span class="hljs-keyword">int</span> c)</span></span>;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">MyTest</span></span>&#123;</span><br><span class="line">    <span class="function">String <span class="title">test</span><span class="params">(String a,<span class="keyword">int</span> b,<span class="keyword">int</span> c)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;根据test()抽象方法，使用Lambda表达式创建一个MyTest对象：</p>
-<pre><code class="hljs java">MyTest mt = (a,b,c) -&gt; a.substring(b,c);  <span class="hljs-comment">//截取a字符串，从b开始，到c结束，不包括c</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MyTest mt = (a,b,c) -&gt; a.substring(b,c);  <span class="comment">//截取a字符串，从b开始，到c结束，不包括c</span></span><br></pre></td></tr></table></figure>
 
-<pre><code class="hljs java">String str = mt.test(<span class="hljs-string">"hello java"</span>,<span class="hljs-number">2</span>,<span class="hljs-number">4</span>);
-System.out.println(str);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String str = mt.test(<span class="string">"hello java"</span>,<span class="number">2</span>,<span class="number">4</span>);</span><br><span class="line">System.out.println(str);</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;该代码的Lambda部分可以改写为：</p>
-<pre><code class="hljs java">MyTest mt = String::substring;
-String str = mt.test(<span class="hljs-string">"hello java"</span>,<span class="hljs-number">2</span>,<span class="hljs-number">4</span>);
-System.out.println(str);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MyTest mt = String::substring;</span><br><span class="line">String str = mt.test(<span class="string">"hello java"</span>,<span class="number">2</span>,<span class="number">4</span>);</span><br><span class="line">System.out.println(str);</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;这里与上面类似，只不过不是具体的哪个对象的方法，而是某类对象的实例方法。注意和引用类方法的区别，从<code>a.substring(b,c)</code>可以看出，它是实例方法。传入的三个参数，第一个作为调用者，后面两个作为substring的参数。</p>
 <h3 id="引用构造器"><a href="#引用构造器" class="headerlink" title="引用构造器"></a>引用构造器</h3><p>&emsp;再换一个接口</p>
-<pre><code class="hljs java"><span class="hljs-meta">@FunctionalInterface</span>
-<span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">YourTest</span></span>&#123;
-    <span class="hljs-function">JFrame <span class="hljs-title">win</span><span class="hljs-params">(String title)</span></span>;  <span class="hljs-comment">//JFrame是一个类</span>
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">YourTest</span></span>&#123;</span><br><span class="line">    <span class="function">JFrame <span class="title">win</span><span class="params">(String title)</span></span>;  <span class="comment">//JFrame是一个类</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;该抽象方法要求根据String参数返回一个JFrame对象，Lambda代码如下：</p>
-<pre><code class="hljs java">Yourtest yt = (String a) -&gt; <span class="hljs-keyword">new</span> JFrame(a);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Yourtest yt = (String a) -&gt; <span class="keyword">new</span> JFrame(a);</span><br></pre></td></tr></table></figure>
 
-<pre><code class="hljs java">JFrame jf = yt.win(<span class="hljs-string">"我的窗口"</span>);
-System.out.println(jf);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">JFrame jf = yt.win(<span class="string">"我的窗口"</span>);</span><br><span class="line">System.out.println(jf);</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;进一步简略：</p>
-<pre><code class="hljs java">Yourtest yt = JFrame::<span class="hljs-keyword">new</span>;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Yourtest yt = JFrame::<span class="keyword">new</span>;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;不需要写明调用哪个构造器，就如同正常调用构造器一样，是根据传入的参数来决定用哪个构造器。</p>
 <h2 id="Lambda表达式和匿名内部类的联系和区别"><a href="#Lambda表达式和匿名内部类的联系和区别" class="headerlink" title="Lambda表达式和匿名内部类的联系和区别"></a>Lambda表达式和匿名内部类的联系和区别</h2><p>&emsp;通过上面一系列的使用，可以发现匿名内部类和Lambda表达式非常像，Lambda可以说是匿名内部类的简化版。<br><br>&emsp;存在如下相同点：</p>
@@ -784,235 +480,203 @@ System.out.println(jf);</code></pre>
 </blockquote>
 <p>&emsp;这两个地方都写到，局部内部类，匿名内部类，Lambda表达式访问<strong>外面</strong>的局部变量时，这些变量要是final的，即使没有这么写，之后也不能更改。大概的原因是，外部的局部变量会进行值传递，如果内部修改或外部修改值就会造成数据混乱。具体请看链接：<br><a href="https://www.zhihu.com/question/21395848" target="_blank" rel="noopener">https://www.zhihu.com/question/21395848</a><br><a href="http://cuipengfei.me/blog/2013/06/22/why-does-it-have-to-be-final/" target="_blank" rel="noopener">http://cuipengfei.me/blog/2013/06/22/why-does-it-have-to-be-final/</a><br><a href="https://www.cnblogs.com/hapjin/p/5744478.html" target="_blank" rel="noopener">https://www.cnblogs.com/hapjin/p/5744478.html</a><br>还有一篇关于闭包的：<br><a href="https://www.zhihu.com/question/24084277/answer/110176733" target="_blank" rel="noopener">https://www.zhihu.com/question/24084277/answer/110176733</a></p>
 
-            </article>
-            <hr>
-            <div>
-              <div class="post-metas mb-3">
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/java/">java</a>
-                    
-                  </div>
-                
-              </div>
-              
-                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
-              
-              
-                <div class="post-prevnext row">
-                  <div class="post-prev col-6">
-                    
-                    
-                      <a href="/2018/04/24/Python%E7%AC%94%E8%AE%B01/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Python笔记1</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </div>
-                  <div class="post-next col-6">
-                    
-                    
-                      <a href="/2018/04/19/Java%E7%AC%94%E8%AE%B06/">
-                        <span class="hidden-mobile">Java笔记6</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </div>
-                </div>
-              
-            </div>
+    </div>
 
-            
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
           </div>
-        </div>
-      </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/04/19/Java%E7%AC%94%E8%AE%B06/" rel="prev" title="Java笔记6">
+      <i class="fa fa-chevron-left"></i> Java笔记6
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/04/24/Python%E7%AC%94%E8%AE%B01/" rel="next" title="Python笔记1">
+      Python笔记1 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
+      </footer>
     
-      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
-        <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
-  <div id="tocbot"></div>
-</div>
-
-      </div>
-    
-  </div>
-</div>
-
-<!-- Custom -->
-
-
-    
-  </main>
-
+  </article>
   
-    <a id="scroll-top-button" href="#" role="button">
-      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-    </a>
   
-
-  
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-  
-
-  
-
-  
-
-  <footer class="mt-5">
-  <div class="text-center py-3">
-    <div>
-      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
-      <i class="iconfont icon-love"></i>
-      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
-        <span>Fluid</span></a>
-    </div>
-    
-
-    
-
-    
-  </div>
-</footer>
-
-<!-- SCRIPTS -->
-<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
-<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
-<script  src="/js/debouncer.js" ></script>
-<script  src="/js/main.js" ></script>
-
-<!-- Plugins -->
-
-
-  
-    <script  src="/js/lazyload.js" ></script>
   
 
 
 
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
+          </div>
+          
 
-
-
-
-
-
-
-  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
-  <script>
-    $(document).ready(function () {
-      var boardCtn = $('#board-ctn');
-      var boardTop = boardCtn.offset().top;
-
-      tocbot.init({
-        tocSelector: '#tocbot',
-        contentSelector: 'article.markdown-body',
-        headingSelector: 'h1,h2,h3,h4,h5,h6',
-        linkClass: 'tocbot-link',
-        activeLinkClass: 'tocbot-active-link',
-        listClass: 'tocbot-list',
-        isCollapsedClass: 'tocbot-is-collapsed',
-        collapsibleClass: 'tocbot-is-collapsible',
-        collapseDepth: 0,
-        scrollSmooth: true,
-        headingsOffset: -boardTop
-      });
-      if ($('.toc-list-item').length > 0) {
-        $('#toc').css('visibility', 'visible');
-      }
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
-  <script>
-    var typed = new Typed('#subtitle', {
-      strings: [
-        '  ',
-        "Java笔记7&nbsp;",
-      ],
-      cursorChar: "_",
-      typeSpeed: 70,
-      loop: false,
-    });
-    typed.stop();
-    $(document).ready(function () {
-      $(".typed-cursor").addClass("h2");
-      typed.start();
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
-      
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
     }
-    anchors.add(res.join(", "))
-  </script>
-
-
-
-  <script  src="/js/local-search.js" ></script>
-  <script>
-    var path = "/local-search.xml";
-    var inputArea = document.querySelector("#local-search-input");
-    inputArea.onclick = function () {
-      searchFunc(path, 'local-search-input', 'local-search-result');
-      this.onclick = null
-    }
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-  <script>
-    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
-      function () {
-        var element = document.createElement('a');
-        $(element).attr('data-fancybox', 'images');
-        $(element).attr('href', $(this).attr('src'));
-        $(this).wrap(element);
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
       }
-    );
-  </script>
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#抽象类"><span class="nav-number">1.</span> <span class="nav-text">抽象类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#接口"><span class="nav-number">2.</span> <span class="nav-text">接口</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#接口的继承"><span class="nav-number">2.1.</span> <span class="nav-text">接口的继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用接口"><span class="nav-number">2.2.</span> <span class="nav-text">使用接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口和抽象类"><span class="nav-number">2.3.</span> <span class="nav-text">接口和抽象类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#面向接口编程"><span class="nav-number">2.4.</span> <span class="nav-text">面向接口编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#工厂模式"><span class="nav-number">2.4.1.</span> <span class="nav-text">工厂模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令模式"><span class="nav-number">2.4.2.</span> <span class="nav-text">命令模式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内部类"><span class="nav-number">3.</span> <span class="nav-text">内部类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#非静态内部类"><span class="nav-number">3.1.</span> <span class="nav-text">非静态内部类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态内部类"><span class="nav-number">3.2.</span> <span class="nav-text">静态内部类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用内部类"><span class="nav-number">3.3.</span> <span class="nav-text">使用内部类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在外部类中使用内部类"><span class="nav-number">3.3.1.</span> <span class="nav-text">在外部类中使用内部类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在外部类以外的地方"><span class="nav-number">3.3.2.</span> <span class="nav-text">在外部类以外的地方</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在外部类以外使用静态类"><span class="nav-number">3.3.3.</span> <span class="nav-text">在外部类以外使用静态类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一点小疑问"><span class="nav-number">3.3.4.</span> <span class="nav-text">一点小疑问</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#局部内部类"><span class="nav-number">3.4.</span> <span class="nav-text">局部内部类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#匿名内部类"><span class="nav-number">3.5.</span> <span class="nav-text">匿名内部类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Lambda表达式"><span class="nav-number">4.</span> <span class="nav-text">Lambda表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Lambda表达式与函数式接口"><span class="nav-number">4.1.</span> <span class="nav-text">Lambda表达式与函数式接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Lambda的演变"><span class="nav-number">4.1.1.</span> <span class="nav-text">Lambda的演变</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#最初的命令模式"><span class="nav-number">4.1.1.1.</span> <span class="nav-text">最初的命令模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用匿名内部类"><span class="nav-number">4.1.1.2.</span> <span class="nav-text">使用匿名内部类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lambda表达式的演变"><span class="nav-number">4.1.1.3.</span> <span class="nav-text">Lambda表达式的演变</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法引用和构造器"><span class="nav-number">4.2.</span> <span class="nav-text">方法引用和构造器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引用类方法"><span class="nav-number">4.2.1.</span> <span class="nav-text">引用类方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用特定对象的实例方法"><span class="nav-number">4.2.2.</span> <span class="nav-text">引用特定对象的实例方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用某类对象的实例方法"><span class="nav-number">4.2.3.</span> <span class="nav-text">引用某类对象的实例方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用构造器"><span class="nav-number">4.2.4.</span> <span class="nav-text">引用构造器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lambda表达式和匿名内部类的联系和区别"><span class="nav-number">4.3.</span> <span class="nav-text">Lambda表达式和匿名内部类的联系和区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一点补充知识"><span class="nav-number">5.</span> <span class="nav-text">一点补充知识</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xianzheTM"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">xianzheTM</p>
+  <div class="site-description" itemprop="description">希望这里能见证一个菜鸟到大神的路程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xianzheTM" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xianzheTM" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ylxianzhe@outlook.com" title="E-Mail → mailto:ylxianzhe@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xianzheTM</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">687k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">19:05</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 
@@ -1026,12 +690,9 @@ System.out.println(jf);</code></pre>
 
 
 
+  
 
-
-
-
-
-
+  
 
 </body>
 </html>

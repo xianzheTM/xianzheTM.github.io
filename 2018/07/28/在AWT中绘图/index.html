@@ -1,210 +1,250 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
-
-
-
-
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="/img/favicon.png">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yl.dropsec.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="使用AWT做点简单图形.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在AWT中绘图">
+<meta property="og:url" content="https://yl.dropsec.xyz/2018/07/28/%E5%9C%A8AWT%E4%B8%AD%E7%BB%98%E5%9B%BE/index.html">
+<meta property="og:site_name" content="新日暮里">
+<meta property="og:description" content="使用AWT做点简单图形.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yl.dropsec.xyz/2018/07/28/%E5%9C%A8AWT%E4%B8%AD%E7%BB%98%E5%9B%BE/%E5%85%B3%E7%B3%BB.png">
+<meta property="article:published_time" content="2018-07-28T04:56:18.000Z">
+<meta property="article:modified_time" content="2020-05-22T05:10:18.663Z">
+<meta property="article:author" content="xianzheTM">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yl.dropsec.xyz/2018/07/28/%E5%9C%A8AWT%E4%B8%AD%E7%BB%98%E5%9B%BE/%E5%85%B3%E7%B3%BB.png">
+
+<link rel="canonical" href="https://yl.dropsec.xyz/2018/07/28/%E5%9C%A8AWT%E4%B8%AD%E7%BB%98%E5%9B%BE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>在AWT中绘图 | 新日暮里</title>
   
-  <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="希望这里能见证一个菜鸟到大神的路程">
-  <meta name="author" content="xianzheTM">
-  <meta name="keywords" content="">
-  <title>在AWT中绘图 - 新日暮里</title>
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
-  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
-
-  
-    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
-  
-
-  
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
 
 
-<link  rel="stylesheet" href="/css/main.css" />
 
-<!-- 自定义样式保持在最底部 -->
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-  <script  src="/js/utils.js" ></script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
+</head>
 
-<body>
-  <header style="height: 70vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand"
-       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                首页
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                归档
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                分类
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                标签
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
-          </li>
-        
-      </ul>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
-</nav>
 
-    <div class="view intro-2" id="background" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp">
-            <span class="h2" id="subtitle">
-              
-            </span>
+  <div class="site-meta">
 
-            
-              
-  <div class="mt-3 post-meta">
-    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2018-07-28 12:56">
-      2018年7月28日 下午
-    </time>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">新日暮里</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
   </div>
 
-
-<div class="mt-1">
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-chart"></i>
-      1.5k 字
-    </span>
-  
-
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-clock-fill"></i>
-      
-      
-      21
-       分钟
-    </span>
-  
-
-  
-  
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
 </div>
 
-            
-          </div>
 
-          
-        </div>
-      </div>
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
     </div>
-  </header>
+  </div>
 
-  <main>
+</div>
+    </header>
+
     
-      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
-        <div class="py-5" id="board">
-          <div class="post-content mx-auto" id="post">
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
             
-            <article class="markdown-body">
-              <p>使用AWT做点简单图形.</p>
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yl.dropsec.xyz/2018/07/28/%E5%9C%A8AWT%E4%B8%AD%E7%BB%98%E5%9B%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="xianzheTM">
+      <meta itemprop="description" content="希望这里能见证一个菜鸟到大神的路程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新日暮里">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在AWT中绘图
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-07-28 12:56:18" itemprop="dateCreated datePublished" datetime="2018-07-28T12:56:18+08:00">2018-07-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-22 13:10:18" itemprop="dateModified" datetime="2020-05-22T13:10:18+08:00">2020-05-22</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>10 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>使用AWT做点简单图形.</p>
 <a id="more"></a>
 
 <h1 id="画图实现原理"><a href="#画图实现原理" class="headerlink" title="画图实现原理"></a>画图实现原理</h1><p>&emsp;在Component类里提供了和绘图有关的三个方法。</p>
@@ -214,24 +254,15 @@
 <li>repaint()：调用update()方法，刷新组件外观.</li>
 </ul>
 <p>&emsp;上面三个方法的调用关系为：repaint()方法调用update()方法,update()方法调用paint()方法。<br>Container类中的update()方法先以组件的背景色填充整个组件区域，然后调用paint()方法重画组件。<br>Container类的 update()方法代码如下：</p>
-<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(Graphics g)</span> </span>&#123;
-        <span class="hljs-keyword">if</span> (isShowing()) &#123;
-            <span class="hljs-keyword">if</span> (! (peer <span class="hljs-keyword">instanceof</span> LightweightPeer)) &#123;
-                g.clearRect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, width, height);
-            &#125;
-            paint(g);
-        &#125;
-    &#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(Graphics g)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (isShowing()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (! (peer <span class="keyword">instanceof</span> LightweightPeer)) &#123;</span><br><span class="line">                g.clearRect(<span class="number">0</span>, <span class="number">0</span>, width, height);</span><br><span class="line">            &#125;</span><br><span class="line">            paint(g);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
 
 
 <p>&emsp;普通组件(Component)的update()方法:</p>
-<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(Graphics g)</span> </span>&#123;
-        paint(g);
-    &#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(Graphics g)</span> </span>&#123;</span><br><span class="line">        paint(g);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;下图是三者调用关系:</p>
-<p><img src="/2018/07/28/%E5%9C%A8AWT%E4%B8%AD%E7%BB%98%E5%9B%BE/%E5%85%B3%E7%B3%BB.png" srcset="/img/loading.gif" alt="关系"></p>
+<p><img src="/2018/07/28/%E5%9C%A8AWT%E4%B8%AD%E7%BB%98%E5%9B%BE/%E5%85%B3%E7%B3%BB.png" alt="关系"></p>
 <p>&emsp;从 图中可以看出，程序不应该主动调用组件的paint()和 update()方法，这两个方法都由AWT系统负责调用。如果程序希望AWT系统重新绘制该组件，则调用该组件的repaint()方法即可。而paint()和update()方法通常被重写。 在通常情况下，程序通过重写paint()方法实现在AWT组件上绘图。重写update()或 paint()方法时，该方法里包含了一个Graphics类型的参数，通过该Graphics参数就可以实现绘图功能。</p>
 <h1 id="使用Graphics类"><a href="#使用Graphics类" class="headerlink" title="使用Graphics类"></a>使用Graphics类</h1><p>&emsp;Graphics类提供了如下几个方法用于绘制几何图形和位图。</p>
 <ul>
@@ -253,426 +284,212 @@
 <p>&emsp;除此之外，Graphics还提供了setColor()和setFont()两个方法用于设置画笔的颜色和字体(仅当绘制字符串时有效)，其中setColor()方法需要传入一个Color参数，它可以使用RGB、CMYK等方式设 置一个颜色；而 setFont()方法需要传入一个Font参数，Font参数需要指定字体名、字体样式、字体 大小三个属性。</p>
 <p>&emsp;AWT普通组件也可以通过Color()和 Font()方法来改变它的前景色和字体。除此之外，所有组件都有一个setBackground()方法用于设置组件的背景色。</p>
 <p>&emsp;AWT专门提供一个Canvas类作为绘图的画布，程序可以通过创建Canvas的子类，并重写它的paint() 方法来实现绘图。下面程序示范了一个简单的绘图程序。</p>
-<pre><code class="hljs java"><span class="hljs-keyword">import</span> javax.swing.*;
-<span class="hljs-keyword">import</span> java.awt.*;
-<span class="hljs-keyword">import</span> java.util.Random;
-
-<span class="hljs-comment">/**</span>
-<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> YL</span>
-<span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2018/7/28 13:46</span>
-<span class="hljs-comment"> */</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SimpleDraw</span> </span>&#123;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String RECT_SHAPE = <span class="hljs-string">"rect"</span>;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String OVAL_SHAPE = <span class="hljs-string">"oval"</span>;
-    <span class="hljs-keyword">private</span> Frame f = <span class="hljs-keyword">new</span> Frame(<span class="hljs-string">"绘图"</span>);
-    <span class="hljs-keyword">private</span> JButton rect = <span class="hljs-keyword">new</span> JButton(<span class="hljs-string">"绘制矩形"</span>);
-    <span class="hljs-keyword">private</span> JButton oval = <span class="hljs-keyword">new</span> JButton(<span class="hljs-string">"绘制圆形"</span>);
-    <span class="hljs-keyword">private</span> String shape = <span class="hljs-string">""</span>;
-    <span class="hljs-keyword">private</span> MyCanvas drawArea = <span class="hljs-keyword">new</span> MyCanvas();
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span> </span>&#123;
-        Panel p = <span class="hljs-keyword">new</span> Panel();
-        rect.addActionListener(e -&gt; &#123;
-            shape = RECT_SHAPE;
-            drawArea.repaint();
-        &#125;);
-        oval.addActionListener(e -&gt; &#123;
-            shape = OVAL_SHAPE;
-            drawArea.repaint();
-        &#125;);
-        p.add(rect);
-        p.add(oval);
-<span class="hljs-comment">//        Dimension用于设置组件的首选大小</span>
-        drawArea.setPreferredSize(<span class="hljs-keyword">new</span> Dimension(<span class="hljs-number">250</span>, <span class="hljs-number">180</span>));
-        f.add(drawArea);
-        f.add(p, BorderLayout.SOUTH);
-        f.pack();
-        f.setVisible(<span class="hljs-keyword">true</span>);
-    &#125;
-
-    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyCanvas</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Canvas</span> </span>&#123;
-        <span class="hljs-meta">@Override</span>
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">paint</span><span class="hljs-params">(Graphics g)</span> </span>&#123;
-            Random rand = <span class="hljs-keyword">new</span> Random();
-            <span class="hljs-keyword">if</span> (shape.equals(RECT_SHAPE)) &#123;
-                g.setColor(<span class="hljs-keyword">new</span> Color(<span class="hljs-number">42</span>, <span class="hljs-number">46</span>, <span class="hljs-number">220</span>));
-                g.drawRect(rand.nextInt(<span class="hljs-number">200</span>), rand.nextInt(<span class="hljs-number">120</span>), <span class="hljs-number">40</span>, <span class="hljs-number">60</span>);
-            &#125;
-            <span class="hljs-keyword">if</span> (shape.equals(OVAL_SHAPE)) &#123;
-                g.setColor(<span class="hljs-keyword">new</span> Color(<span class="hljs-number">200</span>, <span class="hljs-number">29</span>, <span class="hljs-number">30</span>));
-                g.fillOval(rand.nextInt(<span class="hljs-number">200</span>), rand.nextInt(<span class="hljs-number">12</span>), <span class="hljs-number">50</span>, <span class="hljs-number">40</span>);
-            &#125;
-        &#125;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        <span class="hljs-keyword">new</span> SimpleDraw().init();
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.swing.*;</span><br><span class="line"><span class="keyword">import</span> java.awt.*;</span><br><span class="line"><span class="keyword">import</span> java.util.Random;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> YL</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2018/7/28 13:46</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleDraw</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String RECT_SHAPE = <span class="string">"rect"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String OVAL_SHAPE = <span class="string">"oval"</span>;</span><br><span class="line">    <span class="keyword">private</span> Frame f = <span class="keyword">new</span> Frame(<span class="string">"绘图"</span>);</span><br><span class="line">    <span class="keyword">private</span> JButton rect = <span class="keyword">new</span> JButton(<span class="string">"绘制矩形"</span>);</span><br><span class="line">    <span class="keyword">private</span> JButton oval = <span class="keyword">new</span> JButton(<span class="string">"绘制圆形"</span>);</span><br><span class="line">    <span class="keyword">private</span> String shape = <span class="string">""</span>;</span><br><span class="line">    <span class="keyword">private</span> MyCanvas drawArea = <span class="keyword">new</span> MyCanvas();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Panel p = <span class="keyword">new</span> Panel();</span><br><span class="line">        rect.addActionListener(e -&gt; &#123;</span><br><span class="line">            shape = RECT_SHAPE;</span><br><span class="line">            drawArea.repaint();</span><br><span class="line">        &#125;);</span><br><span class="line">        oval.addActionListener(e -&gt; &#123;</span><br><span class="line">            shape = OVAL_SHAPE;</span><br><span class="line">            drawArea.repaint();</span><br><span class="line">        &#125;);</span><br><span class="line">        p.add(rect);</span><br><span class="line">        p.add(oval);</span><br><span class="line"><span class="comment">//        Dimension用于设置组件的首选大小</span></span><br><span class="line">        drawArea.setPreferredSize(<span class="keyword">new</span> Dimension(<span class="number">250</span>, <span class="number">180</span>));</span><br><span class="line">        f.add(drawArea);</span><br><span class="line">        f.add(p, BorderLayout.SOUTH);</span><br><span class="line">        f.pack();</span><br><span class="line">        f.setVisible(<span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">MyCanvas</span> <span class="keyword">extends</span> <span class="title">Canvas</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">paint</span><span class="params">(Graphics g)</span> </span>&#123;</span><br><span class="line">            Random rand = <span class="keyword">new</span> Random();</span><br><span class="line">            <span class="keyword">if</span> (shape.equals(RECT_SHAPE)) &#123;</span><br><span class="line">                g.setColor(<span class="keyword">new</span> Color(<span class="number">42</span>, <span class="number">46</span>, <span class="number">220</span>));</span><br><span class="line">                g.drawRect(rand.nextInt(<span class="number">200</span>), rand.nextInt(<span class="number">120</span>), <span class="number">40</span>, <span class="number">60</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (shape.equals(OVAL_SHAPE)) &#123;</span><br><span class="line">                g.setColor(<span class="keyword">new</span> Color(<span class="number">200</span>, <span class="number">29</span>, <span class="number">30</span>));</span><br><span class="line">                g.fillOval(rand.nextInt(<span class="number">200</span>), rand.nextInt(<span class="number">12</span>), <span class="number">50</span>, <span class="number">40</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> SimpleDraw().init();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;Java也可用于开发一些动画。所谓动画，就是间隔一定的时间(通常小于0.1秒)重新绘制新的图像, 两次绘制的图像之间差异较小，肉眼看起来就成了所谓的动画。为了实现间隔一定的时间就重新调用组件的repaint()方法，可以借助于Swing提供的Timer类，Timer类是一个定时器，它有如下一个构造器。</p>
 <ul>
 <li>Timer(int delay, ActionListener listener)：每间隔delay毫秒 ，系统自动触发ActionListener监听器里的事件处理器(actionPerformed()方法)。</li>
 </ul>
-<pre><code class="hljs java"><span class="hljs-keyword">import</span> javax.swing.*;
-<span class="hljs-keyword">import</span> java.awt.*;
-<span class="hljs-keyword">import</span> java.awt.event.ActionListener;
-<span class="hljs-keyword">import</span> java.awt.event.KeyAdapter;
-<span class="hljs-keyword">import</span> java.awt.event.KeyEvent;
-<span class="hljs-keyword">import</span> java.util.Random;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.swing.*;</span><br><span class="line"><span class="keyword">import</span> java.awt.*;</span><br><span class="line"><span class="keyword">import</span> java.awt.event.ActionListener;</span><br><span class="line"><span class="keyword">import</span> java.awt.event.KeyAdapter;</span><br><span class="line"><span class="keyword">import</span> java.awt.event.KeyEvent;</span><br><span class="line"><span class="keyword">import</span> java.util.Random;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> YL</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PinBall</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 桌面宽度 &#123;<span class="doctag">@value</span>&#125;</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> TABLE_WIDTH = <span class="number">300</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 桌面高度 &#123;<span class="doctag">@value</span>&#125;</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> TABLE_HEIGHT = <span class="number">400</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 球拍的垂直位置 &#123;<span class="doctag">@value</span>&#125;</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> RACKET_Y = <span class="number">340</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 球拍的高度 &#123;<span class="doctag">@value</span>&#125;</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> RACKET_HEIGHT = <span class="number">20</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 球拍的宽度 &#123;<span class="doctag">@value</span>&#125;</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> RACKET_WIDTH = <span class="number">60</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 球的大小 &#123;<span class="doctag">@value</span>&#125;</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> BALL_SIZE = <span class="number">16</span>;</span><br><span class="line">    <span class="keyword">private</span> Frame f = <span class="keyword">new</span> Frame(<span class="string">"探求游戏"</span>);</span><br><span class="line">    Random rand = <span class="keyword">new</span> Random();</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 小球的纵向速度</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> ySpeed = <span class="number">10</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 返回一个-0.5-0.5的比率，用于控制小球的运行方向</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">double</span> xyRate = rand.nextDouble() - <span class="number">0.5</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 小球的横向速度</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> xSpeed = (<span class="keyword">int</span>) (ySpeed * xyRate * <span class="number">2</span>);</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 水平坐标</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> ballX = rand.nextInt(<span class="number">200</span>) + <span class="number">20</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 纵向坐标</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> ballY = rand.nextInt(<span class="number">10</span>) + <span class="number">20</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 球拍的水平位置</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> racketX = rand.nextInt(<span class="number">200</span>);</span><br><span class="line">    <span class="keyword">private</span> MyCanvas tableArea = <span class="keyword">new</span> MyCanvas();</span><br><span class="line">    Timer timer;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> isLose = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        tableArea.setPreferredSize(<span class="keyword">new</span> Dimension(TABLE_WIDTH, TABLE_HEIGHT));</span><br><span class="line">        f.add(tableArea);</span><br><span class="line">        KeyAdapter keyProcessor = <span class="keyword">new</span> KeyAdapter() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">keyPressed</span><span class="params">(KeyEvent e)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (e.getKeyCode() == KeyEvent.VK_LEFT) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (racketX &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                        racketX -= <span class="number">10</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (e.getKeyCode() == KeyEvent.VK_RIGHT) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (racketX &lt; TABLE_HEIGHT - RACKET_WIDTH) &#123;</span><br><span class="line">                        racketX += <span class="number">10</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        f.addKeyListener(keyProcessor);</span><br><span class="line">        tableArea.addKeyListener(keyProcessor);</span><br><span class="line"></span><br><span class="line">        ActionListener taskPerformer = evt -&gt; &#123;</span><br><span class="line">            <span class="keyword">if</span> (ballX &lt;= <span class="number">0</span> || ballX &gt;= TABLE_WIDTH - BALL_SIZE) &#123;</span><br><span class="line">                xSpeed = -xSpeed;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (ballY &gt;= RACKET_Y - BALL_SIZE &amp;&amp; (ballX &lt; racketX || ballX &gt; racketX + RACKET_WIDTH)) &#123;</span><br><span class="line">                timer.stop();</span><br><span class="line">                isLose = <span class="keyword">true</span>;</span><br><span class="line">                tableArea.repaint();</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ballY &lt;= <span class="number">0</span> || (ballY &gt;= RACKET_Y - BALL_SIZE &amp;&amp; ballX &lt;= racketX + RACKET_WIDTH)) &#123;</span><br><span class="line">                ySpeed = -ySpeed;</span><br><span class="line">            &#125;</span><br><span class="line">            ballY += ySpeed;</span><br><span class="line">            ballX += xSpeed;</span><br><span class="line">            tableArea.repaint();</span><br><span class="line">        &#125;;</span><br><span class="line">        timer = <span class="keyword">new</span> Timer(<span class="number">100</span>, taskPerformer);</span><br><span class="line">        timer.start();</span><br><span class="line">        f.pack();</span><br><span class="line">        f.setVisible(<span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> PinBall().init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">MyCanvas</span> <span class="keyword">extends</span> <span class="title">Canvas</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">paint</span><span class="params">(Graphics g)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (isLose) &#123;</span><br><span class="line">                g.setColor(<span class="keyword">new</span> Color(<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>));</span><br><span class="line">                g.setFont(<span class="keyword">new</span> Font(<span class="string">"Times"</span>, Font.BOLD, <span class="number">30</span>));</span><br><span class="line">                g.drawString(<span class="string">"游戏已结束"</span>, <span class="number">50</span>, <span class="number">200</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                g.setColor(<span class="keyword">new</span> Color(<span class="number">240</span>, <span class="number">240</span>, <span class="number">80</span>));</span><br><span class="line">                g.fillOval(ballX, ballY, BALL_SIZE, BALL_SIZE);</span><br><span class="line">                g.setColor(<span class="keyword">new</span> Color(<span class="number">80</span>, <span class="number">80</span>, <span class="number">200</span>));</span><br><span class="line">                g.fillRect(racketX, RACKET_Y, RACKET_WIDTH, RACKET_HEIGHT);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
-<span class="hljs-comment">/**</span>
-<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> YL</span>
-<span class="hljs-comment"> */</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PinBall</span> </span>&#123;
-    <span class="hljs-comment">/**</span>
-<span class="hljs-comment">     * 桌面宽度 &#123;<span class="hljs-doctag">@value</span>&#125;</span>
-<span class="hljs-comment">     */</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> TABLE_WIDTH = <span class="hljs-number">300</span>;
-    <span class="hljs-comment">/**</span>
-<span class="hljs-comment">     * 桌面高度 &#123;<span class="hljs-doctag">@value</span>&#125;</span>
-<span class="hljs-comment">     */</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> TABLE_HEIGHT = <span class="hljs-number">400</span>;
-    <span class="hljs-comment">/**</span>
-<span class="hljs-comment">     * 球拍的垂直位置 &#123;<span class="hljs-doctag">@value</span>&#125;</span>
-<span class="hljs-comment">     */</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> RACKET_Y = <span class="hljs-number">340</span>;
-    <span class="hljs-comment">/**</span>
-<span class="hljs-comment">     * 球拍的高度 &#123;<span class="hljs-doctag">@value</span>&#125;</span>
-<span class="hljs-comment">     */</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> RACKET_HEIGHT = <span class="hljs-number">20</span>;
-    <span class="hljs-comment">/**</span>
-<span class="hljs-comment">     * 球拍的宽度 &#123;<span class="hljs-doctag">@value</span>&#125;</span>
-<span class="hljs-comment">     */</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> RACKET_WIDTH = <span class="hljs-number">60</span>;
-    <span class="hljs-comment">/**</span>
-<span class="hljs-comment">     * 球的大小 &#123;<span class="hljs-doctag">@value</span>&#125;</span>
-<span class="hljs-comment">     */</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> BALL_SIZE = <span class="hljs-number">16</span>;
-    <span class="hljs-keyword">private</span> Frame f = <span class="hljs-keyword">new</span> Frame(<span class="hljs-string">"探求游戏"</span>);
-    Random rand = <span class="hljs-keyword">new</span> Random();
-    <span class="hljs-comment">/**</span>
-<span class="hljs-comment">     * 小球的纵向速度</span>
-<span class="hljs-comment">     */</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> ySpeed = <span class="hljs-number">10</span>;
-    <span class="hljs-comment">/**</span>
-<span class="hljs-comment">     * 返回一个-0.5-0.5的比率，用于控制小球的运行方向</span>
-<span class="hljs-comment">     */</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">double</span> xyRate = rand.nextDouble() - <span class="hljs-number">0.5</span>;
-    <span class="hljs-comment">/**</span>
-<span class="hljs-comment">     * 小球的横向速度</span>
-<span class="hljs-comment">     */</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> xSpeed = (<span class="hljs-keyword">int</span>) (ySpeed * xyRate * <span class="hljs-number">2</span>);
-    <span class="hljs-comment">/**</span>
-<span class="hljs-comment">     * 水平坐标</span>
-<span class="hljs-comment">     */</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> ballX = rand.nextInt(<span class="hljs-number">200</span>) + <span class="hljs-number">20</span>;
-    <span class="hljs-comment">/**</span>
-<span class="hljs-comment">     * 纵向坐标</span>
-<span class="hljs-comment">     */</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> ballY = rand.nextInt(<span class="hljs-number">10</span>) + <span class="hljs-number">20</span>;
-    <span class="hljs-comment">/**</span>
-<span class="hljs-comment">     * 球拍的水平位置</span>
-<span class="hljs-comment">     */</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> racketX = rand.nextInt(<span class="hljs-number">200</span>);
-    <span class="hljs-keyword">private</span> MyCanvas tableArea = <span class="hljs-keyword">new</span> MyCanvas();
-    Timer timer;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> isLose = <span class="hljs-keyword">false</span>;
+    </div>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span> </span>&#123;
-        tableArea.setPreferredSize(<span class="hljs-keyword">new</span> Dimension(TABLE_WIDTH, TABLE_HEIGHT));
-        f.add(tableArea);
-        KeyAdapter keyProcessor = <span class="hljs-keyword">new</span> KeyAdapter() &#123;
-            <span class="hljs-meta">@Override</span>
-            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">keyPressed</span><span class="hljs-params">(KeyEvent e)</span> </span>&#123;
-                <span class="hljs-keyword">if</span> (e.getKeyCode() == KeyEvent.VK_LEFT) &#123;
-                    <span class="hljs-keyword">if</span> (racketX &gt; <span class="hljs-number">0</span>) &#123;
-                        racketX -= <span class="hljs-number">10</span>;
-                    &#125;
-                &#125;
-                <span class="hljs-keyword">if</span> (e.getKeyCode() == KeyEvent.VK_RIGHT) &#123;
-                    <span class="hljs-keyword">if</span> (racketX &lt; TABLE_HEIGHT - RACKET_WIDTH) &#123;
-                        racketX += <span class="hljs-number">10</span>;
-                    &#125;
-                &#125;
-            &#125;
-        &#125;;
-        f.addKeyListener(keyProcessor);
-        tableArea.addKeyListener(keyProcessor);
+    
+    
+    
 
-        ActionListener taskPerformer = evt -&gt; &#123;
-            <span class="hljs-keyword">if</span> (ballX &lt;= <span class="hljs-number">0</span> || ballX &gt;= TABLE_WIDTH - BALL_SIZE) &#123;
-                xSpeed = -xSpeed;
-            &#125;
-            <span class="hljs-keyword">if</span> (ballY &gt;= RACKET_Y - BALL_SIZE &amp;&amp; (ballX &lt; racketX || ballX &gt; racketX + RACKET_WIDTH)) &#123;
-                timer.stop();
-                isLose = <span class="hljs-keyword">true</span>;
-                tableArea.repaint();
-            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (ballY &lt;= <span class="hljs-number">0</span> || (ballY &gt;= RACKET_Y - BALL_SIZE &amp;&amp; ballX &lt;= racketX + RACKET_WIDTH)) &#123;
-                ySpeed = -ySpeed;
-            &#125;
-            ballY += ySpeed;
-            ballX += xSpeed;
-            tableArea.repaint();
-        &#125;;
-        timer = <span class="hljs-keyword">new</span> Timer(<span class="hljs-number">100</span>, taskPerformer);
-        timer.start();
-        f.pack();
-        f.setVisible(<span class="hljs-keyword">true</span>);
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        <span class="hljs-keyword">new</span> PinBall().init();
-    &#125;
-
-    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyCanvas</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Canvas</span> </span>&#123;
-        <span class="hljs-meta">@Override</span>
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">paint</span><span class="hljs-params">(Graphics g)</span> </span>&#123;
-            <span class="hljs-keyword">if</span> (isLose) &#123;
-                g.setColor(<span class="hljs-keyword">new</span> Color(<span class="hljs-number">255</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>));
-                g.setFont(<span class="hljs-keyword">new</span> Font(<span class="hljs-string">"Times"</span>, Font.BOLD, <span class="hljs-number">30</span>));
-                g.drawString(<span class="hljs-string">"游戏已结束"</span>, <span class="hljs-number">50</span>, <span class="hljs-number">200</span>);
-            &#125; <span class="hljs-keyword">else</span> &#123;
-                g.setColor(<span class="hljs-keyword">new</span> Color(<span class="hljs-number">240</span>, <span class="hljs-number">240</span>, <span class="hljs-number">80</span>));
-                g.fillOval(ballX, ballY, BALL_SIZE, BALL_SIZE);
-                g.setColor(<span class="hljs-keyword">new</span> Color(<span class="hljs-number">80</span>, <span class="hljs-number">80</span>, <span class="hljs-number">200</span>));
-                g.fillRect(racketX, RACKET_Y, RACKET_WIDTH, RACKET_HEIGHT);
-            &#125;
-        &#125;
-    &#125;
-&#125;</code></pre>
-
-
-            </article>
-            <hr>
-            <div>
-              <div class="post-metas mb-3">
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/java/">java</a>
-                    
-                  </div>
-                
-              </div>
-              
-                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
-              
-              
-                <div class="post-prevnext row">
-                  <div class="post-prev col-6">
-                    
-                    
-                      <a href="/2018/07/28/%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">输入输出</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </div>
-                  <div class="post-next col-6">
-                    
-                    
-                      <a href="/2018/07/26/AWT%E8%8F%9C%E5%8D%95/">
-                        <span class="hidden-mobile">AWT菜单</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </div>
-                </div>
-              
-            </div>
-
-            
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
           </div>
-        </div>
-      </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/07/26/AWT%E8%8F%9C%E5%8D%95/" rel="prev" title="AWT菜单">
+      <i class="fa fa-chevron-left"></i> AWT菜单
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/07/28/%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA/" rel="next" title="输入输出">
+      输入输出 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
+      </footer>
     
-      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
-        <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
-  <div id="tocbot"></div>
-</div>
-
-      </div>
-    
-  </div>
-</div>
-
-<!-- Custom -->
-
-
-    
-  </main>
-
+  </article>
   
-    <a id="scroll-top-button" href="#" role="button">
-      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-    </a>
   
-
-  
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-  
-
-  
-
-  
-
-  <footer class="mt-5">
-  <div class="text-center py-3">
-    <div>
-      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
-      <i class="iconfont icon-love"></i>
-      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
-        <span>Fluid</span></a>
-    </div>
-    
-
-    
-
-    
-  </div>
-</footer>
-
-<!-- SCRIPTS -->
-<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
-<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
-<script  src="/js/debouncer.js" ></script>
-<script  src="/js/main.js" ></script>
-
-<!-- Plugins -->
-
-
-  
-    <script  src="/js/lazyload.js" ></script>
   
 
 
 
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
+          </div>
+          
 
-
-
-
-
-
-
-  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
-  <script>
-    $(document).ready(function () {
-      var boardCtn = $('#board-ctn');
-      var boardTop = boardCtn.offset().top;
-
-      tocbot.init({
-        tocSelector: '#tocbot',
-        contentSelector: 'article.markdown-body',
-        headingSelector: 'h1,h2,h3,h4,h5,h6',
-        linkClass: 'tocbot-link',
-        activeLinkClass: 'tocbot-active-link',
-        listClass: 'tocbot-list',
-        isCollapsedClass: 'tocbot-is-collapsed',
-        collapsibleClass: 'tocbot-is-collapsible',
-        collapseDepth: 0,
-        scrollSmooth: true,
-        headingsOffset: -boardTop
-      });
-      if ($('.toc-list-item').length > 0) {
-        $('#toc').css('visibility', 'visible');
-      }
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
-  <script>
-    var typed = new Typed('#subtitle', {
-      strings: [
-        '  ',
-        "在AWT中绘图&nbsp;",
-      ],
-      cursorChar: "_",
-      typeSpeed: 70,
-      loop: false,
-    });
-    typed.stop();
-    $(document).ready(function () {
-      $(".typed-cursor").addClass("h2");
-      typed.start();
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
-      
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
     }
-    anchors.add(res.join(", "))
-  </script>
-
-
-
-  <script  src="/js/local-search.js" ></script>
-  <script>
-    var path = "/local-search.xml";
-    var inputArea = document.querySelector("#local-search-input");
-    inputArea.onclick = function () {
-      searchFunc(path, 'local-search-input', 'local-search-result');
-      this.onclick = null
-    }
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-  <script>
-    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
-      function () {
-        var element = document.createElement('a');
-        $(element).attr('data-fancybox', 'images');
-        $(element).attr('href', $(this).attr('src'));
-        $(this).wrap(element);
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
       }
-    );
-  </script>
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#画图实现原理"><span class="nav-number">1.</span> <span class="nav-text">画图实现原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用Graphics类"><span class="nav-number">2.</span> <span class="nav-text">使用Graphics类</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xianzheTM"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">xianzheTM</p>
+  <div class="site-description" itemprop="description">希望这里能见证一个菜鸟到大神的路程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xianzheTM" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xianzheTM" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ylxianzhe@outlook.com" title="E-Mail → mailto:ylxianzhe@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xianzheTM</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">687k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">19:05</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 
@@ -686,12 +503,9 @@
 
 
 
+  
 
-
-
-
-
-
+  
 
 </body>
 </html>

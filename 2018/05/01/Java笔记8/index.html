@@ -1,210 +1,250 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
-
-
-
-
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="/img/favicon.png">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yl.dropsec.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="&amp;emsp;有些特殊的类的对象是由固定个数的，例如四季，只有四个。这就是枚举类。这篇就来讲讲枚举类以及垃圾管理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java笔记8">
+<meta property="og:url" content="https://yl.dropsec.xyz/2018/05/01/Java%E7%AC%94%E8%AE%B08/index.html">
+<meta property="og:site_name" content="新日暮里">
+<meta property="og:description" content="&amp;emsp;有些特殊的类的对象是由固定个数的，例如四季，只有四个。这就是枚举类。这篇就来讲讲枚举类以及垃圾管理。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yl.dropsec.xyz/2018/05/01/Java%E7%AC%94%E8%AE%B08/array.png">
+<meta property="article:published_time" content="2018-05-01T07:09:25.000Z">
+<meta property="article:modified_time" content="2020-05-22T05:10:18.650Z">
+<meta property="article:author" content="xianzheTM">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yl.dropsec.xyz/2018/05/01/Java%E7%AC%94%E8%AE%B08/array.png">
+
+<link rel="canonical" href="https://yl.dropsec.xyz/2018/05/01/Java%E7%AC%94%E8%AE%B08/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Java笔记8 | 新日暮里</title>
   
-  <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="希望这里能见证一个菜鸟到大神的路程">
-  <meta name="author" content="xianzheTM">
-  <meta name="keywords" content="">
-  <title>Java笔记8 - 新日暮里</title>
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
-  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
-
-  
-    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
-  
-
-  
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
 
 
-<link  rel="stylesheet" href="/css/main.css" />
 
-<!-- 自定义样式保持在最底部 -->
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-  <script  src="/js/utils.js" ></script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
+</head>
 
-<body>
-  <header style="height: 70vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand"
-       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                首页
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                归档
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                分类
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                标签
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
-          </li>
-        
-      </ul>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
-</nav>
 
-    <div class="view intro-2" id="background" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp">
-            <span class="h2" id="subtitle">
-              
-            </span>
+  <div class="site-meta">
 
-            
-              
-  <div class="mt-3 post-meta">
-    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2018-05-01 15:09">
-      2018年5月1日 下午
-    </time>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">新日暮里</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
   </div>
 
-
-<div class="mt-1">
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-chart"></i>
-      4.1k 字
-    </span>
-  
-
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-clock-fill"></i>
-      
-      
-      49
-       分钟
-    </span>
-  
-
-  
-  
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
 </div>
 
-            
-          </div>
 
-          
-        </div>
-      </div>
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
     </div>
-  </header>
+  </div>
 
-  <main>
+</div>
+    </header>
+
     
-      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
-        <div class="py-5" id="board">
-          <div class="post-content mx-auto" id="post">
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
             
-            <article class="markdown-body">
-              <p>&emsp;有些特殊的类的对象是由固定个数的，例如四季，只有四个。这就是枚举类。这篇就来讲讲枚举类以及垃圾管理。</p>
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yl.dropsec.xyz/2018/05/01/Java%E7%AC%94%E8%AE%B08/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="xianzheTM">
+      <meta itemprop="description" content="希望这里能见证一个菜鸟到大神的路程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新日暮里">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java笔记8
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-05-01 15:09:25" itemprop="dateCreated datePublished" datetime="2018-05-01T15:09:25+08:00">2018-05-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-22 13:10:18" itemprop="dateModified" datetime="2020-05-22T13:10:18+08:00">2020-05-22</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>15 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&emsp;有些特殊的类的对象是由固定个数的，例如四季，只有四个。这就是枚举类。这篇就来讲讲枚举类以及垃圾管理。</p>
 <a id="more"></a>
 
 <h1 id="枚举类"><a href="#枚举类" class="headerlink" title="枚举类"></a>枚举类</h1><h2 id="手动实现枚举类"><a href="#手动实现枚举类" class="headerlink" title="手动实现枚举类"></a>手动实现枚举类</h2><p>&emsp;在以前如果想用枚举类，偷懒的办法是用静态常量来表示，四季用四个数字表示，但是存在许多问题，例如类型不安全，意义不明确等。或者用类来实现，那有太麻烦，需要用private将构造器隐藏起来，把四个季节全都用public static final保存，还要提供一些静态方法使用四个季节。这样就比较麻烦。而在JDK1.5之后就有了枚举类。</p>
@@ -217,37 +257,12 @@
 <li>枚举类的所有<strong>实例</strong>必须在枚举类的第一行显式的列出，系统会自动添加public static final</li>
 <li>枚举类默认提供一个values()方法，用于遍历枚举值</li>
 </ul>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> SeasonEnum&#123;
-    SPRING,SUMMER,FALL,WINTER;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> SeasonEnum&#123;</span><br><span class="line">    SPRING,SUMMER,FALL,WINTER;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;如果需要使用，则通过EnumClass.variable的形式，如Season.SPRING。下面使用values()方法：</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EnumTest</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">judge</span><span class="hljs-params">(SeasonEnum s)</span> </span>&#123;
-        <span class="hljs-keyword">switch</span> (s) &#123;
-        <span class="hljs-keyword">case</span> SPRING:
-            System.out.println(<span class="hljs-string">"春天"</span>);
-            <span class="hljs-keyword">break</span>;
-        <span class="hljs-keyword">case</span> SUMMER:
-            System.out.println(<span class="hljs-string">"夏天"</span>);
-            <span class="hljs-keyword">break</span>;
-        <span class="hljs-keyword">case</span> FALL:
-            System.out.println(<span class="hljs-string">"秋天"</span>);
-            <span class="hljs-keyword">break</span>;
-        <span class="hljs-keyword">case</span> WINTER:
-            System.out.println(<span class="hljs-string">"冬天"</span>);
-        &#125;
-    &#125;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EnumTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">judge</span><span class="params">(SeasonEnum s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (s) &#123;</span><br><span class="line">        <span class="keyword">case</span> SPRING:</span><br><span class="line">            System.out.println(<span class="string">"春天"</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> SUMMER:</span><br><span class="line">            System.out.println(<span class="string">"夏天"</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> FALL:</span><br><span class="line">            System.out.println(<span class="string">"秋天"</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> WINTER:</span><br><span class="line">            System.out.println(<span class="string">"冬天"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (SeasonEnum s : SeasonEnum.values()) &#123;</span><br><span class="line">            System.out.println(s);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">new</span> EnumTest().judge(SeasonEnum.SPRING);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        <span class="hljs-keyword">for</span> (SeasonEnum s : SeasonEnum.values()) &#123;
-            System.out.println(s);
-        &#125;
-        <span class="hljs-keyword">new</span> EnumTest().judge(SeasonEnum.SPRING);
-    &#125;
-&#125;</code></pre>
-
-<p>&emsp;foreach循环中可以接受数组和集合，经过调试，values()方法返回的是数组。<br><br><img src="/2018/05/01/Java%E7%AC%94%E8%AE%B08/array.png" srcset="/img/loading.gif" alt="返回值"><br>&emsp;在上面的代码中，switch控制表达式可以是任意枚举类，而且可以直接用枚举值作为case的值。<br><br>&emsp;由于所有的枚举类继承了java.lang.Enum类，所以可以直接使用改类中的方法：</p>
+<p>&emsp;foreach循环中可以接受数组和集合，经过调试，values()方法返回的是数组。<br><br><img src="/2018/05/01/Java%E7%AC%94%E8%AE%B08/array.png" alt="返回值"><br>&emsp;在上面的代码中，switch控制表达式可以是任意枚举类，而且可以直接用枚举值作为case的值。<br><br>&emsp;由于所有的枚举类继承了java.lang.Enum类，所以可以直接使用改类中的方法：</p>
 <ul>
 <li>int compareTo(E o):与参数比较，若该枚举实例在参数前则返回负整数；若该枚举实例在参数后则返回正整数，否则为0。要求参数必须是与该枚举实例相同的的枚举类实例。</li>
 <li>String name():返回枚举实例的名称，名称就是定义枚举类时所列出的所有枚举值之一。</li>
@@ -255,130 +270,30 @@
 <li>int ordinal():返回枚举值的索引值</li>
 </ul>
 <h2 id="枚举值的成员变量、方法和构造器"><a href="#枚举值的成员变量、方法和构造器" class="headerlink" title="枚举值的成员变量、方法和构造器"></a>枚举值的成员变量、方法和构造器</h2><p>&emsp;枚举值也是一个类，所以可以有自己的成员变量，方法和构造器。</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> Gender&#123;
-    MALE,FEMALE;
-    <span class="hljs-keyword">public</span> String name;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Gender&#123;</span><br><span class="line">    MALE,FEMALE;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GenderTest</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>&#123;
-        Gender g = Enum.valueOf(Gender.class , "FEMALE");
-        g.name = <span class="hljs-string">"女"</span>;
-        System.out.println(g + <span class="hljs-string">"代表："</span> + g.name);
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GenderTest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Gender g = Enum.valueOf(Gender.class , "FEMALE");</span><br><span class="line">        g.name = <span class="string">"女"</span>;</span><br><span class="line">        System.out.println(g + <span class="string">"代表："</span> + g.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;<code>Enum.valueOf(Gender.class , &quot;FEMALE&quot;)</code>这句的意思是将指定名称(“FEMALE”)的指定枚举类型的枚举常量返回给<code>Gender g</code>。简而言之，有“FEMALE”枚举值的这个枚举类实例给了g。但是这里的代码写的很不好，<code>g.name = &quot;女&quot;</code>直接对对象的成员变量修改是不好的，可能出现FEMALE代表了男的情况。应该将name改为private的。</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> Gender &#123;
-    MALE, FEMALE;
-    <span class="hljs-keyword">private</span> String name;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setName</span><span class="hljs-params">(String name)</span> </span>&#123;
-        <span class="hljs-keyword">switch</span> (<span class="hljs-keyword">this</span>) &#123;
-        <span class="hljs-keyword">case</span> MALE:
-            <span class="hljs-keyword">if</span> (name.equals(<span class="hljs-string">"男"</span>))&#123;
-                <span class="hljs-keyword">this</span>.name = name;
-            &#125; <span class="hljs-keyword">else</span> &#123;
-                System.out.println(<span class="hljs-string">"参数错误"</span>);
-                <span class="hljs-keyword">return</span>;
-            &#125;
-            <span class="hljs-keyword">break</span>;
-        <span class="hljs-keyword">case</span> FEMALE:
-            <span class="hljs-keyword">if</span> (name.equals(<span class="hljs-string">"女"</span>))&#123;
-                <span class="hljs-keyword">this</span>.name = name;
-            &#125; <span class="hljs-keyword">else</span> &#123;
-                System.out.println(<span class="hljs-string">"参数错误"</span>);
-                <span class="hljs-keyword">return</span>;
-            &#125;
-            <span class="hljs-keyword">break</span>;
-        &#125;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span></span>&#123;
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.name;
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Gender &#123;</span><br><span class="line">    MALE, FEMALE;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">        <span class="keyword">case</span> MALE:</span><br><span class="line">            <span class="keyword">if</span> (name.equals(<span class="string">"男"</span>))&#123;</span><br><span class="line">                <span class="keyword">this</span>.name = name;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">"参数错误"</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> FEMALE:</span><br><span class="line">            <span class="keyword">if</span> (name.equals(<span class="string">"女"</span>))&#123;</span><br><span class="line">                <span class="keyword">this</span>.name = name;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">"参数错误"</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;这样就避免了直接对name操作，也避免了将“男”传给FEMALE这种事。但是这样的代码还是存在问题，枚举类通常应该设计成不可变类，其成员变量值不应该允许改变，因此最好用private final修饰成员变量。联系以前的知识，如果变量都用final修饰，则应在构造器中指定初始值，或者定义成员变量时指定初始值，或者在初始化块中指定初始值。</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> Gender&#123;
-    MALE(<span class="hljs-string">"男"</span>),FEMALE(<span class="hljs-string">"女"</span>);
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String name;
-    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Gender</span><span class="hljs-params">(String name)</span></span>&#123;
-        <span class="hljs-keyword">this</span>.name = name;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span></span>&#123;
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.name;
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Gender&#123;</span><br><span class="line">    MALE(<span class="string">"男"</span>),FEMALE(<span class="string">"女"</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String name;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Gender</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;这段代码相当于下面这段：</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Gender MALE = <span class="hljs-keyword">new</span> Gender(<span class="hljs-string">"男"</span>);
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Gender FEMALE = <span class="hljs-keyword">new</span> Gender(<span class="hljs-string">"女"</span>);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Gender MALE = <span class="keyword">new</span> Gender(<span class="string">"男"</span>);</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Gender FEMALE = <span class="keyword">new</span> Gender(<span class="string">"女"</span>);</span><br></pre></td></tr></table></figure>
 
 <h2 id="实现接口的枚举类"><a href="#实现接口的枚举类" class="headerlink" title="实现接口的枚举类"></a>实现接口的枚举类</h2><p>&emsp;与普通方法类似，枚举类实现一个或多个接口时，也需要实现该接口所包含的方法。</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">GenderDesc</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">info</span><span class="hljs-params">()</span></span>;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">GenderDesc</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">info</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> Gender implements GenderDesc&#123;
-    MALE(<span class="hljs-string">"男"</span>),FEMALE(<span class="hljs-string">"女"</span>);
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String name;
-    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Gender</span><span class="hljs-params">(String name)</span></span>&#123;
-        <span class="hljs-keyword">this</span>.name = name;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span></span>&#123;
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.name;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">info</span><span class="hljs-params">()</span></span>&#123;
-        System.out.println(<span class="hljs-string">"这是一个定义性别的枚举类"</span>);
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Gender implements GenderDesc&#123;</span><br><span class="line">    MALE(<span class="string">"男"</span>),FEMALE(<span class="string">"女"</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String name;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Gender</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">info</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"这是一个定义性别的枚举类"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;但是这样子写有个问题，“男”和“女”的类体是一样的，不论哪个调用info()方法结果都是一样的。因为它们具有同一个方法题，所以需要拆分开。<br></p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> Gender implements GenderDesc&#123;
-    MALE(<span class="hljs-string">"男"</span>)&#123;
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">info</span><span class="hljs-params">()</span></span>&#123;
-            System.out.println(<span class="hljs-string">"这个枚举值代表男性"</span>);
-        &#125;
-    &#125;,
-    FEMALE(<span class="hljs-string">"女"</span>)&#123;
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">info</span><span class="hljs-params">()</span></span>&#123;
-            System.out.println(<span class="hljs-string">"这个枚举值代表女性"</span>);
-        &#125;
-    &#125;;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Gender implements GenderDesc&#123;</span><br><span class="line">    MALE(<span class="string">"男"</span>)&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">info</span><span class="params">()</span></span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"这个枚举值代表男性"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    FEMALE(<span class="string">"女"</span>)&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">info</span><span class="params">()</span></span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"这个枚举值代表女性"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;这个代码和匿名内部类语法类似，花括号实际就是类体的一部分。编译上面的程序会产生Gender.class,Gender$1.class,Gender$2.class三个文件，MALE和FEMALE实际是Gender匿名子类的实例，不是Gender类的实例。</p>
 <h2 id="包含抽象方法的枚举类"><a href="#包含抽象方法的枚举类" class="headerlink" title="包含抽象方法的枚举类"></a>包含抽象方法的枚举类</h2><p>&emsp;假设有个Operation枚举类，有四个枚举值分别代表加，减，乘，除，再定义一个eval方法完成计算。但是不同的枚举值会有不同的操作，所以可以将eval定义为抽象方法，让四个枚举值分别为eval提供不同的实现。</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> Operation &#123;
-    PLUS &#123;
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> <span class="hljs-title">eval</span><span class="hljs-params">(<span class="hljs-keyword">double</span> x, <span class="hljs-keyword">double</span> y)</span> </span>&#123;
-            <span class="hljs-keyword">return</span> x + y;
-        &#125;
-    &#125;,
-    MINUS &#123;
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> <span class="hljs-title">eval</span><span class="hljs-params">(<span class="hljs-keyword">double</span> x, <span class="hljs-keyword">double</span> y)</span> </span>&#123;
-            <span class="hljs-keyword">return</span> x - y;
-        &#125;
-    &#125;,
-    TIMES &#123;
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> <span class="hljs-title">eval</span><span class="hljs-params">(<span class="hljs-keyword">double</span> x, <span class="hljs-keyword">double</span> y)</span> </span>&#123;
-            <span class="hljs-keyword">return</span> x * y;
-        &#125;
-    &#125;,
-    DIVIDE &#123;
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> <span class="hljs-title">eval</span><span class="hljs-params">(<span class="hljs-keyword">double</span> x, <span class="hljs-keyword">double</span> y)</span> </span>&#123;
-            <span class="hljs-keyword">return</span> x / y;
-        &#125;
-    &#125;;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">double</span> <span class="hljs-title">eval</span><span class="hljs-params">(<span class="hljs-keyword">double</span> x,<span class="hljs-keyword">double</span> y)</span></span>;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        System.out.println(Operation.PLUS.eval(<span class="hljs-number">3</span>,<span class="hljs-number">4</span>));
-        System.out.println(Operation.MINUS.eval(<span class="hljs-number">3</span>,<span class="hljs-number">4</span>));
-        System.out.println(Operation.TIMES.eval(<span class="hljs-number">3</span>,<span class="hljs-number">4</span>));
-        System.out.println(Operation.DIVIDE.eval(<span class="hljs-number">3</span>,<span class="hljs-number">4</span>));
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Operation &#123;</span><br><span class="line">    PLUS &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">eval</span><span class="params">(<span class="keyword">double</span> x, <span class="keyword">double</span> y)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> x + y;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    MINUS &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">eval</span><span class="params">(<span class="keyword">double</span> x, <span class="keyword">double</span> y)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> x - y;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    TIMES &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">eval</span><span class="params">(<span class="keyword">double</span> x, <span class="keyword">double</span> y)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> x * y;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    DIVIDE &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">eval</span><span class="params">(<span class="keyword">double</span> x, <span class="keyword">double</span> y)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> x / y;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">double</span> <span class="title">eval</span><span class="params">(<span class="keyword">double</span> x,<span class="keyword">double</span> y)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(Operation.PLUS.eval(<span class="number">3</span>,<span class="number">4</span>));</span><br><span class="line">        System.out.println(Operation.MINUS.eval(<span class="number">3</span>,<span class="number">4</span>));</span><br><span class="line">        System.out.println(Operation.TIMES.eval(<span class="number">3</span>,<span class="number">4</span>));</span><br><span class="line">        System.out.println(Operation.DIVIDE.eval(<span class="number">3</span>,<span class="number">4</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;编译上面的代码会产生5个class文件。枚举类里定义抽象方法时不能用abstract将枚举类定义为抽象类，因为系统会自动添加。同时，每个枚举值都要为抽象方法提供实现。<br><br>&emsp;对于理解枚举类，最关键的就是就是将第一行（到’;’为止）的枚举值先剔除不看，把枚举值作为枚举类的实例，当作一个普通类，再来理解上面的代码。</p>
 <h1 id="对象与垃圾回收"><a href="#对象与垃圾回收" class="headerlink" title="对象与垃圾回收"></a>对象与垃圾回收</h1><p>&emsp;当程序创建对象，数组等引用实体类型时，系统都会在堆内存分配一块内存区，对象就保存在这里，当这块内存不再有任何引用变量引用时，这块内存就变为垃圾，等待垃圾回收机制回收，垃圾回收机制具有如下机制：</p>
@@ -394,29 +309,10 @@
 <li>不可达状态：当finalize()被调用后仍然没有使对象恢复为可达状态，这是就是不可达状态，系统就会回收对象所占用的资源</li>
 </ul>
 <h2 id="强制垃圾回收"><a href="#强制垃圾回收" class="headerlink" title="强制垃圾回收"></a>强制垃圾回收</h2><p>&emsp;当一个对象失去引用后，系统何时调用finalize()方法，何时回收资源是不可控的，能控制的只有对某个对象不再引用。虽然存在强制回收的方式：调用System类的gc()静态方法System.gc()和Buntime对象的gc()实例方法Runtime.getRuntime.gc()。但是这种方式只是通知系统回收，系统是否进行垃圾回收仍然是不可确定的。</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Gctest</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">4</span>; i++) &#123;
-            <span class="hljs-keyword">new</span> Gctest();
-        &#125;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">finalize</span><span class="hljs-params">()</span></span>&#123;
-        System.out.println(<span class="hljs-string">"系统正在清理"</span>);
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Gctest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">new</span> Gctest();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">finalize</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"系统正在清理"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;这里重写了finalize()方法，如果说进行了垃圾回收，那么就会调用到重写的方法，但是什么都没出现，那么代表没有进行回收。</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Gctest</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">4</span>; i++) &#123;
-            <span class="hljs-keyword">new</span> Gctest();
-            Runtime.getRuntime().gc();
-        &#125;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">finalize</span><span class="hljs-params">()</span></span>&#123;
-        System.out.println(<span class="hljs-string">"系统正在清理"</span>);
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Gctest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">new</span> Gctest();</span><br><span class="line">            Runtime.getRuntime().gc();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">finalize</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"系统正在清理"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;这样子后发现就进行了回收。而且当在Eclipse的Run As&gt;Run Configurations&gt;Arguments&gt;VM arguments中添加参数<code>-verbose:gc</code>或<code>-XX:+PrintGC</code>可以看到垃圾回收的简略信息,而参数<code>-XX:+PrintGCDetails</code>可以看到详细信息。</p>
 <h2 id="finalize方法"><a href="#finalize方法" class="headerlink" title="finalize方法"></a>finalize方法</h2><p>&emsp;finalize()方法的原型为<code>protected void finalize() throws Throwable</code>,是定义在Object类中的实例方法，具有如下特点：</p>
@@ -433,20 +329,7 @@
 <h3 id="虚引用（PhantomReference）"><a href="#虚引用（PhantomReference）" class="headerlink" title="虚引用（PhantomReference）"></a>虚引用（PhantomReference）</h3><p>&emsp;虚引用通过PhantomReference类实现，虚引用完全类似没有引用，虚引用主要用于跟踪垃圾回收状态，虚引用不能单独使用，必须和引用队列（ReferenceQueue）联合使用。</p>
 <hr>
 <p>&emsp;三个引用类都包含了一个get()方法，用于获取被它们引用的对象。<br><br>&emsp;引用队列由java.lang.ref.ReferenceQueue类表示，它用于保存被回收后的对象的引用。当联合使用软引用，弱引用和引用队列时，系统在回收被引用的对象后，将把被回收对象的引用添加到关联的引用队列。而对于虚引用，它实在对象被释放之前就被添加到关联的引用队列中，这使得可以在对象被回收之前采取行动。软引用和弱引用可以单独使用，但是虚引用不能。单独使用虚引用没什么意义，虚引用的作用就是跟踪对象被垃圾回收的状态，程序可以通过检查与虚引用关联的引用队列中是否已经包含了该虚引用，从而了解虚引用所引用的对象是否即将被回收。</p>
-<pre><code class="hljs java"><span class="hljs-keyword">import</span> java.lang.ref.WeakReference;
-
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ReferenceTest</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
-        String str = <span class="hljs-keyword">new</span> String(<span class="hljs-string">"算法导论"</span>);
-        WeakReference wr = <span class="hljs-keyword">new</span> WeakReference(str);
-        str = <span class="hljs-keyword">null</span>;
-        System.out.println(wr.get());
-        System.gc();
-        System.runFinalization();
-        System.out.println(wr.get());
-    &#125;
-
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.ref.WeakReference;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReferenceTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        String str = <span class="keyword">new</span> String(<span class="string">"算法导论"</span>);</span><br><span class="line">        WeakReference wr = <span class="keyword">new</span> WeakReference(str);</span><br><span class="line">        str = <span class="keyword">null</span>;</span><br><span class="line">        System.out.println(wr.get());</span><br><span class="line">        System.gc();</span><br><span class="line">        System.runFinalization();</span><br><span class="line">        System.out.println(wr.get());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;上面的代码创建了一个字符串,str强引用到字符串，wr弱引用到字符串，然后将str与对象的引用切断。结果会输出字符串和null。不要使用<code>String str=&quot;算法导论&quot;;</code>的方式，这样产生的字符串将有常量池管理，系统不会回收这个字符串直接量。<br><br>&emsp;如果要使用这种由软引用或弱引用引用的对象，在使用get()方法后要注意是否成功取出了对象，因为有可能已近被释放了。</p>
 <h1 id="使用jar文件"><a href="#使用jar文件" class="headerlink" title="使用jar文件"></a>使用jar文件</h1><p>&emsp;jar类似于压缩文件，与zip文件兼容，但是多了一个META-INF/MANIFEST.MF的清单文件。当把jar文件给别人使用时，只用把jar的位置添加到CLASSPATH中，JVM就会自动在内存中解压这个包，把这个包作为CLASSPATH的一部分，可以直接调用里面的文件。</p>
@@ -460,8 +343,7 @@
 <li>文件以一个空行结尾</li>
 </ul>
 <p>&emsp;保存在当前文件夹，名字随意，用txt格式。假如添加了如下内容，且保存为a.txt。</p>
-<pre><code class="hljs java">Manifest-Version: <span class="hljs-number">1.0</span>txt
-Created-By: <span class="hljs-number">9.0</span><span class="hljs-number">.4</span> (Oracle Corporation)</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Manifest-Version: <span class="number">1.0</span>txt</span><br><span class="line">Created-By: <span class="number">9.0</span><span class="number">.4</span> (Oracle Corporation)</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;运行命令<code>jar cvfm test.jar a.txt test</code>，打开jar文件，test.jar&gt;META-INF&gt;MANIFEST.MF，里面写的就是上面的内容。</p>
 <h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><ul>
@@ -474,235 +356,203 @@ Created-By: <span class="hljs-number">9.0</span><span class="hljs-number">.4</sp
 </ul>
 <h2 id="创建可执行的jar文件"><a href="#创建可执行的jar文件" class="headerlink" title="创建可执行的jar文件"></a>创建可执行的jar文件</h2><p>&emsp;<code>jar cvfe test.jar test.Test test</code>，用-e参数指定主类，要注意在jar文件中的test文件夹下有Test这个竹类，且要是.class文件。前面，所有的添加操作都是如此，一定要把.java和.class文件都包含进去。<br><br>&emsp;运行这个jar包的命令是<code>java -jar test.jar</code>和<code>javaw test.jar</code>。</p>
 
-            </article>
-            <hr>
-            <div>
-              <div class="post-metas mb-3">
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/java/">java</a>
-                    
-                  </div>
-                
-              </div>
-              
-                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
-              
-              
-                <div class="post-prevnext row">
-                  <div class="post-prev col-6">
-                    
-                    
-                      <a href="/2018/05/06/Java%E7%AC%94%E8%AE%B09/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Java笔记9</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </div>
-                  <div class="post-next col-6">
-                    
-                    
-                      <a href="/2018/04/24/Python%E7%AC%94%E8%AE%B01/">
-                        <span class="hidden-mobile">Python笔记1</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </div>
-                </div>
-              
-            </div>
+    </div>
 
-            
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
           </div>
-        </div>
-      </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/04/24/Python%E7%AC%94%E8%AE%B01/" rel="prev" title="Python笔记1">
+      <i class="fa fa-chevron-left"></i> Python笔记1
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/05/06/Java%E7%AC%94%E8%AE%B09/" rel="next" title="Java笔记9">
+      Java笔记9 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
+      </footer>
     
-      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
-        <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
-  <div id="tocbot"></div>
-</div>
-
-      </div>
-    
-  </div>
-</div>
-
-<!-- Custom -->
-
-
-    
-  </main>
-
+  </article>
   
-    <a id="scroll-top-button" href="#" role="button">
-      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-    </a>
   
-
-  
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-  
-
-  
-
-  
-
-  <footer class="mt-5">
-  <div class="text-center py-3">
-    <div>
-      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
-      <i class="iconfont icon-love"></i>
-      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
-        <span>Fluid</span></a>
-    </div>
-    
-
-    
-
-    
-  </div>
-</footer>
-
-<!-- SCRIPTS -->
-<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
-<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
-<script  src="/js/debouncer.js" ></script>
-<script  src="/js/main.js" ></script>
-
-<!-- Plugins -->
-
-
-  
-    <script  src="/js/lazyload.js" ></script>
   
 
 
 
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
+          </div>
+          
 
-
-
-
-
-
-
-  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
-  <script>
-    $(document).ready(function () {
-      var boardCtn = $('#board-ctn');
-      var boardTop = boardCtn.offset().top;
-
-      tocbot.init({
-        tocSelector: '#tocbot',
-        contentSelector: 'article.markdown-body',
-        headingSelector: 'h1,h2,h3,h4,h5,h6',
-        linkClass: 'tocbot-link',
-        activeLinkClass: 'tocbot-active-link',
-        listClass: 'tocbot-list',
-        isCollapsedClass: 'tocbot-is-collapsed',
-        collapsibleClass: 'tocbot-is-collapsible',
-        collapseDepth: 0,
-        scrollSmooth: true,
-        headingsOffset: -boardTop
-      });
-      if ($('.toc-list-item').length > 0) {
-        $('#toc').css('visibility', 'visible');
-      }
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
-  <script>
-    var typed = new Typed('#subtitle', {
-      strings: [
-        '  ',
-        "Java笔记8&nbsp;",
-      ],
-      cursorChar: "_",
-      typeSpeed: 70,
-      loop: false,
-    });
-    typed.stop();
-    $(document).ready(function () {
-      $(".typed-cursor").addClass("h2");
-      typed.start();
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
-      
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
     }
-    anchors.add(res.join(", "))
-  </script>
-
-
-
-  <script  src="/js/local-search.js" ></script>
-  <script>
-    var path = "/local-search.xml";
-    var inputArea = document.querySelector("#local-search-input");
-    inputArea.onclick = function () {
-      searchFunc(path, 'local-search-input', 'local-search-result');
-      this.onclick = null
-    }
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-  <script>
-    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
-      function () {
-        var element = document.createElement('a');
-        $(element).attr('data-fancybox', 'images');
-        $(element).attr('href', $(this).attr('src'));
-        $(this).wrap(element);
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
       }
-    );
-  </script>
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#枚举类"><span class="nav-number">1.</span> <span class="nav-text">枚举类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#手动实现枚举类"><span class="nav-number">1.1.</span> <span class="nav-text">手动实现枚举类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#枚举类入门"><span class="nav-number">1.2.</span> <span class="nav-text">枚举类入门</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#枚举值的成员变量、方法和构造器"><span class="nav-number">1.3.</span> <span class="nav-text">枚举值的成员变量、方法和构造器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现接口的枚举类"><span class="nav-number">1.4.</span> <span class="nav-text">实现接口的枚举类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#包含抽象方法的枚举类"><span class="nav-number">1.5.</span> <span class="nav-text">包含抽象方法的枚举类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对象与垃圾回收"><span class="nav-number">2.</span> <span class="nav-text">对象与垃圾回收</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#对象在内存中的状态"><span class="nav-number">2.1.</span> <span class="nav-text">对象在内存中的状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#强制垃圾回收"><span class="nav-number">2.2.</span> <span class="nav-text">强制垃圾回收</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#finalize方法"><span class="nav-number">2.3.</span> <span class="nav-text">finalize方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象的软，弱和虚引用"><span class="nav-number">2.4.</span> <span class="nav-text">对象的软，弱和虚引用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#强引用（StrongReference）"><span class="nav-number">2.4.1.</span> <span class="nav-text">强引用（StrongReference）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软引用（SoftReference）"><span class="nav-number">2.4.2.</span> <span class="nav-text">软引用（SoftReference）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#弱引用（WeakReference）"><span class="nav-number">2.4.3.</span> <span class="nav-text">弱引用（WeakReference）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚引用（PhantomReference）"><span class="nav-number">2.4.4.</span> <span class="nav-text">虚引用（PhantomReference）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用jar文件"><span class="nav-number">3.</span> <span class="nav-text">使用jar文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jar命令详解"><span class="nav-number">3.1.</span> <span class="nav-text">jar命令详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建JAR文件"><span class="nav-number">3.1.1.</span> <span class="nav-text">创建JAR文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不添加清单文件"><span class="nav-number">3.1.2.</span> <span class="nav-text">不添加清单文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义清单文件内容"><span class="nav-number">3.1.3.</span> <span class="nav-text">自定义清单文件内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他命令"><span class="nav-number">3.1.4.</span> <span class="nav-text">其他命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建可执行的jar文件"><span class="nav-number">3.2.</span> <span class="nav-text">创建可执行的jar文件</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xianzheTM"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">xianzheTM</p>
+  <div class="site-description" itemprop="description">希望这里能见证一个菜鸟到大神的路程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xianzheTM" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xianzheTM" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ylxianzhe@outlook.com" title="E-Mail → mailto:ylxianzhe@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xianzheTM</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">687k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">19:05</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 
@@ -716,12 +566,9 @@ Created-By: <span class="hljs-number">9.0</span><span class="hljs-number">.4</sp
 
 
 
+  
 
-
-
-
-
-
+  
 
 </body>
 </html>

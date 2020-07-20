@@ -1,253 +1,254 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
-
-
-
-
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="/img/favicon.png">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yl.dropsec.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Java集合分为Collection接口和Map接口两个体系。Collection又分为List接口和Set接口，List元素有序，可重复。Set元素无序，不可重复。Map则是键值对。 List：ArrayList,LinkedList,Vector Set:HashSet,LinkedHashSet,TreeSet Map:HashMap,LinkedHashMap,TreeMap,HashTa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="集合（复习6）">
+<meta property="og:url" content="https://yl.dropsec.xyz/2020/05/29/%E9%9B%86%E5%90%88%EF%BC%88%E5%A4%8D%E4%B9%A06%EF%BC%89/index.html">
+<meta property="og:site_name" content="新日暮里">
+<meta property="og:description" content="Java集合分为Collection接口和Map接口两个体系。Collection又分为List接口和Set接口，List元素有序，可重复。Set元素无序，不可重复。Map则是键值对。 List：ArrayList,LinkedList,Vector Set:HashSet,LinkedHashSet,TreeSet Map:HashMap,LinkedHashMap,TreeMap,HashTa">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yl.dropsec.xyz/2020/05/29/%E9%9B%86%E5%90%88%EF%BC%88%E5%A4%8D%E4%B9%A06%EF%BC%89/image-20200530102858149.png">
+<meta property="article:published_time" content="2020-05-29T01:53:29.000Z">
+<meta property="article:modified_time" content="2020-06-02T06:01:53.171Z">
+<meta property="article:author" content="xianzheTM">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yl.dropsec.xyz/2020/05/29/%E9%9B%86%E5%90%88%EF%BC%88%E5%A4%8D%E4%B9%A06%EF%BC%89/image-20200530102858149.png">
+
+<link rel="canonical" href="https://yl.dropsec.xyz/2020/05/29/%E9%9B%86%E5%90%88%EF%BC%88%E5%A4%8D%E4%B9%A06%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>集合（复习6） | 新日暮里</title>
   
-  <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="希望这里能见证一个菜鸟到大神的路程">
-  <meta name="author" content="xianzheTM">
-  <meta name="keywords" content="">
-  <title>集合（复习6） - 新日暮里</title>
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
-  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
-
-  
-    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
-  
-
-  
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
 
 
-<link  rel="stylesheet" href="/css/main.css" />
 
-<!-- 自定义样式保持在最底部 -->
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-  <script  src="/js/utils.js" ></script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
+</head>
 
-<body>
-  <header style="height: 70vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand"
-       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                首页
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                归档
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                分类
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                标签
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
-          </li>
-        
-      </ul>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
-</nav>
 
-    <div class="view intro-2" id="background" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp">
-            <span class="h2" id="subtitle">
-              
-            </span>
+  <div class="site-meta">
 
-            
-              
-  <div class="mt-3 post-meta">
-    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-05-29 09:53">
-      2020年5月29日 上午
-    </time>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">新日暮里</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
   </div>
 
-
-<div class="mt-1">
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-chart"></i>
-      3.6k 字
-    </span>
-  
-
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-clock-fill"></i>
-      
-      
-      45
-       分钟
-    </span>
-  
-
-  
-  
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
 </div>
 
-            
-          </div>
 
-          
-        </div>
-      </div>
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
     </div>
-  </header>
+  </div>
 
-  <main>
+</div>
+    </header>
+
     
-      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
-        <div class="py-5" id="board">
-          <div class="post-content mx-auto" id="post">
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
             
-            <article class="markdown-body">
-              <p>Java集合分为Collection接口和Map接口两个体系。Collection又分为List接口和Set接口，List元素有序，可重复。Set元素无序，不可重复。Map则是键值对。</p>
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yl.dropsec.xyz/2020/05/29/%E9%9B%86%E5%90%88%EF%BC%88%E5%A4%8D%E4%B9%A06%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="xianzheTM">
+      <meta itemprop="description" content="希望这里能见证一个菜鸟到大神的路程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新日暮里">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          集合（复习6）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-29 09:53:29" itemprop="dateCreated datePublished" datetime="2020-05-29T09:53:29+08:00">2020-05-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-02 14:01:53" itemprop="dateModified" datetime="2020-06-02T14:01:53+08:00">2020-06-02</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>9.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>15 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Java集合分为Collection接口和Map接口两个体系。Collection又分为List接口和Set接口，List元素有序，可重复。Set元素无序，不可重复。Map则是键值对。</p>
 <p>List：ArrayList,LinkedList,Vector</p>
 <p>Set:HashSet,LinkedHashSet,TreeSet</p>
 <p>Map:HashMap,LinkedHashMap,TreeMap,HashTable,Properties</p>
-<h1 id="Collection"><a href="#Collection" class="headerlink" title="Collection"></a>Collection</h1><pre><code class="hljs java"><span class="hljs-meta">@Test</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Test</span><span class="hljs-params">()</span> </span>&#123;
-        Collection coll=<span class="hljs-keyword">new</span> ArrayList();
-        <span class="hljs-comment">//add(E e)</span>
-        coll.add(<span class="hljs-number">123</span>);
-        coll.add(<span class="hljs-string">"hell"</span>);
-        <span class="hljs-comment">//addAll()，把某集合全部加进来</span>
-        <span class="hljs-comment">//isEmpty(),判断是否为空</span>
-        <span class="hljs-comment">//clear()，清空集合元素</span>
-        <span class="hljs-comment">//contains()，判断是否包含某个对象（用内容判断，即调用equals判断，若是没有重写equals就不行）</span>
-        <span class="hljs-comment">//containsAll(Collection coll),判断coll的数据是否都被包含在调用者的集合中</span>
-
-        <span class="hljs-comment">//remove(Object o),移除参数指明的元素，因为要判断是否存在，故也要重写equals</span>
-        <span class="hljs-comment">//removeAll(coll),移除所有,求差集</span>
-
-        <span class="hljs-comment">//retainAll(coll)，求交集</span>
-
-        <span class="hljs-comment">//hashCode()返回哈希值</span>
-
-        <span class="hljs-comment">//toArray()，转换为数组</span>
-        <span class="hljs-comment">//asList()，数组转为List</span>
-
-        <span class="hljs-comment">//iterator(),返回一个iterator接口的实例，用于遍历集合（Collection）</span>
-        Iterator iterator = coll.iterator();<span class="hljs-comment">//集合对象每次调用iterator方法都会得到一个全新的iterator对象</span>
-        System.out.println(iterator.next());
-
-        <span class="hljs-keyword">while</span> (iterator.hasNext()) &#123;
-            Object obj = iterator.next();
-            <span class="hljs-keyword">if</span> (<span class="hljs-string">"Tom"</span>.equals(obj)) &#123;
-                iterator.remove();<span class="hljs-comment">//删除，如果还未调用next，或者上一次调用next方法后已经用过remove方法紧接着继续用，都会出异常</span>
-                <span class="hljs-comment">//第一种是因为next指针还没指到第一个，第二种是因为remove之后，next指针还没向下移动就继续删</span>
-            &#125;
-        &#125;
-        <span class="hljs-keyword">while</span> (coll.iterator().hasNext()) &#123;<span class="hljs-comment">//必须要重新拿个iterator，因为上面遍历后，next指针不在开头了</span>
-            <span class="hljs-comment">//指针下移，返回指针所指元素</span>
-            System.out.println(iterator.next());
-        &#125;
-
-
-    &#125;</code></pre>
+<h1 id="Collection"><a href="#Collection" class="headerlink" title="Collection"></a>Collection</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Collection coll=<span class="keyword">new</span> ArrayList();</span><br><span class="line">        <span class="comment">//add(E e)</span></span><br><span class="line">        coll.add(<span class="number">123</span>);</span><br><span class="line">        coll.add(<span class="string">"hell"</span>);</span><br><span class="line">        <span class="comment">//addAll()，把某集合全部加进来</span></span><br><span class="line">        <span class="comment">//isEmpty(),判断是否为空</span></span><br><span class="line">        <span class="comment">//clear()，清空集合元素</span></span><br><span class="line">        <span class="comment">//contains()，判断是否包含某个对象（用内容判断，即调用equals判断，若是没有重写equals就不行）</span></span><br><span class="line">        <span class="comment">//containsAll(Collection coll),判断coll的数据是否都被包含在调用者的集合中</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//remove(Object o),移除参数指明的元素，因为要判断是否存在，故也要重写equals</span></span><br><span class="line">        <span class="comment">//removeAll(coll),移除所有,求差集</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//retainAll(coll)，求交集</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//hashCode()返回哈希值</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//toArray()，转换为数组</span></span><br><span class="line">        <span class="comment">//asList()，数组转为List</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//iterator(),返回一个iterator接口的实例，用于遍历集合（Collection）</span></span><br><span class="line">        Iterator iterator = coll.iterator();<span class="comment">//集合对象每次调用iterator方法都会得到一个全新的iterator对象</span></span><br><span class="line">        System.out.println(iterator.next());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">            Object obj = iterator.next();</span><br><span class="line">            <span class="keyword">if</span> (<span class="string">"Tom"</span>.equals(obj)) &#123;</span><br><span class="line">                iterator.remove();<span class="comment">//删除，如果还未调用next，或者上一次调用next方法后已经用过remove方法紧接着继续用，都会出异常</span></span><br><span class="line">                <span class="comment">//第一种是因为next指针还没指到第一个，第二种是因为remove之后，next指针还没向下移动就继续删</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (coll.iterator().hasNext()) &#123;<span class="comment">//必须要重新拿个iterator，因为上面遍历后，next指针不在开头了</span></span><br><span class="line">            <span class="comment">//指针下移，返回指针所指元素</span></span><br><span class="line">            System.out.println(iterator.next());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><p>ArrayList作为List的主要实现类线程不安全，效率高，底层使用Object数组,Vector作为List的古老实现类，比List接口还要早，线程安全，效率低,底层也是用的Object数组。LinkedList底层使用双向链表实现，插入删除效率高。</p>
 <p>ArrayList的源码：</p>
@@ -270,25 +271,7 @@
 <p>所以，在类中没有重写hashcode方法，只重写了equals方法时，两个内容一样的对象可以放到HashSet中，因为算出来的hash值不一样，位置也就不一样了，直接就放进去，没有调用equals方法。</p>
 <p>LinkedHashSet是在HashSet原有基础上为每个元素添加了一对指针域，使得遍历可以按照添加顺序来。对于频繁遍历的操作，LinkedHashSet更加高效。</p>
 <p>TreeSet只能添加同类的元素。而且可以按照添加的元素的属性进行排序。排序分为自然排序，即自定义类要实现Comparable接口。TreeSet的自然排序是用compareTo()方法，不是equals.而定制排序需要在TreeSet的构造器中传入一个Comparator。</p>
-<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Test</span><span class="hljs-params">()</span> </span>&#123;
-    Person p1 = <span class="hljs-keyword">new</span> Person(<span class="hljs-number">1001</span>, <span class="hljs-string">"aa"</span>);
-    Person p2 = <span class="hljs-keyword">new</span> Person(<span class="hljs-number">1002</span>, <span class="hljs-string">"bb"</span>);
-
-    HashSet set = <span class="hljs-keyword">new</span> HashSet();
-    set.add(p1);
-    set.add(p2);
-    System.out.println(set);<span class="hljs-comment">//[Person&#123;age=1002, name='bb'&#125;, Person&#123;age=1001, name='aa'&#125;]</span>
-
-    p1.name = <span class="hljs-string">"cc"</span>;
-    set.remove(p1);
-    System.out.println(set);<span class="hljs-comment">//[Person&#123;age=1002, name='bb'&#125;, Person&#123;age=1001, name='cc'&#125;]</span>
-
-    set.add(<span class="hljs-keyword">new</span> Person(<span class="hljs-number">1002</span>, <span class="hljs-string">"cc"</span>));
-    System.out.println(set);<span class="hljs-comment">//[Person&#123;age=1002, name='bb'&#125;, Person&#123;age=1002, name='cc'&#125;, Person&#123;age=1001, name='cc'&#125;]</span>
-
-    set.add(<span class="hljs-keyword">new</span> Person(<span class="hljs-number">1001</span>, <span class="hljs-string">"aa"</span>));
-    System.out.println(set);<span class="hljs-comment">//[Person&#123;age=1002, name='bb'&#125;, Person&#123;age=1001, name='cc'&#125;, Person&#123;age=1001, name='cc'&#125;, Person&#123;age=1001, name='aa'&#125;]</span>
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Person p1 = <span class="keyword">new</span> Person(<span class="number">1001</span>, <span class="string">"aa"</span>);</span><br><span class="line">    Person p2 = <span class="keyword">new</span> Person(<span class="number">1002</span>, <span class="string">"bb"</span>);</span><br><span class="line"></span><br><span class="line">    HashSet set = <span class="keyword">new</span> HashSet();</span><br><span class="line">    set.add(p1);</span><br><span class="line">    set.add(p2);</span><br><span class="line">    System.out.println(set);<span class="comment">//[Person&#123;age=1002, name='bb'&#125;, Person&#123;age=1001, name='aa'&#125;]</span></span><br><span class="line"></span><br><span class="line">    p1.name = <span class="string">"cc"</span>;</span><br><span class="line">    set.remove(p1);</span><br><span class="line">    System.out.println(set);<span class="comment">//[Person&#123;age=1002, name='bb'&#125;, Person&#123;age=1001, name='cc'&#125;]</span></span><br><span class="line"></span><br><span class="line">    set.add(<span class="keyword">new</span> Person(<span class="number">1002</span>, <span class="string">"cc"</span>));</span><br><span class="line">    System.out.println(set);<span class="comment">//[Person&#123;age=1002, name='bb'&#125;, Person&#123;age=1002, name='cc'&#125;, Person&#123;age=1001, name='cc'&#125;]</span></span><br><span class="line"></span><br><span class="line">    set.add(<span class="keyword">new</span> Person(<span class="number">1001</span>, <span class="string">"aa"</span>));</span><br><span class="line">    System.out.println(set);<span class="comment">//[Person&#123;age=1002, name='bb'&#125;, Person&#123;age=1001, name='cc'&#125;, Person&#123;age=1001, name='cc'&#125;, Person&#123;age=1001, name='aa'&#125;]</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>remove方法会在HashSet集合中去找p1,找法就是计算哈希值，而此时p1的name被改变了，故哈希值也会改变，所以就找不到原来位置上的p1，因此remove没有删掉p1。</p>
 <p>而后面再添加的(1001，“cc”)这个对象是使用这两个属性得到的地址值，故不会和原来的(1001,”cc”)重复，因为原来的位置是用(1001, “aa”)算的。</p>
@@ -300,19 +283,16 @@
 <p>HashMap底层在jdk7用的使数组加链表，jdk8又加入了红黑树。</p>
 <p>Properties用来处理配置文件，key-value都是string。</p>
 <p>Map添加的是entry，一个entry由一对key-value构成，无序，不可重复。key不可以重复，且无序。value可以重复，也是无序的。</p>
-<p><img src="/2020/05/29/%E9%9B%86%E5%90%88%EF%BC%88%E5%A4%8D%E4%B9%A06%EF%BC%89/image-20200530102858149.png" srcset="/img/loading.gif" alt="image-20200530102858149"></p>
+<p><img src="/2020/05/29/%E9%9B%86%E5%90%88%EF%BC%88%E5%A4%8D%E4%B9%A06%EF%BC%89/image-20200530102858149.png" alt="image-20200530102858149"></p>
 <p>HashMap里面key的对象要重写hashcode和equals方法，保证不可重复。而value的对象只要重写下equals方法。</p>
 <p>HashMap的原理：</p>
-<pre><code class="hljs java">HaspMap map = <span class="hljs-keyword">new</span> HashMap();</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HaspMap map = <span class="keyword">new</span> HashMap();</span><br></pre></td></tr></table></figure>
 
 <p>在jdk7中，在实例化后，底层创建了一个长度16的数组Entry[] table。</p>
-<pre><code class="hljs java">map.put(key1,value1);<span class="hljs-comment">//已经添加过多次</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map.put(key1,value1);<span class="comment">//已经添加过多次</span></span><br></pre></td></tr></table></figure>
 
 <p>首先计算key1的hashcode，再计算出在entry中的存放位置，如果此位置为空，则key1-value1添加成功。如果不为空，意味着该位置有一个或多个数据以链表存储（key2-value2），先用哈希值判断是否相同，若不同则用链表添加，若哈希值相同，则再用key的equals方法判断，不相等就用value1替换value2。使得该位置的元素变为key2-vlue1（这种情况的key1和key2相同，但value不一定）。</p>
-<pre><code class="hljs java">HashMap hashMap = <span class="hljs-keyword">new</span> HashMap();
-hashMap.put(<span class="hljs-string">"aa"</span>, <span class="hljs-number">12</span>);<span class="hljs-comment">//添加</span>
-hashMap.put(<span class="hljs-string">"aa"</span>, <span class="hljs-number">22</span>);<span class="hljs-comment">//修改</span>
-System.out.println(hashMap);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HashMap hashMap = <span class="keyword">new</span> HashMap();</span><br><span class="line">hashMap.put(<span class="string">"aa"</span>, <span class="number">12</span>);<span class="comment">//添加</span></span><br><span class="line">hashMap.put(<span class="string">"aa"</span>, <span class="number">22</span>);<span class="comment">//修改</span></span><br><span class="line">System.out.println(hashMap);</span><br></pre></td></tr></table></figure>
 
 <p>HashMap的扩容默认是扩容两倍。</p>
 <p>在jdk8中，类似于ArrayList，没有直接创建长度16的数组，并且数组名字改为了Node[]，首次调用put方法时才会创建长度16的数组。当数组某一个索引位置上以链表存在的元素个数超过8且当前数组长度超过64时，此位置上的链表改为红黑树存储。</p>
@@ -323,17 +303,11 @@ System.out.println(hashMap);</code></pre>
 <p>MIN_TREEIFY_CAPACITY:树化改造的bucket的最小值，64，即超过该值才会树化。</p>
 <p>遍历Map，没有给Map用的遍历器。</p>
 <p>关键是获得key构成的Set集合，value构成的Collection，entry构成的set。这样每个都可以遍历了。</p>
-<pre><code class="hljs java">map.keySet()<span class="hljs-comment">//返回Map的Set集合</span>
-map.values()<span class="hljs-comment">//返回Map的collection</span>
-map.entry()<span class="hljs-comment">//返回map的entry对</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">map.keySet()<span class="comment">//返回Map的Set集合</span></span><br><span class="line">map.values()<span class="comment">//返回Map的collection</span></span><br><span class="line">map.entry()<span class="comment">//返回map的entry对</span></span><br></pre></td></tr></table></figure>
 
 <p>TreeMap的key必须是同一类的对象，因为要按照key排序，同样是自然排序（对象实现Comparable接口）和定制排序（TreeMap构造器传入Comparator）。 </p>
 <p>Properties是用来处理配置文件的。</p>
-<pre><code class="hljs java">Properties properties = <span class="hljs-keyword">new</span> Properties();
-FileInputStream fileInputStream = <span class="hljs-keyword">new</span> FileInputStream(<span class="hljs-string">"src/com/ylxianzhe/jdbc.properties"</span>);
-properties.load(fileInputStream);
-String name = properties.getProperty(<span class="hljs-string">"name"</span>);
-System.out.println(name);</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Properties properties = <span class="keyword">new</span> Properties();</span><br><span class="line">FileInputStream fileInputStream = <span class="keyword">new</span> FileInputStream(<span class="string">"src/com/ylxianzhe/jdbc.properties"</span>);</span><br><span class="line">properties.load(fileInputStream);</span><br><span class="line">String name = properties.getProperty(<span class="string">"name"</span>);</span><br><span class="line">System.out.println(name);</span><br></pre></td></tr></table></figure>
 
 <h1 id="Collections"><a href="#Collections" class="headerlink" title="Collections"></a>Collections</h1><p>Collections工具类不仅可以操作Collection，也可以操作Map。</p>
 <p>reverse(List),对list反转</p>
@@ -348,363 +322,246 @@ System.out.println(name);</code></pre>
 <p>上面一些涉及到最值的方法都意味着元素对象时可比较的，要实现Comparable接口</p>
 <p>int Frequency(Collection,object),返回指定元素出现的次数</p>
 <p>void copy(list dest,list src),把src复制到dest,注意要提前使得dest的size与src的size相等。</p>
-<pre><code class="hljs java">ArrayList dest = <span class="hljs-keyword">new</span> ArrayList(<span class="hljs-number">10</span>);<span class="hljs-comment">//错误写法，10指定的是底层数组的长度，而不是size，即元素个数</span>
-List dest = Arrays.asList(<span class="hljs-keyword">new</span> Object[src.size()])<span class="hljs-comment">//创建src.size个对象，并转为List来占位</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ArrayList dest = <span class="keyword">new</span> ArrayList(<span class="number">10</span>);<span class="comment">//错误写法，10指定的是底层数组的长度，而不是size，即元素个数</span></span><br><span class="line">List dest = Arrays.asList(<span class="keyword">new</span> Object[src.size()])<span class="comment">//创建src.size个对象，并转为List来占位</span></span><br></pre></td></tr></table></figure>
 
 <p>最重要的是，几大类主要都是线程不安全的，安全的又不用了，所以Collections提供了一些线程安全的方法。</p>
 <p>synchronizedXXX方法：</p>
-<pre><code class="hljs java">ArrayList list = <span class="hljs-keyword">new</span> ArrayList()；
-List list = Collections.synchronizedList(list);<span class="hljs-comment">//将list变为线程安全的</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ArrayList list = <span class="keyword">new</span> ArrayList()；</span><br><span class="line">List list = Collections.synchronizedList(list);<span class="comment">//将list变为线程安全的</span></span><br></pre></td></tr></table></figure>
 
 <h1 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h1><p>用&lt;&gt;来指明/标记集合里是什么类型的数据，避免全都当成Object类型。</p>
-<pre><code class="hljs java">ArrayList&lt;String&gt; strings = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();<span class="hljs-comment">//后面的可以省略</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ArrayList&lt;String&gt; strings = <span class="keyword">new</span> ArrayList&lt;&gt;();<span class="comment">//后面的可以省略</span></span><br></pre></td></tr></table></figure>
 
 <p>自定义泛型</p>
-<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Computer</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;
-    String name;
-    <span class="hljs-keyword">int</span> age;
-    T object;<span class="hljs-comment">//T可以看作是一种占位符，或者说是宏，当使用时传入T的实际参数，指明了下面用到T的地方的类型</span>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Computer</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    String name;</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">    T object;<span class="comment">//T可以看作是一种占位符，或者说是宏，当使用时传入T的实际参数，指明了下面用到T的地方的类型</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Computer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Computer</span><span class="params">(String name, <span class="keyword">int</span> age, T object)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">        <span class="keyword">this</span>.object = object;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Computer&lt;String&gt; computer = <span class="keyword">new</span> Computer&lt;&gt;();</span><br><span class="line">        Computer computer1 = <span class="keyword">new</span> Computer();<span class="comment">//如果定义了泛型却不用，那么T代表的就是Object</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Computer</span><span class="hljs-params">()</span> </span>&#123;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Computer</span><span class="hljs-params">(String name, <span class="hljs-keyword">int</span> age, T object)</span> </span>&#123;
-        <span class="hljs-keyword">this</span>.name = name;
-        <span class="hljs-keyword">this</span>.age = age;
-        <span class="hljs-keyword">this</span>.object = object;
-    &#125;
-&#125;
-
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        Computer&lt;String&gt; computer = <span class="hljs-keyword">new</span> Computer&lt;&gt;();
-        Computer computer1 = <span class="hljs-keyword">new</span> Computer();<span class="hljs-comment">//如果定义了泛型却不用，那么T代表的就是Object</span>
-    &#125;
-&#125;</code></pre>
-
-<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">subComputer</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Computer</span>&lt;<span class="hljs-title">String</span>&gt; </span>&#123;
-    
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">subComputer</span> <span class="keyword">extends</span> <span class="title">Computer</span>&lt;<span class="title">String</span>&gt; </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>如果子类继承父类是写明了泛型参数，那么对于子类来说就不存在泛型了，类型已经确定。要想子类也有泛型，这样写：</p>
-<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">subComputer</span>&lt;<span class="hljs-title">T</span>&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title">Computer</span>&lt;<span class="hljs-title">String</span>&gt; </span>&#123;
-
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">subComputer</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">Computer</span>&lt;<span class="title">String</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>使用泛型可以在&lt;&gt;内写多个参数。</p>
 <p>泛型类构造器上不需要写泛型，但是实例化时要写。</p>
 <p>泛型不同的引用不能相互赋值。</p>
-<pre><code class="hljs java">ArrayList&lt;String&gt; list1=...;
-ArrayList&lt;Integer&gt; list2=...;
-list1=list2;<span class="hljs-comment">//错误</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ArrayList&lt;String&gt; list1=...;</span><br><span class="line">ArrayList&lt;Integer&gt; list2=...;</span><br><span class="line">list1=list2;<span class="comment">//错误</span></span><br></pre></td></tr></table></figure>
 
 <p>在静态结构中不能使用<strong>泛型类</strong>，因为静态内容在类加载时加载，而此时泛型的具体类型还不确定，需要到new这个泛型类的对象时才确定泛型具体类型。</p>
 <p>异常类不能使用泛型。</p>
 <p>泛型方法：</p>
-<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Computer</span><span class="hljs-params">(String name, <span class="hljs-keyword">int</span> age, T object)</span> </span>&#123;
-     <span class="hljs-keyword">this</span>.name = name;
-     <span class="hljs-keyword">this</span>.age = age;
-     <span class="hljs-keyword">this</span>.object = object;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Computer</span><span class="params">(String name, <span class="keyword">int</span> age, T object)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">this</span>.name = name;</span><br><span class="line">     <span class="keyword">this</span>.age = age;</span><br><span class="line">     <span class="keyword">this</span>.object = object;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这不是泛型方法！</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> &lt;E&gt; <span class="hljs-function">List&lt;E&gt; <span class="hljs-title">copy</span><span class="hljs-params">(E[] arr)</span> </span>&#123;
-    ArrayList&lt;E&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;E&gt;;
-    <span class="hljs-comment">//</span>
-    <span class="hljs-keyword">return</span> list;
-&#125;
-Integer[] arr = <span class="hljs-keyword">new</span> Integer[]&#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>&#125;;
-List&lt;Integer&gt; list = order.copy(arr);<span class="hljs-comment">//传入Integer类型数组，即表民E代表的是Integer，所以list是Integer类型。</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;E&gt; <span class="function">List&lt;E&gt; <span class="title">copy</span><span class="params">(E[] arr)</span> </span>&#123;</span><br><span class="line">    ArrayList&lt;E&gt; list = <span class="keyword">new</span> ArrayList&lt;E&gt;;</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="keyword">return</span> list;</span><br><span class="line">&#125;</span><br><span class="line">Integer[] arr = <span class="keyword">new</span> Integer[]&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;;</span><br><span class="line">List&lt;Integer&gt; list = order.copy(arr);<span class="comment">//传入Integer类型数组，即表民E代表的是Integer，所以list是Integer类型。</span></span><br></pre></td></tr></table></figure>
 <p>这种才是。另外，泛型方法可以是静态的。因为泛型方法的泛型和类没有任何关系，类本身是不是泛型的也没有关系。上面的那种不可以是因为必须要在实例化对象时才知道类型；这里可以是因为类加载不需要知道泛型方法的具体类型，直接调用方法就行了，是在调用这个静态方法时确定。</p>
 <p>泛型的用处：举例，操作数据库时写一个泛型类DAO，里面有一些基本的操作，而对于具体的Bean，则继承这个泛型类并传入具体的泛型类型，这样就可以使得每个Bean有对应的DAO。</p>
 <p>类A是类B的父类，G&lt;A&gt;不是G&lt;B&gt;的父类，即B的引用可以赋值给A的引用（多态），但是G&lt;B&gt;的引用不能给G&lt;A&gt;的引用。</p>
 <p>反过来，类A是类B的父类，A&lt;G&gt;就是B&lt;G&gt;的父类。</p>
 <p>通配符的使用:</p>
 <p>通配符：?。G&lt;A&gt;和G&lt;B&gt;的公共父类是G&lt;?&gt;。</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        List&lt;Object&gt; list1 = <span class="hljs-keyword">null</span>;
-        List&lt;String&gt; list2 = <span class="hljs-keyword">null</span>;
-
-        List&lt;?&gt; list = <span class="hljs-keyword">null</span>;
-
-        list = list1;
-        list = list2;
-
-        print(list1);
-        print(list2);
-
-        list2.add(<span class="hljs-string">"aa"</span>);<span class="hljs-comment">//可以添加</span>
-        list2.add(<span class="hljs-string">"bb"</span>);
-        list.add(<span class="hljs-string">"aa"</span>);<span class="hljs-comment">//对于List&lt;?&gt;不可以向内部添加数据，除了null，因为?代表了所有可能，如果可以写的话，list里装的类型就可能不同意，泛型也没意义了</span>
-
-        Object o = list.get(<span class="hljs-number">0</span>);<span class="hljs-comment">//读取是可以的</span>
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">print</span><span class="hljs-params">(List&lt;?&gt; list)</span> </span>&#123;
-        Iterator&lt;?&gt; iterator = list.iterator();
-        <span class="hljs-keyword">while</span> (iterator.hasNext()) &#123;
-            Object next = iterator.next();
-            System.out.println(next);
-        &#125;
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;Object&gt; list1 = <span class="keyword">null</span>;</span><br><span class="line">        List&lt;String&gt; list2 = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        List&lt;?&gt; list = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        list = list1;</span><br><span class="line">        list = list2;</span><br><span class="line"></span><br><span class="line">        print(list1);</span><br><span class="line">        print(list2);</span><br><span class="line"></span><br><span class="line">        list2.add(<span class="string">"aa"</span>);<span class="comment">//可以添加</span></span><br><span class="line">        list2.add(<span class="string">"bb"</span>);</span><br><span class="line">        list.add(<span class="string">"aa"</span>);<span class="comment">//对于List&lt;?&gt;不可以向内部添加数据，除了null，因为?代表了所有可能，如果可以写的话，list里装的类型就可能不同意，泛型也没意义了</span></span><br><span class="line"></span><br><span class="line">        Object o = list.get(<span class="number">0</span>);<span class="comment">//读取是可以的</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(List&lt;?&gt; list)</span> </span>&#123;</span><br><span class="line">        Iterator&lt;?&gt; iterator = list.iterator();</span><br><span class="line">        <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">            Object next = iterator.next();</span><br><span class="line">            System.out.println(next);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>有限制的通配符：</p>
 <p><code>&lt;? extends Person&gt;</code>表示小于等于：</p>
-<pre><code class="hljs java">List&lt;? extends Person&gt; list1=<span class="hljs-keyword">null</span>;
-List&lt;Student&gt; list3=<span class="hljs-keyword">null</span>;
-List&lt;Person&gt; list4=<span class="hljs-keyword">null</span>;
-List&lt;Object&gt; list5=<span class="hljs-keyword">null</span>;
-list1=list3;<span class="hljs-comment">//可以，list3的泛型比list1的小，Student是Person的子类</span>
-list1=list4;<span class="hljs-comment">//可以</span>
-list1=list5;<span class="hljs-comment">//不可以</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List&lt;? extends Person&gt; list1=<span class="keyword">null</span>;</span><br><span class="line">List&lt;Student&gt; list3=<span class="keyword">null</span>;</span><br><span class="line">List&lt;Person&gt; list4=<span class="keyword">null</span>;</span><br><span class="line">List&lt;Object&gt; list5=<span class="keyword">null</span>;</span><br><span class="line">list1=list3;<span class="comment">//可以，list3的泛型比list1的小，Student是Person的子类</span></span><br><span class="line">list1=list4;<span class="comment">//可以</span></span><br><span class="line">list1=list5;<span class="comment">//不可以</span></span><br></pre></td></tr></table></figure>
 
 <p><code>&lt;? super Person&gt;</code>表示大于等于。</p>
-<pre><code class="hljs java">List&lt;? extends Person&gt; list1=<span class="hljs-keyword">null</span>;
-List&lt;? <span class="hljs-keyword">super</span> Person&gt; list2=<span class="hljs-keyword">null</span>;
-List&lt;Student&gt; list3=<span class="hljs-keyword">new</span> ArrayList&lt;Student&gt;();
-List&lt;Person&gt; list4=<span class="hljs-keyword">new</span> ArrayList&lt;Person&gt;();
-List&lt;Object&gt; list5=<span class="hljs-keyword">new</span> ArrayList&lt;Object&gt;();
-
-list1=list3;
-Person p=list1.get(<span class="hljs-number">0</span>);<span class="hljs-comment">//最小可以写到Person，List1里能装的是小于等于Person的，如果P的类型比Person还小，那就有可能list1里装的实际比p大，引起错误</span>
-
-list2=list4;
-Object obj=list2.get(<span class="hljs-number">0</span>);<span class="hljs-comment">//只能写object，因为list2里的数据都是大于等于Person的，不拿object装不住</span>
-
-list1.add(<span class="hljs-keyword">new</span> Student());<span class="hljs-comment">//不可以，list1代表的是能装小于等于Person的，若是代表的是Student的子类，此时又放进去一个父类显然不行</span>
-
-list2.add(<span class="hljs-keyword">new</span> Student());<span class="hljs-comment">//可以，list2最小是装Person的，现在往里装Person的子类显然可以，比Person大的父类就不可以。</span></code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">List&lt;? extends Person&gt; list1=<span class="keyword">null</span>;</span><br><span class="line">List&lt;? <span class="keyword">super</span> Person&gt; list2=<span class="keyword">null</span>;</span><br><span class="line">List&lt;Student&gt; list3=<span class="keyword">new</span> ArrayList&lt;Student&gt;();</span><br><span class="line">List&lt;Person&gt; list4=<span class="keyword">new</span> ArrayList&lt;Person&gt;();</span><br><span class="line">List&lt;Object&gt; list5=<span class="keyword">new</span> ArrayList&lt;Object&gt;();</span><br><span class="line"></span><br><span class="line">list1=list3;</span><br><span class="line">Person p=list1.get(<span class="number">0</span>);<span class="comment">//最小可以写到Person，List1里能装的是小于等于Person的，如果P的类型比Person还小，那就有可能list1里装的实际比p大，引起错误</span></span><br><span class="line"></span><br><span class="line">list2=list4;</span><br><span class="line">Object obj=list2.get(<span class="number">0</span>);<span class="comment">//只能写object，因为list2里的数据都是大于等于Person的，不拿object装不住</span></span><br><span class="line"></span><br><span class="line">list1.add(<span class="keyword">new</span> Student());<span class="comment">//不可以，list1代表的是能装小于等于Person的，若是代表的是Student的子类，此时又放进去一个父类显然不行</span></span><br><span class="line"></span><br><span class="line">list2.add(<span class="keyword">new</span> Student());<span class="comment">//可以，list2最小是装Person的，现在往里装Person的子类显然可以，比Person大的父类就不可以。</span></span><br></pre></td></tr></table></figure>
 
 
-            </article>
-            <hr>
-            <div>
-              <div class="post-metas mb-3">
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/java/">java</a>
-                    
-                  </div>
-                
-              </div>
-              
-                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
-              
-              
-                <div class="post-prevnext row">
-                  <div class="post-prev col-6">
-                    
-                    
-                      <a href="/2020/06/01/IO%E6%B5%81%EF%BC%88%E5%A4%8D%E4%B9%A07%EF%BC%89/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">IO流（复习7）</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </div>
-                  <div class="post-next col-6">
-                    
-                    
-                      <a href="/2020/05/28/%E6%AF%94%E8%BE%83%E5%99%A8%EF%BC%88%E5%A4%8D%E4%B9%A05%EF%BC%89/">
-                        <span class="hidden-mobile">比较器（复习5）</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </div>
-                </div>
-              
-            </div>
+    </div>
 
-            
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
           </div>
-        </div>
-      </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/28/%E6%AF%94%E8%BE%83%E5%99%A8%EF%BC%88%E5%A4%8D%E4%B9%A05%EF%BC%89/" rel="prev" title="比较器（复习5）">
+      <i class="fa fa-chevron-left"></i> 比较器（复习5）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/01/IO%E6%B5%81%EF%BC%88%E5%A4%8D%E4%B9%A07%EF%BC%89/" rel="next" title="IO流（复习7）">
+      IO流（复习7） <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
+      </footer>
     
-      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
-        <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
-  <div id="tocbot"></div>
-</div>
-
-      </div>
-    
-  </div>
-</div>
-
-<!-- Custom -->
-
-
-    
-  </main>
-
+  </article>
   
-    <a id="scroll-top-button" href="#" role="button">
-      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-    </a>
   
-
-  
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-  
-
-  
-
-  
-
-  <footer class="mt-5">
-  <div class="text-center py-3">
-    <div>
-      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
-      <i class="iconfont icon-love"></i>
-      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
-        <span>Fluid</span></a>
-    </div>
-    
-
-    
-
-    
-  </div>
-</footer>
-
-<!-- SCRIPTS -->
-<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
-<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
-<script  src="/js/debouncer.js" ></script>
-<script  src="/js/main.js" ></script>
-
-<!-- Plugins -->
-
-
-  
-    <script  src="/js/lazyload.js" ></script>
   
 
 
 
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
+          </div>
+          
 
-
-
-
-
-
-
-  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
-  <script>
-    $(document).ready(function () {
-      var boardCtn = $('#board-ctn');
-      var boardTop = boardCtn.offset().top;
-
-      tocbot.init({
-        tocSelector: '#tocbot',
-        contentSelector: 'article.markdown-body',
-        headingSelector: 'h1,h2,h3,h4,h5,h6',
-        linkClass: 'tocbot-link',
-        activeLinkClass: 'tocbot-active-link',
-        listClass: 'tocbot-list',
-        isCollapsedClass: 'tocbot-is-collapsed',
-        collapsibleClass: 'tocbot-is-collapsible',
-        collapseDepth: 0,
-        scrollSmooth: true,
-        headingsOffset: -boardTop
-      });
-      if ($('.toc-list-item').length > 0) {
-        $('#toc').css('visibility', 'visible');
-      }
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
-  <script>
-    var typed = new Typed('#subtitle', {
-      strings: [
-        '  ',
-        "集合（复习6）&nbsp;",
-      ],
-      cursorChar: "_",
-      typeSpeed: 70,
-      loop: false,
-    });
-    typed.stop();
-    $(document).ready(function () {
-      $(".typed-cursor").addClass("h2");
-      typed.start();
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
-      
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
     }
-    anchors.add(res.join(", "))
-  </script>
-
-
-
-  <script  src="/js/local-search.js" ></script>
-  <script>
-    var path = "/local-search.xml";
-    var inputArea = document.querySelector("#local-search-input");
-    inputArea.onclick = function () {
-      searchFunc(path, 'local-search-input', 'local-search-result');
-      this.onclick = null
-    }
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-  <script>
-    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
-      function () {
-        var element = document.createElement('a');
-        $(element).attr('data-fancybox', 'images');
-        $(element).attr('href', $(this).attr('src'));
-        $(this).wrap(element);
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
       }
-    );
-  </script>
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Collection"><span class="nav-number">1.</span> <span class="nav-text">Collection</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#List"><span class="nav-number">1.1.</span> <span class="nav-text">List</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Set"><span class="nav-number">1.2.</span> <span class="nav-text">Set</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Map"><span class="nav-number">2.</span> <span class="nav-text">Map</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Collections"><span class="nav-number">3.</span> <span class="nav-text">Collections</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#泛型"><span class="nav-number">4.</span> <span class="nav-text">泛型</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xianzheTM"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">xianzheTM</p>
+  <div class="site-description" itemprop="description">希望这里能见证一个菜鸟到大神的路程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xianzheTM" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xianzheTM" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ylxianzhe@outlook.com" title="E-Mail → mailto:ylxianzhe@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xianzheTM</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">687k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">19:05</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 
@@ -718,12 +575,9 @@ list2.add(<span class="hljs-keyword">new</span> Student());<span class="hljs-com
 
 
 
+  
 
-
-
-
-
-
+  
 
 </body>
 </html>

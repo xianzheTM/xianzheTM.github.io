@@ -1,210 +1,252 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
-
-
-
-
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="/img/favicon.png">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yl.dropsec.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="上一篇主要回顾了一些细枝末节，这篇讲继承与多态。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java笔记5">
+<meta property="og:url" content="https://yl.dropsec.xyz/2018/04/10/Java%E7%AC%94%E8%AE%B05/index.html">
+<meta property="og:site_name" content="新日暮里">
+<meta property="og:description" content="上一篇主要回顾了一些细枝末节，这篇讲继承与多态。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yl.dropsec.xyz/2018/04/10/Java%E7%AC%94%E8%AE%B05/javap.png">
+<meta property="og:image" content="https://yl.dropsec.xyz/2018/04/10/Java%E7%AC%94%E8%AE%B05/javap-c.png">
+<meta property="og:image" content="https://yl.dropsec.xyz/2018/04/10/Java%E7%AC%94%E8%AE%B05/javapc.png">
+<meta property="article:published_time" content="2018-04-10T05:09:34.000Z">
+<meta property="article:modified_time" content="2020-05-22T05:10:18.649Z">
+<meta property="article:author" content="xianzheTM">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yl.dropsec.xyz/2018/04/10/Java%E7%AC%94%E8%AE%B05/javap.png">
+
+<link rel="canonical" href="https://yl.dropsec.xyz/2018/04/10/Java%E7%AC%94%E8%AE%B05/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Java笔记5 | 新日暮里</title>
   
-  <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="希望这里能见证一个菜鸟到大神的路程">
-  <meta name="author" content="xianzheTM">
-  <meta name="keywords" content="">
-  <title>Java笔记5 - 新日暮里</title>
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
-  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
-
-  
-    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
-  
-
-  
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
 
 
-<link  rel="stylesheet" href="/css/main.css" />
 
-<!-- 自定义样式保持在最底部 -->
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-  <script  src="/js/utils.js" ></script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
+</head>
 
-<body>
-  <header style="height: 70vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand"
-       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                首页
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                归档
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                分类
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                标签
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
-          </li>
-        
-      </ul>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
-</nav>
 
-    <div class="view intro-2" id="background" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp">
-            <span class="h2" id="subtitle">
-              
-            </span>
+  <div class="site-meta">
 
-            
-              
-  <div class="mt-3 post-meta">
-    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2018-04-10 13:09">
-      2018年4月10日 下午
-    </time>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">新日暮里</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
   </div>
 
-
-<div class="mt-1">
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-chart"></i>
-      4.5k 字
-    </span>
-  
-
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-clock-fill"></i>
-      
-      
-      55
-       分钟
-    </span>
-  
-
-  
-  
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
 </div>
 
-            
-          </div>
 
-          
-        </div>
-      </div>
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
     </div>
-  </header>
+  </div>
 
-  <main>
+</div>
+    </header>
+
     
-      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
-        <div class="py-5" id="board">
-          <div class="post-content mx-auto" id="post">
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
             
-            <article class="markdown-body">
-              <p>上一篇主要回顾了一些细枝末节，这篇讲继承与多态。</p>
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yl.dropsec.xyz/2018/04/10/Java%E7%AC%94%E8%AE%B05/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="xianzheTM">
+      <meta itemprop="description" content="希望这里能见证一个菜鸟到大神的路程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新日暮里">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java笔记5
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-10 13:09:34" itemprop="dateCreated datePublished" datetime="2018-04-10T13:09:34+08:00">2018-04-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-22 13:10:18" itemprop="dateModified" datetime="2020-05-22T13:10:18+08:00">2020-05-22</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>10k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>17 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>上一篇主要回顾了一些细枝末节，这篇讲继承与多态。</p>
 <a id="more"></a>
 
 <h1 id="类的继承"><a href="#类的继承" class="headerlink" title="类的继承"></a>类的继承</h1><p>&emsp;<code>class SubClass extends SuperClass</code>中的extends表示SubClass继承于SuperClass，但是extends本意是扩展的意思。因为翻译问题，子类和父类有各种名字。<br>子类继承父类的全部成员变量和方法（有关于private的有点小例外），但是构造器不算。<br><br>&emsp;一个子类只能有一个父类，是单继承关系，但是可以有多层继承关系。所有的类都是java.lang.Object类的子类或间接子类。<br>&emsp;子类扩展（extends）了父类，父类派生（derive）了子类。<br>&emsp;方法的重写要遵循“两同两小一大”的规则，“两同”即方法名，形参列表相同；“两小”即子类方法返回值类型应比父类方法返回值类型更小或相等，子类方法声明抛出的异常类应比父类方法声明抛出的异常类更小或相等；“一大”指子类方法的访问权限要比父类的更大或相等。而且，字类和父类的静态与非静态要对应。<br><br>&emsp;当子类覆盖了父类后，在子类中就不能直接访问父类中的方法，但是可以通过super（实例方法）和父类类名（类方法，静态的）调用。对于有private的父类方法，子类是不可见的，即使满足上面的规则也不是重写。<strong>还有一点要注意的是，当参数列表不同时，就不是重写，而是父类与子类方法的重载</strong>。</p>
@@ -215,64 +257,13 @@
 <li>查找a的直接父类中是否有成员变量a,一次上溯到a的所有父类，直到java.lang.object，若还没有就出现编译错误。</li>
 </ol>
 <p>&emsp;当程序创建一个子类对象时，不仅会为该类中定义的实例变量创建内存空间，其父类包括间接父类的实例变量也会被创建，即使使用的是同一个名字。存在一种下面的特殊情况:</p>
-<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Parent</span> </span>&#123;
-    <span class="hljs-keyword">public</span> String tag = <span class="hljs-string">"hello"</span>;
-&#125;
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Derived</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Parent</span> </span>&#123;
-    <span class="hljs-keyword">private</span> String tag = <span class="hljs-string">"hi"</span>;
-&#125;
-
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HideTest</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        Derived d = <span class="hljs-keyword">new</span> Derived();
-        <span class="hljs-comment">//System.out.println(d.tag);</span>
-        System.out.println(((Parent) d).tag);
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String tag = <span class="string">"hello"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived</span> <span class="keyword">extends</span> <span class="title">Parent</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String tag = <span class="string">"hi"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HideTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Derived d = <span class="keyword">new</span> Derived();</span><br><span class="line">        <span class="comment">//System.out.println(d.tag);</span></span><br><span class="line">        System.out.println(((Parent) d).tag);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;首先这是在main方法中，显然不能用super。这里的写法是将<code>d</code>强制转化为Parent类型。解决方法多的是，我也试着写了一个：</p>
-<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Parent</span> </span>&#123;
-    <span class="hljs-keyword">public</span> String tag = <span class="hljs-string">"hello"</span>;
-&#125;
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Derived</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Parent</span> </span>&#123;
-    <span class="hljs-keyword">private</span> String tag = <span class="hljs-string">"hi"</span>;
-
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">method</span><span class="hljs-params">()</span> </span>&#123;
-        System.out.println(<span class="hljs-keyword">super</span>.tag);
-    &#125;
-
-&#125;
-
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HideTest</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        Derived d = <span class="hljs-keyword">new</span> Derived();
-        method();
-        <span class="hljs-comment">// System.out.println(super.tag);</span>
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String tag = <span class="string">"hello"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived</span> <span class="keyword">extends</span> <span class="title">Parent</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String tag = <span class="string">"hi"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="keyword">super</span>.tag);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HideTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Derived d = <span class="keyword">new</span> Derived();</span><br><span class="line">        method();</span><br><span class="line">        <span class="comment">// System.out.println(super.tag);</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="使用父类的构造器"><a href="#使用父类的构造器" class="headerlink" title="使用父类的构造器"></a>使用父类的构造器</h2><p>与子类无法获取父类的private的成员变量一样，子类是无法获取父类的构造器的，但是一样可以调用父类的初始化代码，类似于前面讲过的一个构造器调用另一个重载的构造器。在一个构造器中调用别的构造器使用this，在子类中调用父类的构造器则用super。</p>
-<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Base</span></span>&#123;
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> size;
-    <span class="hljs-keyword">public</span> String name;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Base</span><span class="hljs-params">(<span class="hljs-keyword">double</span> size,String name)</span></span>&#123;
-        <span class="hljs-keyword">this</span>.size=size;
-        <span class="hljs-keyword">this</span>.name=name;
-    &#125;
-&#125;
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Sub</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Base</span></span>&#123;
-    <span class="hljs-keyword">public</span> String color;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Sub</span><span class="hljs-params">(<span class="hljs-keyword">double</span> size,String name,String color)</span></span>&#123;
-        <span class="hljs-keyword">super</span>(size,name);
-        <span class="hljs-keyword">this</span>.color=color;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        Sub s=<span class="hljs-keyword">new</span> Sub(<span class="hljs-number">5.6</span>,<span class="hljs-string">"测试对象"</span>,<span class="hljs-string">"红色"</span>);
-        System.out.println(s.size+<span class="hljs-string">"--"</span>+s.name+<span class="hljs-string">"--"</span>+s.color);
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">double</span> size;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Base</span><span class="params">(<span class="keyword">double</span> size,String name)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.size=size;</span><br><span class="line">        <span class="keyword">this</span>.name=name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sub</span> <span class="keyword">extends</span> <span class="title">Base</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String color;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Sub</span><span class="params">(<span class="keyword">double</span> size,String name,String color)</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(size,name);</span><br><span class="line">        <span class="keyword">this</span>.color=color;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Sub s=<span class="keyword">new</span> Sub(<span class="number">5.6</span>,<span class="string">"测试对象"</span>,<span class="string">"红色"</span>);</span><br><span class="line">        System.out.println(s.size+<span class="string">"--"</span>+s.name+<span class="string">"--"</span>+s.color);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;从上面的代码中可以看出，super和this的行为非常相似。同时，super也必须在第一行，this和super也不能同时出现。<br>&emsp;有意思的是不管是否用super调用来执行父类构造器的代码，子类构造器总会调用父类构造器一次。子类构造器调用父类构造器分如下几种情况:</p>
 <ol>
@@ -282,107 +273,14 @@
 </ol>
 <p>&emsp;不管是哪种情况，父类构造器都要在子类构造器之前调用，而且不止一层，要直至<code>java.lang.object</code>。</p>
 <p>&emsp;如果使用eclipse等IDE写代码，可以自动生成构造函数。但是你会发现，生成出来的都是这样的:</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person2</span> </span>&#123;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;
-    <span class="hljs-keyword">private</span> String name;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person2</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">super</span>();
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person2</span><span class="hljs-params">(<span class="hljs-keyword">int</span> age, String name)</span> </span>&#123;
-        <span class="hljs-keyword">super</span>();
-        <span class="hljs-keyword">this</span>.age = age;
-        <span class="hljs-keyword">this</span>.name = name;
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person2</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person2</span><span class="params">(<span class="keyword">int</span> age, String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;一个不带参数，另一个带参数，但是都有一个<code>super()</code>。为什么要有<code>super()</code>调用父类的构造函数？很简单，前面说过，子类是父类的扩充，如果使用构造函数生成子类时，不用<code>super()</code>将父类一并生成，那么子类要从哪里来呢？这就是上面说所有的调用构造器最终都会调用<code>java.lang.object</code>的原因。就像是人一样，生长时通过细胞分化，长出各种不同的细胞，但是最根本的还是离不了干细胞。下面举个例子加深印象:</p>
-<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Creature</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Creature</span><span class="hljs-params">()</span></span>&#123;
-        System.out.println(<span class="hljs-string">"Creature无参数的构造器"</span>);
-    &#125;
-&#125;
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Animal</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Creature</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Animal</span><span class="hljs-params">(String name)</span></span>&#123;
-        System.out.println(<span class="hljs-string">"Animal带一个参数的构造器"</span>+<span class="hljs-string">"该动物的name为"</span>+name);
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Animal</span><span class="hljs-params">(String name,<span class="hljs-keyword">int</span> age)</span></span>&#123;
-        <span class="hljs-keyword">this</span>.name;
-        System.out.println(<span class="hljs-string">"Animal带两个参数的构造器"</span>+<span class="hljs-string">"该动物的age为"</span>+age);
-    &#125;
-&#125;
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Wolf</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Animal</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Wolf</span><span class="hljs-params">()</span></span>&#123;
-        <span class="hljs-keyword">super</span>(<span class="hljs-string">"灰太狼"</span>,<span class="hljs-number">3</span>);
-        System.out.println(<span class="hljs-string">"Wolf无参数的构造器"</span>);
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        <span class="hljs-keyword">new</span> Wolf();
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Creature</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Creature</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Creature无参数的构造器"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> <span class="keyword">extends</span> <span class="title">Creature</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Animal</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Animal带一个参数的构造器"</span>+<span class="string">"该动物的name为"</span>+name);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Animal</span><span class="params">(String name,<span class="keyword">int</span> age)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name;</span><br><span class="line">        System.out.println(<span class="string">"Animal带两个参数的构造器"</span>+<span class="string">"该动物的age为"</span>+age);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Wolf</span> <span class="keyword">extends</span> <span class="title">Animal</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Wolf</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(<span class="string">"灰太狼"</span>,<span class="number">3</span>);</span><br><span class="line">        System.out.println(<span class="string">"Wolf无参数的构造器"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Wolf();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaseClass</span> </span>&#123;
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> book = <span class="hljs-number">6</span>;
+<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BaseClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> book = <span class="number">6</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">base</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"父类的普通方法"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"父类的被覆盖的方法"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SubClass</span> <span class="keyword">extends</span> <span class="title">BaseClass</span> </span>&#123;</span><br><span class="line">    <span class="comment">//重新定义一个book实例变量来隐藏父类的book实例变量</span></span><br><span class="line">    <span class="keyword">public</span> String book = <span class="string">"阿拉伯的劳伦斯"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"子类的覆盖父类的方法"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sub</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"子类的普通方法"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//下面编译时类型和运行时类型时一样,不存在多态</span></span><br><span class="line">        BaseClass bc = <span class="keyword">new</span> BaseClass();</span><br><span class="line">        <span class="comment">//输出6</span></span><br><span class="line">        System.out.println(bc.book);</span><br><span class="line">        <span class="comment">//执行BaseClass的方法</span></span><br><span class="line">        bc.base();</span><br><span class="line">        bc.test();</span><br><span class="line">        <span class="comment">//下面编译时类型和运行时类型时一样,不存在多态</span></span><br><span class="line">        SubClass sc = <span class="keyword">new</span> SubClass();</span><br><span class="line">        <span class="comment">//输出"阿拉伯的劳伦斯"</span></span><br><span class="line">        System.out.println(sc.book);</span><br><span class="line">        <span class="comment">//执行BaseClass的方法</span></span><br><span class="line">        sc.base();</span><br><span class="line">        <span class="comment">//执行SubClass的方法</span></span><br><span class="line">        sc.test();</span><br><span class="line">        <span class="comment">//下面编译时类型与运行时类型不一样,多态发生</span></span><br><span class="line">        BaseClass ploymophicBc = <span class="keyword">new</span> SubClass();</span><br><span class="line">        <span class="comment">//输出6---表明访问的是父类对象的实例变量</span></span><br><span class="line">        System.out.println(ploymophicBc.book);</span><br><span class="line">        <span class="comment">//调用从父类继承的base()方法</span></span><br><span class="line">        ploymophicBc.base();</span><br><span class="line">        <span class="comment">//调用当前类的test()方法</span></span><br><span class="line">        ploymophicBc.test();</span><br><span class="line">        <span class="comment">//因为ploymophicBc的编译时类型是BaseClass</span></span><br><span class="line">        <span class="comment">//BaseClass没有sub()方法,所以下面的方法会出现错误</span></span><br><span class="line">        <span class="comment">//ploymophicBc.sub();</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">base</span><span class="hljs-params">()</span> </span>&#123;
-        System.out.println(<span class="hljs-string">"父类的普通方法"</span>);
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">()</span> </span>&#123;
-        System.out.println(<span class="hljs-string">"父类的被覆盖的方法"</span>);
-    &#125;
-&#125;
-
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SubClass</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseClass</span> </span>&#123;
-    <span class="hljs-comment">//重新定义一个book实例变量来隐藏父类的book实例变量</span>
-    <span class="hljs-keyword">public</span> String book = <span class="hljs-string">"阿拉伯的劳伦斯"</span>;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">()</span> </span>&#123;
-        System.out.println(<span class="hljs-string">"子类的覆盖父类的方法"</span>);
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sub</span><span class="hljs-params">()</span> </span>&#123;
-        System.out.println(<span class="hljs-string">"子类的普通方法"</span>);
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        <span class="hljs-comment">//下面编译时类型和运行时类型时一样,不存在多态</span>
-        BaseClass bc = <span class="hljs-keyword">new</span> BaseClass();
-        <span class="hljs-comment">//输出6</span>
-        System.out.println(bc.book);
-        <span class="hljs-comment">//执行BaseClass的方法</span>
-        bc.base();
-        bc.test();
-        <span class="hljs-comment">//下面编译时类型和运行时类型时一样,不存在多态</span>
-        SubClass sc = <span class="hljs-keyword">new</span> SubClass();
-        <span class="hljs-comment">//输出"阿拉伯的劳伦斯"</span>
-        System.out.println(sc.book);
-        <span class="hljs-comment">//执行BaseClass的方法</span>
-        sc.base();
-        <span class="hljs-comment">//执行SubClass的方法</span>
-        sc.test();
-        <span class="hljs-comment">//下面编译时类型与运行时类型不一样,多态发生</span>
-        BaseClass ploymophicBc = <span class="hljs-keyword">new</span> SubClass();
-        <span class="hljs-comment">//输出6---表明访问的是父类对象的实例变量</span>
-        System.out.println(ploymophicBc.book);
-        <span class="hljs-comment">//调用从父类继承的base()方法</span>
-        ploymophicBc.base();
-        <span class="hljs-comment">//调用当前类的test()方法</span>
-        ploymophicBc.test();
-        <span class="hljs-comment">//因为ploymophicBc的编译时类型是BaseClass</span>
-        <span class="hljs-comment">//BaseClass没有sub()方法,所以下面的方法会出现错误</span>
-        <span class="hljs-comment">//ploymophicBc.sub();</span>
-    &#125;
-&#125;</code></pre>
-
-<pre><code class="hljs java"><span class="hljs-number">6</span>
-父类的普通方法
-父类的被覆盖的方法
-阿拉伯的劳伦斯
-父类的普通方法
-子类的覆盖父类的方法
-<span class="hljs-number">6</span>
-父类的普通方法
-子类的覆盖父类的方法</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">6</span></span><br><span class="line">父类的普通方法</span><br><span class="line">父类的被覆盖的方法</span><br><span class="line">阿拉伯的劳伦斯</span><br><span class="line">父类的普通方法</span><br><span class="line">子类的覆盖父类的方法</span><br><span class="line"><span class="number">6</span></span><br><span class="line">父类的普通方法</span><br><span class="line">子类的覆盖父类的方法</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;先不管什么是多态,上面的代码还有点问题,既然ploumophicBc是BaseClass类型,不能用sub方法,那么为什么能用SubClass的test方法?李书讲的很迷啊.对于多态的解释也非常奇怪:当编译时类型与运行时类型不一样时就有可能发生多态.<code>BaseClass ploymophicBc = new SubClass();</code>什么叫ploymophicBc的编译时类型是BaseClass,运行时类型是SubClass???至于林书,emmm,更迷了.例如:当一个方法可以接受多种类型的参数就是多态.这TM都什么解释啊,两个人说的八杆子打不着…</p>
 <h2 id="继承与组合"><a href="#继承与组合" class="headerlink" title="继承与组合"></a>继承与组合</h2><p>&emsp;先不论多态到底是什么，回到上文，继承还有一些要注意的地方。<br>&emsp;以前写过，类应该保证良好的封装性，但是父类无疑破坏了这种封装，而且如果子类对父类进行重写等操作无疑会提高耦合性。这是非常危险的。所以，父类需要遵循一定的原则保证封装性：</p>
@@ -391,433 +289,229 @@
 <li>不要让父类可以随意直接访问，修改父类的方法。一些辅助性的方法要设置为private的。如果父类的方法需要被外部类使用，则设为public，但是又不要子类修改，则要设为final。而希望子类重写又不要别的类自由访问的方法则设置为protected。</li>
 <li>尽量不要在父类构造器中调用要被子类重写额方法，具体原因看下面的代码：</li>
 </ul>
-<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Base</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Base</span><span class="hljs-params">()</span> </span>&#123;
-        test();
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">()</span> </span>&#123;
-        System.out.println(<span class="hljs-string">"将被子类重写的方法"</span>);
-    &#125;
-&#125;
-
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Sub</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Base</span> </span>&#123;
-
-    <span class="hljs-keyword">private</span> String name;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">()</span> </span>&#123;
-        System.out.println(<span class="hljs-string">"子类重写父类的方法，"</span>+<span class="hljs-string">"name的长度为"</span>+name.length());
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        Sub s = <span class="hljs-keyword">new</span> Sub();
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Base</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        test();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"将被子类重写的方法"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sub</span> <span class="keyword">extends</span> <span class="title">Base</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"子类重写父类的方法，"</span>+<span class="string">"name的长度为"</span>+name.length());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Sub s = <span class="keyword">new</span> Sub();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;这段代码会引发空指针异常。当创建Sub对象时，会先上溯到Base类，调用Base类的构造器，而在这个构造器中又调用了test()方法，但是这里事调用了子类中的test()方法。为什么会这样，还需要再强调一下什么是“重写（Overriding）”，请看链接：<a href="http://www.runoob.com/java/java-override-overload.html" target="_blank" rel="noopener">http://www.runoob.com/java/java-override-overload.html</a>。里面有张图，看了后就明白了，“重写”其实相当于一种<strong>覆盖</strong>，在上面的代码中父类的test()方法已经是不可见的了，除非是用super调用。再来看空指针异常，异常的原因不是表面上我没有给name赋值，而是，name是一个成员变量，这个时候还在类初始化期，s这个对象还没出来。所以对于一个空的东西是没法调用length()方法的。<br><br>&emsp;这里还要提到一点“初始化”的顺序，这比较复杂。给出链接：<a href="https://www.zhihu.com/question/49196023" target="_blank" rel="noopener">https://www.zhihu.com/question/49196023</a></p>
 <blockquote>
 <p>a. 加载类<br><br>1 为父类静态属性分配内存并赋值 / 执行父类静态代码段 （按代码顺序）<br><br>2 为子类静态属性分配内存并赋值 / 执行子类静态代码段 （按代码顺序）<br><br>b. 创建对象<br><br>1 为父类实例属性分配内存并赋值 / 执行父类非静态代码段 （按代码顺序）<br><br>2 执行父类构造器<br><br>3 为子类实例属性分配内存并赋值 / 执行子类非静态代码段 （按代码顺序）<br><br>4 执行子类构造器<br><br>&emsp;注意，静态属性就是类变量，静态代码段就是静态初始化块。<br>&emsp;按照这个顺序，注意这个顺序是初始化类的顺序，这个时候还没有对象出来。由于并没有静态属性和静态代码块等东西，所以直接进入b的2，调用了子类的test()方法，但是问题是4还没执行，不存在成员变量，所以出现了空指针异常。<br>&emsp;这个话题暂时打住，类的加载比较复杂，以后会专门说。<br>&emsp;回到前文，不仅要考虑继承时的规则，也要考虑什么时候什么时候应该派生子类，什么时候没有必要派生。用简单两句话可以概括：子类需要增加额外的属性，子类要增加自己独有的行为方式。<br>&emsp;还有另外一种实现复用的方式：组合。先来看用继承实现的代码：</p>
 </blockquote>
-<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Animal</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">beat</span><span class="hljs-params">()</span></span>&#123;
-        System.out.println(<span class="hljs-string">"心脏跳动..."</span>);
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">breath</span><span class="hljs-params">()</span></span>&#123;
-        beat();
-        System.out.println(<span class="hljs-string">"吸气，吐气..."</span>);
-    &#125;
-&#125;
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bird</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Animal</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">fly</span><span class="hljs-params">()</span></span>&#123;
-        System.out.println(<span class="hljs-string">"在天空飞翔"</span>);
-    &#125;
-&#125;
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Wolf</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Animal</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span></span>&#123;
-        System.out.println(<span class="hljs-string">"在陆地奔跑"</span>);
-    &#125;
-&#125;
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">InheritTest</span></span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        Bird b=<span class="hljs-keyword">new</span> Bird();
-        b.breath();
-        b.fly();
-        Wolf w=<span class="hljs-keyword">new</span> Wolf();
-        w.breath();
-        w.run();
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">beat</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"心脏跳动..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">breath</span><span class="params">()</span></span>&#123;</span><br><span class="line">        beat();</span><br><span class="line">        System.out.println(<span class="string">"吸气，吐气..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bird</span> <span class="keyword">extends</span> <span class="title">Animal</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fly</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"在天空飞翔"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Wolf</span> <span class="keyword">extends</span> <span class="title">Animal</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"在陆地奔跑"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InheritTest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Bird b=<span class="keyword">new</span> Bird();</span><br><span class="line">        b.breath();</span><br><span class="line">        b.fly();</span><br><span class="line">        Wolf w=<span class="keyword">new</span> Wolf();</span><br><span class="line">        w.breath();</span><br><span class="line">        w.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>再给出用组合的方式实现：</p>
-<pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Animal</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">beat</span><span class="hljs-params">()</span> </span>&#123;
-        System.out.println(<span class="hljs-string">"心脏跳动..."</span>);
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">breath</span><span class="hljs-params">()</span> </span>&#123;
-        beat();
-        System.out.println(<span class="hljs-string">"吸气，吐气..."</span>);
-    &#125;
-&#125;
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bird</span> </span>&#123;
-    <span class="hljs-keyword">private</span> Animal a;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Bird</span><span class="hljs-params">(Animal a)</span> </span>&#123;
-        <span class="hljs-keyword">this</span>.a = a;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">breath</span><span class="hljs-params">()</span> </span>&#123;
-        a.breath();
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">fly</span><span class="hljs-params">()</span> </span>&#123;
-        System.out.println(<span class="hljs-string">"在天空飞翔"</span>);
-    &#125;
-&#125;
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Wolf</span> </span>&#123;
-    <span class="hljs-keyword">private</span> Animal a;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Wolf</span><span class="hljs-params">(Animal a)</span> </span>&#123;
-        <span class="hljs-keyword">this</span>.a = a;
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">breath</span><span class="hljs-params">()</span> </span>&#123;
-        a.breath();
-    &#125;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;
-        System.out.println(<span class="hljs-string">"在陆地奔跑"</span>);
-    &#125;
-&#125;
-
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">InheritTest</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        Animal a1 = <span class="hljs-keyword">new</span> Animal();
-        Bird b = <span class="hljs-keyword">new</span> Bird(a1);
-        b.breath();
-        b.fly();
-        Animal a2 = <span class="hljs-keyword">new</span> Animal();
-        Wolf w = <span class="hljs-keyword">new</span> Wolf(a2);
-        w.breath();
-        w.run();
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">beat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"心脏跳动..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">breath</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        beat();</span><br><span class="line">        System.out.println(<span class="string">"吸气，吐气..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bird</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Animal a;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Bird</span><span class="params">(Animal a)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.a = a;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">breath</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        a.breath();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fly</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"在天空飞翔"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Wolf</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Animal a;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Wolf</span><span class="params">(Animal a)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.a = a;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">breath</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        a.breath();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"在陆地奔跑"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InheritTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Animal a1 = <span class="keyword">new</span> Animal();</span><br><span class="line">        Bird b = <span class="keyword">new</span> Bird(a1);</span><br><span class="line">        b.breath();</span><br><span class="line">        b.fly();</span><br><span class="line">        Animal a2 = <span class="keyword">new</span> Animal();</span><br><span class="line">        Wolf w = <span class="keyword">new</span> Wolf(a2);</span><br><span class="line">        w.breath();</span><br><span class="line">        w.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;组合的方式显然是在原来的子类中包含另外的原来的父类。继承和组合都是实现复用，但是对于上面的代码来说，继承更合适。而多余Person类和Arm类更加适合用组合。继承表达的是“是(is-a)”的关系，组合表达的是“有(has-a)”的关系。</p>
 <h2 id="初始化块"><a href="#初始化块" class="headerlink" title="初始化块"></a>初始化块</h2><p>&emsp;关于初始化块，我的疑问非常多，求助了许多地方都没有得到解决，无奈只能放一放，先往下进行。<br><br>&emsp;一个类中可以有多个初始化块，但是最好还是放在一起。初始化块只在创建对象时隐式的执行，且在构造器之前执行。请看下面的代码：</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">InstanceInitTest</span> </span>&#123;
-    &#123;
-        a=<span class="hljs-number">6</span>;
-   &#125;
-    <span class="hljs-keyword">int</span> a=<span class="hljs-number">9</span>;
-   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>
-<span class="hljs-function">   </span>&#123;
-       System.out.println(<span class="hljs-keyword">new</span> InstanceInitTest().a);
-   &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InstanceInitTest</span> </span>&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        a=<span class="number">6</span>;</span><br><span class="line">   &#125;</span><br><span class="line">    <span class="keyword">int</span> a=<span class="number">9</span>;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">       System.out.println(<span class="keyword">new</span> InstanceInitTest().a);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>a. 加载类<br><br>1 为父类静态属性分配内存并赋值 / 执行父类静态代码段 （按代码顺序）<br><br>2 为子类静态属性分配内存并赋值 / 执行子类静态代码段 （按代码顺序）<br><br>b. 创建对象<br><br>1 为父类实例属性分配内存并赋值 / 执行父类非静态代码段 （按代码顺序）<br><br>2 执行父类构造器<br><br>3 为子类实例属性分配内存并赋值 / 执行子类非静态代码段 （按代码顺序）<br><br>4 执行子类构造器<br></p>
 </blockquote>
-<p>&emsp;按照上面的顺序，<code>a=6</code>比<code>int a=9</code>先执行，结果出来也确实是9.但是，我的问题是，在执行<code>a=6</code>时，a还未声明，它是怎么执行的？注意：<code>a=6</code>是在{}中的，所以如果在那里声明变量的话，a就是个局部变量，现在a没有在里面声明，说明a在{}之外已被声明过了，但是<code>int a=9</code>又在后面，到底是怎么回事呢？<br><br>&emsp;初始化块和构造器有点类似，都是对<strong>对象</strong>进行初始化操作。实际上，初始化块可以看成把几个重载的构造器中共同的部分提取出来，减少代码量。同时，在编译后初始化块会被还原到构造器中，且位于最前面。<br><br>&emsp;再回到上面的问题，根据李刚本人的回答，<code>int a=9</code>被拆成两截，<code>int a</code>和<code>a=9</code>，a=9是被还原到构造器中的，而int a没有，不然就是两次声明同一个变量。我猜测，应该是在类加载时，将这种声明提前了。查看相应的字节码文件：<br><img src="/2018/04/10/Java%E7%AC%94%E8%AE%B05/javap.png" srcset="/img/loading.gif" alt="javap"><br><br>&emsp;可以看到，int a在构造器之前。更详细的内容：<br><img src="/2018/04/10/Java%E7%AC%94%E8%AE%B05/javap-c.png" srcset="/img/loading.gif" alt="javap"><br><br>&emsp;当把代码改为下面的后：</p>
-<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StaticInitTest</span> </span>&#123;
-    <span class="hljs-keyword">static</span> &#123;
-        a = <span class="hljs-number">6</span>;
-    &#125;
-    <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> a = <span class="hljs-number">9</span>;
+<p>&emsp;按照上面的顺序，<code>a=6</code>比<code>int a=9</code>先执行，结果出来也确实是9.但是，我的问题是，在执行<code>a=6</code>时，a还未声明，它是怎么执行的？注意：<code>a=6</code>是在{}中的，所以如果在那里声明变量的话，a就是个局部变量，现在a没有在里面声明，说明a在{}之外已被声明过了，但是<code>int a=9</code>又在后面，到底是怎么回事呢？<br><br>&emsp;初始化块和构造器有点类似，都是对<strong>对象</strong>进行初始化操作。实际上，初始化块可以看成把几个重载的构造器中共同的部分提取出来，减少代码量。同时，在编译后初始化块会被还原到构造器中，且位于最前面。<br><br>&emsp;再回到上面的问题，根据李刚本人的回答，<code>int a=9</code>被拆成两截，<code>int a</code>和<code>a=9</code>，a=9是被还原到构造器中的，而int a没有，不然就是两次声明同一个变量。我猜测，应该是在类加载时，将这种声明提前了。查看相应的字节码文件：<br><img src="/2018/04/10/Java%E7%AC%94%E8%AE%B05/javap.png" alt="javap"><br><br>&emsp;可以看到，int a在构造器之前。更详细的内容：<br><img src="/2018/04/10/Java%E7%AC%94%E8%AE%B05/javap-c.png" alt="javap"><br><br>&emsp;当把代码改为下面的后：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticInitTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        a = <span class="number">6</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> a = <span class="number">9</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="keyword">new</span> StaticInitTest().a);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        System.out.println(<span class="hljs-keyword">new</span> StaticInitTest().a);
-    &#125;
-&#125;</code></pre>
-
-<p><img src="/2018/04/10/Java%E7%AC%94%E8%AE%B05/javapc.png" srcset="/img/loading.gif" alt="javap"><br><br>&emsp;在这几张图片中出现了&lt;init&gt;这个东西，具体是什么请看链接<a href="https://blog.csdn.net/u013309870/article/details/72975536" target="_blank" rel="noopener">https://blog.csdn.net/u013309870/article/details/72975536</a>。按链接所说，这个东西会对非静态的代码合并，&lt;clinit&gt;会对静态的合并，看第二个代码的图，合并的非常明显。但是图里没有出现clinit,是因为某种“美化”，实际上是有的：</p>
-<pre><code class="hljs java"><span class="hljs-comment">// class version 53.0 (53)</span>
-<span class="hljs-comment">// access flags 0x21</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">test3</span>/<span class="hljs-title">StaticInitTest</span> </span>&#123;
-
-  <span class="hljs-comment">// compiled from: StaticInitTest.java</span>
-
-  <span class="hljs-comment">// access flags 0x8</span>
-  <span class="hljs-keyword">static</span> I a
-
-  <span class="hljs-comment">// access flags 0x8</span>
-  <span class="hljs-keyword">static</span> &lt;clinit&gt;()V
-   L0
-    LINENUMBER <span class="hljs-number">5</span> L0
-    BIPUSH <span class="hljs-number">6</span>
-    PUTSTATIC test3/StaticInitTest.a : I
-   L1
-    LINENUMBER <span class="hljs-number">7</span> L1
-    BIPUSH <span class="hljs-number">9</span>
-    PUTSTATIC test3/StaticInitTest.a : I
-    RETURN
-    MAXSTACK = <span class="hljs-number">1</span>
-    MAXLOCALS = <span class="hljs-number">0</span>
-
-  <span class="hljs-comment">// access flags 0x1</span>
-  <span class="hljs-keyword">public</span> &lt;init&gt;()V
-   L0
-    LINENUMBER <span class="hljs-number">3</span> L0
-    ALOAD <span class="hljs-number">0</span>
-    INVOKESPECIAL java/lang/Object.&lt;init&gt;()V
-    RETURN
-   L1
-    LOCALVARIABLE <span class="hljs-keyword">this</span> Ltest3/StaticInitTest; L0 L1 <span class="hljs-number">0</span>
-    MAXSTACK = <span class="hljs-number">1</span>
-    MAXLOCALS = <span class="hljs-number">1</span>
-
-  <span class="hljs-comment">// access flags 0x9</span>
-  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-title">main</span><span class="hljs-params">([Ljava/lang/String;)</span>V</span>
-<span class="hljs-function">   L0</span>
-<span class="hljs-function">    LINENUMBER 10 L0</span>
-<span class="hljs-function">    GETSTATIC java/lang/System.out : Ljava/io/PrintStream</span>;
-    NEW test3/StaticInitTest
-    INVOKESPECIAL test3/StaticInitTest.&lt;init&gt;()V
-    GETSTATIC test3/StaticInitTest.a : I
-    INVOKEVIRTUAL java/io/PrintStream.println(I)V
-   L1
-    LINENUMBER <span class="hljs-number">11</span> L1
-    RETURN
-   L2
-    LOCALVARIABLE args [Ljava/lang/String; L0 L2 <span class="hljs-number">0</span>
-    MAXSTACK = <span class="hljs-number">2</span>
-    MAXLOCALS = <span class="hljs-number">1</span>
-&#125;</code></pre>
+<p><img src="/2018/04/10/Java%E7%AC%94%E8%AE%B05/javapc.png" alt="javap"><br><br>&emsp;在这几张图片中出现了&lt;init&gt;这个东西，具体是什么请看链接<a href="https://blog.csdn.net/u013309870/article/details/72975536" target="_blank" rel="noopener">https://blog.csdn.net/u013309870/article/details/72975536</a>。按链接所说，这个东西会对非静态的代码合并，&lt;clinit&gt;会对静态的合并，看第二个代码的图，合并的非常明显。但是图里没有出现clinit,是因为某种“美化”，实际上是有的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// class version 53.0 (53)</span></span><br><span class="line"><span class="comment">// access flags 0x21</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test3</span>/<span class="title">StaticInitTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// compiled from: StaticInitTest.java</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// access flags 0x8</span></span><br><span class="line">  <span class="keyword">static</span> I a</span><br><span class="line"></span><br><span class="line">  <span class="comment">// access flags 0x8</span></span><br><span class="line">  <span class="keyword">static</span> &lt;clinit&gt;()V</span><br><span class="line">   L0</span><br><span class="line">    LINENUMBER <span class="number">5</span> L0</span><br><span class="line">    BIPUSH <span class="number">6</span></span><br><span class="line">    PUTSTATIC test3/StaticInitTest.a : I</span><br><span class="line">   L1</span><br><span class="line">    LINENUMBER <span class="number">7</span> L1</span><br><span class="line">    BIPUSH <span class="number">9</span></span><br><span class="line">    PUTSTATIC test3/StaticInitTest.a : I</span><br><span class="line">    RETURN</span><br><span class="line">    MAXSTACK = <span class="number">1</span></span><br><span class="line">    MAXLOCALS = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// access flags 0x1</span></span><br><span class="line">  <span class="keyword">public</span> &lt;init&gt;()V</span><br><span class="line">   L0</span><br><span class="line">    LINENUMBER <span class="number">3</span> L0</span><br><span class="line">    ALOAD <span class="number">0</span></span><br><span class="line">    INVOKESPECIAL java/lang/Object.&lt;init&gt;()V</span><br><span class="line">    RETURN</span><br><span class="line">   L1</span><br><span class="line">    LOCALVARIABLE <span class="keyword">this</span> Ltest3/StaticInitTest; L0 L1 <span class="number">0</span></span><br><span class="line">    MAXSTACK = <span class="number">1</span></span><br><span class="line">    MAXLOCALS = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// access flags 0x9</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="title">main</span><span class="params">([Ljava/lang/String;)</span>V</span></span><br><span class="line"><span class="function">   L0</span></span><br><span class="line"><span class="function">    LINENUMBER 10 L0</span></span><br><span class="line"><span class="function">    GETSTATIC java/lang/System.out : Ljava/io/PrintStream</span>;</span><br><span class="line">    NEW test3/StaticInitTest</span><br><span class="line">    INVOKESPECIAL test3/StaticInitTest.&lt;init&gt;()V</span><br><span class="line">    GETSTATIC test3/StaticInitTest.a : I</span><br><span class="line">    INVOKEVIRTUAL java/io/PrintStream.println(I)V</span><br><span class="line">   L1</span><br><span class="line">    LINENUMBER <span class="number">11</span> L1</span><br><span class="line">    RETURN</span><br><span class="line">   L2</span><br><span class="line">    LOCALVARIABLE args [Ljava/lang/String; L0 L2 <span class="number">0</span></span><br><span class="line">    MAXSTACK = <span class="number">2</span></span><br><span class="line">    MAXLOCALS = <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>&emsp;忽略这些不相关的，a=6为什么可以，是因为类加载时将a的声明放在了前面。但是还是有着疑问，如果是这样的话，我将a=6放在代码块外为什么就不行？这个问题还未结束。</p>
 
-            </article>
-            <hr>
-            <div>
-              <div class="post-metas mb-3">
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/java/">java</a>
-                    
-                  </div>
-                
-              </div>
-              
-                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
-              
-              
-                <div class="post-prevnext row">
-                  <div class="post-prev col-6">
-                    
-                    
-                      <a href="/2018/04/15/Clion%E7%9A%84%E9%85%8D%E7%BD%AE/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Clion的配置</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </div>
-                  <div class="post-next col-6">
-                    
-                    
-                      <a href="/2018/04/08/Java%E7%AC%94%E8%AE%B04/">
-                        <span class="hidden-mobile">Java笔记4</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </div>
-                </div>
-              
-            </div>
+    </div>
 
-            
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
           </div>
-        </div>
-      </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/04/08/Java%E7%AC%94%E8%AE%B04/" rel="prev" title="Java笔记4">
+      <i class="fa fa-chevron-left"></i> Java笔记4
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/04/15/Clion%E7%9A%84%E9%85%8D%E7%BD%AE/" rel="next" title="Clion的配置">
+      Clion的配置 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
+      </footer>
     
-      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
-        <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
-  <div id="tocbot"></div>
-</div>
-
-      </div>
-    
-  </div>
-</div>
-
-<!-- Custom -->
-
-
-    
-  </main>
-
+  </article>
   
-    <a id="scroll-top-button" href="#" role="button">
-      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-    </a>
   
-
-  
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-  
-
-  
-
-  
-
-  <footer class="mt-5">
-  <div class="text-center py-3">
-    <div>
-      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
-      <i class="iconfont icon-love"></i>
-      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
-        <span>Fluid</span></a>
-    </div>
-    
-
-    
-
-    
-  </div>
-</footer>
-
-<!-- SCRIPTS -->
-<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
-<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
-<script  src="/js/debouncer.js" ></script>
-<script  src="/js/main.js" ></script>
-
-<!-- Plugins -->
-
-
-  
-    <script  src="/js/lazyload.js" ></script>
   
 
 
 
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
+          </div>
+          
 
-
-
-
-
-
-
-  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
-  <script>
-    $(document).ready(function () {
-      var boardCtn = $('#board-ctn');
-      var boardTop = boardCtn.offset().top;
-
-      tocbot.init({
-        tocSelector: '#tocbot',
-        contentSelector: 'article.markdown-body',
-        headingSelector: 'h1,h2,h3,h4,h5,h6',
-        linkClass: 'tocbot-link',
-        activeLinkClass: 'tocbot-active-link',
-        listClass: 'tocbot-list',
-        isCollapsedClass: 'tocbot-is-collapsed',
-        collapsibleClass: 'tocbot-is-collapsible',
-        collapseDepth: 0,
-        scrollSmooth: true,
-        headingsOffset: -boardTop
-      });
-      if ($('.toc-list-item').length > 0) {
-        $('#toc').css('visibility', 'visible');
-      }
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
-  <script>
-    var typed = new Typed('#subtitle', {
-      strings: [
-        '  ',
-        "Java笔记5&nbsp;",
-      ],
-      cursorChar: "_",
-      typeSpeed: 70,
-      loop: false,
-    });
-    typed.stop();
-    $(document).ready(function () {
-      $(".typed-cursor").addClass("h2");
-      typed.start();
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
-      
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
     }
-    anchors.add(res.join(", "))
-  </script>
-
-
-
-  <script  src="/js/local-search.js" ></script>
-  <script>
-    var path = "/local-search.xml";
-    var inputArea = document.querySelector("#local-search-input");
-    inputArea.onclick = function () {
-      searchFunc(path, 'local-search-input', 'local-search-result');
-      this.onclick = null
-    }
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-  <script>
-    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
-      function () {
-        var element = document.createElement('a');
-        $(element).attr('data-fancybox', 'images');
-        $(element).attr('href', $(this).attr('src'));
-        $(this).wrap(element);
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
       }
-    );
-  </script>
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#类的继承"><span class="nav-number">1.</span> <span class="nav-text">类的继承</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#super的使用"><span class="nav-number">1.1.</span> <span class="nav-text">super的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用父类的构造器"><span class="nav-number">1.2.</span> <span class="nav-text">使用父类的构造器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多态"><span class="nav-number">1.3.</span> <span class="nav-text">多态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#继承与组合"><span class="nav-number">1.4.</span> <span class="nav-text">继承与组合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化块"><span class="nav-number">1.5.</span> <span class="nav-text">初始化块</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xianzheTM"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">xianzheTM</p>
+  <div class="site-description" itemprop="description">希望这里能见证一个菜鸟到大神的路程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xianzheTM" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xianzheTM" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ylxianzhe@outlook.com" title="E-Mail → mailto:ylxianzhe@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xianzheTM</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">687k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">19:05</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 
@@ -831,12 +525,9 @@
 
 
 
+  
 
-
-
-
-
-
+  
 
 </body>
 </html>

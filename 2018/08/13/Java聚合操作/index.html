@@ -1,224 +1,255 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
-
-
-
-
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="/img/favicon.png">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yl.dropsec.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="在Java笔记11那篇中提到了聚合操作,但是没讲,这篇来看看.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java聚合操作">
+<meta property="og:url" content="https://yl.dropsec.xyz/2018/08/13/Java%E8%81%9A%E5%90%88%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="新日暮里">
+<meta property="og:description" content="在Java笔记11那篇中提到了聚合操作,但是没讲,这篇来看看.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-08-13T13:40:24.000Z">
+<meta property="article:modified_time" content="2020-05-07T14:19:16.000Z">
+<meta property="article:author" content="xianzheTM">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://yl.dropsec.xyz/2018/08/13/Java%E8%81%9A%E5%90%88%E6%93%8D%E4%BD%9C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Java聚合操作 | 新日暮里</title>
   
-  <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="希望这里能见证一个菜鸟到大神的路程">
-  <meta name="author" content="xianzheTM">
-  <meta name="keywords" content="">
-  <title>Java聚合操作 - 新日暮里</title>
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
-
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
-  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
-
-  
-    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
-  
-
-  
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
 
 
-<link  rel="stylesheet" href="/css/main.css" />
 
-<!-- 自定义样式保持在最底部 -->
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-  <script  src="/js/utils.js" ></script>
-<meta name="generator" content="Hexo 4.2.0"></head>
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
+</head>
 
-<body>
-  <header style="height: 70vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand"
-       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                首页
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                归档
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                分类
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/">
-                <i class="iconfont icon-tags-fill"></i>
-                标签
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
-          </li>
-        
-      </ul>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
-</nav>
 
-    <div class="view intro-2" id="background" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="container text-center white-text fadeInUp">
-            <span class="h2" id="subtitle">
-              
-            </span>
+  <div class="site-meta">
 
-            
-              
-  <div class="mt-3 post-meta">
-    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2018-08-13 21:40">
-      2018年8月13日 晚上
-    </time>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">新日暮里</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
   </div>
 
-
-<div class="mt-1">
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-chart"></i>
-      1.4k 字
-    </span>
-  
-
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-clock-fill"></i>
-      
-      
-      21
-       分钟
-    </span>
-  
-
-  
-  
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
 </div>
 
-            
-          </div>
 
-          
-        </div>
-      </div>
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
     </div>
-  </header>
+  </div>
 
-  <main>
+</div>
+    </header>
+
     
-      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="container nopadding-md" id="board-ctn">
-        <div class="py-5" id="board">
-          <div class="post-content mx-auto" id="post">
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
             
-            <article class="markdown-body">
-              <p>在Java笔记11那篇中提到了聚合操作,但是没讲,这篇来看看.</p>
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yl.dropsec.xyz/2018/08/13/Java%E8%81%9A%E5%90%88%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="xianzheTM">
+      <meta itemprop="description" content="希望这里能见证一个菜鸟到大神的路程">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新日暮里">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java聚合操作
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-08-13 21:40:24" itemprop="dateCreated datePublished" datetime="2018-08-13T21:40:24+08:00">2018-08-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-07 22:19:16" itemprop="dateModified" datetime="2020-05-07T22:19:16+08:00">2020-05-07</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在Java笔记11那篇中提到了聚合操作,但是没讲,这篇来看看.</p>
 <a id="more"></a>
 
 <h1 id="传统方式与聚合操作方式遍历数据"><a href="#传统方式与聚合操作方式遍历数据" class="headerlink" title="传统方式与聚合操作方式遍历数据"></a>传统方式与聚合操作方式遍历数据</h1><p>遍历数据的传统方式就是使用for循环，然后条件判断，最后打印出满足条件的数据:</p>
-<pre><code class="hljs java"><span class="hljs-keyword">for</span> (Hero h : heros) &#123;
-   <span class="hljs-keyword">if</span> (h.hp &gt; <span class="hljs-number">100</span> &amp;&amp; h.damage &lt; <span class="hljs-number">50</span>)
-      System.out.println(h.name);
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (Hero h : heros) &#123;</span><br><span class="line">   <span class="keyword">if</span> (h.hp &gt; <span class="number">100</span> &amp;&amp; h.damage &lt; <span class="number">50</span>)</span><br><span class="line">      System.out.println(h.name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>使用聚合操作方式，画风就发生了变化：</p>
-<pre><code class="hljs java"> 
-heros
-	.stream()
-	.filter(h -&gt; h.hp &gt; <span class="hljs-number">100</span> &amp;&amp; h.damage &lt; <span class="hljs-number">50</span>)
-	.forEach(h -&gt; System.out.println(h.name));</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line">heros</span><br><span class="line">	.stream()</span><br><span class="line">	.filter(h -&gt; h.hp &gt; <span class="number">100</span> &amp;&amp; h.damage &lt; <span class="number">50</span>)</span><br><span class="line">	.forEach(h -&gt; System.out.println(h.name));</span><br></pre></td></tr></table></figure>
 
 <h1 id="Stream和管道的概念"><a href="#Stream和管道的概念" class="headerlink" title="Stream和管道的概念"></a>Stream和管道的概念</h1><p>要了解聚合操作，首先要建立Stream和管道的概念</p>
 <p>Stream和Collection结构化的数据不一样，Stream是一系列的元素，就像是生产线上的罐头一样，一串串的出来。</p>
@@ -233,36 +264,7 @@ heros
 <h1 id="管道源"><a href="#管道源" class="headerlink" title="管道源"></a>管道源</h1><p>把Collection切换成管道源很简单，调用stream()就行了。</p>
 <p><code>heros.stream()</code></p>
 <p>但是数组却没有stream()方法，需要使用<code>Arrays.stream(hs)</code>或者<code>Stream.of(hs)</code></p>
-<pre><code class="hljs java"><span class="hljs-keyword">package</span> lambda;
- 
-<span class="hljs-keyword">import</span> java.util.ArrayList;
-<span class="hljs-keyword">import</span> java.util.Arrays;
-<span class="hljs-keyword">import</span> java.util.HashMap;
-<span class="hljs-keyword">import</span> java.util.List;
-<span class="hljs-keyword">import</span> java.util.Random;
- 
-<span class="hljs-keyword">import</span> charactor.Hero;
- 
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestAggregate</span> </span>&#123;
- 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        Random r = <span class="hljs-keyword">new</span> Random();
-        List&lt;Hero&gt; heros = <span class="hljs-keyword">new</span> ArrayList&lt;Hero&gt;();
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++) &#123;
-            heros.add(<span class="hljs-keyword">new</span> Hero(<span class="hljs-string">"hero "</span> + i, r.nextInt(<span class="hljs-number">1000</span>), r.nextInt(<span class="hljs-number">100</span>)));
-        &#125;
-        <span class="hljs-comment">//管道源是集合</span>
-        heros
-        .stream()
-        .forEach(h-&gt;System.out.println(h.name));
-         
-        <span class="hljs-comment">//管道源是数组</span>
-        Hero hs[] = heros.toArray(<span class="hljs-keyword">new</span> Hero[heros.size()]);
-        Arrays.stream(hs)
-        .forEach(h-&gt;System.out.println(h.name));
-         
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> lambda;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Random;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> charactor.Hero;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestAggregate</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Random r = <span class="keyword">new</span> Random();</span><br><span class="line">        List&lt;Hero&gt; heros = <span class="keyword">new</span> ArrayList&lt;Hero&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">            heros.add(<span class="keyword">new</span> Hero(<span class="string">"hero "</span> + i, r.nextInt(<span class="number">1000</span>), r.nextInt(<span class="number">100</span>)));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//管道源是集合</span></span><br><span class="line">        heros</span><br><span class="line">        .stream()</span><br><span class="line">        .forEach(h-&gt;System.out.println(h.name));</span><br><span class="line">         </span><br><span class="line">        <span class="comment">//管道源是数组</span></span><br><span class="line">        Hero hs[] = heros.toArray(<span class="keyword">new</span> Hero[heros.size()]);</span><br><span class="line">        Arrays.stream(hs)</span><br><span class="line">        .forEach(h-&gt;System.out.println(h.name));</span><br><span class="line">         </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h1 id="中间操作"><a href="#中间操作" class="headerlink" title="中间操作"></a>中间操作</h1><p>每个中间操作，又会返回一个Stream，比如.filter()又返回一个Stream, 中间操作是“懒”操作，并不会真正进行遍历。 </p>
 <p>中间操作比较多，主要分两类对元素进行筛选和转换为其他形式的流</p>
@@ -284,125 +286,10 @@ heros
 </ul>
 </li>
 </ul>
-<pre><code class="hljs java"><span class="hljs-keyword">package</span> lambda;
-  
-<span class="hljs-keyword">import</span> java.util.ArrayList;
-<span class="hljs-keyword">import</span> java.util.List;
-<span class="hljs-keyword">import</span> java.util.Random;
- 
-<span class="hljs-keyword">import</span> charactor.Hero;
-  
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestAggregate</span> </span>&#123;
-  
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        Random r = <span class="hljs-keyword">new</span> Random();
-        List&lt;Hero&gt; heros = <span class="hljs-keyword">new</span> ArrayList&lt;Hero&gt;();
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++) &#123;
-            heros.add(<span class="hljs-keyword">new</span> Hero(<span class="hljs-string">"hero "</span> + i, r.nextInt(<span class="hljs-number">1000</span>), r.nextInt(<span class="hljs-number">100</span>)));
-        &#125;
-        <span class="hljs-comment">//制造一个重复数据</span>
-        heros.add(heros.get(<span class="hljs-number">0</span>));
-        System.out.println(<span class="hljs-string">"初始化集合后的数据 (最后一个数据重复)："</span>);
-        System.out.println(heros);
-        System.out.println(<span class="hljs-string">"满足条件hp&gt;100&amp;&amp;damage&lt;50的数据"</span>);
-          
-        heros
-            .stream()
-            .filter(h-&gt;h.hp&gt;<span class="hljs-number">100</span>&amp;&amp;h.damage&lt;<span class="hljs-number">50</span>)
-            .forEach(h-&gt;System.out.print(h));
-          
-        System.out.println(<span class="hljs-string">"去除重复的数据，去除标准是看equals"</span>);
-        heros
-            .stream()
-            .distinct()
-            .forEach(h-&gt;System.out.print(h));
-        System.out.println(<span class="hljs-string">"按照血量排序"</span>);
-        heros
-            .stream()
-            .sorted((h1,h2)-&gt;h1.hp&gt;=h2.hp?<span class="hljs-number">1</span>:-<span class="hljs-number">1</span>)
-            .forEach(h-&gt;System.out.print(h));
-          
-        System.out.println(<span class="hljs-string">"保留3个"</span>);
-        heros
-            .stream()
-            .limit(<span class="hljs-number">3</span>)
-            .forEach(h-&gt;System.out.print(h));
-          
-        System.out.println(<span class="hljs-string">"忽略前3个"</span>);
-        heros
-            .stream()
-            .skip(<span class="hljs-number">3</span>)
-            .forEach(h-&gt;System.out.print(h));
-          
-        System.out.println(<span class="hljs-string">"转换为double的Stream"</span>);
-        heros
-            .stream()
-            .mapToDouble(Hero::getHp)
-            .forEach(h-&gt;System.out.println(h));
-          
-        System.out.println(<span class="hljs-string">"转换任意类型的Stream"</span>);
-        heros
-            .stream()
-            .map((h)-&gt; h.name + <span class="hljs-string">" - "</span> + h.hp + <span class="hljs-string">" - "</span> + h.damage)
-            .forEach(h-&gt;System.out.println(h));
-          
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> lambda;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Random;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> charactor.Hero;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestAggregate</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Random r = <span class="keyword">new</span> Random();</span><br><span class="line">        List&lt;Hero&gt; heros = <span class="keyword">new</span> ArrayList&lt;Hero&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">            heros.add(<span class="keyword">new</span> Hero(<span class="string">"hero "</span> + i, r.nextInt(<span class="number">1000</span>), r.nextInt(<span class="number">100</span>)));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//制造一个重复数据</span></span><br><span class="line">        heros.add(heros.get(<span class="number">0</span>));</span><br><span class="line">        System.out.println(<span class="string">"初始化集合后的数据 (最后一个数据重复)："</span>);</span><br><span class="line">        System.out.println(heros);</span><br><span class="line">        System.out.println(<span class="string">"满足条件hp&gt;100&amp;&amp;damage&lt;50的数据"</span>);</span><br><span class="line">          </span><br><span class="line">        heros</span><br><span class="line">            .stream()</span><br><span class="line">            .filter(h-&gt;h.hp&gt;<span class="number">100</span>&amp;&amp;h.damage&lt;<span class="number">50</span>)</span><br><span class="line">            .forEach(h-&gt;System.out.print(h));</span><br><span class="line">          </span><br><span class="line">        System.out.println(<span class="string">"去除重复的数据，去除标准是看equals"</span>);</span><br><span class="line">        heros</span><br><span class="line">            .stream()</span><br><span class="line">            .distinct()</span><br><span class="line">            .forEach(h-&gt;System.out.print(h));</span><br><span class="line">        System.out.println(<span class="string">"按照血量排序"</span>);</span><br><span class="line">        heros</span><br><span class="line">            .stream()</span><br><span class="line">            .sorted((h1,h2)-&gt;h1.hp&gt;=h2.hp?<span class="number">1</span>:-<span class="number">1</span>)</span><br><span class="line">            .forEach(h-&gt;System.out.print(h));</span><br><span class="line">          </span><br><span class="line">        System.out.println(<span class="string">"保留3个"</span>);</span><br><span class="line">        heros</span><br><span class="line">            .stream()</span><br><span class="line">            .limit(<span class="number">3</span>)</span><br><span class="line">            .forEach(h-&gt;System.out.print(h));</span><br><span class="line">          </span><br><span class="line">        System.out.println(<span class="string">"忽略前3个"</span>);</span><br><span class="line">        heros</span><br><span class="line">            .stream()</span><br><span class="line">            .skip(<span class="number">3</span>)</span><br><span class="line">            .forEach(h-&gt;System.out.print(h));</span><br><span class="line">          </span><br><span class="line">        System.out.println(<span class="string">"转换为double的Stream"</span>);</span><br><span class="line">        heros</span><br><span class="line">            .stream()</span><br><span class="line">            .mapToDouble(Hero::getHp)</span><br><span class="line">            .forEach(h-&gt;System.out.println(h));</span><br><span class="line">          </span><br><span class="line">        System.out.println(<span class="string">"转换任意类型的Stream"</span>);</span><br><span class="line">        heros</span><br><span class="line">            .stream()</span><br><span class="line">            .map((h)-&gt; h.name + <span class="string">" - "</span> + h.hp + <span class="string">" - "</span> + h.damage)</span><br><span class="line">            .forEach(h-&gt;System.out.println(h));</span><br><span class="line">          </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>其中Hero类的代码如下:</p>
-<pre><code class="hljs java"><span class="hljs-keyword">package</span> charactor;
-      
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Hero</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Comparable</span>&lt;<span class="hljs-title">Hero</span>&gt;</span>&#123;
-    <span class="hljs-keyword">public</span> String name;
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">float</span> hp;
-         
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> damage;
-         
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Hero</span><span class="hljs-params">()</span></span>&#123;
-            
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">return</span> name;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setName</span><span class="hljs-params">(String name)</span> </span>&#123;
-        <span class="hljs-keyword">this</span>.name = name;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">float</span> <span class="hljs-title">getHp</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">return</span> hp;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setHp</span><span class="hljs-params">(<span class="hljs-keyword">float</span> hp)</span> </span>&#123;
-        <span class="hljs-keyword">this</span>.hp = hp;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getDamage</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">return</span> damage;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setDamage</span><span class="hljs-params">(<span class="hljs-keyword">int</span> damage)</span> </span>&#123;
-        <span class="hljs-keyword">this</span>.damage = damage;
-    &#125;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Hero</span><span class="hljs-params">(String name)</span> </span>&#123;
-        <span class="hljs-keyword">this</span>.name =name;
-    &#125;
-    <span class="hljs-comment">//初始化name,hp,damage的构造方法</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Hero</span><span class="hljs-params">(String name,<span class="hljs-keyword">float</span> hp, <span class="hljs-keyword">int</span> damage)</span> </span>&#123;
-        <span class="hljs-keyword">this</span>.name =name;
-        <span class="hljs-keyword">this</span>.hp = hp;
-        <span class="hljs-keyword">this</span>.damage = damage;
-    &#125;
-    
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compareTo</span><span class="hljs-params">(Hero anotherHero)</span> </span>&#123;
-        <span class="hljs-keyword">if</span>(damage&lt;anotherHero.damage)
-            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>; 
-        <span class="hljs-keyword">else</span>
-            <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
-    &#125;
-    
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">return</span> <span class="hljs-string">"Hero [name="</span> + name + <span class="hljs-string">", hp="</span> + hp + <span class="hljs-string">", damage="</span> + damage + <span class="hljs-string">"]\r\n"</span>;
-    &#125;
-        
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> charactor;</span><br><span class="line">      </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Hero</span> <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">Hero</span>&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">float</span> hp;</span><br><span class="line">         </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> damage;</span><br><span class="line">         </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Hero</span><span class="params">()</span></span>&#123;</span><br><span class="line">            </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">float</span> <span class="title">getHp</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> hp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setHp</span><span class="params">(<span class="keyword">float</span> hp)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.hp = hp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getDamage</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> damage;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDamage</span><span class="params">(<span class="keyword">int</span> damage)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.damage = damage;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Hero</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name =name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//初始化name,hp,damage的构造方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Hero</span><span class="params">(String name,<span class="keyword">float</span> hp, <span class="keyword">int</span> damage)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name =name;</span><br><span class="line">        <span class="keyword">this</span>.hp = hp;</span><br><span class="line">        <span class="keyword">this</span>.damage = damage;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Hero anotherHero)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(damage&lt;anotherHero.damage)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>; </span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Hero [name="</span> + name + <span class="string">", hp="</span> + hp + <span class="string">", damage="</span> + damage + <span class="string">"]\r\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h1 id="结束操作"><a href="#结束操作" class="headerlink" title="结束操作"></a>结束操作</h1><p>结束操作才真正进行遍历行为，前面的中间操作也在这个时候，才真正的执行。 常见结束操作如下：</p>
 <p>forEach() 遍历每个元素</p>
@@ -411,298 +298,206 @@ heros
 <p>max(Comparator<T>) 取最大的元素</T></p>
 <p>count() 总数</p>
 <p>findFirst() 第一个元素</p>
-<pre><code class="hljs java"><span class="hljs-keyword">package</span> lambda;
-  
-<span class="hljs-keyword">import</span> java.util.ArrayList;
-<span class="hljs-keyword">import</span> java.util.Arrays;
-<span class="hljs-keyword">import</span> java.util.List;
-<span class="hljs-keyword">import</span> java.util.Random;
- 
-<span class="hljs-keyword">import</span> org.omg.Messaging.SYNC_WITH_TRANSPORT;
- 
-<span class="hljs-keyword">import</span> charactor.Hero;
-  
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestAggregate</span> </span>&#123;
-  
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        Random r = <span class="hljs-keyword">new</span> Random();
-        List&lt;Hero&gt; heros = <span class="hljs-keyword">new</span> ArrayList&lt;Hero&gt;();
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++) &#123;
-            heros.add(<span class="hljs-keyword">new</span> Hero(<span class="hljs-string">"hero "</span> + i, r.nextInt(<span class="hljs-number">1000</span>), r.nextInt(<span class="hljs-number">100</span>)));
-        &#125;
-        System.out.println(<span class="hljs-string">"遍历集合中的每个数据"</span>);
-        heros
-            .stream()
-            .forEach(h-&gt;System.out.print(h));
-        System.out.println(<span class="hljs-string">"返回一个数组"</span>);
-        Object[] hs= heros
-            .stream()
-            .toArray();
-        System.out.println(Arrays.toString(hs));
-        System.out.println(<span class="hljs-string">"返回伤害最低的那个英雄"</span>);
-        Hero minDamageHero =
-        heros
-            .stream()
-            .min((h1,h2)-&gt;h1.damage-h2.damage)
-            .get();
-        System.out.print(minDamageHero);
-        System.out.println(<span class="hljs-string">"返回伤害最高的那个英雄"</span>);
- 
-        Hero mxnDamageHero =
-                heros
-                .stream()
-                .max((h1,h2)-&gt;h1.damage-h2.damage)
-                .get();
-        System.out.print(mxnDamageHero);     
-         
-        System.out.println(<span class="hljs-string">"流中数据的总数"</span>);
-        <span class="hljs-keyword">long</span> count = heros
-                .stream()
-                .count();
-        System.out.println(count);
- 
-        System.out.println(<span class="hljs-string">"第一个英雄"</span>);
-        Hero firstHero =
-                heros
-                .stream()
-                .findFirst()
-                .get();
-         
-        System.out.println(firstHero);
-         
-    &#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> lambda;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Random;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> org.omg.Messaging.SYNC_WITH_TRANSPORT;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> charactor.Hero;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestAggregate</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Random r = <span class="keyword">new</span> Random();</span><br><span class="line">        List&lt;Hero&gt; heros = <span class="keyword">new</span> ArrayList&lt;Hero&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">            heros.add(<span class="keyword">new</span> Hero(<span class="string">"hero "</span> + i, r.nextInt(<span class="number">1000</span>), r.nextInt(<span class="number">100</span>)));</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"遍历集合中的每个数据"</span>);</span><br><span class="line">        heros</span><br><span class="line">            .stream()</span><br><span class="line">            .forEach(h-&gt;System.out.print(h));</span><br><span class="line">        System.out.println(<span class="string">"返回一个数组"</span>);</span><br><span class="line">        Object[] hs= heros</span><br><span class="line">            .stream()</span><br><span class="line">            .toArray();</span><br><span class="line">        System.out.println(Arrays.toString(hs));</span><br><span class="line">        System.out.println(<span class="string">"返回伤害最低的那个英雄"</span>);</span><br><span class="line">        Hero minDamageHero =</span><br><span class="line">        heros</span><br><span class="line">            .stream()</span><br><span class="line">            .min((h1,h2)-&gt;h1.damage-h2.damage)</span><br><span class="line">            .get();</span><br><span class="line">        System.out.print(minDamageHero);</span><br><span class="line">        System.out.println(<span class="string">"返回伤害最高的那个英雄"</span>);</span><br><span class="line"> </span><br><span class="line">        Hero mxnDamageHero =</span><br><span class="line">                heros</span><br><span class="line">                .stream()</span><br><span class="line">                .max((h1,h2)-&gt;h1.damage-h2.damage)</span><br><span class="line">                .get();</span><br><span class="line">        System.out.print(mxnDamageHero);     </span><br><span class="line">         </span><br><span class="line">        System.out.println(<span class="string">"流中数据的总数"</span>);</span><br><span class="line">        <span class="keyword">long</span> count = heros</span><br><span class="line">                .stream()</span><br><span class="line">                .count();</span><br><span class="line">        System.out.println(count);</span><br><span class="line"> </span><br><span class="line">        System.out.println(<span class="string">"第一个英雄"</span>);</span><br><span class="line">        Hero firstHero =</span><br><span class="line">                heros</span><br><span class="line">                .stream()</span><br><span class="line">                .findFirst()</span><br><span class="line">                .get();</span><br><span class="line">         </span><br><span class="line">        System.out.println(firstHero);</span><br><span class="line">         </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
-            </article>
-            <hr>
-            <div>
-              <div class="post-metas mb-3">
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/java/">java</a>
-                    
-                  </div>
-                
-              </div>
-              
-                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
-              
-              
-                <div class="post-prevnext row">
-                  <div class="post-prev col-6">
-                    
-                    
-                      <a href="/2018/08/13/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Java多线程</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </div>
-                  <div class="post-next col-6">
-                    
-                    
-                      <a href="/2018/08/13/Java%E6%B3%9B%E5%9E%8B/">
-                        <span class="hidden-mobile">Java泛型</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </div>
-                </div>
-              
-            </div>
+    </div>
 
-            
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
           </div>
-        </div>
-      </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/08/13/Java%E6%B3%9B%E5%9E%8B/" rel="prev" title="Java泛型">
+      <i class="fa fa-chevron-left"></i> Java泛型
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/08/13/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="next" title="Java多线程">
+      Java多线程 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
+      </footer>
     
-      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
-        <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
-  <div id="tocbot"></div>
-</div>
-
-      </div>
-    
-  </div>
-</div>
-
-<!-- Custom -->
-
-
-    
-  </main>
-
+  </article>
   
-    <a id="scroll-top-button" href="#" role="button">
-      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-    </a>
   
-
-  
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-  
-
-  
-
-  
-
-  <footer class="mt-5">
-  <div class="text-center py-3">
-    <div>
-      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
-      <i class="iconfont icon-love"></i>
-      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
-        <span>Fluid</span></a>
-    </div>
-    
-
-    
-
-    
-  </div>
-</footer>
-
-<!-- SCRIPTS -->
-<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
-<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
-<script  src="/js/debouncer.js" ></script>
-<script  src="/js/main.js" ></script>
-
-<!-- Plugins -->
-
-
-  
-    <script  src="/js/lazyload.js" ></script>
   
 
 
 
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
-  <script  src="/js/clipboard-use.js" ></script>
+          </div>
+          
 
-
-
-
-
-
-
-  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
-  <script>
-    $(document).ready(function () {
-      var boardCtn = $('#board-ctn');
-      var boardTop = boardCtn.offset().top;
-
-      tocbot.init({
-        tocSelector: '#tocbot',
-        contentSelector: 'article.markdown-body',
-        headingSelector: 'h1,h2,h3,h4,h5,h6',
-        linkClass: 'tocbot-link',
-        activeLinkClass: 'tocbot-active-link',
-        listClass: 'tocbot-list',
-        isCollapsedClass: 'tocbot-is-collapsed',
-        collapsibleClass: 'tocbot-is-collapsible',
-        collapseDepth: 0,
-        scrollSmooth: true,
-        headingsOffset: -boardTop
-      });
-      if ($('.toc-list-item').length > 0) {
-        $('#toc').css('visibility', 'visible');
-      }
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
-  <script>
-    var typed = new Typed('#subtitle', {
-      strings: [
-        '  ',
-        "Java聚合操作&nbsp;",
-      ],
-      cursorChar: "_",
-      typeSpeed: 70,
-      loop: false,
-    });
-    typed.stop();
-    $(document).ready(function () {
-      $(".typed-cursor").addClass("h2");
-      typed.start();
-    });
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
-      
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
     }
-    anchors.add(res.join(", "))
-  </script>
-
-
-
-  <script  src="/js/local-search.js" ></script>
-  <script>
-    var path = "/local-search.xml";
-    var inputArea = document.querySelector("#local-search-input");
-    inputArea.onclick = function () {
-      searchFunc(path, 'local-search-input', 'local-search-result');
-      this.onclick = null
-    }
-  </script>
-
-
-
-  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-  <script>
-    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
-      function () {
-        var element = document.createElement('a');
-        $(element).attr('data-fancybox', 'images');
-        $(element).attr('href', $(this).attr('src'));
-        $(this).wrap(element);
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
       }
-    );
-  </script>
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#传统方式与聚合操作方式遍历数据"><span class="nav-number">1.</span> <span class="nav-text">传统方式与聚合操作方式遍历数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Stream和管道的概念"><span class="nav-number">2.</span> <span class="nav-text">Stream和管道的概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#管道源"><span class="nav-number">3.</span> <span class="nav-text">管道源</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#中间操作"><span class="nav-number">4.</span> <span class="nav-text">中间操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结束操作"><span class="nav-number">5.</span> <span class="nav-text">结束操作</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xianzheTM"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">xianzheTM</p>
+  <div class="site-description" itemprop="description">希望这里能见证一个菜鸟到大神的路程</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xianzheTM" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xianzheTM" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ylxianzhe@outlook.com" title="E-Mail → mailto:ylxianzhe@outlook.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xianzheTM</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">687k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">19:05</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
 
 
 
@@ -716,12 +511,9 @@ heros
 
 
 
+  
 
-
-
-
-
-
+  
 
 </body>
 </html>
