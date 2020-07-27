@@ -20,30 +20,101 @@
     var CONFIG = {"hostname":"yl.dropsec.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="希望这里能见证一个菜鸟到大神的路程">
-<meta property="og:type" content="website">
-<meta property="og:title" content="新日暮里">
-<meta property="og:url" content="https://yl.dropsec.xyz/index.html">
+  <meta name="description" content="Spring Boot入门1.SpringBoot简介 简化Spring应用开发的一个框架； 整个Spring技术栈的一个大整合； J2EE开发的一站式解决方案；  2.微服务2014，martin fowler 微服务：架构风格（服务微化） 一个应用应该是一组小型服务；可以通过HTTP的方式进行互通； 单体应用：ALL IN ONE 微服务：每一个功能元素最终都是一个可独立替换和独立升级的软件单">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot">
+<meta property="og:url" content="https://yl.dropsec.xyz/2020/07/20/Spring%20Boot/index.html">
 <meta property="og:site_name" content="新日暮里">
-<meta property="og:description" content="希望这里能见证一个菜鸟到大神的路程">
+<meta property="og:description" content="Spring Boot入门1.SpringBoot简介 简化Spring应用开发的一个框架； 整个Spring技术栈的一个大整合； J2EE开发的一站式解决方案；  2.微服务2014，martin fowler 微服务：架构风格（服务微化） 一个应用应该是一组小型服务；可以通过HTTP的方式进行互通； 单体应用：ALL IN ONE 微服务：每一个功能元素最终都是一个可独立替换和独立升级的软件单">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720212401438.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720212549125.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720213216735.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720214302494.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720214432504.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720214814367.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720230445962.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720230756029.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720231355716.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720231646355.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720231736683.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720232014909.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720232217177.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200721173941169.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200721195733843.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200721202003267.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200721204407802.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200721204248240.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/concrete-bindings.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/legacy.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200722102024845.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200722142918697.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200722144602179.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200722145217620.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200722145648961.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/template-engine.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200722161949638.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/2018-02-04_123955.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200722221948117.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200722223316785.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200722231002039.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200723142610188.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200723143052726.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200723150150403.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200723150613065.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200723155630298.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200725111458563.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200725132328064.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200725132832861.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200726144014757.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200726232702324.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200726235109418.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727001738457.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727002625214.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727004122412.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727004937998.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727005102595.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727122947429.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727123245183.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727153615597.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727123839514.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727141240880.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727141735742.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727155023738.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727155451718.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727161227480.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727162117716.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727162655705.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727164624937.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727164958362.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727165405272.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727165906844.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727170040742.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727170407820.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727172307917.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727173150101.png">
+<meta property="og:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727173243795.png">
+<meta property="article:published_time" content="2020-07-20T08:56:31.000Z">
+<meta property="article:modified_time" content="2020-07-27T12:42:02.476Z">
 <meta property="article:author" content="xianzheTM">
+<meta property="article:tag" content="Spring">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720212401438.png">
 
-<link rel="canonical" href="https://yl.dropsec.xyz/">
+<link rel="canonical" href="https://yl.dropsec.xyz/2020/07/20/Spring%20Boot/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>新日暮里</title>
+  <title>SpringBoot | 新日暮里</title>
   
 
 
@@ -174,9 +245,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -192,10 +264,9 @@
       <meta itemprop="name" content="新日暮里">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/20/Spring%20Boot/" class="post-title-link" itemprop="url">SpringBoot</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          SpringBoot
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -239,7 +310,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Spring-Boot入门"><a href="#Spring-Boot入门" class="headerlink" title="Spring Boot入门"></a>Spring Boot入门</h1><h2 id="1-SpringBoot简介"><a href="#1-SpringBoot简介" class="headerlink" title="1.SpringBoot简介"></a>1.SpringBoot简介</h2><blockquote>
+        <h1 id="Spring-Boot入门"><a href="#Spring-Boot入门" class="headerlink" title="Spring Boot入门"></a>Spring Boot入门</h1><h2 id="1-SpringBoot简介"><a href="#1-SpringBoot简介" class="headerlink" title="1.SpringBoot简介"></a>1.SpringBoot简介</h2><blockquote>
 <p>简化Spring应用开发的一个框架；</p>
 <p>整个Spring技术栈的一个大整合；</p>
 <p>J2EE开发的一站式解决方案；</p>
@@ -1142,772 +1213,34 @@
 </ol>
 <p>将需要启动就加载的自定配置类配置在META-INF/spring.properties文件中.</p>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/Spring/" rel="tag"># Spring</a>
+          </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yl.dropsec.xyz/2020/07/17/Spring%E6%B3%A8%E8%A7%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="xianzheTM">
-      <meta itemprop="description" content="希望这里能见证一个菜鸟到大神的路程">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="新日暮里">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/17/Spring%E6%B3%A8%E8%A7%A3/" class="post-title-link" itemprop="url">Spring注解</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-07-17 17:26:05" itemprop="dateCreated datePublished" datetime="2020-07-17T17:26:05+08:00">2020-07-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-20 16:54:06" itemprop="dateModified" datetime="2020-07-20T16:54:06+08:00">2020-07-20</time>
-              </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>24k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>41 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>回顾和深入注解使用.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/17/Spring%E6%B3%A8%E8%A7%A3/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yl.dropsec.xyz/2020/07/17/MyBatisPlus/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="xianzheTM">
-      <meta itemprop="description" content="希望这里能见证一个菜鸟到大神的路程">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="新日暮里">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/17/MyBatisPlus/" class="post-title-link" itemprop="url">MyBatisPlus</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-07-17 17:06:32" itemprop="dateCreated datePublished" datetime="2020-07-17T17:06:32+08:00">2020-07-17</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yl.dropsec.xyz/2020/07/15/Redis/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="xianzheTM">
-      <meta itemprop="description" content="希望这里能见证一个菜鸟到大神的路程">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="新日暮里">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/15/Redis/" class="post-title-link" itemprop="url">Redis</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-07-15 22:05:29" itemprop="dateCreated datePublished" datetime="2020-07-15T22:05:29+08:00">2020-07-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-20 13:31:51" itemprop="dateModified" datetime="2020-07-20T13:31:51+08:00">2020-07-20</time>
-              </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>21k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>34 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Redis使用.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/15/Redis/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/17/Spring%E6%B3%A8%E8%A7%A3/" rel="prev" title="Spring注解">
+      <i class="fa fa-chevron-left"></i> Spring注解
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
   
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yl.dropsec.xyz/2020/07/15/MySQL%E9%94%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="xianzheTM">
-      <meta itemprop="description" content="希望这里能见证一个菜鸟到大神的路程">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="新日暮里">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/15/MySQL%E9%94%81/" class="post-title-link" itemprop="url">MySQL锁</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-07-15 17:35:00" itemprop="dateCreated datePublished" datetime="2020-07-15T17:35:00+08:00">2020-07-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-20 13:33:31" itemprop="dateModified" datetime="2020-07-20T13:33:31+08:00">2020-07-20</time>
-              </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>10k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>17 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>MySQL锁.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/15/MySQL%E9%94%81/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yl.dropsec.xyz/2020/07/13/MySQL-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="xianzheTM">
-      <meta itemprop="description" content="希望这里能见证一个菜鸟到大神的路程">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="新日暮里">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/13/MySQL-2/" class="post-title-link" itemprop="url">MySQL-2</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-07-13 13:24:38" itemprop="dateCreated datePublished" datetime="2020-07-13T13:24:38+08:00">2020-07-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-20 13:33:22" itemprop="dateModified" datetime="2020-07-20T13:33:22+08:00">2020-07-20</time>
-              </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>17k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>29 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>MySQL高级.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/13/MySQL-2/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yl.dropsec.xyz/2020/07/07/SSM%E6%95%B4%E5%90%88%E5%BC%80%E5%8F%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="xianzheTM">
-      <meta itemprop="description" content="希望这里能见证一个菜鸟到大神的路程">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="新日暮里">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/07/SSM%E6%95%B4%E5%90%88%E5%BC%80%E5%8F%91/" class="post-title-link" itemprop="url">SSM整合开发</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-07-07 20:27:46" itemprop="dateCreated datePublished" datetime="2020-07-07T20:27:46+08:00">2020-07-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-20 13:33:58" itemprop="dateModified" datetime="2020-07-20T13:33:58+08:00">2020-07-20</time>
-              </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>13k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>22 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>SSM整合.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/07/SSM%E6%95%B4%E5%90%88%E5%BC%80%E5%8F%91/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yl.dropsec.xyz/2020/07/03/Mybatis/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="xianzheTM">
-      <meta itemprop="description" content="希望这里能见证一个菜鸟到大神的路程">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="新日暮里">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/03/Mybatis/" class="post-title-link" itemprop="url">Mybatis</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-07-03 18:00:41" itemprop="dateCreated datePublished" datetime="2020-07-03T18:00:41+08:00">2020-07-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-20 13:35:14" itemprop="dateModified" datetime="2020-07-20T13:35:14+08:00">2020-07-20</time>
-              </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>14k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>23 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <hr>
-<p>title:Mybatis<br>date:2020-07-0318:00:41<br>tags:Mybatis</p>
-<hr>
-<p>Mybatis使用.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/03/Mybatis/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yl.dropsec.xyz/2020/07/03/Spring-MVC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="xianzheTM">
-      <meta itemprop="description" content="希望这里能见证一个菜鸟到大神的路程">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="新日暮里">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/03/Spring-MVC/" class="post-title-link" itemprop="url">Spring MVC</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-07-03 16:28:21" itemprop="dateCreated datePublished" datetime="2020-07-03T16:28:21+08:00">2020-07-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-20 13:34:37" itemprop="dateModified" datetime="2020-07-20T13:34:37+08:00">2020-07-20</time>
-              </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>18k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>30 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>SpringMVC使用.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/03/Spring-MVC/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yl.dropsec.xyz/2020/07/03/Webflux/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="xianzheTM">
-      <meta itemprop="description" content="希望这里能见证一个菜鸟到大神的路程">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="新日暮里">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/03/Webflux/" class="post-title-link" itemprop="url">Webflux</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-07-03 16:18:32" itemprop="dateCreated datePublished" datetime="2020-07-03T16:18:32+08:00">2020-07-03</time>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
 
 
 
@@ -1959,6 +1292,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-Boot入门"><span class="nav-number">1.</span> <span class="nav-text">Spring Boot入门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-SpringBoot简介"><span class="nav-number">1.1.</span> <span class="nav-text">1.SpringBoot简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-微服务"><span class="nav-number">1.2.</span> <span class="nav-text">2.微服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Spring-Boot-HelloWorld"><span class="nav-number">1.3.</span> <span class="nav-text">3.Spring Boot HelloWorld</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-创建一个maven工程；（jar）"><span class="nav-number">1.3.1.</span> <span class="nav-text">1.创建一个maven工程；（jar）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-导入spring-boot相关的依赖"><span class="nav-number">1.3.2.</span> <span class="nav-text">2.导入spring boot相关的依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-编写一个主程序启动Spring-Boot应用"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.编写一个主程序启动Spring Boot应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-编写相关的Controller-Service"><span class="nav-number">1.3.4.</span> <span class="nav-text">4.编写相关的Controller,Service</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-运行主程序测试"><span class="nav-number">1.3.5.</span> <span class="nav-text">5.运行主程序测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-简化部署"><span class="nav-number">1.3.6.</span> <span class="nav-text">6.简化部署</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Hello-World探究"><span class="nav-number">1.4.</span> <span class="nav-text">4.Hello World探究</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-POM文件"><span class="nav-number">1.4.1.</span> <span class="nav-text">1.POM文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-父项目"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">1.父项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-启动器"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">2.启动器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-主程序类，主入口类"><span class="nav-number">1.4.2.</span> <span class="nav-text">2.主程序类，主入口类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-使用Spring-Initializer快速创建Spring-Boot项目"><span class="nav-number">1.5.</span> <span class="nav-text">5.使用Spring Initializer快速创建Spring Boot项目</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置文件"><span class="nav-number">2.</span> <span class="nav-text">配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-配置文件"><span class="nav-number">2.1.</span> <span class="nav-text">1.配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-YAML语法："><span class="nav-number">2.2.</span> <span class="nav-text">2.YAML语法：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-基本语法"><span class="nav-number">2.2.1.</span> <span class="nav-text">1.基本语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-配置文件值注入"><span class="nav-number">2.3.</span> <span class="nav-text">3.配置文件值注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PropertySource-amp-ImportResource-amp-Bean"><span class="nav-number">2.3.1.</span> <span class="nav-text">@PropertySource&amp;@ImportResource&amp;@Bean</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-配置文件占位符"><span class="nav-number">2.4.</span> <span class="nav-text">4.配置文件占位符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-随机数"><span class="nav-number">2.4.1.</span> <span class="nav-text">1.随机数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-占位符获取之前配置的值，如果没有可以是用-指定默认值"><span class="nav-number">2.4.2.</span> <span class="nav-text">2.占位符获取之前配置的值，如果没有可以是用:指定默认值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Profile"><span class="nav-number">2.5.</span> <span class="nav-text">5.Profile</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-多Profile文件"><span class="nav-number">2.5.1.</span> <span class="nav-text">1.多Profile文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-配置加载"><span class="nav-number">2.5.2.</span> <span class="nav-text">2.配置加载</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-自动配置原理"><span class="nav-number">2.6.</span> <span class="nav-text">6.自动配置原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-自动配置原理"><span class="nav-number">2.6.1.</span> <span class="nav-text">1.自动配置原理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志"><span class="nav-number">3.</span> <span class="nav-text">日志</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、日志框架"><span class="nav-number">3.1.</span> <span class="nav-text">1、日志框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、SLF4j使用"><span class="nav-number">3.2.</span> <span class="nav-text">2、SLF4j使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、如何在系统中使用SLF4j-https-www-slf4j-org"><span class="nav-number">3.2.1.</span> <span class="nav-text">1、如何在系统中使用SLF4j   https:&#x2F;&#x2F;www.slf4j.org</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-遗留问题"><span class="nav-number">3.2.2.</span> <span class="nav-text">2.遗留问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-日志使用"><span class="nav-number">3.3.</span> <span class="nav-text">3.日志使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-默认配置"><span class="nav-number">3.3.1.</span> <span class="nav-text">1.默认配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-指定配置"><span class="nav-number">3.3.2.</span> <span class="nav-text">2.指定配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Web开发"><span class="nav-number">4.</span> <span class="nav-text">Web开发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-SpringBoot对静态资源的映射规则"><span class="nav-number">4.1.</span> <span class="nav-text">1.SpringBoot对静态资源的映射规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-模板引擎"><span class="nav-number">4.2.</span> <span class="nav-text">2.模板引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-引入thymeleaf"><span class="nav-number">4.2.1.</span> <span class="nav-text">1.引入thymeleaf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-使用thymeleaf"><span class="nav-number">4.2.2.</span> <span class="nav-text">2.使用thymeleaf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-语法规则"><span class="nav-number">4.2.3.</span> <span class="nav-text">3.语法规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-SpringMVC配置"><span class="nav-number">4.3.</span> <span class="nav-text">3.SpringMVC配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-自动配置举例"><span class="nav-number">4.3.1.</span> <span class="nav-text">1.自动配置举例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-扩展SpringMVC"><span class="nav-number">4.3.2.</span> <span class="nav-text">2.扩展SpringMVC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-全面接管SpringMVC"><span class="nav-number">4.3.3.</span> <span class="nav-text">3.全面接管SpringMVC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-如何修改SpringBoot的默认配置"><span class="nav-number">4.4.</span> <span class="nav-text">4.如何修改SpringBoot的默认配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-RestfulCRUD"><span class="nav-number">4.5.</span> <span class="nav-text">5.RestfulCRUD</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-访问默认首页"><span class="nav-number">4.5.1.</span> <span class="nav-text">1.访问默认首页</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-国际化"><span class="nav-number">4.5.2.</span> <span class="nav-text">2.国际化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-登录"><span class="nav-number">4.5.3.</span> <span class="nav-text">3.登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-CRUD员工列表"><span class="nav-number">4.5.4.</span> <span class="nav-text">4.CRUD员工列表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#thymeleaf公共元素抽取"><span class="nav-number">4.5.4.1.</span> <span class="nav-text">thymeleaf公共元素抽取</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-员工添加"><span class="nav-number">4.5.5.</span> <span class="nav-text">5.员工添加</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-错误处理机制"><span class="nav-number">4.6.</span> <span class="nav-text">6.错误处理机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-定制错误响应"><span class="nav-number">4.6.1.</span> <span class="nav-text">1.定制错误响应</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#①定制错误页面"><span class="nav-number">4.6.1.1.</span> <span class="nav-text">①定制错误页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#②定制错误数据"><span class="nav-number">4.6.1.2.</span> <span class="nav-text">②定制错误数据</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-配置嵌入式Servlet"><span class="nav-number">4.7.</span> <span class="nav-text">7.配置嵌入式Servlet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-修改配置"><span class="nav-number">4.7.1.</span> <span class="nav-text">1.修改配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-注册三大组件"><span class="nav-number">4.7.2.</span> <span class="nav-text">2.注册三大组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-替换其它嵌入式容器"><span class="nav-number">4.7.3.</span> <span class="nav-text">3.替换其它嵌入式容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-使用外置Servlet容器"><span class="nav-number">4.7.4.</span> <span class="nav-text">4.使用外置Servlet容器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker"><span class="nav-number">5.</span> <span class="nav-text">Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Docker常用命令"><span class="nav-number">5.1.</span> <span class="nav-text">1.Docker常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-安装MySQL"><span class="nav-number">5.2.</span> <span class="nav-text">2.安装MySQL</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SpringBoot与数据访问"><span class="nav-number">6.</span> <span class="nav-text">SpringBoot与数据访问</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-JDBC"><span class="nav-number">6.1.</span> <span class="nav-text">1.JDBC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-整合Druid"><span class="nav-number">6.2.</span> <span class="nav-text">2.整合Druid</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-注解版"><span class="nav-number">6.2.1.</span> <span class="nav-text">1.注解版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-配置文件版"><span class="nav-number">6.2.2.</span> <span class="nav-text">2.配置文件版</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SpringBoot启动原理"><span class="nav-number">7.</span> <span class="nav-text">SpringBoot启动原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringBoot自定义Starter"><span class="nav-number">7.1.</span> <span class="nav-text">SpringBoot自定义Starter</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

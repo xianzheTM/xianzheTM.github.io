@@ -6464,6 +6464,34 @@
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">registerBeanPostProcessors</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">			ConfigurableListableBeanFactory beanFactory, AbstractApplicationContext applicationContext)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		String[] postProcessorNames = beanFactory.getBeanNamesForType(BeanPostProcessor<span class="class">.<span class="keyword">class</span>, <span class="title">true</span>, <span class="title">false</span>)</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Register BeanPostProcessorChecker that logs an info message when</span></span><br><span class="line">		<span class="comment">// a bean is created during BeanPostProcessor instantiation, i.e. when</span></span><br><span class="line">		<span class="comment">// a bean is not eligible for getting processed by all BeanPostProcessors.</span></span><br><span class="line">		<span class="keyword">int</span> beanProcessorTargetCount = beanFactory.getBeanPostProcessorCount() + <span class="number">1</span> + postProcessorNames.length;</span><br><span class="line">		beanFactory.addBeanPostProcessor(<span class="keyword">new</span> BeanPostProcessorChecker(beanFactory, beanProcessorTargetCount));</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Separate between BeanPostProcessors that implement PriorityOrdered,</span></span><br><span class="line">		<span class="comment">// Ordered, and the rest.</span></span><br><span class="line">		List&lt;BeanPostProcessor&gt; priorityOrderedPostProcessors = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">		List&lt;BeanPostProcessor&gt; internalPostProcessors = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">		List&lt;String&gt; orderedPostProcessorNames = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">		List&lt;String&gt; nonOrderedPostProcessorNames = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">		<span class="keyword">for</span> (String ppName : postProcessorNames) &#123;</span><br><span class="line">			<span class="keyword">if</span> (beanFactory.isTypeMatch(ppName, PriorityOrdered<span class="class">.<span class="keyword">class</span>)) </span>&#123;</span><br><span class="line">				BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">				priorityOrderedPostProcessors.add(pp);</span><br><span class="line">				<span class="keyword">if</span> (pp <span class="keyword">instanceof</span> MergedBeanDefinitionPostProcessor) &#123;</span><br><span class="line">					internalPostProcessors.add(pp);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (beanFactory.isTypeMatch(ppName, Ordered<span class="class">.<span class="keyword">class</span>)) </span>&#123;</span><br><span class="line">				orderedPostProcessorNames.add(ppName);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				nonOrderedPostProcessorNames.add(ppName);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// First, register the BeanPostProcessors that implement PriorityOrdered.</span></span><br><span class="line">		sortPostProcessors(priorityOrderedPostProcessors, beanFactory);</span><br><span class="line">		registerBeanPostProcessors(beanFactory, priorityOrderedPostProcessors);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Next, register the BeanPostProcessors that implement Ordered.</span></span><br><span class="line">		List&lt;BeanPostProcessor&gt; orderedPostProcessors = <span class="keyword">new</span> ArrayList&lt;&gt;(orderedPostProcessorNames.size());</span><br><span class="line">		<span class="keyword">for</span> (String ppName : orderedPostProcessorNames) &#123;</span><br><span class="line">			BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">			orderedPostProcessors.add(pp);</span><br><span class="line">			<span class="keyword">if</span> (pp <span class="keyword">instanceof</span> MergedBeanDefinitionPostProcessor) &#123;</span><br><span class="line">				internalPostProcessors.add(pp);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		sortPostProcessors(orderedPostProcessors, beanFactory);</span><br><span class="line">		registerBeanPostProcessors(beanFactory, orderedPostProcessors);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Now, register all regular BeanPostProcessors.</span></span><br><span class="line">		List&lt;BeanPostProcessor&gt; nonOrderedPostProcessors = <span class="keyword">new</span> ArrayList&lt;&gt;(nonOrderedPostProcessorNames.size());</span><br><span class="line">		<span class="keyword">for</span> (String ppName : nonOrderedPostProcessorNames) &#123;</span><br><span class="line">			BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">			nonOrderedPostProcessors.add(pp);</span><br><span class="line">			<span class="keyword">if</span> (pp <span class="keyword">instanceof</span> MergedBeanDefinitionPostProcessor) &#123;</span><br><span class="line">				internalPostProcessors.add(pp);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		registerBeanPostProcessors(beanFactory, nonOrderedPostProcessors);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Finally, re-register all internal BeanPostProcessors.</span></span><br><span class="line">		sortPostProcessors(internalPostProcessors, beanFactory);</span><br><span class="line">		registerBeanPostProcessors(beanFactory, internalPostProcessors);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Re-register post-processor for detecting inner beans as ApplicationListeners,</span></span><br><span class="line">		<span class="comment">// moving it to the end of the processor chain (for picking up proxies etc).</span></span><br><span class="line">		beanFactory.addBeanPostProcessor(<span class="keyword">new</span> ApplicationListenerDetector(applicationContext));</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
 
 <p>主要分为两部分,先将postProcessorNames数组里的PostProcessor分类,按照priorityOrderedPostProcessors,orderedPostProcessorNames,nonOrderedPostProcessorNames等,划分依据是看它是否实现了PriorityOrdered和Ordered接口(19行和26行).</p>
+<p>在debug中,现在代码来到41行.这就验证了上面的逻辑,internalAutoProxyCreator在orderedPostProcessorNames这个数组里.前面说过,</p>
+<p>internalAutoProxyCreator的定义是AnnotationAwareAspectJAutoProxyCreator,而查看上面的关系图可知它确实实现了Ordered接口.</p>
+<p>接着研究getBean这个方法,看其调用栈,掠过中间过程来到11.发现停在一个巨大的方法中,这里先看调用其它方法的地方:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720144726937.png" alt="image-20200720144726937"></p>
+<p>注释写明这是初始化Bean实例的意思.那么倒推前面应该有创建Bean的地方:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720145003733.png" alt="image-20200720145003733"></p>
+<p>果然找到了创建Bean的地方(Instantiate实例化的意思).createBeanInstance方法的前两个参数值:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720145152819.png" alt="image-20200720145152819"></p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720145223593.png" alt="image-20200720145223593"></p>
+<p>这不就和前面的对上了.</p>
+<p>回到初始化Bean的地方,populateBean方法是给Bean的属性赋值(populate意思是填充).属性赋值完成后就是初始化Bean(initializeBean方法).查看这个初始化方法,发现它调用了invokeAwareMethods方法.</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720150339620.png" alt="image-20200720150339620"></p>
+<p>先不管invokeAwareMethods方法,看看这个方法下面是什么:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720150521548.png" alt="image-20200720150521548"></p>
+<p>老朋友又来了,使用在初始化之前的后置处理器方法.点开这个方法看看:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720150759158.png" alt="image-20200720150759158"></p>
+<p>这不就是前面提过的AbstractAutowireCapableBeanFactory中的方法.遍历后置处理器并调用后置处理器的前置方法(初始化前的方法).</p>
+<p>回到initializeBean方法,在这个apply方法后面是执行了invokeInitMethods方法.确实按照上面的逻辑,前置方法完了就该轮到初始化方法.初始化方法完了就是后置处理器的后置方法了.一看代码确实如此:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720151517109.png" alt="image-20200720151517109"></p>
+<p>这几步是初始化和初始化的前置后置处理,那么Bean的创建前面已经有了,属性赋值也有了,这里清楚后回到开始的invokeAwareMethods.这里调用了setBeanFactory方法,这个setBeanFactory方法就是一开始所说被重写的那个setBeanFactory方法.这里被重写最主要的就是添加了一个initBeanFactory方法,该方法具体为:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720161918816.png" alt="image-20200720161918816"></p>
+<p>主要是初始化BeanFactory.</p>
+<p>至此,后置处理器创建完成.registerBeanPostProcessors方法的第四十一行终于执行完.</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720162843535.png" alt="image-20200720162843535"></p>
+<p>接着把后置处理器排了个序,然后注册.所谓的注册也就是让BeanFactory添加Bean:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720163057424.png" alt="image-20200720163057424"></p>
+<p>而这里现在实际只有一个后置处理器,即AnnotationAwareAspectJAutoProxyCreator.这就是现在我们需要的东西.</p>
+<p><strong>未完</strong></p>
 ]]></content>
       <tags>
         <tag>spring</tag>
@@ -9358,6 +9386,916 @@
 ]]></content>
       <tags>
         <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SpringBoot</title>
+    <url>/2020/07/20/Spring%20Boot/</url>
+    <content><![CDATA[<h1 id="Spring-Boot入门"><a href="#Spring-Boot入门" class="headerlink" title="Spring Boot入门"></a>Spring Boot入门</h1><h2 id="1-SpringBoot简介"><a href="#1-SpringBoot简介" class="headerlink" title="1.SpringBoot简介"></a>1.SpringBoot简介</h2><blockquote>
+<p>简化Spring应用开发的一个框架；</p>
+<p>整个Spring技术栈的一个大整合；</p>
+<p>J2EE开发的一站式解决方案；</p>
+</blockquote>
+<h2 id="2-微服务"><a href="#2-微服务" class="headerlink" title="2.微服务"></a>2.微服务</h2><p>2014，martin fowler</p>
+<p>微服务：架构风格（服务微化）</p>
+<p>一个应用应该是一组小型服务；可以通过HTTP的方式进行互通；</p>
+<p>单体应用：ALL IN ONE</p>
+<p>微服务：每一个功能元素最终都是一个可独立替换和独立升级的软件单元；</p>
+<p><a href="https://martinfowler.com/articles/microservices.html#MicroservicesAndSoa" target="_blank" rel="noopener">详细参照微服务文档</a></p>
+<h2 id="3-Spring-Boot-HelloWorld"><a href="#3-Spring-Boot-HelloWorld" class="headerlink" title="3.Spring Boot HelloWorld"></a>3.Spring Boot HelloWorld</h2><p>一个功能：</p>
+<p>浏览器发送hello请求，服务器接受请求并处理，响应Hello World字符串；</p>
+<h3 id="1-创建一个maven工程；（jar）"><a href="#1-创建一个maven工程；（jar）" class="headerlink" title="1.创建一个maven工程；（jar）"></a>1.创建一个maven工程；（jar）</h3><h3 id="2-导入spring-boot相关的依赖"><a href="#2-导入spring-boot相关的依赖" class="headerlink" title="2.导入spring boot相关的依赖"></a>2.导入spring boot相关的依赖</h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-编写一个主程序启动Spring-Boot应用"><a href="#3-编写一个主程序启动Spring-Boot应用" class="headerlink" title="3.编写一个主程序启动Spring Boot应用"></a>3.编写一个主程序启动Spring Boot应用</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  <span class="doctag">@SpringBootApplication</span> 来标注一个主程序类，说明这是一个Spring Boot应用</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorldMainApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Spring应用启动起来</span></span><br><span class="line">        SpringApplication.run(HelloWorldMainApplication<span class="class">.<span class="keyword">class</span>,<span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-编写相关的Controller-Service"><a href="#4-编写相关的Controller-Service" class="headerlink" title="4.编写相关的Controller,Service"></a>4.编写相关的Controller,Service</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/hello"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">hello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Hello World!"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-运行主程序测试"><a href="#5-运行主程序测试" class="headerlink" title="5.运行主程序测试"></a>5.运行主程序测试</h3><h3 id="6-简化部署"><a href="#6-简化部署" class="headerlink" title="6.简化部署"></a>6.简化部署</h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 这个插件，可以将应用打包成一个可执行的jar包；--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">               <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>将这个应用打成jar包，直接使用java -jar的命令进行执行.</p>
+<h2 id="4-Hello-World探究"><a href="#4-Hello-World探究" class="headerlink" title="4.Hello World探究"></a>4.Hello World探究</h2><h3 id="1-POM文件"><a href="#1-POM文件" class="headerlink" title="1.POM文件"></a>1.POM文件</h3><h4 id="1-父项目"><a href="#1-父项目" class="headerlink" title="1.父项目"></a>1.父项目</h4><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line">他的父项目是</span><br><span class="line"><span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.9.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">relativePath</span>&gt;</span>../../spring-boot-dependencies<span class="tag">&lt;/<span class="name">relativePath</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">他来真正管理Spring Boot应用里面的所有依赖版本；</span><br></pre></td></tr></table></figure>
+
+<p>spring-boot-dependencies中列出来非常多的开发要用的jar包版本.因此在自己的pom文件中不需要写版本,除了里面没有列出来的.</p>
+<h4 id="2-启动器"><a href="#2-启动器" class="headerlink" title="2.启动器"></a>2.启动器</h4><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>spring-boot-starter</strong>-==web==：</p>
+<p>Spring Boot将所有的功能场景都抽取出来，做成一个个的starters（启动器），只需要在项目里面引入这些starter相关场景的所有依赖都会导入进来。要用什么功能就导入什么场景的启动器.现在是写Web项目,自然用spring-boot-starter-web这个启动器.看一下里面的依赖:</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.1.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-json<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.1.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-tomcat<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.1.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-webmvc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到里面导入了webmvc,tomcat,json等必要的包或启动器.此外还包含了spring-boot-starter这个基本的启动器.</p>
+<h3 id="2-主程序类，主入口类"><a href="#2-主程序类，主入口类" class="headerlink" title="2.主程序类，主入口类"></a>2.主程序类，主入口类</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  <span class="doctag">@SpringBootApplication</span> 来标注一个主程序类，说明这是一个Spring Boot应用</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorldMainApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Spring应用启动起来</span></span><br><span class="line">        SpringApplication.run(HelloWorldMainApplication<span class="class">.<span class="keyword">class</span>,<span class="title">args</span>)</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>@<strong>SpringBootApplication</strong>:    Spring Boot应用标注在某个类上说明这个类是SpringBoot的主配置类，SpringBoot就应该运行这个类的main方法来启动SpringBoot应用.查看这个注解的代码:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720212401438.png" alt="image-20200720212401438"></p>
+<p>可以看到这是一个复合注解.</p>
+<p>@<strong>SpringBootConfiguration</strong>:Spring Boot的配置类.在查看这个注解的代码:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720212549125.png" alt="image-20200720212549125"></p>
+<p>看到了熟悉的Configuration注解,这是Spring提供的.Configuration注解也是一个被Component注解的,因此最终SpringBootApplication也是一个组件.</p>
+<p><strong>EnableAutoConfiguration</strong>:开启自动配置功能,部分代码:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720213216735.png" alt="image-20200720213216735"></p>
+<p>该注解又被AutoConfigurationPackage注解.这个注解导入了一个组件:<code>@Import(AutoConfigurationPackages.Registrar.class)</code>.Debug一下,发现进入了里面的Register类的方法中:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720214302494.png" alt="image-20200720214302494"></p>
+<p>里面有个new PackageImports.看名字知道是导包的意思.查看getPackageNames值:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720214432504.png" alt="image-20200720214432504"></p>
+<p>即==将主配置类（@SpringBootApplication标注的类）的所在包及下面所有子包里面的所有组件扫描到Spring容器==</p>
+<p>如何知道包名?通过加在主配置类上的@<strong>SpringBootApplication</strong>的metadata获得:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720214814367.png" alt="image-20200720214814367"></p>
+<p>回到<strong>EnableAutoConfiguration</strong>注解,它也导入了一个组件:<code>@Import(AutoConfigurationImportSelector.class)</code>,查看代码:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720230445962.png" alt="image-20200720230445962"></p>
+<p>这是其中一部分.其中的configurations是导入的配置类.将所有需要导入的组件以全类名的方式返回.这些组件就会被添加到容器中.会给容器中导入非常多的自动配置类（xxxAutoConfiguration）.就是给容器中导入这个场景需要的所有组件，并配置好这些组件.如图所示,里面全都是配置类.</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720230756029.png" alt="image-20200720230756029"></p>
+<p>问题是这些配置哪来的?其实在上面图里这个方法:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720231355716.png" alt="image-20200720231355716"></p>
+<p>点进去看看:,里面用到了一个方法<code>loadFactoryNames</code>,查看这个方法:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720231646355.png" alt="image-20200720231646355"></p>
+<p>来到了一个getResources方法,里面有个常量<img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720231736683.png" alt="image-20200720231736683"></p>
+<p>嗨呀,这下明白了,去文件夹里找找:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720232014909.png" alt="image-20200720232014909"></p>
+<p>可以看到SpringBoot相关的包里有这个文件,里面有非常多的配置.</p>
+<p>找到autoconfig那个包,看里面的配置文件:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200720232217177.png" alt="image-20200720232217177"></p>
+<p>这个配置文件就和那个长度为124的配置列表对上了.</p>
+<p>==Spring Boot在启动的时候从类路径下的META-INF/spring.factories中获取EnableAutoConfiguration指定的值，将这些值作为自动配置类导入到容器中，自动配置类就生效，帮我们进行自动配置工作.==</p>
+<p>所以,一开始的spring-boot-dependencies这个pom文件就落实到org.springframework.boot.autoconfigure这个包里.</p>
+<h2 id="5-使用Spring-Initializer快速创建Spring-Boot项目"><a href="#5-使用Spring-Initializer快速创建Spring-Boot项目" class="headerlink" title="5.使用Spring Initializer快速创建Spring Boot项目"></a>5.使用Spring Initializer快速创建Spring Boot项目</h2><p>具体创建很简单,不演示.</p>
+<ul>
+<li>resources文件夹中目录结构<ul>
+<li>static：保存所有的静态资源, js css  images,</li>
+<li>templates：保存所有的模板页面,（Spring Boot默认jar包使用嵌入式的Tomcat，默认不支持JSP页面）,可以使用模板引擎（freemarker.thymeleaf）,</li>
+<li>application.properties：Spring Boot应用的配置文件,可以修改一些默认设置.</li>
+</ul>
+</li>
+</ul>
+<h1 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h1><h2 id="1-配置文件"><a href="#1-配置文件" class="headerlink" title="1.配置文件"></a>1.配置文件</h2><p>SpringBoot使用一个全局的配置文件，配置文件名是固定的:</p>
+<p>•application.properties</p>
+<p>•application.yml</p>
+<p>该配置文件用来修改SpringBoot的默认值.</p>
+<h2 id="2-YAML语法："><a href="#2-YAML语法：" class="headerlink" title="2.YAML语法："></a>2.YAML语法：</h2><h3 id="1-基本语法"><a href="#1-基本语法" class="headerlink" title="1.基本语法"></a>1.基本语法</h3><p>k:(空格)v：表示一对键值对(空格必须有).</p>
+<p>以<strong>空格</strong>的缩进来控制层级关系,只要是左对齐的一列数据,都是同一个层级的</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8081</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">/hello</span></span><br></pre></td></tr></table></figure>
+
+<p>属性和值也是<strong>大小写敏感</strong>.</p>
+<ul>
+<li><p>对于字面量(数字,字符串,布尔):k: v.其中字符串默认不用加单引号,或双引号.如果加上了单引号,字符串里的特殊字符会转义,而双引号不会.</p>
+</li>
+<li><p>对于对象,Map:可以看作属性和值的键值对</p>
+</li>
+</ul>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">person:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">张三</span></span><br><span class="line">    <span class="attr">age:</span> <span class="number">20</span></span><br></pre></td></tr></table></figure>
+
+<p>还可以用大括号变成一行内:</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">person:</span> <span class="string">&#123;name:</span> <span class="string">张三,age:</span> <span class="number">20</span><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>对于数组(List,Set)</li>
+</ul>
+<p>用<strong>-</strong>值表示数组中的一个元素</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pets:</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">cat</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">dog</span></span><br><span class="line"> <span class="bullet">-</span> <span class="string">pig</span></span><br></pre></td></tr></table></figure>
+
+<p>行内写法</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">pets:</span> <span class="string">[cat,dog,pig]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-配置文件值注入"><a href="#3-配置文件值注入" class="headerlink" title="3.配置文件值注入"></a>3.配置文件值注入</h2><p>配置文件</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">person:</span></span><br><span class="line">    <span class="attr">lastName:</span> <span class="string">hello</span></span><br><span class="line">    <span class="attr">age:</span> <span class="number">18</span></span><br><span class="line">    <span class="attr">boss:</span> <span class="literal">false</span></span><br><span class="line">    <span class="attr">birth:</span> <span class="number">2017</span><span class="string">/12/12</span></span><br><span class="line">    <span class="attr">maps:</span> <span class="string">&#123;k1:</span> <span class="string">v1,k2:</span> <span class="number">12</span><span class="string">&#125;</span></span><br><span class="line">    <span class="attr">lists:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">lisi</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">zhaoliu</span></span><br><span class="line">    <span class="attr">dog:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">小狗</span></span><br><span class="line">      <span class="attr">age:</span> <span class="number">12</span></span><br></pre></td></tr></table></figure>
+
+<p>javaBean</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 将配置文件中配置的每一个属性的值，映射到这个组件中</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ConfigurationProperties</span>：告诉SpringBoot将本类中的所有属性和配置文件中相关的配置进行绑定；</span></span><br><span class="line"><span class="comment"> *      prefix = "person"：配置文件中哪个下面的所有属性进行一一映射</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 只有这个组件是容器中的组件，才能容器提供的<span class="doctag">@ConfigurationProperties</span>功能；</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"person"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String lastName;</span><br><span class="line">    <span class="keyword">private</span> Integer age;</span><br><span class="line">    <span class="keyword">private</span> Boolean boss;</span><br><span class="line">    <span class="keyword">private</span> Date birth;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Map&lt;String,Object&gt; maps;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Object&gt; lists;</span><br><span class="line">    <span class="keyword">private</span> Dog dog;</span><br></pre></td></tr></table></figure>
+
+<p>另外还需导入一个依赖:</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--导入配置文件处理器，配置文件进行绑定就会有提示--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-configuration-processor<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>除了在yml中写,在properties中写也是可以的.这里不演示.</p>
+<p>ConfigurationProperties这个注解可以一次性给属性从配置文件中赋值.还有另一个注解,Value,加在属性上方,单个赋值.二者区别:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>@ConfigurationProperties</th>
+<th>@Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>功能</td>
+<td>批量注入配置文件中的属性</td>
+<td>一个个指定</td>
+</tr>
+<tr>
+<td>松散绑定（松散语法）</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>SpEL</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>JSR303数据校验</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>复杂类型封装</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+</tbody></table>
+<p>如果说，我们只是在某个业务逻辑中需要获取一下配置文件中的某项值，使用@Value；</p>
+<p>如果说，我们专门编写了一个javaBean来和配置文件进行映射，我们就直接使用@ConfigurationProperties.</p>
+<h3 id="PropertySource-amp-ImportResource-amp-Bean"><a href="#PropertySource-amp-ImportResource-amp-Bean" class="headerlink" title="@PropertySource&amp;@ImportResource&amp;@Bean"></a>@PropertySource&amp;@ImportResource&amp;@Bean</h3><p>对于Person这样的配置文件写在application.xml这个全局配置文件中并不好.因为如果其它Bean也加进来,会使配置文件越来越长.</p>
+<p>所以可以把Person的配置单独写一个配置文件.然后在Person类上使用PropertySource这个注解,指定配置文件位置.</p>
+<p>上面的一些操作是给Spring中的Bean组件用配置文件赋值,也就是说Bean已经在IOC容器中了.那么让Bean进入IOC容器的方式是?(上面Person演示了一种,用Conponent注解)</p>
+<p>方式一:在Spring中添加组件可以使用xml文件,里面可以包扫描,写bean标签等.Spring Boot也可以通过它来添加组件</p>
+<p>@<strong>ImportResource</strong>：导入Spring的配置文件,让配置文件里面的内容生效.Spring Boot里面没有Spring的配置文件，我们自己编写的配置文件，也不能自动识别,想让Spring的配置文件生效，加载进来,则用@<strong>ImportResource</strong>标注在一个配置类上.</p>
+<p>这种方式并不推荐.Spring Boot推荐使用注解方式.就像原来在Spring中那样,完全使用注解即可.</p>
+<p>现在需要一个配置类,这个配置类是Spring中的配置类,和Spring Boot中加了@SpringBootApplication注解的配置类没有关系.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Configuration</span>：指明当前类是一个配置类；就是来替代之前的Spring配置文件</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 在配置文件中用&lt;bean&gt;&lt;bean/&gt;标签添加组件</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAppConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//将方法的返回值添加到容器中；容器中这个组件默认的id就是方法名</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> HelloService <span class="title">helloService02</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"配置类@Bean给容器中添加组件了..."</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> HelloService();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-配置文件占位符"><a href="#4-配置文件占位符" class="headerlink" title="4.配置文件占位符"></a>4.配置文件占位符</h2><h3 id="1-随机数"><a href="#1-随机数" class="headerlink" title="1.随机数"></a>1.随机数</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">$&#123;random.value&#125;.$&#123;random.<span class="keyword">int</span>&#125;.$&#123;random.<span class="keyword">long</span>&#125;</span><br><span class="line">$&#123;random.<span class="keyword">int</span>(<span class="number">10</span>)&#125;.$&#123;random.<span class="keyword">int</span>[<span class="number">1024</span>,<span class="number">65536</span>]&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-占位符获取之前配置的值，如果没有可以是用-指定默认值"><a href="#2-占位符获取之前配置的值，如果没有可以是用-指定默认值" class="headerlink" title="2.占位符获取之前配置的值，如果没有可以是用:指定默认值"></a>2.占位符获取之前配置的值，如果没有可以是用:指定默认值</h3><figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="meta">person.last-name</span>=<span class="string">张三$&#123;random.uuid&#125;</span></span><br><span class="line"><span class="meta">person.age</span>=<span class="string">$&#123;random.int&#125;</span></span><br><span class="line"><span class="meta">person.birth</span>=<span class="string">2017/12/15</span></span><br><span class="line"><span class="meta">person.boss</span>=<span class="string">false</span></span><br><span class="line"><span class="meta">person.maps.k1</span>=<span class="string">v1</span></span><br><span class="line"><span class="meta">person.maps.k2</span>=<span class="string">14</span></span><br><span class="line"><span class="meta">person.lists</span>=<span class="string">a,b,c</span></span><br><span class="line"><span class="meta">person.dog.name</span>=<span class="string">$&#123;person.hello:hello&#125;_dog</span></span><br><span class="line"><span class="meta">person.dog.age</span>=<span class="string">15</span></span><br></pre></td></tr></table></figure>
+
+<p>第八行想获取前面配置过的值,但实际没配置,如果没有冒号后的默认值就会把person.hello原样显示.</p>
+<h2 id="5-Profile"><a href="#5-Profile" class="headerlink" title="5.Profile"></a>5.Profile</h2><p>用来做多环境切换.</p>
+<h3 id="1-多Profile文件"><a href="#1-多Profile文件" class="headerlink" title="1.多Profile文件"></a>1.多Profile文件</h3><p>我们在主配置文件编写的时候,文件名可以是 application-{profile}.properties/yml</p>
+<p>默认情况下使用的是application.properties这个配置文件.如果需要切换则有几种方式:</p>
+<p>​    1.在配置文件中指定  spring.profiles.active=dev(yml文件中要转换写法)</p>
+<p>​    2.命令行：</p>
+<p>​        java -jar spring-boot-02-config-0.0.1-SNAPSHOT.jar –spring.profiles.active=dev；</p>
+<p>​        可以直接在测试的时候，配置传入命令行参数</p>
+<p>​    3.虚拟机参数；</p>
+<p>​        -Dspring.profiles.active=dev</p>
+<p>除了写几个配置文件的方式,还可以用yml文件把多个Profile写在一起:</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8081</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">profiles:</span></span><br><span class="line">    <span class="attr">active:</span> <span class="string">prod</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8083</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">profiles:</span> <span class="string">dev</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">8084</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">profiles:</span> <span class="string">prod</span>  <span class="comment">#指定属于哪个环境</span></span><br></pre></td></tr></table></figure>
+
+<p>所以配置文件有多种多样,启动配置文件的方式也不一样,那么优先级是什么?</p>
+<h3 id="2-配置加载"><a href="#2-配置加载" class="headerlink" title="2.配置加载"></a>2.配置加载</h3><p>先看看配置文件加载顺序:</p>
+<p>springboot 启动会扫描以下位置的application.properties或者application.yml文件作为Spring boot的默认配置文件</p>
+<ul>
+<li><p>–file:./config/</p>
+</li>
+<li><p>–file:./</p>
+</li>
+<li><p>–classpath:/config/</p>
+</li>
+<li><p>–classpath:/</p>
+</li>
+</ul>
+<p>优先级由高到底，高优先级的配置会覆盖低优先级的配置.SpringBoot会加载这四个位置的配置文件,互补配置.</p>
+<p><strong>项目打包好以后，我们可以使用命令行参数的形式，启动项目的时候来指定配置文件的新位置；指定配置文件和默认加载的这些配置文件共同起作用形成互补配置；</strong></p>
+<p>java -jar spring-boot-02-config-02-0.0.1-SNAPSHOT.jar –spring.config.location=G:/application.properties</p>
+<p>除了这几个地方加载配置文件,还有其他许多地方可以影响配置.这里简要列出:</p>
+<ol>
+<li><strong>命令行参数</strong></li>
+</ol>
+<p>所有的配置都可以在命令行上进行指定</p>
+<p>java -jar spring-boot-02-config-02-0.0.1-SNAPSHOT.jar –server.port=8087  –server.context-path=/abc</p>
+<p>多个配置用空格分开: –配置项=值</p>
+<ol start="2">
+<li><p>来自java:comp/env的JNDI属性</p>
+</li>
+<li><p>Java系统属性（System.getProperties()）</p>
+</li>
+<li><p>操作系统环境变量</p>
+</li>
+<li><p>RandomValuePropertySource配置的random.*属性值</p>
+</li>
+</ol>
+<p>==<strong>由jar包外向jar包内进行寻找</strong>==</p>
+<p>==<strong>优先加载带profile</strong>==</p>
+<ol start="6">
+<li><p>jar包外部的application-{profile}.properties或application.yml(带spring.profile)配置文件</p>
+</li>
+<li><p>jar包内部的application-{profile}.properties或application.yml(带spring.profile)配置文件</p>
+</li>
+</ol>
+<p>==<strong>再来加载不带profile</strong>==</p>
+<ol start="8">
+<li><p>jar包外部的application.properties或application.yml(不带spring.profile)配置文件</p>
+</li>
+<li><p>jar包内部的application.properties或application.yml(不带spring.profile)配置文件</p>
+</li>
+<li><p>@Configuration注解类上的@PropertySource</p>
+</li>
+<li><p>通过SpringApplication.setDefaultProperties指定的默认属性</p>
+</li>
+</ol>
+<p>以上优先级也是从高到低,可以配置互补.</p>
+<p>需要注意的是打包时默认是只将类路径下的文件打包,因此在写在工程目录下的配置文件是不包含在内的.</p>
+<p>所有配置来源:</p>
+<p><a href="https://docs.spring.io/spring-boot/docs/1.5.9.RELEASE/reference/htmlsingle/#boot-features-external-config" target="_blank" rel="noopener">参考官方文档</a></p>
+<h2 id="6-自动配置原理"><a href="#6-自动配置原理" class="headerlink" title="6.自动配置原理"></a>6.自动配置原理</h2><h3 id="1-自动配置原理"><a href="#1-自动配置原理" class="headerlink" title="1.自动配置原理"></a>1.自动配置原理</h3><p>第一节已经讲过,这里再复述一下:</p>
+<p>1）、SpringBoot启动的时候加载主配置类，开启了自动配置功能 ==@EnableAutoConfiguration==</p>
+<p><strong>2）、@EnableAutoConfiguration 作用：</strong></p>
+<ul>
+<li>利用AutoConfigurationImportSelector给容器中导入一些组件.<ul>
+<li>可以查看selectImports()方法的内容.(Spring Boot 1.x中),现在是直接到getCandidateConfigurations方法</li>
+<li>List&lt;String&gt; configurations = getCandidateConfigurations(annotationMetadata, attributes);获取候选的配置<img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200721173941169.png" alt="image-20200721173941169"></li>
+</ul>
+</li>
+</ul>
+<p>前面说过,读取到的”META-INF/spring.factories”里面每一个都是xxxAutoConfiguration类.它们被加入容器用来做自动配置.以HttpEncodingAutoConfiguration为例解释自动配置原理:</p>
+<p>下面是该类的注解:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span>(proxyBeanMethods = <span class="keyword">false</span>)<span class="comment">//表示这是一个配置类</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties</span>(ServerProperties<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">ConditionalOnWebApplication</span>(<span class="title">type</span> </span>= ConditionalOnWebApplication.Type.SERVLET)</span><br><span class="line"><span class="meta">@ConditionalOnClass</span>(CharacterEncodingFilter<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">ConditionalOnProperty</span>(<span class="title">prefix</span> </span>= <span class="string">"server.servlet.encoding"</span>, value = <span class="string">"enabled"</span>, matchIfMissing = <span class="keyword">true</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>@EnableConfigurationProperties注解的作用是：使<strong>使用 @ConfigurationProperties 注解的类生效</strong>。</li>
+</ul>
+<p><a href="https://www.jianshu.com/p/7f54da1cb2eb" target="_blank" rel="noopener">具体参见连接</a></p>
+<p>要启用的配置类的注解如下:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200721195733843.png" alt="image-20200721195733843"></p>
+<p>所有在配置文件中能配置的属性都是在xxxxProperties类中封装着.</p>
+<ul>
+<li>@ConditionalOnWebApplication注解是依赖的Spring的Conditional注解.意为满足条件时加载Bean.这里的条件是</li>
+</ul>
+<p>判断当前应用是web应用,如果是,配置类生效.</p>
+<ul>
+<li><p>@ConditionalOnClass(CharacterEncodingFilter.class),判断当前项目有没有这个类,这个类是SpringMVC中进行乱码解决的过滤器</p>
+</li>
+<li><p>@ConditionalOnProperty(prefix = “spring.http.encoding”, value = “enabled”, matchIfMissing = true) ,判断配置文件中是否存在某个配置  spring.http.encoding.enabled,如果不存在，判断也是成立的.</p>
+</li>
+</ul>
+<p>如果满足上述条件,则HttpEncodingAutoConfiguration配置类生效.</p>
+<p>该配置类中使用了Bean注解,添加了两个Bean组件:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200721202003267.png" alt="image-20200721202003267"></p>
+<p>第一个是字符过滤器,其代码是:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200721204407802.png" alt="image-20200721204407802"></p>
+<p>可以看到它从HttpEncodingAutoConfiguration的属性properties中取得了字符集名字.具体如何取得看下图;</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200721204248240.png" alt="image-20200721204248240"></p>
+<p><strong>精髓：</strong></p>
+<p>​    <strong>1）、SpringBoot启动会加载大量的自动配置类</strong></p>
+<p>​    <strong>2）、我们看我们需要的功能有没有SpringBoot默认写好的自动配置类</strong></p>
+<p>​    <strong>3）、我们再来看这个自动配置类中到底配置了哪些组件(只要我们要用的组件有，我们就不需要再来配置了,例如上面的HttpEncodingAutoConfiguration就加入了两个组件)</strong></p>
+<p>​    <strong>4）、给容器中自动配置类添加组件的时候，会从properties类中获取某些属性。我们就可以在配置文件中指定这些属性的值</strong></p>
+<p>xxxxAutoConfigurartion：自动配置类,给容器中添加组件.</p>
+<p>xxxxProperties:封装配置文件中相关属性.</p>
+<p>在上面的代码展示中,常常出现了@Conditionalxxx这类注解,这里列举一些:</p>
+<table>
+<thead>
+<tr>
+<th>@Conditional扩展注解</th>
+<th>作用（判断是否满足当前指定条件）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@ConditionalOnJava</td>
+<td>系统的java版本是否符合要求</td>
+</tr>
+<tr>
+<td>@ConditionalOnBean</td>
+<td>容器中存在指定Bean；</td>
+</tr>
+<tr>
+<td>@ConditionalOnMissingBean</td>
+<td>容器中不存在指定Bean；</td>
+</tr>
+<tr>
+<td>@ConditionalOnExpression</td>
+<td>满足SpEL表达式指定</td>
+</tr>
+<tr>
+<td>@ConditionalOnClass</td>
+<td>系统中有指定的类</td>
+</tr>
+<tr>
+<td>@ConditionalOnMissingClass</td>
+<td>系统中没有指定的类</td>
+</tr>
+<tr>
+<td>@ConditionalOnSingleCandidate</td>
+<td>容器中只有一个指定的Bean，或者这个Bean是首选Bean</td>
+</tr>
+<tr>
+<td>@ConditionalOnProperty</td>
+<td>系统中指定的属性是否有指定的值</td>
+</tr>
+<tr>
+<td>@ConditionalOnResource</td>
+<td>类路径下是否存在指定资源文件</td>
+</tr>
+<tr>
+<td>@ConditionalOnWebApplication</td>
+<td>当前是web环境</td>
+</tr>
+<tr>
+<td>@ConditionalOnNotWebApplication</td>
+<td>当前不是web环境</td>
+</tr>
+<tr>
+<td>@ConditionalOnJndi</td>
+<td>JNDI存在指定项</td>
+</tr>
+</tbody></table>
+<h1 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h1><h2 id="1、日志框架"><a href="#1、日志框架" class="headerlink" title="1、日志框架"></a>1、日志框架</h2><p><strong>市面上的日志框架；</strong></p>
+<p>JUL、JCL、Jboss-logging、logback、log4j、log4j2、slf4j….</p>
+<table>
+<thead>
+<tr>
+<th>日志门面  （日志的抽象层）</th>
+<th>日志实现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><del>JCL（Jakarta  Commons Logging）</del>    SLF4j（Simple  Logging Facade for Java）    <strong><del>jboss-logging</del></strong></td>
+<td>Log4j  JUL（java.util.logging）  Log4j2  <strong>Logback</strong></td>
+</tr>
+</tbody></table>
+<p>左边选一个门面（抽象层）、右边来选一个实现:</p>
+<p>日志门面：  SLF4J,</p>
+<p>日志实现：Logback,</p>
+<p>SpringBoot：底层是Spring框架，Spring框架默认是用JCL,</p>
+<p>​    <strong>==SpringBoot选用 SLF4j和logback；==</strong></p>
+<h2 id="2、SLF4j使用"><a href="#2、SLF4j使用" class="headerlink" title="2、SLF4j使用"></a>2、SLF4j使用</h2><h3 id="1、如何在系统中使用SLF4j-https-www-slf4j-org"><a href="#1、如何在系统中使用SLF4j-https-www-slf4j-org" class="headerlink" title="1、如何在系统中使用SLF4j   https://www.slf4j.org"></a>1、如何在系统中使用SLF4j   <a href="https://www.slf4j.org" target="_blank" rel="noopener">https://www.slf4j.org</a></h3><p>以后开发的时候，日志记录方法的调用，不应该来直接调用日志的实现类，而是调用日志抽象层里面的方法.</p>
+<p>给系统里面导入slf4j的jar和  logback的实现jar</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Logger logger = LoggerFactory.getLogger(HelloWorld<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">    logger.info(<span class="string">"Hello World"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>图示:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/concrete-bindings.png" alt="concrete-bindings"></p>
+<p>每一个日志的实现框架都有自己的配置文件.使用slf4j以后,<strong>配置文件还是做成日志实现框架自己本身的配置文件</strong>.</p>
+<h3 id="2-遗留问题"><a href="#2-遗留问题" class="headerlink" title="2.遗留问题"></a>2.遗留问题</h3><p>对于不同的框架组件,用的日志实现不统一.现在可以用SLF4J提供的包进行替换:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/legacy.png" alt></p>
+<p>图中的深灰色xxx-over-slf4j.jar就是中间包,用来替换原有的日志框架.</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200722102024845.png" alt="image-20200722102024845"></p>
+<p>图里并没有看到xxx-over-slf4j这类包.这是因为Spring Boot2有了一些改动,那两个xxx-to-slf4j就是转换包.另外,Spring5原来用的jcl被改写为slf4j(内部实际还是jcl).因此pom文件中也没有排除spring日志框架这一部分.</p>
+<h2 id="3-日志使用"><a href="#3-日志使用" class="headerlink" title="3.日志使用"></a>3.日志使用</h2><h3 id="1-默认配置"><a href="#1-默认配置" class="headerlink" title="1.默认配置"></a>1.默认配置</h3><p>SpringBoot默认已经配置类日志,直接使用即可:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//记录器</span></span><br><span class="line">Logger logger = LoggerFactory.getLogger(getClass());</span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextLoads</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//System.out.println();</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//日志的级别；</span></span><br><span class="line">    <span class="comment">//由低到高   trace&lt;debug&lt;info&lt;warn&lt;error</span></span><br><span class="line">    <span class="comment">//可以调整输出的日志级别；日志就只会在这个级别以以后的高级别生效</span></span><br><span class="line">    logger.trace(<span class="string">"这是trace日志..."</span>);</span><br><span class="line">    logger.debug(<span class="string">"这是debug日志..."</span>);</span><br><span class="line">    <span class="comment">//SpringBoot默认给我们使用的是info级别的，没有指定级别的就用SpringBoot默认规定的级别；root级别</span></span><br><span class="line">    logger.info(<span class="string">"这是info日志..."</span>);</span><br><span class="line">    logger.warn(<span class="string">"这是warn日志..."</span>);</span><br><span class="line">    logger.error(<span class="string">"这是error日志..."</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">日志输出格式：</span><br><span class="line">    %d表示日期时间，</span><br><span class="line">    %thread表示线程名，</span><br><span class="line">    %-5level：级别从左显示5个字符宽度</span><br><span class="line">    %logger&#123;50&#125; 表示logger名字最长50个字符，否则按照句点分割。 </span><br><span class="line">    %msg：日志消息，</span><br><span class="line">    %n是换行符</span><br><span class="line">--&gt;</span><br><span class="line">%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%thread] %-5level %logger&#123;50&#125; - %msg%n</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">logging:</span></span><br><span class="line">  <span class="attr">level:</span></span><br><span class="line">    <span class="attr">com.company:</span> <span class="string">trace</span></span><br><span class="line">  <span class="attr">file:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">'G:\log\sb.log'</span></span><br><span class="line">  <span class="attr">pattern:</span></span><br><span class="line">    <span class="attr">console:</span> <span class="string">"%d&#123;yyyy-MM-dd&#125; [%thread] %-5level %logger&#123;50&#125; - %msg%n"</span></span><br><span class="line">    <span class="attr">file:</span> <span class="string">"%d&#123;yyyy-MM-dd&#125; === [%thread] === %-5level === %logger&#123;50&#125; ==== %msg%n"</span></span><br></pre></td></tr></table></figure>
+
+<p>注意单引号和双引号的使用,特别是日志格式那里,一旦出错,程序无法运行.</p>
+<h3 id="2-指定配置"><a href="#2-指定配置" class="headerlink" title="2.指定配置"></a>2.指定配置</h3><p>给类路径下放上每个日志框架自己的配置文件即可</p>
+<table>
+<thead>
+<tr>
+<th>Logging System</th>
+<th>Customization</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Logback</td>
+<td><code>logback-spring.xml</code>, <code>logback-spring.groovy</code>, <code>logback.xml</code> or <code>logback.groovy</code></td>
+</tr>
+<tr>
+<td>Log4j2</td>
+<td><code>log4j2-spring.xml</code> or <code>log4j2.xml</code></td>
+</tr>
+<tr>
+<td>JDK (Java Util Logging)</td>
+<td><code>logging.properties</code></td>
+</tr>
+</tbody></table>
+<p>logback.xml：这类文件名直接就被日志框架识别了,而如果使用<strong>logback-spring.xml</strong>这种文件名,日志框架是不识别的,但是SpringBoot可以识别.识别后由SpringBoot解析日志配置,可以使用SpringBoot的高级Profile功能.</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">springProfile</span> <span class="attr">name</span>=<span class="string">"staging"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- configuration to be enabled when the "staging" profile is active --&gt;</span></span><br><span class="line">      可以指定某段配置只在某个环境下生效</span><br><span class="line"><span class="tag">&lt;/<span class="name">springProfile</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>例如指定日志配置文件在开发环境中生效.</p>
+<p>如果说非要切换回log4j这样的框架,则需要先把替换包给排除,然后引入log4j的依赖.但是不推荐这样做.</p>
+<p>slf4j+log4j的方式:</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>logback-classic<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>ch.qos.logback<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j-over-slf4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.slf4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.slf4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>slf4j-log4j12<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>切换为log4j2</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-logging<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-log4j2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Web开发"><a href="#Web开发" class="headerlink" title="Web开发"></a>Web开发</h1><h2 id="1-SpringBoot对静态资源的映射规则"><a href="#1-SpringBoot对静态资源的映射规则" class="headerlink" title="1.SpringBoot对静态资源的映射规则"></a>1.SpringBoot对静态资源的映射规则</h2><p>以前的Web项目会有一个webapp目录,其中可以放静态资源等文件.而在Spring Boot中没有这个目录.所以需要使用资源映射的方式.具体看图:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200722142918697.png" alt="image-20200722142918697"></p>
+<p>在WebMvcAutoConfiguration类中有一个静态类,该静态类有个方法addResourceHandlers:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addResourceHandlers</span><span class="params">(ResourceHandlerRegistry registry)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.resourceProperties.isAddMappings()) &#123;</span><br><span class="line">        logger.debug(<span class="string">"Default resource handling disabled"</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    Duration cachePeriod = <span class="keyword">this</span>.resourceProperties.getCache().getPeriod();</span><br><span class="line">    CacheControl cacheControl = <span class="keyword">this</span>.resourceProperties.getCache().getCachecontrol().toHttpCacheControl();</span><br><span class="line">    <span class="keyword">if</span> (!registry.hasMappingForPattern(<span class="string">"/webjars/**"</span>)) &#123;</span><br><span class="line">        customizeResourceHandlerRegistration(registry.addResourceHandler(<span class="string">"/webjars/**"</span>)</span><br><span class="line">                .addResourceLocations(<span class="string">"classpath:/META-INF/resources/webjars/"</span>)</span><br><span class="line">                .setCachePeriod(getSeconds(cachePeriod)).setCacheControl(cacheControl));</span><br><span class="line">    &#125;</span><br><span class="line">    String staticPathPattern = <span class="keyword">this</span>.mvcProperties.getStaticPathPattern();</span><br><span class="line">    <span class="keyword">if</span> (!registry.hasMappingForPattern(staticPathPattern)) &#123;</span><br><span class="line">        customizeResourceHandlerRegistration(registry.addResourceHandler(staticPathPattern)</span><br><span class="line">                .addResourceLocations(getResourceLocations(<span class="keyword">this</span>.resourceProperties.getStaticLocations()))</span><br><span class="line">                .setCachePeriod(getSeconds(cachePeriod)).setCacheControl(cacheControl));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所有 <code>/webjars/**</code> (这里是指访问请求)，都去 <code>classpath:/META-INF/resources/webjars/</code> 找资源</p>
+<p><code>webjars</code>：以jar包的方式引入静态资源.以jQuery为例:</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.webjars<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jquery<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.5.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>请求路径:<a href="http://localhost:8080/webjars/jquery/3.5.1/jquery.js" target="_blank" rel="noopener">http://localhost:8080/webjars/jquery/3.5.1/jquery.js</a></p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200722144602179.png" alt="image-20200722144602179"></p>
+<p>对于静态资源,也存在一个xxxProperties作为配置类,这里就是ResourceProperties这个类:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200722145217620.png" alt="image-20200722145217620"></p>
+<p>除了webjars可以获取到jar包里的资源,但是对于其它资源就不一样了.addResourceHandlers这个方法里的第二部分就是另一种方式:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200722145648961.png" alt="image-20200722145648961"></p>
+<p>这个getStaticPathPattern方法最终得到<code>private String staticPathPattern = &quot;/**&quot;;</code></p>
+<p>这个路径表示访问当前项目的任何路径如果没有处理,默认都去（静态资源的文件夹）找映射,具体的文件夹如下:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;classpath:&#x2F;META-INF&#x2F;resources&#x2F;&quot;, </span><br><span class="line">&quot;classpath:&#x2F;resources&#x2F;&quot;,</span><br><span class="line">&quot;classpath:&#x2F;static&#x2F;&quot;, </span><br><span class="line">&quot;classpath:&#x2F;public&#x2F;&quot; </span><br><span class="line">&quot;&#x2F;&quot;：当前项目的根路径</span><br></pre></td></tr></table></figure>
+
+<p>(这里的类路径是指resources文件夹)</p>
+<p>如果找static文件夹里的asserts文件夹里的js文件夹下的jquery.js,则是这样写:localhost:8080/asserts/js/jquery.js</p>
+<p>特比的对于index页面,则被<strong>/*</strong>*映射,直接写:localhost:8080/ .index页面放在上面几个位置都可以.</p>
+<p>另外还有一个图标的访问: **/favicon.ico这样的访问路径也是在上面几个文件夹找资源.</p>
+<h2 id="2-模板引擎"><a href="#2-模板引擎" class="headerlink" title="2.模板引擎"></a>2.模板引擎</h2><p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/template-engine.png" alt></p>
+<h3 id="1-引入thymeleaf"><a href="#1-引入thymeleaf" class="headerlink" title="1.引入thymeleaf"></a>1.引入thymeleaf</h3><p>首先引入这个starter:</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>然后修改一下版本:</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">java.version</span>&gt;</span>14<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">thymeleaf.version</span>&gt;</span>3.0.11.RELEASE<span class="tag">&lt;/<span class="name">thymeleaf.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">thymeleaf-layout-dialect.version</span>&gt;</span>2.4.1<span class="tag">&lt;/<span class="name">thymeleaf-layout-dialect.version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-使用thymeleaf"><a href="#2-使用thymeleaf" class="headerlink" title="2.使用thymeleaf"></a>2.使用thymeleaf</h3><p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200722161949638.png" alt="image-20200722161949638"></p>
+<p>根据其属性类,只要我们把HTML页面放在classpath:/templates/,thymeleaf就能自动渲染.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/success"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">success</span><span class="params">(Map&lt;String, String&gt; map)</span> </span>&#123;</span><br><span class="line">    map.put(<span class="string">"hello"</span>, <span class="string">"你好"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"success"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在jsp中,map被放入请求域中,页面上直接使用$便可以取值.而使用thymeleaf后要这样写:</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span> <span class="attr">xmlns:th</span>=<span class="string">"http://www.thymeleaf.org"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>success<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>成功<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:text</span>=<span class="string">"$&#123;hello&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-语法规则"><a href="#3-语法规则" class="headerlink" title="3.语法规则"></a>3.语法规则</h3><p>th:表示任意html属性.它用来替换原生属性的值.例如上面的th:text就是替换div的text属性.</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/2018-02-04_123955.png" alt></p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">Simple</span> <span class="string">expressions:（表达式语法）</span></span><br><span class="line">    <span class="attr">Variable</span> <span class="string">Expressions: $&#123;...&#125;：获取变量值；OGNL,</span></span><br><span class="line">            <span class="attr">1）、获取对象的属性、调用方法</span></span><br><span class="line">            <span class="attr">2）、使用内置的基本对象：</span></span><br><span class="line"><span class="comment">                #ctx : the context object.</span></span><br><span class="line"><span class="comment">                #vars: the context variables.</span></span><br><span class="line"><span class="comment">                #locale : the context locale.</span></span><br><span class="line"><span class="comment">                #request : (only in Web Contexts) the HttpServletRequest object.</span></span><br><span class="line"><span class="comment">                #response : (only in Web Contexts) the HttpServletResponse object.</span></span><br><span class="line"><span class="comment">                #session : (only in Web Contexts) the HttpSession object.</span></span><br><span class="line"><span class="comment">                #servletContext : (only in Web Contexts) the ServletContext object.</span></span><br><span class="line"></span><br><span class="line">                <span class="attr">$&#123;session.foo&#125;</span></span><br><span class="line">            <span class="attr">3）、内置的一些工具对象：</span></span><br><span class="line"><span class="comment">                #execInfo : information about the template being processed.</span></span><br><span class="line"><span class="comment">                #messages : methods for obtaining externalized messages inside variables expressions, in the same way as they would be obtained using #&#123;…&#125; syntax.</span></span><br><span class="line"><span class="comment">                #uris : methods for escaping parts of URLs/URIs</span></span><br><span class="line"><span class="comment">                #conversions : methods for executing the configured conversion service (if any).</span></span><br><span class="line"><span class="comment">                #dates : methods for java.util.Date objects: formatting, component extraction, etc.</span></span><br><span class="line"><span class="comment">                #calendars : analogous to #dates , but for java.util.Calendar objects.</span></span><br><span class="line"><span class="comment">                #numbers : methods for formatting numeric objects.</span></span><br><span class="line"><span class="comment">                #strings : methods for String objects: contains, startsWith, prepending/appending, etc.</span></span><br><span class="line"><span class="comment">                #objects : methods for objects in general.</span></span><br><span class="line"><span class="comment">                #bools : methods for boolean evaluation.</span></span><br><span class="line"><span class="comment">                #arrays : methods for arrays.</span></span><br><span class="line"><span class="comment">                #lists : methods for lists.</span></span><br><span class="line"><span class="comment">                #sets : methods for sets.</span></span><br><span class="line"><span class="comment">                #maps : methods for maps.</span></span><br><span class="line"><span class="comment">                #aggregates : methods for creating aggregates on arrays or collections.</span></span><br><span class="line"><span class="comment">                #ids : methods for dealing with id attributes that might be repeated (for example, as a result of an iteration).</span></span><br><span class="line"></span><br><span class="line"><span class="attr">Selection</span> <span class="string">Variable Expressions: *&#123;...&#125;：选择表达式：和$&#123;&#125;在功能上是一样</span></span><br><span class="line">    <span class="meta">补充：配合</span> <span class="string">th:object="$&#123;session.user&#125;,</span></span><br><span class="line"><span class="comment">    #&lt;div th:object="$&#123;session.user&#125;"&gt;</span></span><br><span class="line"><span class="comment">    #&lt;p&gt;Name: &lt;span th:text="*&#123;firstName&#125;"&gt;Sebastian&lt;/span&gt;.&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    #&lt;p&gt;Surname: &lt;span th:text="*&#123;lastName&#125;"&gt;Pepper&lt;/span&gt;.&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    #&lt;p&gt;Nationality: &lt;span th:text="*&#123;nationality&#125;"&gt;Saturn&lt;/span&gt;.&lt;/p&gt;</span></span><br><span class="line"><span class="comment">    #&lt;/div&gt;</span></span><br><span class="line"><span class="attr">Message</span> <span class="string">Expressions: #&#123;...&#125;：获取国际化内容</span></span><br><span class="line"><span class="attr">Link</span> <span class="string">URL Expressions: @&#123;...&#125;：定义URL</span></span><br><span class="line">    <span class="meta">@&#123;/order/process(execId</span>=<span class="string">$&#123;execId&#125;,execType='FAST')&#125;</span></span><br><span class="line"><span class="attr">Fragment</span> <span class="string">Expressions: ~&#123;...&#125;：片段引用表达式</span></span><br><span class="line">    <span class="meta">&lt;div</span> <span class="string">th:insert="~&#123;commons :: main&#125;"&gt;...&lt;/div&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">Literals（字面量）</span></span><br><span class="line">    <span class="attr">Text</span> <span class="string">literals: 'one text' , 'Another one!' ,…</span></span><br><span class="line">    <span class="attr">Number</span> <span class="string">literals: 0 , 34 , 3.0 , 12.3 ,…</span></span><br><span class="line">    <span class="attr">Boolean</span> <span class="string">literals: true , false</span></span><br><span class="line">    <span class="attr">Null</span> <span class="string">literal: null</span></span><br><span class="line">    <span class="attr">Literal</span> <span class="string">tokens: one , sometext , main ,…</span></span><br><span class="line"><span class="attr">Text</span> <span class="string">operations:（文本操作）</span></span><br><span class="line">    <span class="attr">String</span> <span class="string">concatenation: +</span></span><br><span class="line">    <span class="attr">Literal</span> <span class="string">substitutions: |The name is $&#123;name&#125;|</span></span><br><span class="line"><span class="attr">Arithmetic</span> <span class="string">operations:（数学运算）</span></span><br><span class="line">    <span class="attr">Binary</span> <span class="string">operators: + , - , * , / , %</span></span><br><span class="line">    <span class="attr">Minus</span> <span class="string">sign (unary operator): -</span></span><br><span class="line"><span class="attr">Boolean</span> <span class="string">operations:（布尔运算）</span></span><br><span class="line">    <span class="attr">Binary</span> <span class="string">operators: and , or</span></span><br><span class="line">    <span class="attr">Boolean</span> <span class="string">negation (unary operator): ! , not</span></span><br><span class="line"><span class="attr">Comparisons</span> <span class="string">and equality:（比较运算）</span></span><br><span class="line">    <span class="attr">Comparators</span>: <span class="string">&gt; , &lt; , &gt;= , &lt;= ( gt , lt , ge , le )</span></span><br><span class="line">    <span class="attr">Equality</span> <span class="string">operators: == , != ( eq , ne )</span></span><br><span class="line"><span class="attr">Conditional</span> <span class="string">operators:条件运算（三元运算符）</span></span><br><span class="line">    <span class="meta">If-then</span>: <span class="string">(if) ? (then)</span></span><br><span class="line">    <span class="meta">If-then-else</span>: <span class="string">(if) ? (then) : (else)</span></span><br><span class="line">    <span class="attr">Default</span>: <span class="string">(value) ?: (defaultvalue)</span></span><br><span class="line"><span class="attr">Special</span> <span class="string">tokens:</span></span><br><span class="line">    <span class="meta">No-Operation</span>: <span class="string">_</span></span><br></pre></td></tr></table></figure>
+
+<p>简单使用下:</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>成功<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:text</span>=<span class="string">"$&#123;hello&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">hr</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h4</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user&#125;"</span> <span class="attr">th:each</span>=<span class="string">"user:$&#123;users&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">h4</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">hr</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h4</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:each</span>=<span class="string">"user:$&#123;users&#125;"</span>&gt;</span>[[$&#123;user&#125;]]<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">h4</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-SpringMVC配置"><a href="#3-SpringMVC配置" class="headerlink" title="3.SpringMVC配置"></a>3.SpringMVC配置</h2><h3 id="1-自动配置举例"><a href="#1-自动配置举例" class="headerlink" title="1.自动配置举例"></a>1.自动配置举例</h3><p>同样的SpringBoot也为SpringMVC做了自动配置.</p>
+<p>以下是WebMvcAutoConfiguration的一些配置:</p>
+<ul>
+<li><p>Inclusion of <code>ContentNegotiatingViewResolver</code> and <code>BeanNameViewResolver</code> beans.</p>
+<ul>
+<li>自动配置了ViewResolver（视图解析器：根据方法的返回值得到视图对象（View），视图对象决定如何渲染</li>
+<li>ContentNegotiatingViewResolver：组合所有的视图解析器</li>
+<li>==如何定制：我们可以自己给容器中添加一个视图解析器；自动的将其组合进来==,自定义的解析器也被组合到ContentNegotiatingViewResolver中</li>
+</ul>
+</li>
+<li><p>Support for serving static resources, including support for WebJars,静态资源文件夹路径,webjars</p>
+</li>
+<li><p>Static <code>index.html</code> support. 静态首页访问</p>
+</li>
+<li><p>Custom <code>Favicon</code> support (see below).  favicon.ico</p>
+<p>  这些上面都提过</p>
+</li>
+<li><p>自动注册了 <code>Converter</code>, <code>GenericConverter</code>, <code>Formatter</code> beans.</p>
+<ul>
+<li>Converter：转换器 ,public String hello(User user)：类型转换使用Converter</li>
+<li><code>Formatter</code>  格式化器,2017.12.17==&gt;Date</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="meta">@ConditionalOnProperty</span>(prefix = <span class="string">"spring.mvc"</span>, name = <span class="string">"date-format"</span>)<span class="comment">//在文件中配置日期格式化的规则</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Formatter&lt;Date&gt; <span class="title">dateFormatter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> DateFormatter(<span class="keyword">this</span>.mvcProperties.getDateFormat());<span class="comment">//日期格式化组件</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​    ==自己添加的格式化器转换器，我们只需要放在容器中即可==</p>
+<ul>
+<li><p>Support for <code>HttpMessageConverters</code> </p>
+<ul>
+<li><p>HttpMessageConverter：SpringMVC用来转换Http请求和响应的；User—Json.</p>
+</li>
+<li><p><code>HttpMessageConverters</code> 是从容器中确定,获取所有的HttpMessageConverter.</p>
+<p>  ==自己给容器中添加HttpMessageConverter，只需要将自己的组件注册容器中（@Bean,@Component）==</p>
+</li>
+</ul>
+</li>
+<li><p>Automatic registration of <code>MessageCodesResolver</code>定义错误代码生成规则</p>
+</li>
+<li><p>Automatic use of a <code>ConfigurableWebBindingInitializer</code> bean 用来初始化WebDataBinder,例如请求数据绑定到JavaBean上,涉及到数据转换就要调用前面的转换器</p>
+<p>  ==也可以配置一个ConfigurableWebBindingInitializer来替换默认的（添加到容器）==</p>
+</li>
+</ul>
+<h3 id="2-扩展SpringMVC"><a href="#2-扩展SpringMVC" class="headerlink" title="2.扩展SpringMVC"></a>2.扩展SpringMVC</h3><p>上述一些配置是远远不够的.在原来的SpringMVC中,可以使用xml文件进行配置:</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mvc:view-controller</span> <span class="attr">path</span>=<span class="string">"/hello"</span> <span class="attr">view-name</span>=<span class="string">"success"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mvc:interceptors</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mvc:interceptor</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mvc:mapping</span> <span class="attr">path</span>=<span class="string">"/hello"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bean</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mvc:interceptor</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mvc:interceptors</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>用配置方法来写:编写一个配置类,并且继承WebMvcConfigurerAdapter类型(Spring5之前的方法),不能标注@EnableWebMvc.在Spring5,SpringBoot2中,这种方法过时.两种新方法:1.直接实现WebMvcConfigurerAdapter的父接口WebMvcConfigurer,该接口内的所有方法都是默认方法,需要配置什么就重写什么.</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200722221948117.png" alt="image-20200722221948117"></p>
+<p>重写其中一个方法:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addViewControllers</span><span class="params">(ViewControllerRegistry registry)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//返送/company请求也到success页面</span></span><br><span class="line">    registry.addViewController(<span class="string">"/company"</span>).setViewName(<span class="string">"success"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>事实上上面的自动配置类WebMvcAutoConfiguration中有一些方法也是通过这个接口实现的:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200722223316785.png" alt="image-20200722223316785"></p>
+<p>2.另一种方式是继承WebMvcConfigurationSupport这个类.仍然是重写其中方法即可.关于这两种方式的详细信息,参见</p>
+<p><a href="https://segmentfault.com/a/1190000018904390?utm_source=tag-newest" target="_blank" rel="noopener">参考链接</a></p>
+<h3 id="3-全面接管SpringMVC"><a href="#3-全面接管SpringMVC" class="headerlink" title="3.全面接管SpringMVC"></a>3.全面接管SpringMVC</h3><p>如果不需要自动配置,只需要添加@EnableWebMvc.为什么加了这个自动配置就失效,看图:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200722231002039.png" alt="image-20200722231002039"></p>
+<p>而@EnableWebMvc中有<code>@Import(DelegatingWebMvcConfiguration.class)</code>,而这个DelegatingWebMvcConfiguration的父类正是WebMvcConfigurationSupport.</p>
+<h2 id="4-如何修改SpringBoot的默认配置"><a href="#4-如何修改SpringBoot的默认配置" class="headerlink" title="4.如何修改SpringBoot的默认配置"></a>4.如何修改SpringBoot的默认配置</h2><p>模式：</p>
+<pre><code>1. SpringBoot在自动配置很多组件的时候，先看容器中有没有用户自己配置的（@Bean、@Component）如果有就用用户配置的，如果没有，才自动配置；如果有些组件可以有多个（ViewResolver）将用户配置的和自己默认的组合起来.
+
+2. 在SpringBoot中会有非常多的xxxConfigurer帮助我们进行扩展配置
+
+3. 在SpringBoot中会有很多的xxxCustomizer帮助我们进行定制配置</code></pre><h2 id="5-RestfulCRUD"><a href="#5-RestfulCRUD" class="headerlink" title="5.RestfulCRUD"></a>5.RestfulCRUD</h2><h3 id="1-访问默认首页"><a href="#1-访问默认首页" class="headerlink" title="1.访问默认首页"></a>1.访问默认首页</h3><p>除了使用下面这种方式:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(&#123;<span class="string">"/"</span>,<span class="string">"/login"</span>&#125;)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">index</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"login"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>还可以使用这种方式:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyMvcConfig</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addViewControllers</span><span class="params">(ViewControllerRegistry registry)</span> </span>&#123;</span><br><span class="line">        registry.addViewController(<span class="string">"/"</span>).setViewName(<span class="string">"login"</span>);</span><br><span class="line">        registry.addViewController(<span class="string">"/index"</span>).setViewName(<span class="string">"login"</span>);</span><br><span class="line">        registry.addViewController(<span class="string">"/index.html"</span>).setViewName(<span class="string">"login"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此外,对于静态资源的访问也要做出处理:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addResourceHandlers</span><span class="params">(ResourceHandlerRegistry registry)</span> </span>&#123;</span><br><span class="line">    registry.addResourceHandler(<span class="string">"/**"</span>).addResourceLocations(<span class="string">"classpath:/static/"</span>);</span><br><span class="line">    registry.addResourceHandler(<span class="string">"/webjars/**"</span>).addResourceLocations(<span class="string">"/webjars/"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-国际化"><a href="#2-国际化" class="headerlink" title="2.国际化"></a>2.国际化</h3><ol>
+<li>编写国际化配置文件</li>
+</ol>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200723142610188.png" alt="image-20200723142610188"></p>
+<ol start="2">
+<li>Spring Boot自动配置了管理国际化资源文件的组件</li>
+</ol>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200723143052726.png" alt="image-20200723143052726"></p>
+<ol start="3">
+<li><p>配置应用的basename:<code>spring.messages.basename=i18n.login</code></p>
+</li>
+<li><p>页面获取国际化的值,login就是basename</p>
+</li>
+</ol>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200723150150403.png" alt="image-20200723150150403"></p>
+<p>原理:在SpringMVC中国际化与区域信息对象Locale相关,要获得区域信息对象则通过LocaleResolver.在Spring Boot中,WebMvcAutoConfiguration中配置了这个对象,将其作为Bean加入了容器.</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200723150613065.png" alt="image-20200723150613065"></p>
+<p>可以看到先试着从配置文件中获取,接着是从请求头中获取.</p>
+<p>另外要实现连接按钮更改语言,则在这个按钮上加上不同的语言参数:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200723155630298.png" alt="image-20200723155630298"></p>
+<p>然后需要自定义LocaleResolver,因为上面默认的LocaleResolver处理的是请求头的.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyLocalResolver</span> <span class="keyword">implements</span> <span class="title">LocaleResolver</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Locale <span class="title">resolveLocale</span><span class="params">(HttpServletRequest request)</span> </span>&#123;</span><br><span class="line">        String l = request.getParameter(<span class="string">"l"</span>);</span><br><span class="line">        Locale locale = Locale.getDefault();</span><br><span class="line">        <span class="keyword">if</span> (!StringUtils.isEmpty(l)) &#123;</span><br><span class="line">            String[] split = l.split(<span class="string">"_"</span>);</span><br><span class="line">            locale = <span class="keyword">new</span> Locale(split[<span class="number">0</span>], split[<span class="number">1</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> locale;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLocale</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Locale locale)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>写好自定义的LocaleResolver要将它加入容器,替换掉原来的.在自己的WebMvcConfiger类(MyMvcConfig implements WebMvcConfigurer)中中添加这个Bean:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> LocaleResolver <span class="title">localeResolver</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> MyLocalResolver();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-登录"><a href="#3-登录" class="headerlink" title="3.登录"></a>3.登录</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@PostMapping</span>(<span class="string">"/user/login"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">login</span><span class="params">(@RequestParam(<span class="string">"username"</span>)</span> String username, @<span class="title">RequestParam</span><span class="params">(<span class="string">"password"</span>)</span> String password,</span></span><br><span class="line"><span class="function">                        Map&lt;String, Object&gt; map, HttpSession session) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!StringUtils.isEmpty(username)&amp;&amp;<span class="string">"123456"</span>.equals(password)) &#123;</span><br><span class="line">            session.setAttribute(<span class="string">"loginUser"</span>, username);</span><br><span class="line">            <span class="comment">//登录成功后,防止表单重复提交,要做重定向</span></span><br><span class="line">            <span class="keyword">return</span> <span class="string">"redirect:/dashboard.html"</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            map.put(<span class="string">"msg"</span>, <span class="string">"用户名密码错误"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"login"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>判断用户名不为空且密码为123456后重定向到dashboard页面.</p>
+<p>为了防止不登录直接进入dashboard页面,要配置一个拦截器.具体做法是实现HandlerInterceptor接口并实现prehandle方法.因为是要在处理请求前拦截的.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    Object loginUser = request.getSession().getAttribute(<span class="string">"loginUser"</span>);</span><br><span class="line">    <span class="keyword">if</span> (loginUser == <span class="keyword">null</span>) &#123;</span><br><span class="line">        request.setAttribute(<span class="string">"msg"</span>,<span class="string">"没有权限"</span>);</span><br><span class="line">        request.getRequestDispatcher(<span class="string">"/login.html"</span>).forward(request, response);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后还要在MyMvcConfig中添加这个Bean.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">    registry.addInterceptor(<span class="keyword">new</span> LoginHandlerInterceptor()).addPathPatterns(<span class="string">"/dashboard.html"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-CRUD员工列表"><a href="#4-CRUD员工列表" class="headerlink" title="4.CRUD员工列表"></a>4.CRUD员工列表</h3><table>
+<thead>
+<tr>
+<th>实验功能</th>
+<th>请求URI</th>
+<th>请求方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查询所有员工</td>
+<td>emps</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>查询某个员工(来到修改页面)</td>
+<td>emp/1</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>来到添加页面</td>
+<td>emp</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>添加员工</td>
+<td>emp</td>
+<td>POST</td>
+</tr>
+<tr>
+<td>来到修改页面（查出员工进行信息回显）</td>
+<td>emp/1</td>
+<td>GET</td>
+</tr>
+<tr>
+<td>修改员工</td>
+<td>emp</td>
+<td>PUT</td>
+</tr>
+<tr>
+<td>删除员工</td>
+<td>emp/1</td>
+<td>DELETE</td>
+</tr>
+</tbody></table>
+<p>先写查询所有员工,这个最简单:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/emps"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">list</span><span class="params">(Model model)</span> </span>&#123;</span><br><span class="line">    Collection&lt;Employee&gt; employees = employeeDao.getAll();</span><br><span class="line">    model.addAttribute(<span class="string">"emps"</span>, employees);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"emp/list"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="thymeleaf公共元素抽取"><a href="#thymeleaf公共元素抽取" class="headerlink" title="thymeleaf公共元素抽取"></a>thymeleaf公共元素抽取</h4><p>dashboard页面和list页面中有许多页面元素是相同的,如顶部条,侧栏.考虑代码复用要把公共的部分抽取出来.</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">1、抽取公共片段</span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:fragment</span>=<span class="string">"copy"</span>&gt;</span></span><br><span class="line">	 2011 The Good Thymes Virtual Grocery</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">2、引入公共片段</span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:insert</span>=<span class="string">"~&#123;footer :: copy&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">~&#123;templatename::selector&#125;：模板名::选择器</span><br><span class="line">~&#123;templatename::fragmentname&#125;:模板名::片段名</span><br><span class="line"></span><br><span class="line">3、默认效果：</span><br><span class="line">insert的公共片段在div标签中</span><br><span class="line">如果使用th:insert等属性进行引入，可以不用写~&#123;&#125;：</span><br><span class="line">行内写法可以加上：[[~&#123;&#125;]];[(~&#123;&#125;)]；</span><br></pre></td></tr></table></figure>
+
+<p>三种引入公共片段的th属性：</p>
+<p><strong>th:insert</strong>：将公共片段整个插入到声明引入的元素中</p>
+<p><strong>th:replace</strong>：将声明引入的元素替换为公共片段</p>
+<p><strong>th:include</strong>：将被引入的片段的<strong>内容</strong>包含进这个标签中(外层标签不要)</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">footer</span> <span class="attr">th:fragment</span>=<span class="string">"copy"</span>&gt;</span></span><br><span class="line"><span class="symbol">&amp;copy;</span> 2011 The Good Thymes Virtual Grocery</span><br><span class="line"><span class="tag">&lt;/<span class="name">footer</span>&gt;</span></span><br><span class="line"></span><br><span class="line">引入方式</span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:insert</span>=<span class="string">"footer :: copy"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:replace</span>=<span class="string">"footer :: copy"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">th:include</span>=<span class="string">"footer :: copy"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">效果</span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">footer</span>&gt;</span></span><br><span class="line">    <span class="symbol">&amp;copy;</span> 2011 The Good Thymes Virtual Grocery</span><br><span class="line">    <span class="tag">&lt;/<span class="name">footer</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">footer</span>&gt;</span></span><br><span class="line"><span class="symbol">&amp;copy;</span> 2011 The Good Thymes Virtual Grocery</span><br><span class="line"><span class="tag">&lt;/<span class="name">footer</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="symbol">&amp;copy;</span> 2011 The Good Thymes Virtual Grocery</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-员工添加"><a href="#5-员工添加" class="headerlink" title="5.员工添加"></a>5.员工添加</h3><p>在员工列表页面加一个添加按钮,该按钮添加一个跳转到添加页面的超链接.</p>
+<p>艹艹艹艹!这部分太零碎了,不写了,直接跳到下个部分.</p>
+<h2 id="6-错误处理机制"><a href="#6-错误处理机制" class="headerlink" title="6.错误处理机制"></a>6.错误处理机制</h2><p>Spring Boot默认的错误页面已经见过了好多次了.浏览器返回一个Whitelabel Error Page页面,客户端返回一个json.</p>
+<p>默认配置是在<code>ErrorMvcAutoConfiguration</code>这个类中.</p>
+<p>先看这个类装配了哪些Bean:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200725111458563.png" alt="image-20200725111458563"></p>
+<ul>
+<li><p>DefaultErrorAttributes:在页面共享信息</p>
+</li>
+<li><p>BasicErrorController:处理默认/error请求</p>
+</li>
+<li><p>ErrorPageCustomizer,是一个静态内部类,有一个方法:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200725132328064.png" alt="image-20200725132328064"></p>
+<p>里面的getPath方法就是获得出错后去的路径:</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Value</span>(<span class="string">"$&#123;error.path:/error&#125;"</span>)</span><br><span class="line"><span class="keyword">private</span> String path = <span class="string">"/error"</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>DefaultErrorViewResolver</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ModelAndView <span class="title">resolveErrorView</span><span class="params">(HttpServletRequest request, HttpStatus status,</span></span></span><br><span class="line"><span class="function"><span class="params">                                     Map&lt;String, Object&gt; model)</span> </span>&#123;</span><br><span class="line">    ModelAndView modelAndView = resolve(String.valueOf(status), model);</span><br><span class="line">    <span class="keyword">if</span> (modelAndView == <span class="keyword">null</span> &amp;&amp; SERIES_VIEWS.containsKey(status.series())) &#123;</span><br><span class="line">        modelAndView = resolve(SERIES_VIEWS.get(status.series()), model);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> modelAndView;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> ModelAndView <span class="title">resolve</span><span class="params">(String viewName, Map&lt;String, Object&gt; model)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//默认SpringBoot可以去找到一个页面？  error/404</span></span><br><span class="line">    String errorViewName = <span class="string">"error/"</span> + viewName;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//模板引擎可以解析这个页面地址就用模板引擎解析</span></span><br><span class="line">    TemplateAvailabilityProvider provider = <span class="keyword">this</span>.templateAvailabilityProviders</span><br><span class="line">        .getProvider(errorViewName, <span class="keyword">this</span>.applicationContext);</span><br><span class="line">    <span class="keyword">if</span> (provider != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">//模板引擎可用的情况下返回到errorViewName指定的视图地址</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ModelAndView(errorViewName, model);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//模板引擎不可用，就在静态资源文件夹下找errorViewName对应的页面   error/404.html</span></span><br><span class="line">    <span class="keyword">return</span> resolveResource(errorViewName, model);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<p>一旦系统出现4xx或5xx错误,ErrorPageCustomizer就会生效(定制错误的响应规则),来到/error请求.接着由BasicErrorController这个Controller来处理/error请求:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200725132832861.png" alt="image-20200725132832861"></p>
+<p>这个Controller处理的请求路径一样,但是产生不同的结果:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(produces = MediaType.TEXT_HTML_VALUE)</span><br><span class="line"><span class="function"><span class="keyword">public</span> ModelAndView <span class="title">errorHtml</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> </span>&#123;</span><br><span class="line">    HttpStatus status = getStatus(request);</span><br><span class="line">    Map&lt;String, Object&gt; model = Collections</span><br><span class="line">        .unmodifiableMap(getErrorAttributes(request, getErrorAttributeOptions(request, MediaType.TEXT_HTML)));</span><br><span class="line">    response.setStatus(status.value());</span><br><span class="line">    <span class="comment">//去哪个页面做错误页面,包括页面地址和内容</span></span><br><span class="line">    ModelAndView modelAndView = resolveErrorView(request, response, status, model);</span><br><span class="line">    <span class="keyword">return</span> (modelAndView != <span class="keyword">null</span>) ? modelAndView : <span class="keyword">new</span> ModelAndView(<span class="string">"error"</span>, model);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RequestMapping</span></span><br><span class="line"><span class="keyword">public</span> ResponseEntity&lt;Map&lt;String, Object&gt;&gt; error(HttpServletRequest request) &#123;</span><br><span class="line">    HttpStatus status = getStatus(request);</span><br><span class="line">    <span class="keyword">if</span> (status == HttpStatus.NO_CONTENT) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity&lt;&gt;(status);</span><br><span class="line">    &#125;</span><br><span class="line">    Map&lt;String, Object&gt; body = getErrorAttributes(request, getErrorAttributeOptions(request, MediaType.ALL));</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ResponseEntity&lt;&gt;(body, status);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一个是HTML页面,另一个是json数据.</p>
+<p>resolveErrorView方法返回了modelAndView,决定了错误页面的数据和视图.model来自于DefaultErrorAttributes.</p>
+<h3 id="1-定制错误响应"><a href="#1-定制错误响应" class="headerlink" title="1.定制错误响应"></a>1.定制错误响应</h3><h4 id="①定制错误页面"><a href="#①定制错误页面" class="headerlink" title="①定制错误页面"></a>①定制错误页面</h4><p>在有模板引擎的情况下,将错误页面命名为 错误状态码.html 放在模板引擎文件夹里面的 error文件夹下,发生此状态码的错误就会来到 对应的页面.</p>
+<p>可以使用4xx和5xx作为错误页面的文件名来匹配这种类型的所有错误,精确优先(优先寻找精确的状态码.html)</p>
+<p>在错误页面能获取的信息:</p>
+<p>​                timestamp：时间戳</p>
+<p>​                status：状态码</p>
+<p>​                error：错误提示</p>
+<p>​                exception：异常对象</p>
+<p>​                message：异常消息</p>
+<p>​                errors：JSR303数据校验的错误都在这里</p>
+<p>如果没有模板引擎,就在静态资源文件夹下找.</p>
+<p>如果都没有,默认来到SpringBoot默认的错误提示页面.</p>
+<h4 id="②定制错误数据"><a href="#②定制错误数据" class="headerlink" title="②定制错误数据"></a>②定制错误数据</h4><p>定制json数据内容.</p>
+<p>需要一个自定义的异常处理器:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@ControllerAdvice</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyExceptionHandler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="meta">@ExceptionHandler</span>(UserNotExistException<span class="class">.<span class="keyword">class</span>)//处理哪种异常</span></span><br><span class="line"><span class="class">    <span class="title">public</span> <span class="title">Map</span>&lt;<span class="title">String</span>,<span class="title">Object</span>&gt; <span class="title">handleException</span>(<span class="title">Exception</span> <span class="title">e</span>)</span>&#123;</span><br><span class="line">        Map&lt;String,Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">"code"</span>,<span class="string">"user.notexist"</span>);</span><br><span class="line">        map.put(<span class="string">"message"</span>,e.getMessage());</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是这种写法让前面的自动区分浏览器和客户端的效果没了.因为不是/error请求了.所以可以转发到这个请求:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"> <span class="meta">@ExceptionHandler</span>(UserNotExistException<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">String</span> <span class="title">handleException</span>(<span class="title">Exception</span> <span class="title">e</span>, <span class="title">HttpServletRequest</span> <span class="title">request</span>)</span>&#123;</span><br><span class="line">    Map&lt;String,Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    <span class="comment">//传入我们自己的错误状态码  4xx 5xx，否则就不会进入定制错误页面的解析流程</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * Integer statusCode = (Integer) request</span></span><br><span class="line"><span class="comment">         .getAttribute("javax.servlet.error.status_code");</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">    request.setAttribute(<span class="string">"javax.servlet.error.status_code"</span>,<span class="number">500</span>);</span><br><span class="line">    map.put(<span class="string">"code"</span>,<span class="string">"user.notexist"</span>);</span><br><span class="line">    map.put(<span class="string">"message"</span>,e.getMessage());</span><br><span class="line">    <span class="comment">//转发到/error</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"forward:/error"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是这样做拿到的数据不是map里的,而是默认的/error请求的信息.上面说过,页面的信息放在model中,这个model</p>
+<p>是通过DefaultErrorAttributes获取的(getErrorAttributes方法),因此自定义一个ErrorAttributes重写方法即可.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//给容器中加入我们自己定义的ErrorAttributes</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyErrorAttributes</span> <span class="keyword">extends</span> <span class="title">DefaultErrorAttributes</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Map&lt;String, Object&gt; <span class="title">getErrorAttributes</span><span class="params">(RequestAttributes requestAttributes, <span class="keyword">boolean</span> includeStackTrace)</span> </span>&#123;</span><br><span class="line">        Map&lt;String, Object&gt; map = <span class="keyword">super</span>.getErrorAttributes(requestAttributes, includeStackTrace);</span><br><span class="line">        map.put(<span class="string">"company"</span>,<span class="string">"atguigu"</span>);</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样错误信息除了自定义的还有map里放的.利用map还可以把异常处理器里的数据也放进来.做法是将异常处理器里的map放入request域中,随着转发使得MyErrorAttributes可以获得这个map,然后将这个map再放入MyErrorAttributes的map,即model中.</p>
+<h2 id="7-配置嵌入式Servlet"><a href="#7-配置嵌入式Servlet" class="headerlink" title="7.配置嵌入式Servlet"></a>7.配置嵌入式Servlet</h2><h3 id="1-修改配置"><a href="#1-修改配置" class="headerlink" title="1.修改配置"></a>1.修改配置</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">server.port&#x3D;8081</span><br><span class="line">server.context-path&#x3D;&#x2F;crud</span><br><span class="line"></span><br><span class="line">server.tomcat.uri-encoding&#x3D;UTF-8</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;通用的Servlet容器设置</span><br><span class="line">server.xxx</span><br><span class="line">&#x2F;&#x2F;Tomcat的设置</span><br><span class="line">server.tomcat.xxx</span><br></pre></td></tr></table></figure>
+
+<p>或者编写一个<strong>EmbeddedServletContainerCustomizer</strong>,嵌入式的Servlet容器的定制器来修改servlet容器的配置.在Spring Boot2中,改类被废弃.要使用<strong>WebServerFactoryCustomizer</strong>来代替.在MyConfig类中添加这个Bean:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> WebServerFactoryCustomizer&lt;ConfigurableWebServerFactory&gt; <span class="title">webServerFactoryCustomizer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> WebServerFactoryCustomizer&lt;ConfigurableWebServerFactory&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">customize</span><span class="params">(ConfigurableWebServerFactory factory)</span> </span>&#123;</span><br><span class="line">            factory.setPort(<span class="number">8099</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>或者使用更简短的方式:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> WebServerFactoryCustomizer&lt;ConfigurableWebServerFactory&gt; <span class="title">webServerFactoryCustomizer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> factory -&gt; factory.setPort(<span class="number">8099</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-注册三大组件"><a href="#2-注册三大组件" class="headerlink" title="2.注册三大组件"></a>2.注册三大组件</h3><p>用ServletRegistrationBean注册Servlet,首先先写一个Servlet:MyServlet,然后用ServletRegistrationBean注册:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ServletRegistrationBean&lt;HttpServlet&gt; <span class="title">myServlet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ServletRegistrationBean&lt;HttpServlet&gt;(<span class="keyword">new</span> MyServlet(), <span class="string">"/myServlet"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而Filter和Listener与此类似,都是添加一个xxxRegistrationBean到容器中.</p>
+<p>SpringBoot自动配置SpringMVC的时候也会配置DispatcherServlet,前端控制器,也有一个配置类:DispatcherServletAutoConfiguration.</p>
+<h3 id="3-替换其它嵌入式容器"><a href="#3-替换其它嵌入式容器" class="headerlink" title="3.替换其它嵌入式容器"></a>3.替换其它嵌入式容器</h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   引入web模块默认就是使用嵌入式的Tomcat作为Servlet容器；</span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>默认是引入tomcat,如果要换,则要排除掉然后引入新的:</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 引入web模块 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-tomcat<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--引入其他的Servlet容器--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-jetty<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-使用外置Servlet容器"><a href="#4-使用外置Servlet容器" class="headerlink" title="4.使用外置Servlet容器"></a>4.使用外置Servlet容器</h3><ol>
+<li><p>创建一个war项目</p>
+</li>
+<li><p>将将嵌入式的Tomcat指定为provided</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-tomcat<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>必须编写一个<strong>SpringBootServletInitializer</strong>的子类,并调用configure方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServletInitializer</span> <span class="keyword">extends</span> <span class="title">SpringBootServletInitializer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">protected</span> SpringApplicationBuilder <span class="title">configure</span><span class="params">(SpringApplicationBuilder application)</span> </span>&#123;</span><br><span class="line">       <span class="comment">//传入SpringBoot应用的主程序</span></span><br><span class="line">      <span class="keyword">return</span> application.sources(SpringBoot04WebJspApplication<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><h2 id="1-Docker常用命令"><a href="#1-Docker常用命令" class="headerlink" title="1.Docker常用命令"></a>1.Docker常用命令</h2><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>检索</td>
+<td>docker  search 关键字  eg：docker  search redis</td>
+<td>我们经常去docker  hub上检索镜像的详细信息，如镜像的TAG。</td>
+</tr>
+<tr>
+<td>拉取</td>
+<td>docker pull 镜像名:tag</td>
+<td>:tag是可选的，tag表示标签，多为软件的版本，默认是latest</td>
+</tr>
+<tr>
+<td>列表</td>
+<td>docker images</td>
+<td>查看所有本地镜像</td>
+</tr>
+<tr>
+<td>删除</td>
+<td>docker rmi image-id</td>
+<td>删除指定的本地镜像</td>
+</tr>
+</tbody></table>
+<p>以上是关于镜像的,根据镜像启动后就是容器,启动方法:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name mytomcat -d tomcat:latest</span><br></pre></td></tr></table></figure>
+
+<p>mytomcat是自定义名称.-d表示是后台运行,后面的是镜像名,必要时需指定tag.</p>
+<p>启动镜像其实类似于安装某个程序,一旦”安装”完成,该程序的启动就不是通过镜像这个”安装程序”,而是通过容器本身.</p>
+<p>接着可以使用<code>docker ps</code>查看运行中的容器.加上参数-a可以查看所有的容器,包括停止的.</p>
+<p>使用<code>docker stop id</code>停止容器.<code>docker start id</code>启动容器.</p>
+<p>如果直接在浏览器里访问tomcat的8080端口是不行的,因为这个8080端口是容器的而不是host的.所以需要端口映射:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d -p 8888:8080 tomcat</span><br></pre></td></tr></table></figure>
+
+<p>将host的8888端口映射到8080端口.</p>
+<p>查看容器的日志<code>docker logs 容器名/容器id</code>.删除容器<code>docker rm id</code></p>
+<p>用一个镜像启动多个容器:注意名字和host端口不冲突即可.</p>
+<h2 id="2-安装MySQL"><a href="#2-安装MySQL" class="headerlink" title="2.安装MySQL"></a>2.安装MySQL</h2><p>安装和上面一样,只是在启动时要</p>
+<p>注意端口映射和用参数-e指定用户密码:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -p 4406:3306 --name mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql</span><br></pre></td></tr></table></figure>
+
+<p>其它高级操作:</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run --name mysql03 -v /conf/mysql:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag</span><br><span class="line">把主机的/conf/mysql文件夹挂载到 mysqldocker容器的/etc/mysql/conf.d文件夹里面</span><br><span class="line">改mysql的配置文件就只需要把mysql配置文件放在自定义的文件夹下（/conf/mysql）</span><br><span class="line"></span><br><span class="line">docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci</span><br><span class="line">指定mysql的一些配置参数</span><br></pre></td></tr></table></figure>
+
+<h1 id="SpringBoot与数据访问"><a href="#SpringBoot与数据访问" class="headerlink" title="SpringBoot与数据访问"></a>SpringBoot与数据访问</h1><h2 id="1-JDBC"><a href="#1-JDBC" class="headerlink" title="1.JDBC"></a>1.JDBC</h2><p>SpringBoot现在默认的数据源是Hikari.</p>
+<p>数据源的相关配置都在DataSourceProperties里面.</p>
+<p>支持的数据源:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200726144014757.png" alt="image-20200726144014757"></p>
+<p>Generic表示自定义数据源.创建数据源步骤:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function">DataSource <span class="title">dataSource</span><span class="params">(DataSourceProperties properties)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> properties.initializeDataSourceBuilder().build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-整合Druid"><a href="#2-整合Druid" class="headerlink" title="2.整合Druid"></a>2.整合Druid</h2><p>需要Druid和log4j的依赖.</p>
+<p>然后配置一个Druid的管理平台:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DruidConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"spring.datasource"</span>)</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> DataSource <span class="title">druid</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DruidDataSource();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//配置一个管理后台的Servlet,并设置一些初始化参数</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ServletRegistrationBean&lt;StatViewServlet&gt; <span class="title">statViewServlet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ServletRegistrationBean&lt;StatViewServlet&gt; bean = <span class="keyword">new</span> ServletRegistrationBean&lt;&gt;(<span class="keyword">new</span> StatViewServlet(), <span class="string">"/druid/*"</span>);</span><br><span class="line">        bean.setInitParameters(<span class="keyword">new</span> HashMap&lt;String, String&gt;() &#123;</span><br><span class="line">            &#123;</span><br><span class="line">                put(<span class="string">"loginUsername"</span>, <span class="string">"admin"</span>);</span><br><span class="line">                put(<span class="string">"loginPassword"</span>, <span class="string">"123456"</span>);</span><br><span class="line">                put(<span class="string">"allow"</span>, <span class="string">""</span>);<span class="comment">//默认允许所有访问</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> bean;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//配置一个web监控的filter</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> FilterRegistrationBean&lt;WebStatFilter&gt; <span class="title">webStatFilter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        FilterRegistrationBean&lt;WebStatFilter&gt; bean = <span class="keyword">new</span> FilterRegistrationBean&lt;&gt;();</span><br><span class="line">        bean.setFilter(<span class="keyword">new</span> WebStatFilter());</span><br><span class="line">        bean.setInitParameters(<span class="keyword">new</span> HashMap&lt;&gt;() &#123;&#123;</span><br><span class="line">            put(<span class="string">"exclusions"</span>, <span class="string">"*.js,*.css,/druid/*"</span>);</span><br><span class="line">        &#125;&#125;);</span><br><span class="line">        bean.setUrlPatterns(Collections.singletonList(<span class="string">"/*"</span>));</span><br><span class="line">        <span class="keyword">return</span> bean;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-注解版"><a href="#1-注解版" class="headerlink" title="1.注解版"></a>1.注解版</h3><p>在mapper包中写SQL语句,简单快捷,但是灵活性不够:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DepartmentMapper</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Select</span>(<span class="string">"select * from department where id=#&#123;id&#125; "</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Department <span class="title">getDeptById</span><span class="params">(Integer id)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Select</span>(<span class="string">"delete from department where id=#&#123;id&#125; "</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">deleteDeptById</span><span class="params">(Integer id)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Options</span>(useGeneratedKeys = <span class="keyword">true</span>, keyProperty = <span class="string">"id"</span>)<span class="comment">//表示是否有自增,哪个是自增</span></span><br><span class="line">    <span class="meta">@Select</span>(<span class="string">"insert into department(departmentName) values(#&#123;departmentName&#125; )"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">insertDept</span><span class="params">(Department department)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Select</span>(<span class="string">"update department set departmentName=#&#123;departmentName&#125; where id=#&#123;id&#125; "</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">updateDept</span><span class="params">(Department department)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接着在Controller中注入这个Mapper,然后调用即可.</p>
+<p>自定义Mybatis配置:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@org</span>.springframework.context.annotation.Configuration</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyBatisConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ConfigurationCustomizer <span class="title">configurationCustomizer</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConfigurationCustomizer()&#123;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">customize</span><span class="params">(Configuration configuration)</span> </span>&#123;</span><br><span class="line">                configuration.setMapUnderscoreToCamelCase(<span class="keyword">true</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在接口上加的@Mapper注解可以去掉.需要在SpringBoot的启动类上加@mapperScan,并指定扫描的包.</p>
+<h3 id="2-配置文件版"><a href="#2-配置文件版" class="headerlink" title="2.配置文件版"></a>2.配置文件版</h3><figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">mybatis:</span></span><br><span class="line">  <span class="attr">config-location:</span> <span class="string">classpath:mybatis/mybatis-config.xml</span> <span class="string">指定全局配置文件的位置</span></span><br><span class="line">  <span class="attr">mapper-locations:</span> <span class="string">classpath:mybatis/mapper/*.xml</span>  <span class="string">指定sql映射文件的位置</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="SpringBoot启动原理"><a href="#SpringBoot启动原理" class="headerlink" title="SpringBoot启动原理"></a>SpringBoot启动原理</h1><p>1.创建SpringApplication对象</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200726232702324.png" alt="image-20200726232702324"></p>
+<p>可以看到run方法后面创建了一个<strong>SpringApplication</strong>,让后在这个对象上调用run方法.</p>
+<p>来看这个创建对象的过程,即其构造器.进入该来查看:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200726235109418.png" alt="image-20200726235109418"></p>
+<p>本质上调用了两个参数的构造器:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">SpringApplication</span><span class="params">(ResourceLoader resourceLoader, Class&lt;?&gt;... primarySources)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//resourceLoader加载配置资源但是没在这初始化，后面再说</span></span><br><span class="line">    <span class="keyword">this</span>.resourceLoader = resourceLoader;</span><br><span class="line">    <span class="comment">//默认是启动类，不过有可能你自定义了一个配置类放到main class运行就需要配置一下</span></span><br><span class="line">    Assert.notNull(primarySources, <span class="string">"PrimarySources must not be null"</span>);</span><br><span class="line">    <span class="comment">//springApplication配置类</span></span><br><span class="line">    <span class="keyword">this</span>.primarySources = <span class="keyword">new</span> LinkedHashSet&lt;&gt;(Arrays.asList(primarySources));</span><br><span class="line">    <span class="comment">//设置servlet环境</span></span><br><span class="line">    <span class="keyword">this</span>.webApplicationType = deduceWebApplicationType();</span><br><span class="line">    <span class="comment">////获取ApplicationContextInitializer，也是在这里开始首次加载spring.factories文件</span></span><br><span class="line">    setInitializers((Collection) getSpringFactoriesInstances(</span><br><span class="line">        ApplicationContextInitializer<span class="class">.<span class="keyword">class</span>))</span>;</span><br><span class="line">    <span class="comment">//获取监听器，这里是第二次加载spring.factories文件</span></span><br><span class="line">    setListeners((Collection) getSpringFactoriesInstances(ApplicationListener<span class="class">.<span class="keyword">class</span>))</span>;</span><br><span class="line">    <span class="keyword">this</span>.mainApplicationClass = deduceMainApplicationClass();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里面最重要的就是setInitializers,setListeners.</p>
+<p>其中setInitializers中的getSpringFactoriesInstances代表着去META-INF/spring.factories找配置的所有ApplicationContextInitializer并保存起来.</p>
+<p>具体看这个方法:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727001738457.png" alt="image-20200727001738457"></p>
+<p>注意注释写了用名字保证唯一.接着用SpringFactoriesLoader的loadFactoryNames获得所有唯一的ApplicationContextInitializer(参数type指的就是他).查看这个loadFactoryNames方法:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727002625214.png" alt="image-20200727002625214"></p>
+<p>框住的常量就是META-INF/spring.factories.</p>
+<p>当获取了所有ApplicationContextInitializer构成的Set集合后,用createSpringFactoriesInstances创建实例.创建完成后还排了下序,然后返回这个List.</p>
+<p>而setInitializers方法本身就是一个setter方法,这意味着返回的list被保存在<strong>SpringApplication</strong>中.</p>
+<p>setListeners这个方法与之类似,只不过保存的是ApplicationListener.</p>
+<p>构造器的最后一步是<code>deduceMainApplicationClass()</code>,即推断哪个是main方法.做法是:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727004122412.png" alt="image-20200727004122412"></p>
+<p>为什么要判断?这是因为传进来的是数组,可以有多个配置类.</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727004937998.png" alt="image-20200727004937998"></p>
+<p>现在创建SpringApplication对象的过程已结束,来到执行run方法</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727005102595.png" alt="image-20200727005102595"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ConfigurableApplicationContext <span class="title">run</span><span class="params">(String... args)</span> </span>&#123;</span><br><span class="line">		StopWatch stopWatch = <span class="keyword">new</span> StopWatch();</span><br><span class="line">		stopWatch.start();</span><br><span class="line">		ConfigurableApplicationContext context = <span class="keyword">null</span>;</span><br><span class="line">		Collection&lt;SpringBootExceptionReporter&gt; exceptionReporters = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">		configureHeadlessProperty();</span><br><span class="line">		SpringApplicationRunListeners listeners = getRunListeners(args);</span><br><span class="line">		listeners.starting();</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			ApplicationArguments applicationArguments = <span class="keyword">new</span> DefaultApplicationArguments(args);</span><br><span class="line">			ConfigurableEnvironment environment = prepareEnvironment(listeners, applicationArguments);</span><br><span class="line">			configureIgnoreBeanInfo(environment);</span><br><span class="line">			Banner printedBanner = printBanner(environment);</span><br><span class="line">			context = createApplicationContext();</span><br><span class="line">			exceptionReporters = getSpringFactoriesInstances(SpringBootExceptionReporter<span class="class">.<span class="keyword">class</span>,</span></span><br><span class="line">					new Class[] &#123; ConfigurableApplicationContext.class &#125;, context);</span><br><span class="line">			prepareContext(context, environment, listeners, applicationArguments, printedBanner);</span><br><span class="line">			refreshContext(context);</span><br><span class="line">			afterRefresh(context, applicationArguments);</span><br><span class="line">			stopWatch.stop();</span><br><span class="line">			<span class="keyword">if</span> (<span class="keyword">this</span>.logStartupInfo) &#123;</span><br><span class="line">				<span class="keyword">new</span> StartupInfoLogger(<span class="keyword">this</span>.mainApplicationClass).logStarted(getApplicationLog(), stopWatch);</span><br><span class="line">			&#125;</span><br><span class="line">			listeners.started(context);</span><br><span class="line">			callRunners(context, applicationArguments);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">			handleRunFailure(context, ex, exceptionReporters, listeners);</span><br><span class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(ex);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			listeners.running(context);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">			handleRunFailure(context, ex, exceptionReporters, <span class="keyword">null</span>);</span><br><span class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(ex);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> context;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>前面都是些初始化操作stopwatch是计时器:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727122947429.png" alt="image-20200727122947429">挑出后面重要的来看.第七行,获取了一个非常重要的Listener:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">SpringApplicationRunListeners listeners = getRunListeners(args);</span><br></pre></td></tr></table></figure>
+
+<p>这个Listener如何获取,进入getRunListeners一看:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727123245183.png" alt="image-20200727123245183"></p>
+<p>又是前面getSpringFactoriesInstances的操作.只不过这里获取的是SpringApplicationRunListeners,和前面的ApplicationListener不是一回事.通过debug发现getSpringFactoriesInstances返回的instances实际是SpringApplicationRunListener的实现类EventPublishingRunListener.具体这个实例怎么来的呢?</p>
+<p>在进一次createSpringFactoriesInstances.注意此时上一步获得名字时names里已经是EventPublishingRunListener.进入后里面使用了createSpringFactoriesInstances方法,该方法里使用<code>BeanUtils.instantiateClass(constructor, args)</code>来创建实例对象(根据构造器和参数,具体也就是通过反射得到对应的构造器方法.)这样就来到了<code>EventPublishingRunListener</code>的构造器:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">EventPublishingRunListener</span><span class="params">(SpringApplication application, String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.application = application;</span><br><span class="line">    <span class="keyword">this</span>.args = args;</span><br><span class="line">    <span class="keyword">this</span>.initialMulticaster = <span class="keyword">new</span> SimpleApplicationEventMulticaster();</span><br><span class="line">    <span class="keyword">for</span> (ApplicationListener&lt;?&gt; listener : application.getListeners()) &#123;</span><br><span class="line">        <span class="keyword">this</span>.initialMulticaster.addApplicationListener(listener);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>构造器中有个循环.大意是将刚才存在SpringApplication中的Listeners中的Listener全部添加到initialMulticaster中.而initialMulticaster的类型是SimpleApplicationEventMulticaster,它继承了抽象类AbstractApplicationEventMulticaster.这个类中有添加方法.</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727153615597.png" alt="image-20200727153615597"></p>
+<p>所以<code>getRunListeners(args)</code>这一句的的结果是下图,获取了一个事件监听器,该监听器内部还包含了多个监听器:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727123839514.png" alt="image-20200727123839514"></p>
+<p>接着是<code>listeners.starting();</code>这句其实简单,就是把Listeners里面的每个Listener的start方法调用一下.</p>
+<p>这是每个Listener(SpringApplicationRunListener)的方法:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727141240880.png" alt="image-20200727141240880"></p>
+<p>而现在Listeners中的EventPublishingRunListener重写了这些方法:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727141735742.png" alt="image-20200727141735742"></p>
+<p>所以调用start方法时调用的也是这里重写的.debug进这个starting方法看看:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">starting</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.initialMulticaster.multicastEvent(<span class="keyword">new</span> ApplicationStartingEvent(<span class="keyword">this</span>.application, <span class="keyword">this</span>.args));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里new了一个ApplicationStartingEvent(应用启动事件).这里涉及到事件机制,可以看下这个链接<a href="https://www.cnblogs.com/youzhibing/p/9593788.html" target="_blank" rel="noopener">事件机制</a></p>
+<p>EventPublishingRunListener就是事件监听器,而事件的触发器是SpringApplication.</p>
+<p>现在构建了一个ApplicationStartingEvent事件(先不关注事件对象怎么构建的).<strong>multicast</strong>表示多播,这里指将事件发布出去.看看这个multicastEvent方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">multicastEvent</span><span class="params">(<span class="keyword">final</span> ApplicationEvent event, @Nullable ResolvableType eventType)</span> </span>&#123;</span><br><span class="line">    ResolvableType type = (eventType != <span class="keyword">null</span> ? eventType : resolveDefaultEventType(event));</span><br><span class="line">    Executor executor = getTaskExecutor();</span><br><span class="line">    <span class="keyword">for</span> (ApplicationListener&lt;?&gt; listener : getApplicationListeners(event, type)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (executor != <span class="keyword">null</span>) &#123;</span><br><span class="line">            executor.execute(() -&gt; invokeListener(listener, event));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            invokeListener(listener, event);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>大意就是遍历getApplicationListeners(event, type)，然后对每个listener进行invokeListener(listener, event).</p>
+<p>先看的结果:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727155023738.png" alt="image-20200727155023738"></p>
+<p>而在SpringApplication中存的不止这么多,所以中间肯定有筛选.筛选条件那就是参数(event, type),event是ApplicationStartingEvent,type是:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727155451718.png" alt="image-20200727155451718"></p>
+<p>进入getApplicationListeners方法,根据注释可知:该方法作用:返回与给定事件类型匹配的ApplicationListeners集合,非匹配的侦听器会被提前排除,允许根据缓存的匹配结果来返回。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">protected</span> Collection&lt;ApplicationListener&lt;?&gt;&gt; getApplicationListeners(</span><br><span class="line">			ApplicationEvent event, ResolvableType eventType) &#123;</span><br><span class="line"></span><br><span class="line">		Object source = event.getSource();</span><br><span class="line">		Class&lt;?&gt; sourceType = (source != <span class="keyword">null</span> ? source.getClass() : <span class="keyword">null</span>);</span><br><span class="line">		ListenerCacheKey cacheKey = <span class="keyword">new</span> ListenerCacheKey(eventType, sourceType);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Quick check for existing entry on ConcurrentHashMap...</span></span><br><span class="line">		ListenerRetriever retriever = <span class="keyword">this</span>.retrieverCache.get(cacheKey);</span><br><span class="line">		<span class="keyword">if</span> (retriever != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> retriever.getApplicationListeners();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>.beanClassLoader == <span class="keyword">null</span> ||</span><br><span class="line">				(ClassUtils.isCacheSafe(event.getClass(), <span class="keyword">this</span>.beanClassLoader) &amp;&amp;</span><br><span class="line">						(sourceType == <span class="keyword">null</span> || ClassUtils.isCacheSafe(sourceType, <span class="keyword">this</span>.beanClassLoader)))) &#123;</span><br><span class="line">			<span class="comment">// Fully synchronized building and caching of a ListenerRetriever</span></span><br><span class="line">			<span class="keyword">synchronized</span> (<span class="keyword">this</span>.retrievalMutex) &#123;</span><br><span class="line">				retriever = <span class="keyword">this</span>.retrieverCache.get(cacheKey);</span><br><span class="line">				<span class="keyword">if</span> (retriever != <span class="keyword">null</span>) &#123;</span><br><span class="line">					<span class="keyword">return</span> retriever.getApplicationListeners();</span><br><span class="line">				&#125;</span><br><span class="line">				retriever = <span class="keyword">new</span> ListenerRetriever(<span class="keyword">true</span>);</span><br><span class="line">				Collection&lt;ApplicationListener&lt;?&gt;&gt; listeners =</span><br><span class="line">						retrieveApplicationListeners(eventType, sourceType, retriever);</span><br><span class="line">				<span class="keyword">this</span>.retrieverCache.put(cacheKey, retriever);</span><br><span class="line">				<span class="keyword">return</span> listeners;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// No ListenerRetriever caching -&gt; no synchronization necessary</span></span><br><span class="line">			<span class="keyword">return</span> retrieveApplicationListeners(eventType, sourceType, <span class="keyword">null</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>主要涉及到3个点：缓存retrieverCache、retrieveApplicationListeners已经retrieveApplicationListeners中调用的supportsEvent方法。流程是这样的：</p>
+<p>1、缓存中是否有匹配的结果，有则返回</p>
+<p>2、若缓存中没有匹配的结果，则从this.defaultRetriever.applicationListeners中过滤，这个this表示的EventPublishingRunListener对象的属性initialMulticaster（也就是SimpleApplicationEventMulticaster对象，而defaultRetriever.applicationListeners的值也是在EventPublishingRunListener构造方法中初始化的）</p>
+<p>3、过滤过程，遍历defaultRetriever.applicationListeners集合，从中找出ApplicationStartingEvent匹配的listener，具体的匹配规则需要看各个listener的supportsEventType方法（有两个重载的方法）</p>
+<p>4、将过滤的结果缓存到retrieverCache</p>
+<p>5、将过滤出的结果返回回去</p>
+<p>现在得到了一个ApplicationListeners集合,然后来到invokeListener方法.该方法注释是<strong>使用给定的事件调用给定的监听器</strong>.深入该方法发现里面实际执行了<code>doInvokeListener(listener, event)</code>方法.该方法实际执行了listener.onApplicationEvent方法.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onApplicationEvent</span><span class="params">(ApplicationEvent event)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (event <span class="keyword">instanceof</span> ApplicationStartingEvent) &#123;</span><br><span class="line">        onApplicationStartingEvent((ApplicationStartingEvent) event);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (event <span class="keyword">instanceof</span> ApplicationEnvironmentPreparedEvent) &#123;</span><br><span class="line">        onApplicationEnvironmentPreparedEvent((ApplicationEnvironmentPreparedEvent) event);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (event <span class="keyword">instanceof</span> ApplicationPreparedEvent) &#123;</span><br><span class="line">        onApplicationPreparedEvent((ApplicationPreparedEvent) event);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (event <span class="keyword">instanceof</span> ContextClosedEvent</span><br><span class="line">             &amp;&amp; ((ContextClosedEvent) event).getApplicationContext().getParent() == <span class="keyword">null</span>) &#123;</span><br><span class="line">        onContextClosedEvent();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (event <span class="keyword">instanceof</span> ApplicationFailedEvent) &#123;</span><br><span class="line">        onApplicationFailedEvent();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到这里根据事件类型调用相应的方法.那么现在就是调用onApplicationStartingEvent方法.此时的listener是LoggingApplicationListener</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727161227480.png" alt="image-20200727161227480"></p>
+<p>可以看到这里做了一些和日志相关的工作,具体不深究.</p>
+<p>其它几个ApplicationListener也是差不多如此:</p>
+<p>LoggingApplicationListener：检测正在使用的日志系统，默认是logback，支持3种，优先级从高到低：logback &gt; log4j &gt; javalog。此时日志系统还没有初始化</p>
+<p>BackgroundPreinitializer：另起一个线程实例化Initializer并调用其run方法，包括验证器、消息转换器等等</p>
+<p>DelegatingApplicationListener：此时什么也没做</p>
+<p>LiquibaseServiceLocatorApplicationListener：此时什么也没做</p>
+<p>回顾总结起来就是listerns的start这个事件触发了上述的事件响应.</p>
+<p>接着来到try内部:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727162117716.png" alt="image-20200727162117716"></p>
+<p>这里先是封装了下参数,接着准备环境.查看这个方法:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> ConfigurableEnvironment <span class="title">prepareEnvironment</span><span class="params">(SpringApplicationRunListeners listeners,</span></span></span><br><span class="line"><span class="function"><span class="params">      ApplicationArguments applicationArguments)</span> </span>&#123;</span><br><span class="line">   <span class="comment">// Create and configure the environment</span></span><br><span class="line">   ConfigurableEnvironment environment = getOrCreateEnvironment();</span><br><span class="line">   configureEnvironment(environment, applicationArguments.getSourceArgs());</span><br><span class="line">   ConfigurationPropertySources.attach(environment);</span><br><span class="line">    <span class="comment">//这里又调用listener的方法</span></span><br><span class="line">   listeners.environmentPrepared(environment);</span><br><span class="line">   bindToSpringApplication(environment);</span><br><span class="line">   <span class="keyword">if</span> (!<span class="keyword">this</span>.isCustomEnvironment) &#123;</span><br><span class="line">      environment = <span class="keyword">new</span> EnvironmentConverter(getClassLoader()).convertEnvironmentIfNecessary(environment,</span><br><span class="line">            deduceEnvironmentClass());</span><br><span class="line">   &#125;</span><br><span class="line">   ConfigurationPropertySources.attach(environment);</span><br><span class="line">   <span class="keyword">return</span> environment;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>listeners.environmentPrepared(environment);</code>和刚才的starting类似,只不过事件变了:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727162655705.png" alt="image-20200727162655705"></p>
+<p>根据刚才的分析,事件会触发事件响应,而这个事件触发的内容就不展开了<a href="https://www.cnblogs.com/youzhibing/p/9622441.html" target="_blank" rel="noopener">参考链接</a></p>
+<p>环境准备完成后是打印banner.</p>
+<p>接着是非常重要的<code>createApplicationContext();</code>方法里面判断了一下,然后利用<code>BeanUtils.instantiateClass(contextClass)</code>创建出来.</p>
+<p>然后是一个异常报告,略过.接着是准备上下文:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">prepareContext(context, environment, listeners, applicationArguments, printedBanner);</span><br></pre></td></tr></table></figure>
+
+<p>这个方法中也做了一些重要的事:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727164624937.png" alt="image-20200727164624937"></p>
+<p>首先保存了环境,然后是后处理注册了一些组件.</p>
+<p>接着的applyInitializers方法做了初始化工作:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727164958362.png" alt="image-20200727164958362"></p>
+<p>这里使用了前面存在SpringApplication中的ApplicationContextInitializer.</p>
+<p>接着又是<code>listeners.contextPrepared(context);</code>这样的方法,还是老套路,这回的事件又换了一个:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727165405272.png" alt="image-20200727165405272"></p>
+<p>上上张图的四个方法完成后又做了一些杂七杂八的处理,最后又是一个listener:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727165906844.png" alt="image-20200727165906844"></p>
+<p>这会还是大体不变,换成另一个事件:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727170040742.png" alt="image-20200727170040742"></p>
+<p>prepareContext准备上下文完成后,是两个方法:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727170407820.png" alt="image-20200727170407820"></p>
+<p>刷新容器,ioc容器初始化:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refresh</span><span class="params">()</span> <span class="keyword">throws</span> BeansException, IllegalStateException </span>&#123;</span><br><span class="line">		<span class="keyword">synchronized</span> (<span class="keyword">this</span>.startupShutdownMonitor) &#123;</span><br><span class="line">			<span class="comment">// Prepare this context for refreshing.</span></span><br><span class="line">			prepareRefresh();</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Tell the subclass to refresh the internal bean factory.</span></span><br><span class="line">			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();</span><br><span class="line"></span><br><span class="line">			<span class="comment">// Prepare the bean factory for use in this context.</span></span><br><span class="line">			prepareBeanFactory(beanFactory);</span><br><span class="line"></span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				<span class="comment">// Allows post-processing of the bean factory in context subclasses.</span></span><br><span class="line">				postProcessBeanFactory(beanFactory);</span><br><span class="line"></span><br><span class="line">				<span class="comment">// Invoke factory processors registered as beans in the context.</span></span><br><span class="line">				invokeBeanFactoryPostProcessors(beanFactory);</span><br><span class="line"></span><br><span class="line">				<span class="comment">// Register bean processors that intercept bean creation.</span></span><br><span class="line">				registerBeanPostProcessors(beanFactory);</span><br><span class="line"></span><br><span class="line">				<span class="comment">// Initialize message source for this context.</span></span><br><span class="line">				initMessageSource();</span><br><span class="line"></span><br><span class="line">				<span class="comment">// Initialize event multicaster for this context.</span></span><br><span class="line">				initApplicationEventMulticaster();</span><br><span class="line"></span><br><span class="line">				<span class="comment">// Initialize other special beans in specific context subclasses.</span></span><br><span class="line">				onRefresh();</span><br><span class="line"></span><br><span class="line">				<span class="comment">// Check for listener beans and register them.</span></span><br><span class="line">				registerListeners();</span><br><span class="line"></span><br><span class="line">				<span class="comment">// Instantiate all remaining (non-lazy-init) singletons.</span></span><br><span class="line">				finishBeanFactoryInitialization(beanFactory);</span><br><span class="line"></span><br><span class="line">				<span class="comment">// Last step: publish corresponding event.</span></span><br><span class="line">				finishRefresh();</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">catch</span> (BeansException ex) &#123;</span><br><span class="line">				<span class="keyword">if</span> (logger.isWarnEnabled()) &#123;</span><br><span class="line">					logger.warn(<span class="string">"Exception encountered during context initialization - "</span> +</span><br><span class="line">							<span class="string">"cancelling refresh attempt: "</span> + ex);</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">				<span class="comment">// Destroy already created singletons to avoid dangling resources.</span></span><br><span class="line">				destroyBeans();</span><br><span class="line"></span><br><span class="line">				<span class="comment">// Reset 'active' flag.</span></span><br><span class="line">				cancelRefresh(ex);</span><br><span class="line"></span><br><span class="line">				<span class="comment">// Propagate exception to caller.</span></span><br><span class="line">				<span class="keyword">throw</span> ex;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">finally</span> &#123;</span><br><span class="line">				<span class="comment">// Reset common introspection caches in Spring's core, since we</span></span><br><span class="line">				<span class="comment">// might not ever need metadata for singleton beans anymore...</span></span><br><span class="line">				resetCommonCaches();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接着的afterRefresh方法是个空方法,在老版本中该方法回调用callRunners方法,现在callRunners直接挪到了run方法中.</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727172307917.png" alt="image-20200727172307917"></p>
+<p>第一个方法发布了一个新事件:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727173150101.png" alt="image-20200727173150101"></p>
+<p>而callRunners是两种运行方式:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727173243795.png" alt="image-20200727173243795"></p>
+<p>ApplicationRunner的优先级高于CommandLineRunner.</p>
+<p>最后run方法返回了context,即ioc容器.</p>
+<h2 id="SpringBoot自定义Starter"><a href="#SpringBoot自定义Starter" class="headerlink" title="SpringBoot自定义Starter"></a>SpringBoot自定义Starter</h2><p>SpringBoot最强大的功能就是各种预置的starter免去了大量的配置工作.但是免不了需要自定义starter.</p>
+<ol>
+<li>这个starter需要的依赖是什么?</li>
+<li>如何编写自动配置<ul>
+<li>@Configuration 指定这个类是配置类</li>
+<li>@ConditionalonXXX 指定在什么条件下生效的配置</li>
+<li>@AutoConfigureOrder指定顺序</li>
+<li>@Bean给容器添加组件</li>
+<li>@ConfigurationProperties结合xxxProperties类来绑定相关配置</li>
+</ul>
+</li>
+</ol>
+<p>将需要启动就加载的自定配置类配置在META-INF/spring.properties文件中.</p>
+]]></content>
+      <tags>
+        <tag>Spring</tag>
       </tags>
   </entry>
 </search>
