@@ -9391,7 +9391,10 @@
   <entry>
     <title>SpringBoot</title>
     <url>/2020/07/20/Spring%20Boot/</url>
-    <content><![CDATA[<h1 id="Spring-Boot入门"><a href="#Spring-Boot入门" class="headerlink" title="Spring Boot入门"></a>Spring Boot入门</h1><h2 id="1-SpringBoot简介"><a href="#1-SpringBoot简介" class="headerlink" title="1.SpringBoot简介"></a>1.SpringBoot简介</h2><blockquote>
+    <content><![CDATA[<p>本部分涉及SpringBoot的核心部分或者说基础部分.</p>
+<a id="more"></a>
+
+<h1 id="Spring-Boot入门"><a href="#Spring-Boot入门" class="headerlink" title="Spring Boot入门"></a>Spring Boot入门</h1><h2 id="1-SpringBoot简介"><a href="#1-SpringBoot简介" class="headerlink" title="1.SpringBoot简介"></a>1.SpringBoot简介</h2><blockquote>
 <p>简化Spring应用开发的一个框架；</p>
 <p>整个Spring技术栈的一个大整合；</p>
 <p>J2EE开发的一站式解决方案；</p>
