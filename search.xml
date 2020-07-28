@@ -10301,4 +10301,146 @@
         <tag>Spring</tag>
       </tags>
   </entry>
+  <entry>
+    <title>SpringBoot高级</title>
+    <url>/2020/07/27/SpringBoot%E9%AB%98%E7%BA%A7/</url>
+    <content><![CDATA[<p>本部分设计SpringBoot的高级内容,包括缓存,消息,任务,检索,分布式等内容.</p>
+<a id="more"></a>
+
+<h1 id="SpringBoot缓存"><a href="#SpringBoot缓存" class="headerlink" title="SpringBoot缓存"></a>SpringBoot缓存</h1><p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727220900803.png" alt="image-20200727220900803"></p>
+<p>使用缓存时用到的部分注解:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727221025430.png" alt="image-20200727221025430"></p>
+<p>在SpringBoot中使用缓存,首先要添加相关的starter:spring-boot-starter-cache.接着在启动类上加上<code>@EnableCaching</code>注解.</p>
+<p>然后在加上@Cacheable注解:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Cacheable</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Employee <span class="title">getEmpById</span><span class="params">(Integer id)</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"查询"</span> + id + <span class="string">"员工"</span>);</span><br><span class="line">    <span class="keyword">return</span> employeeMapper.getEmpById(id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该注解有一些属性:</p>
+<ul>
+<li><p>value/cacheNames:Cache的名字,实际是一组数据的名字,即下图里的Emp Cache.</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727223355222.png" alt="image-20200727223355222"></p>
+<p>在一个CacheManager中有着多个Cache.而每个Cache又有着多个键值对.</p>
+</li>
+<li><p>key:缓存对象存储在Map集合中的key值，非必需.默认是方法参数值.以上面代码为例,参数传入1,则键值对为1-返回值.填写key时可以使用SpEL表达式:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200727224630411.png" alt="image-20200727224630411"></p>
+<p>注意caches那一条,这代表<strong>一个键值对可以存在多个Cache中</strong>.</p>
+</li>
+<li><p>keyGenerator:key的生成器.可以自己指定,要实现<code>KeyGenerator</code>接口.改参数与key互斥.</p>
+</li>
+<li><p>cacheManager指定缓存管理器.与之类似的是cacheResolver,也是二选一.默认的是CurrentMapCacheManager.</p>
+</li>
+<li><p>condition:指定符合条件的情况下缓存,也支持SpEL表达式.<strong>在方法执行之前之后都可以执行</strong>.比如要求id大于1之类的条件.此外支持条件的复合.</p>
+</li>
+<li><p>unless:当unless指定的条件为true时不缓存.且该表达式<strong>只在方法执行后判断</strong>.</p>
+</li>
+<li><p>sync是否使用异步模式</p>
+</li>
+</ul>
+<p>使用缓存,引入缓存模块,这代表也有一个自动配置类CacheAutoConfiguration.同样是老套路,利用Bean注解注入了一些组件.另外还用@Import注解导入了CacheConfigurationImportSelector这个类.这个类实现了ImportSelector接口,具体作用就是一次性导入多个配置类:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200728100508815.png" alt="image-20200728100508815"></p>
+<p>其中SimpleCacheConfiguration默认生效.这个配置类注册了一个ConcurrentMapCacheManager.</p>
+<p>缓存流程,以emp请求为例:</p>
+<ol>
+<li><p>首先根据请求上的注解<code>@Cacheable(cacheNames = &quot;emp&quot;, key = &quot;#p0&quot;)</code>找name为emp的Cache,具体方法是在ConcurrentMapCacheManager中:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200728114817078.png" alt="image-20200728114817078"></p>
+</li>
+<li><p>现在是第一次访问,所以没有Cache.进入if,创建一个Cache.看看这个创建方法:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200728115520036.png" alt="image-20200728115520036"></p>
+<p>清晰的显示了Cache的结构,CurrentMapCache中的store(存具体键值对的地方)使用ConcurrentHashMap实现.接着创建完成的Cache被放入ConcurrentMapCacheManager的cacheMap中(<code>this.cacheMap.put(name,cache);</code>),根据put这种方式也可以看出CacheManager管理Cache也是键值对:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> ConcurrentMap&lt;String, Cache&gt; cacheMap = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;(<span class="number">16</span>);</span><br></pre></td></tr></table></figure>
+
+<p>所以CacheManager中:</p>
+<ul>
+<li>CacheManager–&gt;Cache(Cache默认是16个):用ConcurrentHashMap存储cacheNames和Cache,这个结构叫cachemap</li>
+<li>Cache–&gt;key&amp;value:也是用ConcurrentHashMap存储key和value,这个结构叫store</li>
+</ul>
+</li>
+<li><p>现在名为”emp”的Cache有了,并且放入了cachemap.然后中间经过其它操作,最终来到CurrentMapCache中的查找value的方法:</p>
+</li>
+</ol>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200728122450834.png" alt="image-20200728122450834"></p>
+<p>​    这里的key默认是使用keyGenerator生成的,具体是其实现类SimpleKeyGenerator.</p>
+<p>​    现在第一次访问,查不到这个key.所以会直接调用目标方法获取查询结果.得到结果后存入store:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200728135928839.png" alt="image-20200728135928839"></p>
+<p>key的生成也是可以自定义的.只需要自己实现keyGenerator,然后加入容器.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Bean</span>(<span class="string">"myKeyGenerator"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> KeyGenerator <span class="title">keyGenerator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> KeyGenerator() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Object <span class="title">generate</span><span class="params">(Object target, Method method, Object... params)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> method.getName() + <span class="string">'['</span> + Arrays.asList(params) + <span class="string">']'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后在注解上指定自定义的keyGenerator:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Cacheable</span>(cacheNames = <span class="string">"emp"</span>, keyGenerator = <span class="string">"myKeyGenerator"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Employee <span class="title">getEmpById</span><span class="params">(Integer id)</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"查询"</span> + id + <span class="string">"员工"</span>);</span><br><span class="line">    <span class="keyword">return</span> employeeMapper.getEmpById(id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>另一个注解:@CachePut,既调用目标方法,有更新缓存.主要是用来<strong>更新数据库的数据同时更新缓存</strong>.它的运行时机是在调用完目标方法之后执行,因为要用结果更新缓存.使用该注解更新缓存尤其要注意的是cacheNames和key必须相同.如果调用上面的getEmp方法使得缓存有1号员工数据,这时使用update方法更新数据库内1号员工数据(更新方法上只有@Cacheable注解并指定了cacheName/value,因为是必须的),接着在用getEmp方法查就会得到缓存中过时的数据.因为@Cacheable没有指定key,默认是参数,而更新方法的参数和get方法的key并不一样.这就回导致更新缓存其实没有更新对应的.</p>
+</li>
+<li><p>@CacheEvict:缓存清除.通过key指定要删除的具体值,也可以是添加allEntries属性表示清除emp中的所有缓存.默认是在目标方法之后执行,可以使用beforeInvocation=true表示在之前执行.这种设置是为了避免在目标方法(delete方法之类的)出现异常,没有清除缓存.</p>
+</li>
+<li><p>@Caching:这是一个组合注解:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Cacheable[] cacheable() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">CachePut[] put() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">CacheEvict[] evict() <span class="keyword">default</span> &#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>用法如下:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200728152717498.png" alt="image-20200728152717498"></p>
+</li>
+<li><p>@CacheConfig注解用来加在类上指定一些公共的属性.例如,CacheManager,cacheNames/value,keyGenerator</p>
+</li>
+</ul>
+<h2 id="整合Redis"><a href="#整合Redis" class="headerlink" title="整合Redis"></a>整合Redis</h2><p>需要一个spring-boot-starter-data-redis,然后在配置文件中写好主机地址等配置.注意,新版本的驱动是lettuce的,改驱动基于netty.</p>
+<p>下面是一些基本操作.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SpringbootcacheApplicationTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    StringRedisTemplate stringRedisTemplate;<span class="comment">//k-v是字符串</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    RedisTemplate redisTemplate;<span class="comment">//k-v是对象</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test01</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        stringRedisTemplate.opsForValue().append(<span class="string">"msg"</span>, <span class="string">"hello"</span>);</span><br><span class="line">        System.out.println(stringRedisTemplate.opsForValue().get(<span class="string">"msg"</span>));</span><br><span class="line">        stringRedisTemplate.opsForList().leftPush(<span class="string">"mylist"</span>, <span class="string">"aa"</span>);</span><br><span class="line">        stringRedisTemplate.opsForList().leftPush(<span class="string">"mylist"</span>, <span class="string">"bb"</span>);</span><br><span class="line">        stringRedisTemplate.opsForList().leftPush(<span class="string">"mylist"</span>, <span class="string">"cc"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果使用RedisTemplate存储对象,则该对象需要序列化.而默认的使用jdk的序列化来进行,但是在redis中可读性就非常差.</p>
+<p>因此可以使用json来做序列化.这就需要自定义一个RedisTemplate:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisTemplate&lt;Object, Employee&gt; <span class="title">redisTemplate</span><span class="params">(RedisConnectionFactory redisConnectionFactory)</span> </span>&#123;</span><br><span class="line">        RedisTemplate&lt;Object, Employee&gt; template = <span class="keyword">new</span> RedisTemplate&lt;&gt;();</span><br><span class="line">        template.setConnectionFactory(redisConnectionFactory);</span><br><span class="line">        template.setDefaultSerializer(<span class="keyword">new</span> Jackson2JsonRedisSerializer&lt;&gt;(Employee<span class="class">.<span class="keyword">class</span>))</span>;</span><br><span class="line">        <span class="keyword">return</span> template;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个新的RedisTemplate不仅配置了DefaultSerializer还做了泛型.此时原本的RedisTemplate就被顶替了,不想顶替改个名字就可以.</p>
+<p>之前使用CacheConfigurationImportSelector导入了多个配置类,其中SimpleCacheConfiguration默认生效.而现在生效的是RedisCacheConfiguration,这个配置类添加了一个RedisCacheManager.</p>
+<p>做的切换的原因是每个导入的配置类上都有一个<code>@ConditionalOnMissingBean(CacheManager.class)</code>注解.而导入这些配置类是按照上面那个数组的图来的,谁先进入容器添加了CacheManager谁就生效.</p>
+<p>而RedisCacheManager会创建RedisCache.这里和默认的CurrentMapManager的逻辑是差不多的,只是在底层存储值时使用的是redis,以存储数据为例:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(String name, <span class="keyword">byte</span>[] key, <span class="keyword">byte</span>[] value, @Nullable Duration ttl)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   Assert.notNull(name, <span class="string">"Name must not be null!"</span>);</span><br><span class="line">   Assert.notNull(key, <span class="string">"Key must not be null!"</span>);</span><br><span class="line">   Assert.notNull(value, <span class="string">"Value must not be null!"</span>);</span><br><span class="line"></span><br><span class="line">   execute(name, connection -&gt; &#123;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (shouldExpireWithin(ttl)) &#123;</span><br><span class="line">         connection.set(key, value, Expiration.from(ttl.toMillis(), TimeUnit.MILLISECONDS), SetOption.upsert());</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">         connection.set(key, value);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> <span class="string">"OK"</span>;</span><br><span class="line">   &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>问题在于RedisCacheManager使用的RedisTemplate中序列化还是基于jdk的.因此需要自定义一个CacheManager:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> RedisCacheManager <span class="title">employeeRedisCacheManager</span><span class="params">(RedisConnectionFactory redisConnectionFactory)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//初始化一个RedisCacheWriter</span></span><br><span class="line">    RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory);</span><br><span class="line">    <span class="comment">//设置CacheManager的值序列化方式为json序列化</span></span><br><span class="line">    RedisSerializer&lt;Object&gt; jsonSerializer = <span class="keyword">new</span> GenericJackson2JsonRedisSerializer();</span><br><span class="line">    RedisSerializationContext.SerializationPair&lt;Object&gt; pair = RedisSerializationContext.SerializationPair</span><br><span class="line">            .fromSerializer(jsonSerializer);</span><br><span class="line">    RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig()</span><br><span class="line">            .serializeValuesWith(pair);</span><br><span class="line">    <span class="comment">//设置默认超过期时间是30秒</span></span><br><span class="line">    defaultCacheConfig.entryTtl(Duration.ofSeconds(<span class="number">30</span>));</span><br><span class="line">    <span class="comment">//初始化RedisCacheManager</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> RedisCacheManager(redisCacheWriter, defaultCacheConfig);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="SpringBoot与消息"><a href="#SpringBoot与消息" class="headerlink" title="SpringBoot与消息"></a>SpringBoot与消息</h1><h2 id="点对点模式和发布订阅模式"><a href="#点对点模式和发布订阅模式" class="headerlink" title="点对点模式和发布订阅模式"></a>点对点模式和发布订阅模式</h2><p>首先两种模式都只有一个发送者和多个接受者.点对点模式是接受者从消息队列中获取一个消息后,这个消息就移出队列,其它接受者收不到这个消息.而发布订阅模式则是多个接受者都能收到这个消息.</p>
+<p>JMS（Java Message Service）JAVA消息服务:基于JVM消息代理的规范。ActiveMQ、HornetMQ是JMS实现 </p>
+<p>AMQP（Advanced Message Queuing Protocol: – 高级消息队列协议，也是一个消息代理的规范，兼容JMS.RabbitMQ是AMQP的实现.</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200728220926793.png" alt="image-20200728220926793"></p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200728220959795.png" alt="image-20200728220959795"></p>
+<h2 id="RabbitMQ概念"><a href="#RabbitMQ概念" class="headerlink" title="RabbitMQ概念"></a>RabbitMQ概念</h2><ul>
+<li><p>Message:消息,由消息头和消息体组成.消息体是不透明的.消息头有一系列可选属性组成.这些属性包括routing-key（路由键）、priority（相对于其他消息的优先权）、delivery-mode（指出 该消息可能需要持久性存储）等。</p>
+</li>
+<li><p>Publisher:消息的生产者，也是一个向交换器发布消息的客户端应用程序。</p>
+</li>
+<li><p>Exchange:交换器，用来接收生产者发送的消息并将这些消息路由给服务器中的队列。 Exchange有4种类型：direct(默认)，fanout, topic, 和headers，不同类型的Exchange转发消息的策略有所区别</p>
+</li>
+<li><p>Queue:消息队列，用来保存消息直到发送给消费者。它是消息的容器，也是消息的终点。一个消息可投入一个或多个队列。消息一直在队列里面，等待消费者连接到这个队列将其取走。生产者产生一个消息,发给消息服务器,由路由根据路由键判断将消息放到哪个消息队列.</p>
+</li>
+<li><p>Binding:绑定，用于消息队列和交换器之间的关联。一个绑定就是基于路由键将交换器和消息队列连 接起来的路由规则，所以可以将交换器理解成一个由绑定构成的路由表。 Exchange 和Queue的绑定可以是<strong>多对多</strong>的关系。</p>
+</li>
+<li><p>Connection:网络连接,比如一个TCP链接</p>
+</li>
+<li><p>Channel:信道，多路复用连接中的一条独立的双向数据流通道。信道是建立在真实的TCP连接内的虚 拟连接，AMQP 命令都是通过信道发出去的，不管是发布消息、订阅队列还是接收消息，这 些动作都是通过信道完成。因为对于操作系统来说建立和销毁 TCP 都是非常昂贵的开销，所 以引入了信道的概念，以复用一条 TCP 连接。</p>
+</li>
+<li><p>Consumer:消息的消费者，表示一个从消息队列中取得消息的客户端应用程序。</p>
+</li>
+<li><p>Virtual Host:虚拟主机，表示一批交换器、消息队列和相关对象。虚拟主机是共享相同的身份认证和加 密环境的独立服务器域。每个 vhost 本质上就是一个 mini 版的 RabbitMQ 服务器，拥有 自己的队列、交换器、绑定和权限机制。vhost 是 AMQP 概念的基础，必须在连接时指定， RabbitMQ 默认的 vhost 是 / 。</p>
+</li>
+<li><p>Broker:表示消息队列服务器实体.</p>
+</li>
+</ul>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200728222420238.png" alt="image-20200728222420238"></p>
+<p>另一张图:</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200728223611953.png" alt="image-20200728223611953"></p>
+<p>RabbitMQ的Exchange分发消息有四种不同的分发策略.</p>
+<ol>
+<li><p>direct:消息中的路由键（routing key）如果和 Binding 中的 binding key 一致， 交换器就将消息发到对应的队列中。路由键与队 列名完全匹配，如果一个队列绑定到交换机要求路由键为 “dog”，则只转发 routing key 标记为“dog”的消息，不会转 发“dog.puppy”，也不会转发“dog.guard”等等。它是完全 匹配、单播的模式。</p>
+</li>
+<li><p>fanout:每个发到 fanout 类型交换器的消息都会分到所 有绑定的队列上去。fanout 交换器不处理路由键， 只是简单的将队列绑定到交换器上，每个发送 到交换器的消息都会被转发到与该交换器绑定 的所有队列上。很像子网广播，每台子网内的 主机都获得了一份复制的消息。fanout 类型转发 消息是最快的。</p>
+</li>
+<li><p>topic:交换器通过模式匹配分配消息的路由键属性，将路由键和某个模式进行匹配，此时队列 需要绑定到一个模式上。它将路由键和绑定键 的字符串切分成单词，这些单词之间用点隔开。 它同样也会识别两个通配符：符号“#”和符号 “*”。#匹配0个或多个单词， *匹配一个单词。</p>
+<p><img src="https://gitee.com/xianzhetm/photo/raw/master/img/image-20200728224348271.png" alt="image-20200728224348271"></p>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>Spring</tag>
+      </tags>
+  </entry>
 </search>
