@@ -9010,6 +9010,8 @@
     <title>集合（复习6）</title>
     <url>/2020/05/29/%E9%9B%86%E5%90%88%EF%BC%88%E5%A4%8D%E4%B9%A06%EF%BC%89/</url>
     <content><![CDATA[<p>复习集合.</p>
+<a id="more"></a>
+
 <p>Java集合分为Collection接口和Map接口两个体系。Collection又分为List接口和Set接口，List元素有序，可重复。Set元素无序，不可重复。Map则是键值对。</p>
 <p>List：ArrayList,LinkedList,Vector</p>
 <p>Set:HashSet,LinkedHashSet,TreeSet</p>
