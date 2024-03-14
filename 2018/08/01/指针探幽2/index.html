@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>指针探幽2 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="再补充一些关于指针的注意点.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="指针探幽2">
+<meta property="og:url" content="http://example.com/2018/08/01/%E6%8C%87%E9%92%88%E6%8E%A2%E5%B9%BD2/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="再补充一些关于指针的注意点.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-08-01T07:04:59.000Z">
+<meta property="article:modified_time" content="2024-03-14T12:19:35.679Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="cpp">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-指针探幽2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/08/01/%E6%8C%87%E9%92%88%E6%8E%A2%E5%B9%BD2/" class="article-date">
+  <time class="dt-published" datetime="2018-08-01T07:04:59.000Z" itemprop="datePublished">2018-08-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      指针探幽2
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>再补充一些关于指针的注意点.</p>
+<span id="more"></span>
+
+<h1 id="一-野指针及C-指针使用注意点"><a href="#一-野指针及C-指针使用注意点" class="headerlink" title="一.野指针及C++指针使用注意点"></a>一.野指针及C++指针使用注意点</h1><p><strong>避免野指针的产生</strong></p>
+<p><strong>“野指针”</strong>的成因主要有：</p>
+<p>1）指针变量没有被初始化。任何指针变量刚被创建时不会自动成为NULL指针，它的缺省值是随机的，它会乱指一气。所以，指针变量在创建的同时应当被初始化，要么将指针设置为NULL，要么让它指向合法的内存。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> *p; <span class="comment">//此时p为野指针</span></span><br></pre></td></tr></table></figure>
+
+<p>2）指针p被free或者delete之后，没有置为NULL，让人误以为p是个合法的指针.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> *p=<span class="keyword">new</span> <span class="type">char</span>[<span class="number">10</span>];  <span class="comment">//指向堆中分配的内存首地址，p存储在栈区</span></span><br><span class="line">cin&gt;&gt; p;</span><br><span class="line"><span class="keyword">delete</span> []p; <span class="comment">//p重新变为野指针</span></span><br></pre></td></tr></table></figure>
+
+<p>3）指针操作超越了变量的作用范围。          </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> *p=<span class="keyword">new</span> <span class="type">char</span>[<span class="number">10</span>]; <span class="comment">//指向堆中分配的内存首地址</span></span><br><span class="line">cin&gt;&gt; p;</span><br><span class="line">cout&lt;&lt;*(p+<span class="number">10</span>); <span class="comment">//可能输出未知数据</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>指针的注意点：</strong></p>
+<p><strong>a.指针指向常量存储区对象</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> *p=<span class="string">&quot;abc&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>此时p指向的是一个字符串常量，不能对*p的内容进行写操作，如srtcpy(p,s)是错误的，因为p的内容为“abc”字符串常量，该数据存储在常量存储区，但可以对指针p进行操作，让其指向其他的内存空间。</p>
+<p><strong>b.资源泄漏</strong></p>
+<p><strong>问题：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">char</span> *p = <span class="keyword">new</span> <span class="type">char</span>[<span class="number">3</span>];  <span class="comment">//分配三个字符空间，p指向该内存空间</span></span><br><span class="line">    p = <span class="string">&quot;ab&quot;</span>;             <span class="comment">//此时p指向常量“ab”,而不再是new char分配的内存空间了，从而造成了资源泄漏</span></span><br><span class="line">    <span class="keyword">delete</span>[]p;         <span class="comment">//释放时报错</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果：报错</p>
+<p>改进:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> *p=<span class="keyword">new</span> <span class="type">char</span>[<span class="number">3</span>];  <span class="comment">//分配三个字符空间，p指向该内存空间</span></span><br><span class="line">    <span class="built_in">strcpy</span>(p,<span class="string">&quot;ab&quot;</span>);      <span class="comment">//将&quot;ab&quot;存储到p指向的内存空间</span></span><br><span class="line">    <span class="keyword">delete</span> []p;         <span class="comment">//ok</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>c.内存越界</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 char *p=new char[3];  //分配三个字符空间，p指向该内存空间</span><br><span class="line">2 strcpy(p,&quot;abcd&quot;);    //将abcd存处在分配的内存空间中，由于strlen(&quot;abcd&quot;)=4&gt;3，越界</span><br><span class="line">3 delete []p;         //ok</span><br></pre></td></tr></table></figure>
+
+<p><strong>d.返回值是指针</strong></p>
+<p><strong>问题：</strong>数组p[]中的内容为“hello world”,存储在栈区，函数结束时内容被清除，p变为野指针，可能导致乱码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">char</span> *<span class="title">f</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> p[]=<span class="string">&quot;abc&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="built_in">f</span>()&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有的编译器会报错,有的会执行但是出现乱码.</p>
+<p><strong>改进：</strong></p>
+<p>1.加static限定，延长数组生存期</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">char</span> *<span class="title">f</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">char</span> p[]=<span class="string">&quot;abc&quot;</span>;  <span class="comment">//此时数组为静态数组，存储在全局/静态区，生存期到程序结束，因此函数结束时不会销毁p</span></span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="built_in">f</span>()&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2.定义成指针型数组 </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">char</span> *<span class="title">f</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> *p=<span class="string">&quot;abc&quot;</span>;    <span class="comment">//&quot;abc&quot;存储在文字常量区，p是指向常量的指针，生存期到程序结束</span></span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="built_in">f</span>()&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> <strong>e.指针做形参</strong></p>
+<p>即所谓的地址传递，我们都知道地址传递的方式，形参的改变会导致实参的改变，但要注意的是，这里的改变是指指针所指内容的改变，而不是指针值的改变。因此，当形参改变会导致实参改变时，指针所指的内容是非const类型的，否则会出错。</p>
+<p>1.改变指针内容：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">swap</span><span class="params">(<span class="type">int</span> *a,<span class="type">int</span> *b)</span>   <span class="comment">//交换的是*a,*b，即指针的内容，而不是指针a,b</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="type">int</span> t;</span><br><span class="line">   t=*a;</span><br><span class="line">   *a=*b;</span><br><span class="line">   *b=t;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2.改变指针值： </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun</span><span class="params">(<span class="type">char</span> *p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    p=<span class="string">&quot;cba&quot;</span>;    <span class="comment">//“cba”存放在文字常量区，让p指向常量&quot;abc&quot;,这里改变的是指针值，实参并不会改变</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> *p=<span class="string">&quot;abc&quot;</span>;  <span class="comment">//“abc”存放在文字常量区，p指向常量&quot;abc&quot;</span></span><br><span class="line">    <span class="built_in">fun</span>(p);</span><br><span class="line">    cout&lt;&lt;p&lt;&lt;endl;   <span class="comment">//输出&quot;abc&quot;,而不是&quot;cba&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码会报错,不能将 “const char *” 类型的值分配到 “char *” 类型的实体,所以改为:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fun</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    p = <span class="string">&quot;cba&quot;</span>;    <span class="comment">//“cba”存放在文字常量区，让p指向常量&quot;abc&quot;,这里改变的是指针值，实参并不会改变</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">char</span> *p = <span class="string">&quot;abc&quot;</span>;  <span class="comment">//“abc”存放在文字常量区，p指向常量&quot;abc&quot;</span></span><br><span class="line">    <span class="built_in">fun</span>(p);</span><br><span class="line">    cout &lt;&lt; p &lt;&lt; endl;   <span class="comment">//输出&quot;abc&quot;,而不是&quot;bca&quot;</span></span><br><span class="line">    <span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样的代码是失败的,因为VS告诉我们,Parameter ‘p’ is only assigned but neveraccessed.直接把第五行删了也没问题.</p>
+<h2 id="二-指针和数组"><a href="#二-指针和数组" class="headerlink" title="二.指针和数组"></a>二.指针和数组</h2><p>说到指针和数组,这里直接说三个最基本的规则,这三个规则基本上能够概括指针和数组的常见关系了.</p>
+<ol>
+<li>一看到数组，就要知道<strong>数组名可以当做这个数组的第一个地址</strong>。（<code>a=&amp;a[0]</code>）</li>
+<li><strong>对于指向数组的指针，指针+n表示往后移动n个位置</strong></li>
+<li>指针也可以像数组那样用<code>p_a[n]</code>这种形式直接取元素，本质是<code>*(p_a+n)</code></li>
+</ol>
+<h2 id="三-指针和字符串"><a href="#三-指针和字符串" class="headerlink" title="三.指针和字符串"></a>三.指针和字符串</h2><p>指针和字符串相信是很多人一直弄混淆的地方了.其中确实有些地方需要理一理. <strong>指针和字符串主要是指针用于c风格的字符串</strong>.</p>
+<p>这里首先把重要的几个规则列出来,这几个规则足够弄清楚指针和字符串之间的关系了.</p>
+<ol>
+<li>已经知道，<strong>c风格的字符串本质就是一个字符数组</strong>，所以，<strong>数组名就是第一个元素的地址</strong>。同样，一个指向char的指针变量也能够实现字符串的一些东西.</li>
+<li><strong>C++中，对于引号引起来的字符串，也代表第一个元素的地址</strong>。</li>
+<li><code>cout</code>对象认为，char的地址是字符串的地址，因此它打印该处的地址处的字符， 然后继续打印后面的字符。直到遇到空字符<code>’\0’</code>之后才停止。</li>
+</ol>
+<p>这里举一个例子来详细说明.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> animal[<span class="number">20</span>]=<span class="string">&quot;bear&quot;</span>;</span><br><span class="line">    <span class="type">const</span> <span class="type">char</span>* bird=<span class="string">&quot;wren&quot;</span>;</span><br><span class="line">    <span class="type">char</span>* p_s;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//数组名也是指针</span></span><br><span class="line">    std::cout&lt;&lt;animal&lt;&lt;<span class="string">&quot; and &quot;</span>&lt;&lt;bird&lt;&lt;std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//直接输出指针</span></span><br><span class="line">    p_s=animal;</span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;p_s:&quot;</span>&lt;&lt;p_s&lt;&lt;std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//想要输出真的地址怎么办?</span></span><br><span class="line">    std::cout&lt;&lt;<span class="string">&quot;address of animal:&quot;</span>&lt;&lt;(<span class="type">int</span>*)animal&lt;&lt;std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>永远应该记住，双引号引起来的C风格的字符串常量，字符数组，字符指针变量这几个是相通等价的。</li>
+<li>注意<code>const char* bird=&quot;wren&quot;</code>;要是不使用const会有警告,因为不能够用可变的指针来修改常量.</li>
+<li>当cout后面是其他的指针的时候，会输出该指针的值也就是一个地址，但是cout遇到char* 的时候，就会输出当前char*指向的值，同时也会输出后面的值，直到遇到空字符为止。</li>
+<li>所以在上面程序的20和21行有一个（<code>int*</code>）强制转化为整形指针，不然就没得输出了。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/08/01/%E6%8C%87%E9%92%88%E6%8E%A2%E5%B9%BD2/" data-id="cltr786970034k4un6eps36ey" data-title="指针探幽2" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/02/Cpp%E7%BB%93%E6%9E%84%E4%BD%93/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Cpp结构体
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/30/Cpp%E6%95%B0%E5%AD%97/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Cpp数字</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/cpp/" style="font-size: 17.5px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px;">汇编</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">网络</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 12.5px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

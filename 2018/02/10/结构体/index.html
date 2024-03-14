@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>结构体 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="本篇内容包括结构体，共用体和枚举。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="结构体">
+<meta property="og:url" content="http://example.com/2018/02/10/%E7%BB%93%E6%9E%84%E4%BD%93/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="本篇内容包括结构体，共用体和枚举。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-02-10T02:37:19.000Z">
+<meta property="article:modified_time" content="2024-03-14T12:19:35.398Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="cpp">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-结构体" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/02/10/%E7%BB%93%E6%9E%84%E4%BD%93/" class="article-date">
+  <time class="dt-published" datetime="2018-02-10T02:37:19.000Z" itemprop="datePublished">2018-02-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      结构体
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>本篇内容包括结构体，共用体和枚举。</p>
+<span id="more"></span>
+
+<h1 id="一-结构体"><a href="#一-结构体" class="headerlink" title="一.结构体"></a>一.结构体</h1><h2 id="1-声明"><a href="#1-声明" class="headerlink" title="1.声明"></a>1.声明</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">inflatable</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">char</span> name[<span class="number">20</span>];	<span class="comment">//结构的成员</span></span><br><span class="line">  <span class="type">float</span> volume;</span><br><span class="line">  <span class="type">double</span> price;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如上所示，声明了一个结构体。结构定义的是新类型（inflatable）的特征。定义了结构后就可以声明这种类型的变量。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">inflatable</span> hat;</span><br><span class="line">inflatable mainframe;</span><br></pre></td></tr></table></figure>
+
+<p>可以省略<code>struct</code>，这样就强调<code>inflatable</code>是一种新的类型。</p>
+<p>对于结构的声明，应注意位置，关键是在使用的地方的前面，但是，最好在<code>main</code>函数的前面。C++不提倡使用外部变量，但是提倡外部结构声明。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">inflatable guest =</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;yl&quot;</span>,</span><br><span class="line">  <span class="number">1.88</span>,</span><br><span class="line">  <span class="number">29.99</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>关键在于用逗号分隔。</p>
+<p>在C++11中是与此类似的，等号是可选的，如果大括号内是空的，那么值将是0，字符串每字节也是0。同时，不予许窄缩。</p>
+<p>这种声明方式也是可以的，但是显然不好。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">perks</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> key_number; <span class="type">char</span> car [<span class="number">12</span>];</span><br><span class="line">&#125; mr_glitz =</span><br><span class="line">&#123;</span><br><span class="line">	<span class="number">7</span>,<span class="comment">// value for mr_glitz.key_number member </span></span><br><span class="line">    <span class="string">&quot;Packard&quot;</span> <span class="comment">// value for mr_glitz.car member</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>还可以声明没有名称的结构类型，方法是省略名称，同时定义一种结构类型和一个这种类型的变量：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> 	<span class="comment">// no tag</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> x; <span class="comment">// 2 members inty; </span></span><br><span class="line">&#125; position; <span class="comment">// a structure variable</span></span><br></pre></td></tr></table></figure>
+
+<p>照常可以访问成员，但是在后面就不可以在创建该类型的结构。</p>
+<h2 id="2-结构数组"><a href="#2-结构数组" class="headerlink" title="2.结构数组"></a>2.结构数组</h2><p>结构中可以包含的东西有很多，包括数组。也可以创建一个由结构组成的数组。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inflatable gifts[<span class="number">100</span>]; <span class="comment">// array of 100 inflatable structures</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="二-共用体"><a href="#二-共用体" class="headerlink" title="二.共用体"></a>二.共用体</h1><p>共用体（union）是一种数据格式，它能够存储不同的数据类型，但只能同时存储其中的一种类型。也就是说，结构可以同时存储int、long和 double,共用体只能存储int、long或double。共用体的句法与结构相似，但含义不同。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">union</span> <span class="title class_">one4all</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> int_val; </span><br><span class="line">    <span class="type">long</span> long_val;</span><br><span class="line">    <span class="type">double</span> double_val;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>可以使用one4all变量来存储int、long和 double,条件是在不同的时间进行：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">one4all pail;</span><br><span class="line">pail.int_val = <span class="number">15</span>; <span class="comment">// store an int </span></span><br><span class="line">cout &lt;&lt; pail.int_val;</span><br><span class="line">pail.double_val = <span class="number">1.38</span>; <span class="comment">// store a double, int value is lost </span></span><br><span class="line">cout « pail.double_val;</span><br></pre></td></tr></table></figure>
+
+<p>由于共 用体每次只能存储一个值，因此它必须有足够的空间来存储最大的成员，所以，共用体的长度为其最大成员的长度。</p>
+<p>共用体也是可以匿名。</p>
+<h1 id="三-枚举"><a href="#三-枚举" class="headerlink" title="三.枚举"></a>三.枚举</h1><p>C++的enum工具提供了另一种创建符号常量的方式，这种方式可以代替const。它还允许定义新类型,但必须按严格的限制进行。使用enum的句法与使用结构相似。例如，请看下面的语句：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">spectrum</span> &#123;red, orange, yellow, green, blue, violet, indigo, ultraviolet&#125;；</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>让 spectrum成为新类型的名称；spectrum被称为枚举(enumeration)，就像struct变量被称为结构一样。</p>
+</li>
+<li><p>将 red、orange、yellow等作为符号常量，它们对应整数值0~7。这些常量叫作枚举量(enumerator)。</p>
+</li>
+</ul>
+<p>在默认情况下，将整数值赋给枚举量，第一个枚举量的值为0 ,第二个枚举量的值为1，依次类推。</p>
+<p>可以用枚举名来声明这种类型的变量。</p>
+<p>枚举变量具有一些特殊的属性，下面来看一看。<br>在不进行强制类型转换的情况下，只能将定义枚举时使用的枚举量赋给这种枚举的变量，如下所示：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">band = blue;<span class="comment">// valid, blue is an enumerator </span></span><br><span class="line">band = <span class="number">2000</span>; <span class="comment">// invalid, 2000 not an enumerator</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/02/10/%E7%BB%93%E6%9E%84%E4%BD%93/" data-id="cltr7869a003ik4un4rw742yt" data-title="结构体" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/02/18/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          物理地址
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/02/01/%E6%95%B0%E7%BB%84%E6%8B%BE%E9%81%97/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">数组拾遗</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/cpp/" style="font-size: 17.5px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px;">汇编</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">网络</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 12.5px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

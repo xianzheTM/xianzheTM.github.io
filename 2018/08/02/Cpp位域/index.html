@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Cpp位域 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="内存是以字节为单位进行编址的，编程语言的基本类型中，最小类型的长度一般也就是1个字节。然而，在解决某些问题时，必须要有二进制层面的表达手段，又或者某些情形下根本用不着1个字节，作为强大到令人窒息的C&#x2F;C++，难道没有解决方法？其提供的完美解决方法就是位域（位段）结构，本文将从定义、说明、内存布局和使用这四个方面对它进行详细的介绍。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cpp位域">
+<meta property="og:url" content="http://example.com/2018/08/02/Cpp%E4%BD%8D%E5%9F%9F/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="内存是以字节为单位进行编址的，编程语言的基本类型中，最小类型的长度一般也就是1个字节。然而，在解决某些问题时，必须要有二进制层面的表达手段，又或者某些情形下根本用不着1个字节，作为强大到令人窒息的C&#x2F;C++，难道没有解决方法？其提供的完美解决方法就是位域（位段）结构，本文将从定义、说明、内存布局和使用这四个方面对它进行详细的介绍。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-08-02T00:43:35.000Z">
+<meta property="article:modified_time" content="2024-03-14T12:19:34.829Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="cpp">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Cpp位域" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/08/02/Cpp%E4%BD%8D%E5%9F%9F/" class="article-date">
+  <time class="dt-published" datetime="2018-08-02T00:43:35.000Z" itemprop="datePublished">2018-08-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Cpp位域
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>内存是以字节为单位进行编址的，编程语言的基本类型中，最小类型的长度一般也就是1个字节。然而，在解决某些问题时，必须要有二进制层面的表达手段，又或者某些情形下根本用不着1个字节，作为强大到令人窒息的C&#x2F;C++，难道没有解决方法？其提供的完美解决方法就是位域（位段）结构，本文将从定义、说明、内存布局和使用这四个方面对它进行详细的介绍。</p>
+<span id="more"></span>
+
+<h3 id="1-位域定义"><a href="#1-位域定义" class="headerlink" title="1. 位域定义"></a>1. 位域定义</h3><p>首先，让我们看一下位域的定义。从定义中可以看出位域本质上其实就是结构体，只不过其成员都是按照特定长度的二进制位进行分配而已。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> 位域结构体名</span><br><span class="line">&#123;</span><br><span class="line">    位域列表；</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">其中，位域列表为： 类型说明符 位域名： 长度;  组成</span><br></pre></td></tr></table></figure>
+
+<p>例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">BitField</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> a : <span class="number">2</span>; <span class="comment">// 第一个位域，2位</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> b : <span class="number">4</span>; <span class="comment">// 第二个，4位</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> c : <span class="number">2</span>; <span class="comment">// 第三个，2位</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-位域说明"><a href="#2-位域说明" class="headerlink" title="2. 位域说明"></a>2. 位域说明</h3><p>其次，我们来看一下位域的一些说明:</p>
+<p>\1. 位域可以没有名字的，这时它只用来作填充或调整位置。无名的位域是不能使用的</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">BitFiled_1</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">unsigned</span> a : <span class="number">4</span>;        </span><br><span class="line">    <span class="type">unsigned</span> :   <span class="number">0</span>; <span class="comment">// 无名位域， 无法使用</span></span><br><span class="line">    <span class="type">unsigned</span> b : <span class="number">4</span>;       </span><br><span class="line">    <span class="type">unsigned</span> c : <span class="number">4</span>;       </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>\2. 宽度为 0 的一个未命名位域强制下一位域对齐到其下一type位域的边界</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">BitFiled_1</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">unsigned</span> a : <span class="number">4</span>; <span class="comment">// 第一个unsigned int,占4Byte</span></span><br><span class="line">    <span class="type">unsigned</span> :   <span class="number">0</span>; <span class="comment">// 未命名位域</span></span><br><span class="line">    <span class="type">unsigned</span> b : <span class="number">4</span>; <span class="comment">// 从第二个unsigned int的4Byte开始存放，占4位</span></span><br><span class="line">    <span class="type">unsigned</span> c : <span class="number">4</span>; <span class="comment">// 还是第二个unsigned int中的4位</span></span><br><span class="line">    <span class="comment">// 该位域结构总共 8 Byte</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>位域的长度不能大于其类型说明符中指定类型的固有长度，比如说int类型的位域长度不能超过32（bit），char的位域长度不能超过8（bit）</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">BitField_2</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span>  a : <span class="number">33</span>; <span class="comment">// 编译错误，C2034，BitField_2::a位域类型的位数太小, &gt;32</span></span><br><span class="line">    <span class="type">char</span> b : <span class="number">10</span>; <span class="comment">// 编译错误，C2034，BitField_2::b位域类型的位数太小, &gt;8</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-位域内存布局"><a href="#3-位域内存布局" class="headerlink" title="3. 位域内存布局"></a>3. 位域内存布局</h3><p>位域有一个非常重要的用途就是压缩存储，即：能够用1个比特解决的问题，绝不用2个比特。因此，我们非常有必要研究一下其内存布局，这样才能对其压缩存储特性有深入的了解。</p>
+<ol>
+<li><p>整个位域结构体的总大小为<strong>最宽基本类型成员大小的整数倍</strong>，这一点与常规结构体类型是一致的，从这里也可看出，位域本质上就是结构体；</p>
+</li>
+<li><p>如果<strong>相邻位域字段</strong>的类型相同，且其声明的位宽长度之和小于类型的大小（sizeof获取的大小），则后面的位域字段将紧邻前一个字段存储，直到不能容纳为止；</p>
+</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 假如 BitField_3::a = 0x11,(0001 0001 B); BitField_3::b = 0x2,(10 B); </span></span><br><span class="line"><span class="comment">//     BitField_3::c = 0x35,(11 0101 B), 则有：</span></span><br><span class="line"><span class="comment">// 第一个4字节为：0001 0001 0000 0010 0000 0000 0000 0000（B）</span></span><br><span class="line"><span class="comment">// 第二个4字节为：0011 0101 0000 0000 0000 0000 0000 0000（B）</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">BitField_3</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span>   a: <span class="number">8</span>;    <span class="comment">// 第一个4Byte中的开始8bit</span></span><br><span class="line">    <span class="type">int</span>   b: <span class="number">2</span>;    <span class="comment">// 由于相邻两个位域的类型相同，总大小10 &lt; 32(int类型大小）</span></span><br><span class="line">                   <span class="comment">// 所以这里存储是挨着第一个4Byte，紧接着的2bit</span></span><br><span class="line"></span><br><span class="line">    <span class="type">char</span>  c: <span class="number">6</span>;    <span class="comment">// 由于相邻的两个位域类型不同</span></span><br><span class="line">                   <span class="comment">// 所以这里是第二个4Byte</span></span><br><span class="line">    <span class="comment">// 总共8Byte</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>如果<strong>相邻位域字段</strong>的类型相同，但其位宽之和大于类型的sizeof大小，则后面的位域字段将从新的存储单元开始，其起始偏移量为类型大小的整数倍；</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 假如 BitField_4::a = 0x1,(0001 B); BitField_4::b = 0x08676665</span></span><br><span class="line"><span class="comment">// 则有：第一个4字节：0000 0001 0000 0000 0000 0000 0000 0000（B）</span></span><br><span class="line"><span class="comment">// 第二个4字节：0x65 66 67 08（小端模式，高高低低，高字节存放在高地址）</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">BitField_4</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> a: <span class="number">4</span>;   <span class="comment">// 第一个4字节</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> b: <span class="number">29</span>;  <span class="comment">// 虽然相邻位域类型相同</span></span><br><span class="line">                <span class="comment">// 但是，4 + 29 &gt; 32</span></span><br><span class="line">                <span class="comment">// 因此b位域从第二个4字节开始存储</span></span><br><span class="line">    <span class="comment">// 总共8字节</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>如果相邻位域字段的<strong>类型不同</strong>，则各编译器的具体实现有差异，<strong>VC采取不压缩方式</strong></li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 假如 BitField_5::a = 0x4, (0100 B); BitField_5::b = 0x5, (0101 B), 则有：</span></span><br><span class="line"><span class="comment">// 第一个4字节：0000 0100 0000 0000 0000 0000 0000 0000（B）</span></span><br><span class="line"><span class="comment">// 第二个4字节：0000 0101 0000 0000 0000 0000 0000 0000（B）</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">BitField_5</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span>  a : <span class="number">4</span>;  <span class="comment">// 占据int的4字节中的4个bit</span></span><br><span class="line">    <span class="type">char</span> b : <span class="number">4</span>;  <span class="comment">// 相邻字段类型不同，就算类型是char，也另起一个4字节</span></span><br><span class="line">    <span class="comment">// 总共8Byte，可见不但没有压缩，还浪费空间</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>如果位域字段之间穿插着非位域字段，则不进行压缩；</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 假如 BitField_6::a = 0x4,(0100 B); BitField_6::b = 0x65, (0110 0101 B)</span></span><br><span class="line"><span class="comment">// BitField_6::c = 0x3,(0011 B), 则有：</span></span><br><span class="line"><span class="comment">// 第一个字节： 0000 0100 （B）</span></span><br><span class="line"><span class="comment">// 第二个字节： 0110 0101 （B）</span></span><br><span class="line"><span class="comment">// 第三个字节： 0000 0011 （B）</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">BitField_6</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> a: <span class="number">4</span>;  <span class="comment">// 第1个字节</span></span><br><span class="line">    <span class="type">char</span> b;     <span class="comment">// 第2个字节，非位域</span></span><br><span class="line">    <span class="type">char</span> c: <span class="number">4</span>;  <span class="comment">// 第3个字节</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>注意：如果不是位域字段之间穿插着非位域字段，如下面这种情况，是进行压缩的：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以下为两个字节，可见进行了压缩存储</span></span><br><span class="line"><span class="comment">// 如果把 char a; 放到最后，只要不在中间，也是会压缩存储的</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">BitField_7</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> a;       <span class="comment">// 第1个字节</span></span><br><span class="line">    <span class="type">char</span> b: <span class="number">4</span>;    <span class="comment">// 第2个字节中的4位</span></span><br><span class="line">    <span class="type">char</span> c: <span class="number">4</span>;    <span class="comment">// 第2个字节紧挨着的4位</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>\6. 当使用有符号类型来定义位域，并且无意中使用到了正负（有意或者无意）特性时，就有问题了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">BitField_8</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> a : <span class="number">2</span>;</span><br><span class="line">    <span class="type">char</span> b : <span class="number">3</span>;</span><br><span class="line">    <span class="type">char</span> c : <span class="number">3</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">BitField_8</span> BF8;</span><br><span class="line">    </span><br><span class="line"><span class="comment">// 位域赋值</span></span><br><span class="line">BF8.a = <span class="number">0x3</span>;   <span class="comment">// 11</span></span><br><span class="line">BF8.b = <span class="number">0x5</span>;   <span class="comment">// 101</span></span><br><span class="line">BF8.c = <span class="number">0x2</span>;   <span class="comment">// 010</span></span><br><span class="line">    </span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d,%d,%d\n&quot;</span>, BF8.a, BF8.b, BF8.c);</span><br><span class="line"></span><br><span class="line"><span class="comment">// OUTPUT:  -1（0xff, 1111 1111）, -3（0xfd, 1111 1101）, 2（0x02, 0000 0110）</span></span><br><span class="line"><span class="comment">// 可见，当为域的最高位是1的时候，会进行符号扩展，而且这也取决于编译器的实现</span></span><br><span class="line"><span class="comment">// 因此，为避免此类问题，最好使用无符号类型定义位域</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果把BitField_8中的char换成unsigned char就没有问题了，输出是3, 5, 2，</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>从其内存布局可以看出，使用位域的最佳实践是：<strong>第一，位域的类型要使用无符号类型，并且在整个结构体内部要保持一致；第二，位域的总长度尽量与类型的长度保持一致；第三，不要在两个位域中间穿插非位域字段；</strong>如下代码所示：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">BitFieldDemo</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> a : <span class="number">2</span>;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> b : <span class="number">3</span>;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> c : <span class="number">3</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="4-位域使用"><a href="#4-位域使用" class="headerlink" title="4. 位域使用"></a>4. 位域使用</h3><p>使用以下代码，再结合调试器的内存查看功能，即可清晰的验证本文 <strong>位域内存布局</strong> 一节所阐述的内容。本文使用编译器和调试器是Windows下的Visual Studio。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 取位域大小，字节单位</span></span><br><span class="line"><span class="type">int</span> nsize = <span class="built_in">sizeof</span>(<span class="keyword">struct</span> BitFieldDemo);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 位域定义及其赋值</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">BitFieldDemo</span> BFD;    <span class="comment">/* or = &#123;0x3, 0x5, 0x2&#125;*/</span></span><br><span class="line">BFD.a = <span class="number">0x3</span>;</span><br><span class="line">BFD.b = <span class="number">0x5</span>;</span><br><span class="line">BFD.c = <span class="number">0x2</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;BFD.a = %d, BFD.b = %d, BFD.c = %d \n&quot;</span>, BFD.a, BFD.b, BFD.c);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 内存拷贝</span></span><br><span class="line"><span class="type">char</span> szBuffer[<span class="number">100</span>] = <span class="string">&quot;abcdefghijklmnopqrstuvwxyz0123456789&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">BitFieldDemo</span> *pBFD = <span class="literal">NULL</span>;</span><br><span class="line">pBFD = (<span class="keyword">struct</span> BitFieldDemo *)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(<span class="keyword">struct</span> BitFieldDemo));</span><br><span class="line"><span class="keyword">if</span> (pBFD != <span class="literal">NULL</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">memcpy</span>(pBFD, szBuffer, <span class="built_in">sizeof</span>(<span class="keyword">struct</span> BitFieldDemo));</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;a = %d, b = %d, c = %d \n&quot;</span>, pBFD-&gt;a, pBFD-&gt;b, pBFD-&gt;c);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">free</span>(pBFD);</span><br><span class="line">    pBFD = <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/08/02/Cpp%E4%BD%8D%E5%9F%9F/" data-id="cltr7868f000dk4un18iyhe78" data-title="Cpp位域" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/07/Java%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java日期时间
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/02/Cpp%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%92%8C%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Cpp构造函数和析构函数</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/cpp/" style="font-size: 17.5px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px;">汇编</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">网络</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 12.5px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

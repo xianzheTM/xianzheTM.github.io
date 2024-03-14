@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Java方法引用 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="了解下Lambda的兄弟:方法引用.我是真的觉得这些新特新一点每增加代码可读性,反而越来越难以理解了.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java方法引用">
+<meta property="og:url" content="http://example.com/2018/08/11/Java%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="了解下Lambda的兄弟:方法引用.我是真的觉得这些新特新一点每增加代码可读性,反而越来越难以理解了.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-08-10T16:21:42.000Z">
+<meta property="article:modified_time" content="2024-03-14T12:19:35.205Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Java方法引用" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/08/11/Java%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/" class="article-date">
+  <time class="dt-published" datetime="2018-08-10T16:21:42.000Z" itemprop="datePublished">2018-08-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Java方法引用
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>了解下Lambda的兄弟:方法引用.我是真的觉得这些新特新一点每增加代码可读性,反而越来越难以理解了.</p>
+<span id="more"></span>
+
+<h1 id="Java8之方法引用"><a href="#Java8之方法引用" class="headerlink" title="Java8之方法引用"></a>Java8之方法引用</h1><h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><p>在学习lambda表达式之后，我们通常使用lambda表达式来创建匿名方法。然而，有时候我们仅仅是调用了一个已存在的方法。如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Arrays.sort(stringsArray,(s1,s2)-&gt;s1.compareToIgnoreCase(s2));</span><br></pre></td></tr></table></figure>
+
+<p> 在Java8中，我们可以直接通过方法引用来<strong>简写</strong>lambda表达式中已经存在的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Arrays.sort(stringsArray, String::compareToIgnoreCase);</span><br></pre></td></tr></table></figure>
+
+<p>这种特性就叫做方法引用(Method Reference)。</p>
+<h2 id="二、什么是方法引用"><a href="#二、什么是方法引用" class="headerlink" title="二、什么是方法引用"></a>二、什么是方法引用</h2><p>​     <strong>方法引用</strong>是用来直接访问类或者实例的已经存在的方法或者构造方法。方法引用提供了一种引用而不执行方法的方式，它需要由兼容的函数式接口构成的目标类型上下文。计算时，方法引用会创建函数式接口的一个实例。</p>
+<p>当Lambda表达式中只是执行一个方法调用时，不用Lambda表达式，直接通过方法引用的形式可读性更高一些。方法引用是一种更简洁易懂的Lambda表达式。</p>
+<p>注意方法引用是一个Lambda表达式，其中方法引用的操作符是双冒号”::”。</p>
+<hr>
+<p>​      简单地说，就是一个Lambda表达式。在Java 8中，我们会使用Lambda表达式创建匿名方法，但是有时候，我们的Lambda表达式可能仅仅调用一个已存在的方法，而不做任何其它事，对于这种情况，通过一个方法名字来引用这个已存在的方法会更加清晰，Java 8的方法引用允许我们这样做。方法引用是一个更加紧凑，易读的Lambda表达式，注意方法引用是一个Lambda表达式，其中方法引用的操作符是双冒号”::”。</p>
+<h2 id="三、方法引用例子"><a href="#三、方法引用例子" class="headerlink" title="三、方法引用例子"></a>三、方法引用例子</h2><p>先看一个例子，首先定义一个Person类，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo.model;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.time.LocalDate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Person</span><span class="params">(String name, LocalDate birthday)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">        <span class="built_in">this</span>.birthday = birthday;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    String name;</span><br><span class="line">    LocalDate birthday;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> LocalDate <span class="title function_">getBirthday</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> birthday;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">compareByAge</span><span class="params">(Person a, Person b)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> a.birthday.compareTo(b.birthday);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>假设我们有一个Person数组，并且想对它进行排序，这时候，我们可能会这样写：</p>
+<p><strong>原始写法，使用匿名类：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.time.LocalDate;</span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.Comparator;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="keyword">import</span> com.demo.model.Person;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">testMethodReference</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span> &#123;</span><br><span class="line">        Person[] pArr = <span class="keyword">new</span> <span class="title class_">Person</span>[]&#123;</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;003&quot;</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">9</span>,<span class="number">1</span>)),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;001&quot;</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">2</span>,<span class="number">1</span>)),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;002&quot;</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">3</span>,<span class="number">1</span>)),</span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;004&quot;</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">12</span>,<span class="number">1</span>))&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用匿名类</span></span><br><span class="line">        Arrays.sort(pArr, <span class="keyword">new</span> <span class="title class_">Comparator</span>&lt;Person&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">compare</span><span class="params">(Person a, Person b)</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> a.getBirthday().compareTo(b.getBirthday());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        </span><br><span class="line">        System.out.println(Arrays.asList(pArr));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中，Arrays类的sort方法定义如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="keyword">void</span> <span class="title function_">sort</span><span class="params">(T[] a, Comparator&lt;? <span class="built_in">super</span> T&gt; c)</span></span><br></pre></td></tr></table></figure>
+
+<p>这里，我们首先要注意<code>Comparator</code>接口是一个函数式接口，因此我们可以使用Lambda表达式，而不需要定义一个实现<code>Comparator</code>接口的类，并创建它的实例对象，传给sort方法。</p>
+<p>使用Lambda表达式，我们可以这样写：</p>
+<h3 id="改进一，使用Lambda表达式，没有调用已存在的方法"><a href="#改进一，使用Lambda表达式，没有调用已存在的方法" class="headerlink" title="改进一，使用Lambda表达式，没有调用已存在的方法"></a>改进一，使用Lambda表达式，没有调用已存在的方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test1</span><span class="params">()</span> &#123;</span><br><span class="line">    Person[] pArr = <span class="keyword">new</span> <span class="title class_">Person</span>[]&#123;</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;003&quot;</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">9</span>,<span class="number">1</span>)),</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;001&quot;</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">2</span>,<span class="number">1</span>)),</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;002&quot;</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">3</span>,<span class="number">1</span>)),</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;004&quot;</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">12</span>,<span class="number">1</span>))&#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//使用lambda表达式</span></span><br><span class="line">    Arrays.sort(pArr, (Person a, Person b) -&gt; &#123;</span><br><span class="line">        <span class="keyword">return</span> a.getBirthday().compareTo(b.getBirthday());</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    System.out.println(Arrays.asList(pArr));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然而，在以上代码中，关于两个人生日的比较方法在Person类中已经定义了，因此，我们可以直接使用已存在的Person.compareByAge方法。</p>
+<h3 id="改进二，使用Lambda表达式，调用已存在的方法"><a href="#改进二，使用Lambda表达式，调用已存在的方法" class="headerlink" title="改进二，使用Lambda表达式，调用已存在的方法"></a>改进二，使用Lambda表达式，调用已存在的方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test2</span><span class="params">()</span> &#123;</span><br><span class="line">    Person[] pArr = <span class="keyword">new</span> <span class="title class_">Person</span>[]&#123;</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;003&quot;</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">9</span>,<span class="number">1</span>)),</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;001&quot;</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">2</span>,<span class="number">1</span>)),</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;002&quot;</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">3</span>,<span class="number">1</span>)),</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;004&quot;</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">12</span>,<span class="number">1</span>))&#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//使用lambda表达式和类的静态方法</span></span><br><span class="line">    Arrays.sort(pArr, (a ,b) -&gt; Person.compareByAge(a, b));</span><br><span class="line">    </span><br><span class="line">    System.out.println(Arrays.asList(pArr));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为这个Lambda表达式调用了一个已存在的方法，因此，我们可以直接使用方法引用来替代这个Lambda表达式。</p>
+<h3 id="改进三，使用方法引用"><a href="#改进三，使用方法引用" class="headerlink" title="改进三，使用方法引用"></a>改进三，使用方法引用</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test3</span><span class="params">()</span> &#123;</span><br><span class="line">    Person[] pArr = <span class="keyword">new</span> <span class="title class_">Person</span>[]&#123;</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;003&quot;</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">9</span>,<span class="number">1</span>)),</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;001&quot;</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">2</span>,<span class="number">1</span>)),</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;002&quot;</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">3</span>,<span class="number">1</span>)),</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;004&quot;</span>, LocalDate.of(<span class="number">2016</span>,<span class="number">12</span>,<span class="number">1</span>))&#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//使用方法引用，引用的是类的静态方法</span></span><br><span class="line">    Arrays.sort(pArr, Person::compareByAge);</span><br><span class="line">    </span><br><span class="line">    System.out.println(Arrays.asList(pArr));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[001, 002, 003, 004]</span><br></pre></td></tr></table></figure>
+
+<p>在以上代码中，方法引用Person::compareByAge在语义上与Lambda表达式 (a, b) -&gt; Person.compareByAge(a, b) 是等同的，都有如下特性：</p>
+<ul>
+<li>真实的参数是拷贝自Comparator<Person>.compare方法，即(Person, Person)；</li>
+<li>表达式体调用Person.compareByAge方法。</li>
+</ul>
+<h2 id="四、四种方法引用类型"><a href="#四、四种方法引用类型" class="headerlink" title="四、四种方法引用类型"></a>四、四种方法引用类型</h2><p>方法引用的标准形式是：<code>类名::方法名</code>。（<strong>注意：只需要写方法名，不需要写括号</strong>）</p>
+<p>有以下四种形式的方法引用：</p>
+<table>
+<thead>
+<tr>
+<th><strong>类型</strong></th>
+<th><strong>示例</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>引用静态方法</td>
+<td>ContainingClass::staticMethodName</td>
+</tr>
+<tr>
+<td>引用某个对象的实例方法</td>
+<td>containingObject::instanceMethodName</td>
+</tr>
+<tr>
+<td>引用某个类型的任意对象的实例方法</td>
+<td>ContainingType::methodName</td>
+</tr>
+<tr>
+<td>引用构造方法</td>
+<td>ClassName::new</td>
+</tr>
+</tbody></table>
+<p>下面我们通过一个小Demo来分别学习这几种形式的方法引用：</p>
+<h3 id="1、静态方法引用"><a href="#1、静态方法引用" class="headerlink" title="1、静态方法引用"></a>1、静态方法引用</h3><p><strong>组成语法格式：ClassName::staticMethodName</strong></p>
+<p>我们前面举的例子Person::compareByAge就是一个静态方法引用。</p>
+<p>注意：</p>
+<ul>
+<li>静态方法引用比较容易理解，和静态方法调用相比，只是把 <strong>.</strong> 换为 <strong>::</strong></li>
+<li>在目标类型兼容的任何地方，都可以使用静态方法引用。</li>
+</ul>
+<p>例子：</p>
+<p>　　String::valueOf   等价于lambda表达式 (s) -&gt; String.valueOf(s)</p>
+<p>　　Math::pow       等价于lambda表达式  (x, y) -&gt; Math.pow(x, y);</p>
+<p><strong>字符串反转的例子：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 函数式接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">StringFunc</span> &#123;</span><br><span class="line">    </span><br><span class="line">    String <span class="title function_">func</span><span class="params">(String n)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyStringOps</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//静态方法： 反转字符串</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">strReverse</span><span class="params">(String str)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> str.length() - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            result += str.charAt(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MethodRefDemo</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">stringOp</span><span class="params">(StringFunc sf, String s)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> sf.func(s);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">inStr</span> <span class="operator">=</span> <span class="string">&quot;lambda add power to Java&quot;</span>;</span><br><span class="line">        <span class="comment">//MyStringOps::strReverse 相当于实现了接口方法func() </span></span><br><span class="line">        <span class="comment">// 并在接口方法func()中作了MyStringOps.strReverse()操作</span></span><br><span class="line">         <span class="type">String</span> <span class="variable">outStr</span> <span class="operator">=</span> stringOp(MyStringOps::strReverse, inStr);</span><br><span class="line">        System.out.println(<span class="string">&quot;Original string: &quot;</span> + inStr);</span><br><span class="line">        System.out.println(<span class="string">&quot;String reserved: &quot;</span> + outStr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Original string: lambda add power to Java</span><br><span class="line">String reserved: avaJ ot rewop dda adbmal</span><br></pre></td></tr></table></figure>
+
+<p>表达式MyStringOps::strReverse的计算结果为对象引用，其中，strReverse提供了StringFunc的func()方法的实现。</p>
+<p><strong>找到列表中具有最大值的对象</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> val;</span><br><span class="line"></span><br><span class="line">    MyClass(<span class="type">int</span> v) &#123;</span><br><span class="line">        val = v;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getValue</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> val;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Collections;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UseMethodRef</span> &#123;</span><br><span class="line">    </span><br><span class="line">     <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">compareMC</span><span class="params">(MyClass a, MyClass b)</span> &#123;</span><br><span class="line">         <span class="keyword">return</span> a.getValue() - b.getValue();</span><br><span class="line">     &#125;</span><br><span class="line">     </span><br><span class="line">     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">         ArrayList&lt;MyClass&gt; a1 = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;MyClass&gt;();</span><br><span class="line">         a1.add(<span class="keyword">new</span> <span class="title class_">MyClass</span>(<span class="number">1</span>));</span><br><span class="line">         a1.add(<span class="keyword">new</span> <span class="title class_">MyClass</span>(<span class="number">4</span>));</span><br><span class="line">         a1.add(<span class="keyword">new</span> <span class="title class_">MyClass</span>(<span class="number">2</span>));</span><br><span class="line">         a1.add(<span class="keyword">new</span> <span class="title class_">MyClass</span>(<span class="number">9</span>));</span><br><span class="line">         a1.add(<span class="keyword">new</span> <span class="title class_">MyClass</span>(<span class="number">3</span>));</span><br><span class="line">         a1.add(<span class="keyword">new</span> <span class="title class_">MyClass</span>(<span class="number">7</span>));</span><br><span class="line">         <span class="comment">//UseMethodRef::compareMC生成了抽象接口Comparator定义的compare()方法的实例。</span></span><br><span class="line">         <span class="type">MyClass</span> <span class="variable">maxValObj</span> <span class="operator">=</span> Collections.max(a1, UseMethodRef::compareMC);</span><br><span class="line">         System.out.println(<span class="string">&quot;Maximum value is: &quot;</span> + maxValObj.getValue());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Maximum value is: 9</span><br></pre></td></tr></table></figure>
+
+<p>UseMethodRef定义了静态方法compareMC()，它与Comparator定义的compare()方法兼容。因此，没有必要显式的实现Comparator接口并创建其实例。</p>
+<h3 id="2、特定实例对象的方法引用"><a href="#2、特定实例对象的方法引用" class="headerlink" title="2、特定实例对象的方法引用"></a>2、特定实例对象的方法引用</h3><p><strong>这种语法与用于静态方法的语法类似，只不过这里使用对象引用而不是类名。实例方法引用又分以下三种类型：</strong></p>
+<h4 id="a-实例上的实例方法引用"><a href="#a-实例上的实例方法引用" class="headerlink" title="a.实例上的实例方法引用"></a>a.实例上的实例方法引用</h4><p><strong>组成语法格式：instanceReference::methodName</strong></p>
+<p>如下示例，引用的方法是myComparisonProvider 对象的compareByName方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ComparisonProvider</span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">compareByName</span><span class="params">(Person a, Person b)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a.getName().compareTo(b.getName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">compareByAge</span><span class="params">(Person a, Person b)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a.getBirthday().compareTo(b.getBirthday());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">ComparisonProvider</span> <span class="variable">myComparisonProvider</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ComparisonProvider</span>();</span><br><span class="line">Arrays.sort(rosterAsArray, myComparisonProvider::compareByName);</span><br></pre></td></tr></table></figure>
+
+<p><strong>例子：反转字符串</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 函数式接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">StringFunc</span> &#123;</span><br><span class="line">    </span><br><span class="line">    String <span class="title function_">func</span><span class="params">(String n)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyStringOps</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//普通方法： 反转字符串</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">strReverse1</span><span class="params">(String str)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> str.length() - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            result += str.charAt(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MethodRefDemo2</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">stringOp</span><span class="params">(StringFunc sf, String s)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> sf.func(s);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">inStr</span> <span class="operator">=</span> <span class="string">&quot;lambda add power to Java&quot;</span>;</span><br><span class="line">        <span class="type">MyStringOps</span> <span class="variable">strOps</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MyStringOps</span>();<span class="comment">//实例对象</span></span><br><span class="line">        <span class="comment">//strOps::strReverse1 相当于实现了接口方法func() </span></span><br><span class="line">        <span class="type">String</span> <span class="variable">outStr</span> <span class="operator">=</span> stringOp(strOps::strReverse1, inStr);</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;Original string: &quot;</span> + inStr);</span><br><span class="line">        System.out.println(<span class="string">&quot;String reserved: &quot;</span> + outStr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Original string: lambda add power to Java</span><br><span class="line">String reserved: avaJ ot rewop dda adbmal</span><br></pre></td></tr></table></figure>
+
+<h4 id="b-超类上的实例方法引用"><a href="#b-超类上的实例方法引用" class="headerlink" title="b.超类上的实例方法引用"></a>b.超类上的实例方法引用</h4><p><strong>组成语法格式：super::methodName</strong></p>
+<p>方法的名称由methodName指定，通过使用<strong>super</strong>，可以引用方法的超类版本。</p>
+<p>例子：</p>
+<p>还可以捕获this 指针，this :: equals  等价于lambda表达式  x -&gt; this.equals(x);</p>
+<h4 id="c-类型上的实例方法引用"><a href="#c-类型上的实例方法引用" class="headerlink" title="c.类型上的实例方法引用"></a>c.类型上的实例方法引用</h4><p><strong>组成语法格式：</strong>ClassName**::**methodName</p>
+<p>注意：</p>
+<p>若类型的实例方法是泛型的，就需要在::分隔符前提供类型参数，或者（多数情况下）利用目标类型推导出其类型。</p>
+<p>静态方法引用和类型上的实例方法引用拥有一样的语法。编译器会根据实际情况做出决定。一般我们不需要指定方法引用中的参数类型，因为编译器往往可以推导出结果，但如果需要我们也可以显式在::分隔符之前提供参数类型信息。</p>
+<p>例子：</p>
+<p>String::toString 等价于lambda表达式 (s) -&gt; s.toString()</p>
+<p>这里不太容易理解，实例方法要通过对象来调用，方法引用对应Lambda，Lambda的第一个参数会成为调用实例方法的对象。</p>
+<p><strong>在泛型类或泛型方法中，也可以使用方法引用。</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">MyFunc</span>&lt;T&gt; &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> <span class="title function_">func</span><span class="params">(T[] als, T v)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyArrayOps</span> &#123;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="type">int</span> <span class="title function_">countMatching</span><span class="params">(T[] vals, T v)</span> &#123;</span><br><span class="line">         <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">         <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; vals.length; i++) &#123;</span><br><span class="line">             <span class="keyword">if</span> (vals[i] == v) count++;</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">return</span> count;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GenericMethodRefDemo</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="type">int</span> <span class="title function_">myOp</span><span class="params">(MyFunc&lt;T&gt; f, T[] vals, T v)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> f.func(vals, v);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        Integer[] vals = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br><span class="line">        String[] strs = &#123;<span class="string">&quot;One&quot;</span>, <span class="string">&quot;Two&quot;</span>, <span class="string">&quot;Three&quot;</span>, <span class="string">&quot;Two&quot;</span>&#125;;</span><br><span class="line">        <span class="type">int</span> count;</span><br><span class="line">        count=myOp(MyArrayOps::&lt;Integer&gt;countMatching, vals, <span class="number">4</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;vals contains &quot;</span>+count+<span class="string">&quot; 4s&quot;</span>);</span><br><span class="line">        count=myOp(MyArrayOps::&lt;String&gt;countMatching, strs, <span class="string">&quot;Two&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;strs contains &quot;</span>+count+<span class="string">&quot; Twos&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vals contains 3 4s</span><br><span class="line">strs contains 2 Twos</span><br></pre></td></tr></table></figure>
+
+<p>分析：</p>
+<p>​      在程序中，MyArrayOps是非泛型类，包含泛型方法countMatching()。该方法返回数组中与指定值匹配的元素的个数。注意这里如何指定泛型类型参数。例如，在main()方法中，对countMatching()方法的第一次调用如下所示：count &#x3D; myOp(MyArrayOps::<Integer>countMatching,vals,4); 这里传递了类型参数Integer。</p>
+<p>​      注意，参数传递发生在::的后面。这种语法可以推广。当把泛型方法指定为方法引用时，类型参数出现在::之后、方法名之前。但是，需要指出的是，在这种情况(和其它许多情况)下，并非必须显示指定类型参数，因为类型参数会被自动推断得出。对于指定泛型类的情况，类型参数位于类名的后面::的前面。</p>
+<h3 id="3、任意对象（属于同一个类）的实例方法引用"><a href="#3、任意对象（属于同一个类）的实例方法引用" class="headerlink" title="3、任意对象（属于同一个类）的实例方法引用"></a>3、任意对象（属于同一个类）的实例方法引用</h3><p>如下示例，这里引用的是字符串数组中任意一个对象的compareToIgnoreCase方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String[] stringArray = &#123; <span class="string">&quot;Barbara&quot;</span>, <span class="string">&quot;James&quot;</span>, <span class="string">&quot;Mary&quot;</span>, <span class="string">&quot;John&quot;</span>, <span class="string">&quot;Patricia&quot;</span>, <span class="string">&quot;Robert&quot;</span>, <span class="string">&quot;Michael&quot;</span>, <span class="string">&quot;Linda&quot;</span> &#125;;</span><br><span class="line">Arrays.sort(stringArray, String::compareToIgnoreCase);</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、构造方法引用"><a href="#4、构造方法引用" class="headerlink" title="4、构造方法引用"></a>4、构造方法引用</h3><p>构造方法引用又分构造方法引用和数组构造方法引用。</p>
+<h4 id="a-构造方法引用（也可以称作构造器引用）"><a href="#a-构造方法引用（也可以称作构造器引用）" class="headerlink" title="a.构造方法引用（也可以称作构造器引用）"></a>a.构造方法引用（也可以称作构造器引用）</h4><p><strong>组成语法格式：Class::new</strong></p>
+<p>构造函数本质上是静态方法，只是方法名字比较特殊，使用的是<strong>new 关键字</strong>。</p>
+<p>例子：</p>
+<p>String::new， 等价于lambda表达式 () -&gt; new String() </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">MyFunc1</span> &#123;</span><br><span class="line"></span><br><span class="line">    MyClass <span class="title function_">func</span><span class="params">(<span class="type">int</span> n)</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyClass</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> val;</span><br><span class="line"></span><br><span class="line">    MyClass(<span class="type">int</span> v) &#123;</span><br><span class="line">        val = v;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    MyClass()&#123;</span><br><span class="line">        val = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getValue</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> val;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ConstructorRefDemo</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">MyFunc1</span> <span class="variable">myClassCons</span> <span class="operator">=</span> MyClass :: <span class="keyword">new</span>;</span><br><span class="line">        <span class="type">MyClass</span> <span class="variable">mc</span> <span class="operator">=</span> myClassCons.func(<span class="number">100</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;val in mc is: &quot;</span> + mc.getValue());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val in mc is: 100</span><br></pre></td></tr></table></figure>
+
+<h4 id="b-数组构造方法引用"><a href="#b-数组构造方法引用" class="headerlink" title="b.数组构造方法引用"></a>b.数组构造方法引用</h4><p><strong>组成语法格式：TypeName[]::new</strong></p>
+<p>例子：</p>
+<p>int[]::new 是一个含有一个参数的构造器引用，这个参数就是数组的长度。等价于lambda表达式  x -&gt; new int[x]。</p>
+<p>假想存在一个接收int参数的数组构造方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">IntFunction&lt;<span class="type">int</span>[]&gt; arrayMaker = <span class="type">int</span>[]::<span class="keyword">new</span>;</span><br><span class="line"><span class="type">int</span>[] array = arrayMaker.apply(<span class="number">10</span>) <span class="comment">// 创建数组 int[10]</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/08/11/Java%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/" data-id="cltr7868s001ek4una0alfyxh" data-title="Java方法引用" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/12/Java%E9%9B%86%E5%90%88/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java集合
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/09/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java正则表达式</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/cpp/" style="font-size: 17.5px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px;">汇编</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">网络</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 12.5px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

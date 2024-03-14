@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Java笔记8 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="&emsp;有些特殊的类的对象是由固定个数的，例如四季，只有四个。这就是枚举类。这篇就来讲讲枚举类以及垃圾管理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java笔记8">
+<meta property="og:url" content="http://example.com/2018/05/01/Java%E7%AC%94%E8%AE%B08/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="&emsp;有些特殊的类的对象是由固定个数的，例如四季，只有四个。这就是枚举类。这篇就来讲讲枚举类以及垃圾管理。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/Java%E7%AC%94%E8%AE%B08%5Carray.png">
+<meta property="article:published_time" content="2018-05-01T07:09:25.000Z">
+<meta property="article:modified_time" content="2024-03-14T12:19:35.068Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/Java%E7%AC%94%E8%AE%B08%5Carray.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Java笔记8" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/05/01/Java%E7%AC%94%E8%AE%B08/" class="article-date">
+  <time class="dt-published" datetime="2018-05-01T07:09:25.000Z" itemprop="datePublished">2018-05-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Java笔记8
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>&emsp;有些特殊的类的对象是由固定个数的，例如四季，只有四个。这就是枚举类。这篇就来讲讲枚举类以及垃圾管理。</p>
+<span id="more"></span>
+
+<h1 id="枚举类"><a href="#枚举类" class="headerlink" title="枚举类"></a>枚举类</h1><h2 id="手动实现枚举类"><a href="#手动实现枚举类" class="headerlink" title="手动实现枚举类"></a>手动实现枚举类</h2><p>&emsp;在以前如果想用枚举类，偷懒的办法是用静态常量来表示，四季用四个数字表示，但是存在许多问题，例如类型不安全，意义不明确等。或者用类来实现，那有太麻烦，需要用private将构造器隐藏起来，把四个季节全都用public static final保存，还要提供一些静态方法使用四个季节。这样就比较麻烦。而在JDK1.5之后就有了枚举类。</p>
+<h2 id="枚举类入门"><a href="#枚举类入门" class="headerlink" title="枚举类入门"></a>枚举类入门</h2><p>&emsp;enum关键字与class，interface地位相同，用于定义枚举类。（static不能修饰外部类，只有静态内部类，final可以修饰外部类，表示不能继承）enum是一种特殊的类，一样可以有自己的成员变量，方法，也可实现一个或多个接口，也可以定义自己的构造器。一个Java源文件只能由一个public的enum类。但是枚举类和普通了之间还是存在非常多的区别：</p>
+<ul>
+<li>enum类继承的是java.lang.Enum类，不是Object类，因此不能显示的继承其他父类。</li>
+<li>enum实现了java.lang.Serializable和java.lang.Comparable接口（序列化和可比较）</li>
+<li>使用enum定义<strong>非抽象</strong>的枚举类会默认使用final修饰，因此不能继承</li>
+<li>枚举类的构造器只能是private修饰</li>
+<li>枚举类的所有<strong>实例</strong>必须在枚举类的第一行显式的列出，系统会自动添加public static final</li>
+<li>枚举类默认提供一个values()方法，用于遍历枚举值</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">SeasonEnum</span>&#123;</span><br><span class="line">    SPRING,SUMMER,FALL,WINTER;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;如果需要使用，则通过EnumClass.variable的形式，如Season.SPRING。下面使用values()方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EnumTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">judge</span><span class="params">(SeasonEnum s)</span> &#123;</span><br><span class="line">        <span class="keyword">switch</span> (s) &#123;</span><br><span class="line">        <span class="keyword">case</span> SPRING:</span><br><span class="line">            System.out.println(<span class="string">&quot;春天&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> SUMMER:</span><br><span class="line">            System.out.println(<span class="string">&quot;夏天&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> FALL:</span><br><span class="line">            System.out.println(<span class="string">&quot;秋天&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> WINTER:</span><br><span class="line">            System.out.println(<span class="string">&quot;冬天&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (SeasonEnum s : SeasonEnum.values()) &#123;</span><br><span class="line">            System.out.println(s);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">EnumTest</span>().judge(SeasonEnum.SPRING);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;foreach循环中可以接受数组和集合，经过调试，values()方法返回的是数组。</br><br><img src="/Java%E7%AC%94%E8%AE%B08%5Carray.png" alt="返回值"><br>&emsp;在上面的代码中，switch控制表达式可以是任意枚举类，而且可以直接用枚举值作为case的值。</br><br>&emsp;由于所有的枚举类继承了java.lang.Enum类，所以可以直接使用改类中的方法：</p>
+<ul>
+<li>int compareTo(E o):与参数比较，若该枚举实例在参数前则返回负整数；若该枚举实例在参数后则返回正整数，否则为0。要求参数必须是与该枚举实例相同的的枚举类实例。</li>
+<li>String name():返回枚举实例的名称，名称就是定义枚举类时所列出的所有枚举值之一。</li>
+<li>String toString()：与上一个方法类似，优先使用该方法。</li>
+<li>int ordinal():返回枚举值的索引值</li>
+</ul>
+<h2 id="枚举值的成员变量、方法和构造器"><a href="#枚举值的成员变量、方法和构造器" class="headerlink" title="枚举值的成员变量、方法和构造器"></a>枚举值的成员变量、方法和构造器</h2><p>&emsp;枚举值也是一个类，所以可以有自己的成员变量，方法和构造器。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Gender</span>&#123;</span><br><span class="line">    MALE,FEMALE;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GenderTest</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        <span class="type">Gender</span> <span class="variable">g</span> <span class="operator">=</span> Enum.valueOf(Gender.class , <span class="string">&quot;FEMALE&quot;</span>);</span><br><span class="line">        g.name = <span class="string">&quot;女&quot;</span>;</span><br><span class="line">        System.out.println(g + <span class="string">&quot;代表：&quot;</span> + g.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;<code>Enum.valueOf(Gender.class , &quot;FEMALE&quot;)</code>这句的意思是将指定名称(“FEMALE”)的指定枚举类型的枚举常量返回给<code>Gender g</code>。简而言之，有“FEMALE”枚举值的这个枚举类实例给了g。但是这里的代码写的很不好，<code>g.name = &quot;女&quot;</code>直接对对象的成员变量修改是不好的，可能出现FEMALE代表了男的情况。应该将name改为private的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Gender</span> &#123;</span><br><span class="line">    MALE, FEMALE;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="keyword">switch</span> (<span class="built_in">this</span>) &#123;</span><br><span class="line">        <span class="keyword">case</span> MALE:</span><br><span class="line">            <span class="keyword">if</span> (name.equals(<span class="string">&quot;男&quot;</span>))&#123;</span><br><span class="line">                <span class="built_in">this</span>.name = name;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;参数错误&quot;</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> FEMALE:</span><br><span class="line">            <span class="keyword">if</span> (name.equals(<span class="string">&quot;女&quot;</span>))&#123;</span><br><span class="line">                <span class="built_in">this</span>.name = name;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;参数错误&quot;</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;这样就避免了直接对name操作，也避免了将“男”传给FEMALE这种事。但是这样的代码还是存在问题，枚举类通常应该设计成不可变类，其成员变量值不应该允许改变，因此最好用private final修饰成员变量。联系以前的知识，如果变量都用final修饰，则应在构造器中指定初始值，或者定义成员变量时指定初始值，或者在初始化块中指定初始值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Gender</span>&#123;</span><br><span class="line">    MALE(<span class="string">&quot;男&quot;</span>),FEMALE(<span class="string">&quot;女&quot;</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Gender</span><span class="params">(String name)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;这段代码相当于下面这段：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Gender</span> <span class="variable">MALE</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Gender</span>(<span class="string">&quot;男&quot;</span>);</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Gender</span> <span class="variable">FEMALE</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Gender</span>(<span class="string">&quot;女&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="实现接口的枚举类"><a href="#实现接口的枚举类" class="headerlink" title="实现接口的枚举类"></a>实现接口的枚举类</h2><p>&emsp;与普通方法类似，枚举类实现一个或多个接口时，也需要实现该接口所包含的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">GenderDesc</span>&#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">info</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Gender</span> <span class="keyword">implements</span> <span class="title class_">GenderDesc</span>&#123;</span><br><span class="line">    MALE(<span class="string">&quot;男&quot;</span>),FEMALE(<span class="string">&quot;女&quot;</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Gender</span><span class="params">(String name)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">info</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;这是一个定义性别的枚举类&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;但是这样子写有个问题，“男”和“女”的类体是一样的，不论哪个调用info()方法结果都是一样的。因为它们具有同一个方法题，所以需要拆分开。</br></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Gender</span> <span class="keyword">implements</span> <span class="title class_">GenderDesc</span>&#123;</span><br><span class="line">    MALE(<span class="string">&quot;男&quot;</span>)&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">info</span><span class="params">()</span>&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;这个枚举值代表男性&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    FEMALE(<span class="string">&quot;女&quot;</span>)&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">info</span><span class="params">()</span>&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;这个枚举值代表女性&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;这个代码和匿名内部类语法类似，花括号实际就是类体的一部分。编译上面的程序会产生Gender.class,Gender$1.class,Gender$2.class三个文件，MALE和FEMALE实际是Gender匿名子类的实例，不是Gender类的实例。</p>
+<h2 id="包含抽象方法的枚举类"><a href="#包含抽象方法的枚举类" class="headerlink" title="包含抽象方法的枚举类"></a>包含抽象方法的枚举类</h2><p>&emsp;假设有个Operation枚举类，有四个枚举值分别代表加，减，乘，除，再定义一个eval方法完成计算。但是不同的枚举值会有不同的操作，所以可以将eval定义为抽象方法，让四个枚举值分别为eval提供不同的实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Operation</span> &#123;</span><br><span class="line">    PLUS &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">eval</span><span class="params">(<span class="type">double</span> x, <span class="type">double</span> y)</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> x + y;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    MINUS &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">eval</span><span class="params">(<span class="type">double</span> x, <span class="type">double</span> y)</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> x - y;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    TIMES &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">eval</span><span class="params">(<span class="type">double</span> x, <span class="type">double</span> y)</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> x * y;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    DIVIDE &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="type">double</span> <span class="title function_">eval</span><span class="params">(<span class="type">double</span> x, <span class="type">double</span> y)</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> x / y;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="type">double</span> <span class="title function_">eval</span><span class="params">(<span class="type">double</span> x,<span class="type">double</span> y)</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        System.out.println(Operation.PLUS.eval(<span class="number">3</span>,<span class="number">4</span>));</span><br><span class="line">        System.out.println(Operation.MINUS.eval(<span class="number">3</span>,<span class="number">4</span>));</span><br><span class="line">        System.out.println(Operation.TIMES.eval(<span class="number">3</span>,<span class="number">4</span>));</span><br><span class="line">        System.out.println(Operation.DIVIDE.eval(<span class="number">3</span>,<span class="number">4</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;编译上面的代码会产生5个class文件。枚举类里定义抽象方法时不能用abstract将枚举类定义为抽象类，因为系统会自动添加。同时，每个枚举值都要为抽象方法提供实现。</br><br>&emsp;对于理解枚举类，最关键的就是就是将第一行（到’;’为止）的枚举值先剔除不看，把枚举值作为枚举类的实例，当作一个普通类，再来理解上面的代码。</p>
+<h1 id="对象与垃圾回收"><a href="#对象与垃圾回收" class="headerlink" title="对象与垃圾回收"></a>对象与垃圾回收</h1><p>&emsp;当程序创建对象，数组等引用实体类型时，系统都会在堆内存分配一块内存区，对象就保存在这里，当这块内存不再有任何引用变量引用时，这块内存就变为垃圾，等待垃圾回收机制回收，垃圾回收机制具有如下机制：</p>
+<ul>
+<li>垃圾回收机制只负责回收堆内存中的对象</li>
+<li>程序无法精确控制垃圾回收的运行</li>
+<li>垃圾回收机制回收任何对象之前，总会先调用它的finalize()方法，该方法可能使该对象重新复活（让一个引用变量重新引用该对象），从而导致垃圾回收机制取消回收</li>
+</ul>
+<h2 id="对象在内存中的状态"><a href="#对象在内存中的状态" class="headerlink" title="对象在内存中的状态"></a>对象在内存中的状态</h2><p>&emsp;根据一个对象被引用变量所引用的状态，可以把它所处的状态分为三个状态：</p>
+<ul>
+<li>可达状态：当一个对象被创建后，若有一个以上的引用变量引用它，则这个对象处于可达状态，程序可以通过引用变量来使用该对象的实例变量和方法</li>
+<li>可恢复状态：如果某个对象不再有引用变量引用它，它就进入了可恢复状态，垃圾回收机制会准备回收内存，在回收之前会先调用<strong>所有</strong>finalize()方法进行资源清理，如果finalize()让一个引用变量引用该对象，则该对象重新进入可达状态，否则进入不可达状态</li>
+<li>不可达状态：当finalize()被调用后仍然没有使对象恢复为可达状态，这是就是不可达状态，系统就会回收对象所占用的资源</li>
+</ul>
+<h2 id="强制垃圾回收"><a href="#强制垃圾回收" class="headerlink" title="强制垃圾回收"></a>强制垃圾回收</h2><p>&emsp;当一个对象失去引用后，系统何时调用finalize()方法，何时回收资源是不可控的，能控制的只有对某个对象不再引用。虽然存在强制回收的方式：调用System类的gc()静态方法System.gc()和Buntime对象的gc()实例方法Runtime.getRuntime.gc()。但是这种方式只是通知系统回收，系统是否进行垃圾回收仍然是不可确定的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Gctest</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Gctest</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">finalize</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;系统正在清理&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;这里重写了finalize()方法，如果说进行了垃圾回收，那么就会调用到重写的方法，但是什么都没出现，那么代表没有进行回收。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Gctest</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Gctest</span>();</span><br><span class="line">            Runtime.getRuntime().gc();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">finalize</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;系统正在清理&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;这样子后发现就进行了回收。而且当在Eclipse的Run As&gt;Run Configurations&gt;Arguments&gt;VM arguments中添加参数<code>-verbose:gc</code>或<code>-XX:+PrintGC</code>可以看到垃圾回收的简略信息,而参数<code>-XX:+PrintGCDetails</code>可以看到详细信息。</p>
+<h2 id="finalize方法"><a href="#finalize方法" class="headerlink" title="finalize方法"></a>finalize方法</h2><p>&emsp;finalize()方法的原型为<code>protected void finalize() throws Throwable</code>,是定义在Object类中的实例方法，具有如下特点：</p>
+<ul>
+<li>永远不要主动调用某个对象的finalize方法，而应交给垃圾回收机制</li>
+<li>该方法何时被调用，是否被调用都是不确定的</li>
+<li>当该方法遇到异常时，垃圾回收机制不会报告任何异常，程序继续执行</li>
+</ul>
+<p>&emsp;由于该方法不一定会被执行，所以想清理类里的资源不能用这个方法，有专门的方法做这个。</p>
+<h2 id="对象的软，弱和虚引用"><a href="#对象的软，弱和虚引用" class="headerlink" title="对象的软，弱和虚引用"></a>对象的软，弱和虚引用</h2><p>&emsp;对于大部分对象，程序里都会有引用变量引用到该对象。除此之外，java.lang.ref包还提供了三个类：SoftReference,PhantomReference,WeakReference。四种对应了强引用，软引用，虚引用，弱引用。</p>
+<h3 id="强引用（StrongReference）"><a href="#强引用（StrongReference）" class="headerlink" title="强引用（StrongReference）"></a>强引用（StrongReference）</h3><p>&emsp;最常见的引用方式，当一个对象有一个或多个引用变量引用到它时，这就是强引用，是不可能被回收的。</p>
+<h3 id="软引用（SoftReference）"><a href="#软引用（SoftReference）" class="headerlink" title="软引用（SoftReference）"></a>软引用（SoftReference）</h3><p>&emsp;软引用需要通过SoftReference类实现，当一个对象只有软引用时，有可能被回收，特别是当内存空间不足时。</p>
+<h3 id="弱引用（WeakReference）"><a href="#弱引用（WeakReference）" class="headerlink" title="弱引用（WeakReference）"></a>弱引用（WeakReference）</h3><p>&emsp;弱引用需要通过WeakReference类实现比软引用更低的引用，对于只有弱引用的对象，系统总是会回收，不管内存够不够。但是不是立刻回收，具体什么时候还是要看垃圾回收机制。</p>
+<h3 id="虚引用（PhantomReference）"><a href="#虚引用（PhantomReference）" class="headerlink" title="虚引用（PhantomReference）"></a>虚引用（PhantomReference）</h3><p>&emsp;虚引用通过PhantomReference类实现，虚引用完全类似没有引用，虚引用主要用于跟踪垃圾回收状态，虚引用不能单独使用，必须和引用队列（ReferenceQueue）联合使用。</p>
+<hr>
+<p>&emsp;三个引用类都包含了一个get()方法，用于获取被它们引用的对象。</br><br>&emsp;引用队列由java.lang.ref.ReferenceQueue类表示，它用于保存被回收后的对象的引用。当联合使用软引用，弱引用和引用队列时，系统在回收被引用的对象后，将把被回收对象的引用添加到关联的引用队列。而对于虚引用，它实在对象被释放之前就被添加到关联的引用队列中，这使得可以在对象被回收之前采取行动。软引用和弱引用可以单独使用，但是虚引用不能。单独使用虚引用没什么意义，虚引用的作用就是跟踪对象被垃圾回收的状态，程序可以通过检查与虚引用关联的引用队列中是否已经包含了该虚引用，从而了解虚引用所引用的对象是否即将被回收。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.ref.WeakReference;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReferenceTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;算法导论&quot;</span>);</span><br><span class="line">        <span class="type">WeakReference</span> <span class="variable">wr</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">WeakReference</span>(str);</span><br><span class="line">        str = <span class="literal">null</span>;</span><br><span class="line">        System.out.println(wr.get());</span><br><span class="line">        System.gc();</span><br><span class="line">        System.runFinalization();</span><br><span class="line">        System.out.println(wr.get());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;上面的代码创建了一个字符串,str强引用到字符串，wr弱引用到字符串，然后将str与对象的引用切断。结果会输出字符串和null。不要使用<code>String str=&quot;算法导论&quot;;</code>的方式，这样产生的字符串将有常量池管理，系统不会回收这个字符串直接量。</br><br>&emsp;如果要使用这种由软引用或弱引用引用的对象，在使用get()方法后要注意是否成功取出了对象，因为有可能已近被释放了。</p>
+<h1 id="使用jar文件"><a href="#使用jar文件" class="headerlink" title="使用jar文件"></a>使用jar文件</h1><p>&emsp;jar类似于压缩文件，与zip文件兼容，但是多了一个META-INF&#x2F;MANIFEST.MF的清单文件。当把jar文件给别人使用时，只用把jar的位置添加到CLASSPATH中，JVM就会自动在内存中解压这个包，把这个包作为CLASSPATH的一部分，可以直接调用里面的文件。</p>
+<h2 id="jar命令详解"><a href="#jar命令详解" class="headerlink" title="jar命令详解"></a>jar命令详解</h2><p>&emsp;生成jar的工具是由bin目录下的jar.exe工具来做，会用到lib目录下的tools.jar，这个通常会自动加载。</p>
+<h3 id="创建JAR文件"><a href="#创建JAR文件" class="headerlink" title="创建JAR文件"></a>创建JAR文件</h3><p>&emsp;<code>jar cf test.jar test</code>表示将当前文件夹下的test文件夹中所有内容生成test.jar。如果加上参数v:<code>cvf</code>，就会显式详细压缩过程。</p>
+<h3 id="不添加清单文件"><a href="#不添加清单文件" class="headerlink" title="不添加清单文件"></a>不添加清单文件</h3><p>&emsp;<code>jar cvfM test.jar test</code>这样写表示不生成清单文件。</p>
+<h3 id="自定义清单文件内容"><a href="#自定义清单文件内容" class="headerlink" title="自定义清单文件内容"></a>自定义清单文件内容</h3><p>&emsp;<code>jar cvfm test.jar manifest.mf test</code>注意manifest.mf文件只是意味着需要一个清单文件，不是说非要这个名字，也不是非要这个格式。虽然格式和名字不受限制，但是内容的格式有限制，依照<code>key:&lt;空格&gt;value</code>，有如下要求：</p>
+<ul>
+<li>每行只能写一个key-value对，且必须顶头写</li>
+<li>文件开头不能有空行</li>
+<li>文件以一个空行结尾</li>
+</ul>
+<p>&emsp;保存在当前文件夹，名字随意，用txt格式。假如添加了如下内容，且保存为a.txt。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Manifest-Version: <span class="number">1.</span>0txt</span><br><span class="line">Created-By: <span class="number">9.0</span><span class="number">.4</span> (Oracle Corporation)</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;运行命令<code>jar cvfm test.jar a.txt test</code>，打开jar文件，test.jar&gt;META-INF&gt;MANIFEST.MF，里面写的就是上面的内容。</p>
+<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><ul>
+<li><code>jar tf test.jar</code>，查看jar包中的内容。若内容过多，可用<code>jar tf test.jar &gt; b.txt</code>将结果重定向至b.txt中</li>
+<li><code>jar tvf test.jar</code>，查看详细内容，包括大小，时间等</li>
+<li><code>jar xf test.jar</code>，解压test.jar到当前目录</li>
+<li><code>jar xvf test.jar</code>，带提示信息解压</li>
+<li><code>jar uf test.jar Hello.class</code>，将Hello.class添加到包中，.java文件也可，都不会添加到test文件夹中，而是在上一层级</li>
+<li><code>jar uvf test.jar Hello.class</code>，带提示信息添加</li>
+</ul>
+<h2 id="创建可执行的jar文件"><a href="#创建可执行的jar文件" class="headerlink" title="创建可执行的jar文件"></a>创建可执行的jar文件</h2><p>&emsp;<code>jar cvfe test.jar test.Test test</code>，用-e参数指定主类，要注意在jar文件中的test文件夹下有Test这个竹类，且要是.class文件。前面，所有的添加操作都是如此，一定要把.java和.class文件都包含进去。</br><br>&emsp;运行这个jar包的命令是<code>java -jar test.jar</code>和<code>javaw test.jar</code>。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/05/01/Java%E7%AC%94%E8%AE%B08/" data-id="cltr7868y0028k4un7zdl4l1w" data-title="Java笔记8" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/05/06/Java%E7%AC%94%E8%AE%B09/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java笔记9
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/04/24/Python%E7%AC%94%E8%AE%B01/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Python笔记1</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/cpp/" style="font-size: 17.5px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px;">汇编</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">网络</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 12.5px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

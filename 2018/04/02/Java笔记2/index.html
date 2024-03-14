@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Java笔记2 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="一周过去了，又有些收获。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java笔记2">
+<meta property="og:url" content="http://example.com/2018/04/02/Java%E7%AC%94%E8%AE%B02/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一周过去了，又有些收获。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/Java%E7%AC%94%E8%AE%B02%5C%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/Java%E7%AC%94%E8%AE%B02%5C%E7%A4%BA%E6%84%8F%E5%9B%BE2.png">
+<meta property="article:published_time" content="2018-04-02T12:29:52.000Z">
+<meta property="article:modified_time" content="2024-03-14T12:19:34.959Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/Java%E7%AC%94%E8%AE%B02%5C%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Java笔记2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/04/02/Java%E7%AC%94%E8%AE%B02/" class="article-date">
+  <time class="dt-published" datetime="2018-04-02T12:29:52.000Z" itemprop="datePublished">2018-04-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Java笔记2
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>一周过去了，又有些收获。</p>
+<span id="more"></span>
+
+<p>1.基本类型打包器的一点内幕</p>
+<p>编译程序会以下代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Integer</span> <span class="variable">number</span> <span class="operator">=</span> <span class="number">100</span>;</span><br></pre></td></tr></table></figure>
+
+<p>转换为</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Integer</span> <span class="variable">localInteger</span> <span class="operator">=</span> Integer.valueOf(<span class="number">100</span>);</span><br></pre></td></tr></table></figure>
+
+<p>查看src.zip文件夹中的java&#x2F;lang中的Integer.java,有关valueOf()的操作内容如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Integer <span class="title function_">valueOf</span><span class="params">(<span class="type">int</span> i)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)</span><br><span class="line">        <span class="keyword">return</span> IntegerCache.cache[i + (-IntegerCache.low)];</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Integer</span>(i);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>IntegerCache.low</code>和<code>IntegerCache.high</code>的默认值是-128和127.当<code>i</code>的值在这中间时就会检查前面是否有相同的值，如果有就直接返回这个实例。所以</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Integer i1=<span class="number">100</span>;</span><br><span class="line">Integer i2=<span class="number">100</span>;</span><br><span class="line">System.out.println(i1==i2);</span><br></pre></td></tr></table></figure>
+
+<p>结果是true，但是换成200就是false。</p>
+<hr>
+<p>2.数组</p>
+<p>首先，数组是对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] scores = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">2</span>];</span><br></pre></td></tr></table></figure>
+
+<p>可以将<code>int[]</code>看作类名，这个类是由JVM动态产生的，而<code>scores</code>则是参考名称。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[][] scores = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">2</span>][<span class="number">2</span>];</span><br></pre></td></tr></table></figure>
+
+<p>应该理解为一个<code>int[]</code>的一维数组。如图</p>
+<p><img src="/Java%E7%AC%94%E8%AE%B02%5C%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="示意图"></p>
+<p>我的理解是：</p>
+<ol>
+<li>有一个参考，是<code>int[][]</code>类型的，名字是<code>scores</code>,</li>
+<li><code>scores</code>指向一个数组，数组长度为二，分别装了一个<code>int[]</code>类型的参考，</li>
+<li>这两个参考有指向了两个连续的内存空间，分别里面是0，因为数组默认值是0。</li>
+</ol>
+<p> 默认值的情况：</p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>初始值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>byte</td>
+<td>0</td>
+</tr>
+<tr>
+<td>short</td>
+<td>0</td>
+</tr>
+<tr>
+<td>int</td>
+<td>0</td>
+</tr>
+<tr>
+<td>long</td>
+<td>0L</td>
+</tr>
+<tr>
+<td>float</td>
+<td>0.0F</td>
+</tr>
+<tr>
+<td>double</td>
+<td>0.0D</td>
+</tr>
+<tr>
+<td>char</td>
+<td>\u0000</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>false</td>
+</tr>
+<tr>
+<td>类</td>
+<td>null</td>
+</tr>
+</tbody></table>
+<p>看的出来，第一层的数组不影响第二层的，所以：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[][] arr = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">2</span>][];</span><br><span class="line">arr[<span class="number">0</span>] = <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br><span class="line">arr[<span class="number">1</span>] = <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;;</span><br><span class="line"><span class="comment">//------------------------------------</span></span><br><span class="line"><span class="type">int</span>[][] arr1 = &#123;</span><br><span class="line">    &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;,</span><br><span class="line">    (<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Integer[] scores = <span class="keyword">new</span> <span class="title class_">Integer</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码建立了0个Integer数组，因为类的默认值是null。</p>
+<hr>
+<p>3.数组复制</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] scores1 = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;</span><br><span class="line"><span class="type">int</span>[] scores2 =<span class="keyword">new</span> <span class="title class_">int</span>[scores1.lenght];</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;scores1.length;++i)&#123;</span><br><span class="line">    scores2[i] = scores1[i];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种复制要先创建一个新数组，再将值一个个填进去。</p>
+<p>也有简单方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] scores1 = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;</span><br><span class="line"><span class="type">int</span>[] scores2 =<span class="keyword">new</span> <span class="title class_">int</span>[scores1.lenght];</span><br><span class="line">System.arraycopy(scores1,<span class="number">0</span>,scores2,<span class="number">0</span>,scores1.length);</span><br></pre></td></tr></table></figure>
+
+<p>五个参数是：来源数组，来源起始索引，目的数组，目的起始索引，复制长度。</p>
+<p>在JDK6以上，有Arrays.copyOf()方法。不需要手动建立新数组。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] scores1 = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;</span><br><span class="line"><span class="type">int</span>[] scores2 = Arrays.copyOf(scores1,scores1.length);</span><br></pre></td></tr></table></figure>
+
+<p>以上都是基本数据类型的复制，遇到对象时会不一样。</p>
+<p>首先建立类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Clothes</span>&#123;</span><br><span class="line">    String color;</span><br><span class="line">    <span class="type">char</span> size;</span><br><span class="line">    Clothes(String color,<span class="type">char</span> size)&#123;</span><br><span class="line">        <span class="built_in">this</span>.color = color;</span><br><span class="line">        <span class="built_in">this</span>.size = size;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ShallowCopy</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="keyword">static</span> <span class="title function_">mian</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        Clothes[] Carray1 = &#123;<span class="keyword">new</span> <span class="title class_">Clothes</span>(<span class="string">&quot;red&quot;</span>,<span class="string">&#x27;L&#x27;</span>),<span class="keyword">new</span> <span class="title class_">Clothes</span>(<span class="string">&quot;blue&quot;</span>,<span class="string">&#x27;M&#x27;</span>)&#125;;</span><br><span class="line">        Clothes[] Carray2 = <span class="keyword">new</span> <span class="title class_">Clothes</span>[Carray1.length];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;Carray1.length;++i)&#123;</span><br><span class="line">            Carray2[i]=Carry1[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>问题就出在这句<code>Carray2[i]=Carry1[i]</code>。对于基本数据类型，假设a&#x3D;3,a&#x3D;b,则b&#x3D;3。但是对于对象来说，<code>=</code>代表了参考的相同，比如有个数组对象，参考名称是array1，如果，array2&#x3D;array1，意思是这两个参考指向了同一个对象。从始至终，这里只会有一个对象，而我复制数组，显然是要两个对象（尽管他们一模一样）。</p>
+<p>这种不成功的复制叫浅层复制，如图：</p>
+<p><img src="/Java%E7%AC%94%E8%AE%B02%5C%E7%A4%BA%E6%84%8F%E5%9B%BE2.png" alt="示意图"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DeepCopy</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="keyword">static</span> <span class="title function_">mian</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        Clothes[] Carray1 = &#123;<span class="keyword">new</span> <span class="title class_">Clothes</span>(<span class="string">&quot;red&quot;</span>,<span class="string">&#x27;L&#x27;</span>),<span class="keyword">new</span> <span class="title class_">Clothes</span>(<span class="string">&quot;blue&quot;</span>,<span class="string">&#x27;M&#x27;</span>)&#125;;</span><br><span class="line">        Clothes[] Carray2 = <span class="keyword">new</span> <span class="title class_">Clothes</span>[Carray1.length];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;Carray1.length;++i)&#123;</span><br><span class="line">            <span class="type">Clothes</span> <span class="variable">c</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Clotnes</span>(Carray1[i].color,Carray1[i].size);</span><br><span class="line">            Carray2[i] = c;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每次都新建一个对象，从Carray1那把相应的属性赋给它，再将这个对象的参考放入数组。</p>
+<p>4.字符串</p>
+<p>（1）将字符串转换为数字</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sum</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(Stirng[] args)</span>&#123;</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">scanner</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">        <span class="type">long</span> <span class="variable">sum</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">long</span> <span class="variable">number</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">do</span>&#123;</span><br><span class="line">            System.out.print(<span class="string">&quot;输入数字：&quot;</span>);</span><br><span class="line">            number = Long.parseLong(scanner.nextLine());</span><br><span class="line">            sum += number;</span><br><span class="line">        &#125;<span class="keyword">while</span>(number != <span class="number">0</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;总和：&quot;</span>+sum);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>number = Long.parseLong(scanner.nextLine());</code>可以将传入的字符串转化为long类型。其他转换方式与此类似：<code>Byte.parseByte(number)</code>。</p>
+<p>（2）字符串常量与字符串池</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> <span class="variable">name</span> <span class="operator">=</span> &#123;<span class="string">&#x27;k&#x27;</span>,<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;t&#x27;</span>,<span class="string">&#x27;e&#x27;</span>&#125;;</span><br><span class="line"><span class="type">String</span> <span class="variable">name1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(name);</span><br><span class="line"><span class="type">String</span> <span class="variable">name2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(name);</span><br><span class="line">System.out.println(name1==name2);</span><br></pre></td></tr></table></figure>
+
+<p>显然是false，因为new了两个对象，他们的内容是一样的，但是斌不是同一个对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">name1</span> <span class="operator">=</span> <span class="string">&quot;kate&quot;</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">name2</span> <span class="operator">=</span> <span class="string">&quot;kate&quot;</span>;</span><br><span class="line">System.out.println(name1==name2);</span><br></pre></td></tr></table></figure>
+
+<p>是什么呢？是true。</p>
+<p>为了效率考虑，以””包含的字符串，只要内容相同，无论在程序中出现了多少次，JVM都只会建立一个String实例。</p>
+<p>注意：**</u>new一定是建立了新对象。</u>**</p>
+<p>（3）不可变动字符串</p>
+<p>在Java中，字符串对象一旦建立，就无法再次更改，对象中没有任何方法可以更改。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">name1</span> <span class="operator">=</span> <span class="string">&quot;Java&quot;</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">name2</span> <span class="operator">=</span> name1 + <span class="string">&quot;world&quot;</span>;</span><br><span class="line">System.out.println(name2);</span><br></pre></td></tr></table></figure>
+
+<p>会显示Javaworld，显然并不是更改了name1的内容。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="string">&quot;Java&quot;</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">s1</span> <span class="operator">=</span> (<span class="keyword">new</span> <span class="title class_">StringBuilder</span>()).append(s).append(<span class="string">&quot;world&quot;</span>).toString();</span><br></pre></td></tr></table></figure>
+
+<p>大意是会变成建立java.lang.StringBuilder对象，使用其append()方法把s和”world”拼接，转换为toString()返回。</p>
+<p>简单说，用+拼接会产生新的String实例。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/04/02/Java%E7%AC%94%E8%AE%B02/" data-id="cltr7868w001wk4un1b258a4y" data-title="Java笔记2" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/04/06/Java%E7%AC%94%E8%AE%B03/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java笔记3
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/03/29/Java%E7%AC%94%E8%AE%B01/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java笔记1</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/cpp/" style="font-size: 17.5px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px;">汇编</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">网络</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 12.5px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

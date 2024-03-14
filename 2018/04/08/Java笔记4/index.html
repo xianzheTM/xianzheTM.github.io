@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Java笔记4 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="&emsp;这篇的主要内容是查漏补缺。原因是今天想继续下一部分：继承和多态，结果发现林的书有许多东西讲的太精简，甚至有失偏颇。所以下面我将结合李的书和博客多前面的内容进行回顾。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java笔记4">
+<meta property="og:url" content="http://example.com/2018/04/08/Java%E7%AC%94%E8%AE%B04/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="&emsp;这篇的主要内容是查漏补缺。原因是今天想继续下一部分：继承和多态，结果发现林的书有许多东西讲的太精简，甚至有失偏颇。所以下面我将结合李的书和博客多前面的内容进行回顾。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/Java%E7%AC%94%E8%AE%B04/%E6%95%B0%E7%BB%84.png">
+<meta property="article:published_time" content="2018-04-08T08:56:36.000Z">
+<meta property="article:modified_time" content="2024-03-14T12:19:34.993Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/Java%E7%AC%94%E8%AE%B04/%E6%95%B0%E7%BB%84.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Java笔记4" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/04/08/Java%E7%AC%94%E8%AE%B04/" class="article-date">
+  <time class="dt-published" datetime="2018-04-08T08:56:36.000Z" itemprop="datePublished">2018-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Java笔记4
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>&emsp;这篇的主要内容是查漏补缺。原因是今天想继续下一部分：继承和多态，结果发现林的书有许多东西讲的太精简，甚至有失偏颇。所以下面我将结合李的书和博客多前面的内容进行回顾。</p>
+<span id="more"></span>
+
+<h1 id="1-数组"><a href="#1-数组" class="headerlink" title="1.数组"></a>1.数组</h1><h2 id="内存中的数组"><a href="#内存中的数组" class="headerlink" title="内存中的数组"></a>内存中的数组</h2><p>&emsp;数组引用变量只是一个引用，类似于指针，它存放了对象的真是地址，但是这只是类比理解，实际上还是有差别的。实际的数组对象存放在堆中，而引用变量如果是一个局部变量就是在栈内存中。（是不是又像c++）同样的，当一个方法执行时，每个方法都会建立内存栈，然后将变量依次放入栈中，当使用完时也就被销毁了。堆中的对象是不会这样的，只要有引用指向它，它就会存在，当没有任何引用指向它时，它就会被垃圾管理器回收。这和C++不一样，C++中的需要自己手动创建，手动释放。<br>&emsp;引用的指定并不是唯一的，不是我被指定给了某个对象就不能再被指定给别人，只要类型相符就没有问题。</p>
+<h3 id="基本类型数组的初始化"><a href="#基本类型数组的初始化" class="headerlink" title="基本类型数组的初始化"></a>基本类型数组的初始化</h3><p>&emsp;对于基本类型数组，数组元素的值是直接存在对应的数组元素中的，因此，初始化数组时先为该数组分配内存空间，然后将数组的值放入里面就行。注意细节：分配空间后，里面并不是空的，而是默认值，关于默认值前面的笔记提到过。</p>
+<h3 id="引用类型数组的初始化"><a href="#引用类型数组的初始化" class="headerlink" title="引用类型数组的初始化"></a>引用类型数组的初始化</h3><p>先给出代码：<br>定义类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> height;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">info</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;我的年龄是：&quot;</span>+age+<span class="string">&quot;我的身高是：&quot;</span>+height)；</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReferenceArrayTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        Person[] students = <span class="keyword">new</span> <span class="title class_">Person</span>[<span class="number">2</span>];</span><br><span class="line">        <span class="type">Person</span> <span class="variable">zhang</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Person</span>();</span><br><span class="line">        <span class="type">Person</span> <span class="variable">lee</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Person</span>();</span><br><span class="line">        zhang.age = <span class="number">15</span>;</span><br><span class="line">        zhang.height = <span class="number">158</span>;</span><br><span class="line">        lee.height = <span class="number">161</span>;</span><br><span class="line">        students[<span class="number">0</span>]=zhang;</span><br><span class="line">        students[<span class="number">1</span>]=lee;</span><br><span class="line">        lee.info();</span><br><span class="line">        student[<span class="number">1</span>].info();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果非常简单。问题在于下面这张图：</p>
+<p><img src="/Java%E7%AC%94%E8%AE%B04/%E6%95%B0%E7%BB%84.png" alt="数组"></p>
+<p>&emsp;注意图的左边部分，是不是觉得很变扭，我总觉得这里不对。后来查到，引用变量是放在栈中的。关于内存空间分配，参看链接（我还没研究过相关内容，不保证文章的正确）：</br><br>[Java的内存分配]:<a target="_blank" rel="noopener" href="https://www.cnblogs.com/SaraMoring/p/5687466.html">https://www.cnblogs.com/SaraMoring/p/5687466.html</a></p>
+<h1 id="this的使用"><a href="#this的使用" class="headerlink" title="this的使用"></a>this的使用</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Dog</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">jump</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;正在执行jump方法&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.jump();</span><br><span class="line">        System.out.println(<span class="string">&quot;正在执行run方法&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;谁在调用这个方法，this就代表谁。</br>&emsp;在上面的代码中，假如我创建了一个<code>dog</code>对象，<code>this.jump()</code>代表调用dog的jump()方法，这种在同一个对象中的两个方法之间的依赖，在用的时候可以省略this。</p>
+<blockquote>
+<p>&emsp;省略this前缀只是一种假象，虽然程序员省略了调用jump()方法之前的this ,但实际上这个this依然是存在的。根据汉语语法习惯：完整的语句至少包括主语、谓语、宾语，在面向对象的世界里，主、谓、宾的结构完全成立，例如 “猪八戒吃西瓜”是一条汉语语句，转换为面向对象的语法，就可以写成“猪八戒.吃(西瓜);”，因此本书常常把调用成员变量、方法的对象称为“主调(主语调用者的简称)”。对于Java语言来说，调用成员变量、方法时，主调是必不可少的，即使代码中省略了主调，但实际的主调依然存在。一般来说，如果调用static修饰的成员(包括方法、成员变量)时省略了前面的主调，那么默认使用该类作为主调；如果调用没有static修饰的成员(包括方法、成员变量)时省略了 前面的主调，那么默认使用this作为主调。</p>
+</blockquote>
+<h1 id="关于静态与非静态"><a href="#关于静态与非静态" class="headerlink" title="关于静态与非静态"></a>关于静态与非静态</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StaticAccessNoStatic</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">info</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;调用info()方法&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        info();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>main()方法是静态的，它是属于类的，info()是属于对象的方法，必须使用对象来调用。类比上一节的代码，main方法调用info方法时，相当于调用<code>this.info()</code>方法，但是再三强调过了，static是类的，不属于对象，也就无从调用。而且就算允许了，那么，this是没法引用有效的对象的。<br>但是，但是，最不合理的地方就是：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Dog</span> <span class="variable">dog</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Dog</span>();</span><br></pre></td></tr></table></figure>
+
+<p>假定run()方法是static的，你是可以通过对象dog来调用的。但是，必须杜绝这种写法，正确的做法是：<code>Dog.run;</code>。</br><br>还有一些特殊情况，例如：当类的成员变量和类的方法的局部变量同名时，就需要用到this。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Dog</span>&#123;</span><br><span class="line">    String aa;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">func</span><span class="params">()</span>&#123;</span><br><span class="line">        String aa;</span><br><span class="line">        System.out.println(<span class="built_in">this</span>.aa+aa);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以说，在构造函数（构造器）中的this就是这么来的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Dog</span> &#123;</span><br><span class="line">    String name;</span><br><span class="line">    <span class="type">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Dog</span><span class="params">(String name, <span class="type">int</span> age)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">        <span class="built_in">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在构造中，this是指new出来的新对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CashCard</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String number;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> balance;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> bonus;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">CashCard</span><span class="params">(String number, <span class="type">int</span> balance, <span class="type">int</span> bonus)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.number = number;</span><br><span class="line">        <span class="built_in">this</span>.balance = balance;</span><br><span class="line">        <span class="built_in">this</span>.bonus = bonus;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>构造器是被new调用的，所以this指代的是这个新对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CashCardTest</span>&#123;</span><br><span class="line">    <span class="type">CashCard</span> <span class="variable">card</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CashCard</span>(<span class="string">&quot;500&quot;</span>,<span class="number">20</span>,<span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以得出推测，谁在调用含有this的方法，this就代表了谁。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReturnThis</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> ReturnThis <span class="title function_">grow</span><span class="params">()</span> &#123;</span><br><span class="line">        age++;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">ReturnThis</span> <span class="variable">rt</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ReturnThis</span>();</span><br><span class="line">        rt.grow().grow().grow();</span><br><span class="line">        System.out.println(<span class="string">&quot;rt的成员变量值是：&quot;</span>+rt.age);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;从grow()方法的返回值类型也可以看出，this是指代的调用它的rt。当执行了第一次调用后，原本的<code>rt.grow().grow().grow();</code>意思就是<code>rt.grow().grow();</code>，只不过现在的rt中的成员变量值已经改变。因为返回的是一个对象，所以可以连续调用。</p>
+<h1 id="关于方法的一些思考"><a href="#关于方法的一些思考" class="headerlink" title="关于方法的一些思考"></a>关于方法的一些思考</h1><p>&emsp;方法很像函数，在C++中函数是老大，一切功能都是依靠函数，但在Java中类是老大，一切方法都必须在类或对象中。方法的调用是通过“类.方法”或“对象.方法”,必须通过方法和类。即使是调用同一个类中的不同方法，如果是static的，是依靠类，如果是普通的，是依靠this。</p>
+<h2 id="关于值传递"><a href="#关于值传递" class="headerlink" title="关于值传递"></a>关于值传递</h2><p>&emsp;在笔记3中我贴了两篇有关的博客，说的非常清楚了。值传递传递的是值的拷贝，对于基本类型，这会造成你修改了传递过去的拷贝值并不会影响原来的值，但是对于引用对象来说，确实是传递了值——引用，但并没有拷贝对象（没有new）,所以修改拷贝值指向的对象是会影响到原来的对象的。</p>
+<h1 id="成员变量与局部变量"><a href="#成员变量与局部变量" class="headerlink" title="成员变量与局部变量"></a>成员变量与局部变量</h1><p>&emsp;一个是类中的变量，另一个是方法中的变量。成员变量也可以加上static，就成了类变量，同样的具有类方法的相关表现。还是上面说过的坚决杜绝通过实例对象访问类的静态的东西，不论方法还是成员。</p>
+<h1 id="封装与隐藏"><a href="#封装与隐藏" class="headerlink" title="封装与隐藏"></a>封装与隐藏</h1><h2 id="访问控制符"><a href="#访问控制符" class="headerlink" title="访问控制符"></a>访问控制符</h2><p>&emsp;private，protect，public三个，初次之外其实还有个default。</br><br>&emsp;private:如果类中的成员，包括成员变量，方法，构造器等，使用这个关键字，则这个成员只能在当前类中使用。用来修饰成员变量最合适。</br><br>&emsp;default:如果类中的成员，包括成员变量，方法，构造器等或者一个外部类不使用任何访问控制符，它则是包访问权限，这个成员只能在当前包中使用。说的有点绕，其实就是没有任何控制符的成员只能在同一个包中使用。</br><br>&emsp;protected:如果类中的成员，包括成员变量，方法，构造器等，使用这个关键字，则这个成员既可以被同一个包中的其他类使用，也可以被不同包中的<strong>子类</strong>使用。</br><br>&emsp;public:最宽松的访问控制，不论是否在同一个包中，是否具有父子继承关系，不论在哪都可以使用。</br></p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">private</th>
+<th align="center">default</th>
+<th align="center">protected</th>
+<th align="center">public</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">同一个类中</td>
+<td align="center">Y</td>
+<td align="center">Y</td>
+<td align="center">Y</td>
+<td align="center">Y</td>
+</tr>
+<tr>
+<td align="center">同一个包中</td>
+<td align="center"></td>
+<td align="center">Y</td>
+<td align="center">Y</td>
+<td align="center">Y</td>
+</tr>
+<tr>
+<td align="center">子类中</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">Y</td>
+<td align="center">Y</td>
+</tr>
+<tr>
+<td align="center">全局范围内</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">Y</td>
+</tr>
+</tbody></table>
+<p>*一个Java源文件中如果有一个public类，那么文件名必须是这个类名，不然，在别的地方要怎么调用这个类呢。</br><br>关于访问控制符有以下几个原则：</br><br>1.类里的绝大部分成员变量都应该使用private，只有一些static修饰的，类似全局变量的成员变量，才考虑用public。还有一些辅助类的其他方法的方法（工具方法）也应该是private。</br><br>2.如果某个类主要用于做为父类，类里的大部分方法只被用来让子类重写，而不像被外界调用，则应该用protected。</p>
+<h2 id="关于package"><a href="#关于package" class="headerlink" title="关于package"></a>关于package</h2><p>&emsp;在没有import package时，在一个父包中使用子包中的类，也必须写完整的包路径和类名。父包和子包确实有内在的逻辑关系，通常子包是父包的一个模块，但这并不代表在用法上有任何关系，使用时必须用完整的名字。</br><br>&emsp;可以使用import导入包，<code>import java.util.*</code>表示导入这个包下面的所有类，不包括下面的子包。</br><br>&emsp;但不是全部导入就行，因为可能存在不同的包中有相同的类名，还是需要在使用时显式的指定。</p>
+<h1 id="再论构造器"><a href="#再论构造器" class="headerlink" title="再论构造器"></a>再论构造器</h1><p>&emsp;构造器是构建Java对象的重要手段，但是，要强调的是，不是构造器新建了Java对象。根本的还是new关键字。<code>ReturnThis rt = new ReturnThis();</code>可以看出，最初额内存空间是有new创建的，而构造器进一步对这个空间内的东西进行创建。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/04/08/Java%E7%AC%94%E8%AE%B04/" data-id="cltr7868x0020k4una2s9b9oz" data-title="Java笔记4" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/04/10/Java%E7%AC%94%E8%AE%B05/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java笔记5
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/04/06/Java%E7%AC%94%E8%AE%B03/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java笔记3</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/cpp/" style="font-size: 17.5px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px;">汇编</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">网络</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 12.5px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Java笔记6 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="&emsp;在上一篇中，虽然写到了继承，但是并没有详细深入。这篇来看看相关问题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java笔记6">
+<meta property="og:url" content="http://example.com/2018/04/19/Java%E7%AC%94%E8%AE%B06/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="&emsp;在上一篇中，虽然写到了继承，但是并没有详细深入。这篇来看看相关问题。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-04-19T07:29:05.000Z">
+<meta property="article:modified_time" content="2024-03-14T12:19:35.030Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Java笔记6" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/04/19/Java%E7%AC%94%E8%AE%B06/" class="article-date">
+  <time class="dt-published" datetime="2018-04-19T07:29:05.000Z" itemprop="datePublished">2018-04-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Java笔记6
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>&emsp;在上一篇中，虽然写到了继承，但是并没有详细深入。这篇来看看相关问题。</p>
+<span id="more"></span>
+
+<h1 id="继承共同行为"><a href="#继承共同行为" class="headerlink" title="继承共同行为"></a>继承共同行为</h1><p>&emsp;先做出如下假定：有个游戏有多个角色，包括剑士，魔法师等，每个角色都有血量，名字，等级，攻击方式等。<br>&emsp;观察发现，每个角色都有名字，血量，等级三个共同特点，那么就可以将这部份提升为一个父类role（我觉得基类可能是个更好的名字）。然后剑士，魔法师这些子类（派生类）继承这些共有的属性，扩展自己的方法（攻击方式）。</p>
+<h1 id="重新定义行为"><a href="#重新定义行为" class="headerlink" title="重新定义行为"></a>重新定义行为</h1><p>&emsp;进一步观察，发现每个角色都要攻击，那么就可以把“攻击”这个方法（<code>fight()</code>）提取到父类中。然后在子类中重写(Override)这个方法。父类中的fight()方法实际是空的，具体的攻击行为留到子类中重写。我这里写一个调用<code>fight()方法</code>的方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">drawFight</span><span class="params">(Role role)</span>&#123;</span><br><span class="line">    System.out.println(role.getName);</span><br><span class="line">    role.fight();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;我将传入的参数定义为Role类型，这样不管我传入的时剑士还是魔法师类型都可以。这就是多态的表现形式。剑士是（is-a）Role类型。在重写这个方法时，如果一不小心写错了，例如fight()写成了Fight()，那就不是重写了。可以在重写的上一行添加标注<code>@Override</code>。它会检查该方法是否重新定义了某方法。</p>
+<h1 id="抽象方法和抽象类"><a href="#抽象方法和抽象类" class="headerlink" title="抽象方法和抽象类"></a>抽象方法和抽象类</h1><p>&emsp;在上面的例子中，父类中的fight()方法中是空的，问题是如果不使用子类的fight()方法就会出现没有攻击行为的情况。这种情况下可以把fight()理解为一个抽象方法，在前面加上<code>abstract</code>关键字。这表示这个方法是不完整的，同时，这个类也是不完整的，因此类也要加上<code>abstract</code>。当一个子类继承抽象类时，要么自己也保持抽象类，要么就是将这个抽象方法重写完整。这里只是简单提一下，具体细节在下篇讨论。</p>
+<h1 id="protected成员"><a href="#protected成员" class="headerlink" title="protected成员"></a>protected成员</h1><p>&emsp;对于继承来说，protected是非常重要的。protected的成员相较于默认的多了个子类范围，即可以在同一个类中，同一个包中，同一个或不同个包的子类中访问。</p>
+<h1 id="重写的一些小细节"><a href="#重写的一些小细节" class="headerlink" title="重写的一些小细节"></a>重写的一些小细节</h1><p>&emsp;前面写过，可以用super来调用父类的东西，但是要注意的是不能调用private的父类。同时，重写还要注意“两同两小一大”的规则，权限只能扩大不能缩小。在JDK5之前，返回类型是必须相同的，但在5之后可以相同也可以更小。即可以返回一个父类对象或一个子类对象。</br><br>&emsp;在林的书中说：static的方法属于类所有，在子类中定义了一个相同的static方法,这个方法属于子类，而不是重写。我觉得这句话有错，重写的方法本身就不是父类的，它就是子类的方法，父类的是父类的，两者不产生任何影响，只是说子类的会将父类的“盖”住，导致调用的时候会用到子类的。</p>
+<h1 id="能否继承private"><a href="#能否继承private" class="headerlink" title="能否继承private"></a>能否继承private</h1><p>参看链接<a target="_blank" rel="noopener" href="https://blog.csdn.net/zhousenshan/article/details/51222908">https://blog.csdn.net/zhousenshan/article/details/51222908</a></p>
+<h1 id="再论-和equals"><a href="#再论-和equals" class="headerlink" title="再论&#x3D;&#x3D;和equals"></a>再论&#x3D;&#x3D;和equals</h1><h2 id=""><a href="#" class="headerlink" title="&#x3D;&#x3D;"></a>&#x3D;&#x3D;</h2><p>&emsp;当比较的数据是基本数据类型，&#x3D;&#x3D;在两个数据大小一致时返回true，即使两个数据的类型并不一致。</br><br>&emsp;当比较的是引用对象时，&#x3D;&#x3D;只有在两个引用变量指向同一个对象时才返回true。同时，&#x3D;&#x3D;不可以用于比较类型上没有父子关系的两个对象。</br></p>
+<h2 id="equals"><a href="#equals" class="headerlink" title="equals"></a>equals</h2><p>&emsp;本以为equals就是用来比较的是对象的值，但实际上还是有点区别的。首先，在Object中，equals和&#x3D;&#x3D;的效果是一样的，都是比较两个是否是同一个对象（比较内存地址）<br>参考链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/snowqoo/article/details/2455605">https://blog.csdn.net/snowqoo/article/details/2455605</a>，<a target="_blank" rel="noopener" href="https://www.cnblogs.com/www123----/p/7857298.html">https://www.cnblogs.com/www123----/p/7857298.html</a>,<a target="_blank" rel="noopener" href="https://www.cnblogs.com/yangzhilong/p/6391548.html">https://www.cnblogs.com/yangzhilong/p/6391548.html</a></p>
+<h1 id="toString方法"><a href="#toString方法" class="headerlink" title="toString方法"></a>toString方法</h1><p>&emsp;有如下代码（不完整）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Person</span> <span class="variable">P</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&quot;孙悟空&quot;</span>);</span><br><span class="line">System.out.println(p);</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;当答应一个对象时，会返回“类名+@+hashCode”值，这是调用了toString()方法。它是一个特殊的方法，用于在打印对象时输出“自我描述”信息。<code>System.out.println(p);</code>相当于<code>System.out.println(p.toString());</code>。但是原本的返回值的信息太简略了，可以重载Object类的toString()方法。</p>
+<h1 id="类成员"><a href="#类成员" class="headerlink" title="类成员"></a>类成员</h1><p>&emsp;在Java类中只能包含成员变量，方法，构造器，初始化块，内部类（包括接口，枚举）五种成员，static可以修饰除构造器之外的四种，用static修饰的成员属于类，而不属于某个对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">NullAccessStatic</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;static修饰的类方法&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        NullAccessStatic nas=<span class="literal">null</span>;</span><br><span class="line">        nas.test();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="单例-Singleton-类"><a href="#单例-Singleton-类" class="headerlink" title="单例(Singleton)类"></a>单例(Singleton)类</h1><p>&emsp;在某些时候，不需要根据类创建多个对象，只需要一个。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getinstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="literal">null</span>) &#123;</span><br><span class="line">            instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SingletonTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">s1</span> <span class="operator">=</span> Singleton.getinstance();</span><br><span class="line">        <span class="type">Singleton</span> <span class="variable">s2</span> <span class="operator">=</span> Singleton.getinstance();</span><br><span class="line">        System.out.println(s1 == s2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;首先需要将原来的构造函数隐藏起来，防止自由创建对象。在类中提供一个类变量存储对象的缓存，然后提供一个静态的方法用来在缓存为空时生成对象，如果缓存不为空，就将这个缓存返回。</p>
+<h1 id="final修饰符"><a href="#final修饰符" class="headerlink" title="final修饰符"></a>final修饰符</h1><p>&emsp;final关键字可用于修饰类，变量，方法，表示它们不可改变。final的变量获得了初始值后就不可改变，不是不可赋值。变量类型可以是类变量，实例变量，局部变量，形参。</p>
+<h2 id="final成员变量"><a href="#final成员变量" class="headerlink" title="final成员变量"></a>final成员变量</h2><p>&emsp;成员变量是随着类初始化或对象初始化而初始化的，因为final的变量一旦赋值后就不能改变，所以必须在初始化时指定初始值，不然初始化结束后里面就是0，“\u0000”，false，null等初始值，完全没有意义。<br>&emsp;对于它们的使用，最关键的就两点：可以在哪指定初始值以及指定后就不能再改变。</p>
+<ul>
+<li>类变量：必须在静态初始化块或声明该变量时指定</li>
+<li>实例变量：必须在非静态初始化块，声明该变量或构造器中指定。</li>
+</ul>
+<h2 id="final局部变量"><a href="#final局部变量" class="headerlink" title="final局部变量"></a>final局部变量</h2><p>&emsp;并没有什么特别的，要注意，作为形参时，其值应由传入的参数决定。</p>
+<h2 id="final修饰基本类型和引用类型"><a href="#final修饰基本类型和引用类型" class="headerlink" title="final修饰基本类型和引用类型"></a>final修饰基本类型和引用类型</h2><p>&emsp;当修饰引用类型时，它仅仅强调引用的地址，即指向的对象不变，而对象本身内的改变与之无关。</p>
+<h2 id="可执行宏替换的final变量"><a href="#可执行宏替换的final变量" class="headerlink" title="可执行宏替换的final变量"></a>可执行宏替换的final变量</h2><ul>
+<li>使用final修饰符</li>
+<li>定义final变量初始值时指定了初始值</li>
+<li>该初始值可以在编译时就确定下来</li>
+</ul>
+<p>&emsp;满足以上条件的变量将变成一个直接辆，比如<code>final int a=5</code>后，再使用a时，会将a直接替换为5。</p>
+<h2 id="final方法"><a href="#final方法" class="headerlink" title="final方法"></a>final方法</h2><p>&emsp;final修饰的方法时不能被重写。但有种特殊的情况：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PrivateFinalMethodTest</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Sub</span> <span class="keyword">extends</span> <span class="title class_">PrivateFinalMethodTest</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;private修饰的父类方法，对于子类来说是不可见的，因此也就不存在重写父类方法。<br>对于final修饰的方法仅仅是不能被重写，但是可以重载。</p>
+<h2 id="final类"><a href="#final类" class="headerlink" title="final类"></a>final类</h2><p>&emsp;对于final类，它不能被继承。</p>
+<h2 id="不可变类-immutable"><a href="#不可变类-immutable" class="headerlink" title="不可变类(immutable)"></a>不可变类(immutable)</h2><p>&emsp;不可变类的意思是该类的实例变量被创建后就不可改变。Java的八个包装类和String类都是不可变类。要创建自己的不可变类要遵循如下规则：</p>
+<ul>
+<li>使用private和final来修饰该类的成员变量</li>
+<li>提供带参数构造器，用于根据传入参数来初始化类里的成员变量</li>
+<li>仅提供getter方法，普通方法是无法修改final的变量的</li>
+<li>如有必要，重写hashCode()和equals()方法。equals()方法根据关键成员变量来作为两个人对象是否相等的标准，除此之外，还要保证两个用equals()方法判断相等的对象的hashCode()也相等。</li>
+</ul>
+<p>&emsp;例如String这个类，它是根据String对象里的字符序列来作为相等的标准，其hashCode()方法也是根据字符序列计算得到的。下面给出例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Address</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String detail;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String postCode;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Address</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.detail = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="built_in">this</span>.postCode = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Address</span><span class="params">(String detail, String postCode)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.detail = detail;</span><br><span class="line">        <span class="built_in">this</span>.postCode = postCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getDetail</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.detail;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getPostCode</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.postCode;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">equals</span><span class="params">(Object obj)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span> == obj) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (obj != <span class="literal">null</span> &amp;&amp; obj.getClass() == Address.class) &#123;</span><br><span class="line">            <span class="type">Address</span> <span class="variable">ad</span> <span class="operator">=</span> (Address) obj;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">this</span>.getDetail().equals(ad.getDetail()) &amp;&amp; <span class="built_in">this</span>.getPostCode().equals(ad.getPostCode())) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">hashCode</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> detail.hashCode() + postCode.hashCode() * <span class="number">31</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;前面写过，final仅仅能表示修饰的引用变量的指向不变，其对象还是可以任意改变的。如果，在一个不可变类中定义了一个final的成员变量是引用类型的，那么这个不可变类就失败了，它可变。例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Name</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String firstName;</span><br><span class="line">    <span class="keyword">private</span> String lastName;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Name</span><span class="params">()</span> &#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Name</span><span class="params">(String firstName, String lastName)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">        <span class="built_in">this</span>.firstName = firstName;</span><br><span class="line">        <span class="built_in">this</span>.lastName = lastName;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getFirstName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> firstName;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setFirstName</span><span class="params">(String firstName)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.firstName = firstName;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getLastName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> lastName;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setLastName</span><span class="params">(String lastName)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.lastName = lastName;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Name name;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Person</span><span class="params">(Name name)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.name=name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> Name <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">        Name n=<span class="keyword">new</span> <span class="title class_">Name</span>(<span class="string">&quot;aa&quot;</span>,<span class="string">&quot;bb&quot;</span>);</span><br><span class="line">        Person p=<span class="keyword">new</span> <span class="title class_">Person</span>(n);</span><br><span class="line">        System.out.println(p.getName().getFirstName());</span><br><span class="line">        n.setFirstName(<span class="string">&quot;cc&quot;</span>);</span><br><span class="line">        System.out.println(p.getName().getFirstName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;按上面的代码我可以随便修改Person对象p的值。请看下面修改的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test1;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Name name;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Person</span><span class="params">(Name name)</span> &#123;</span><br><span class="line">        <span class="comment">// this.name=name;</span></span><br><span class="line">        <span class="built_in">this</span>.name = <span class="keyword">new</span> <span class="title class_">Name</span>(name.getFirstName(), name.getLastName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Name <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Name</span>(name.getFirstName(), name.getLastName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">        <span class="type">Name</span> <span class="variable">n</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Name</span>(<span class="string">&quot;aa&quot;</span>, <span class="string">&quot;bb&quot;</span>);</span><br><span class="line">        <span class="type">Person</span> <span class="variable">p</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Person</span>(n);</span><br><span class="line">        System.out.println(p.getName().getFirstName());</span><br><span class="line">        n.setFirstName(<span class="string">&quot;cc&quot;</span>);</span><br><span class="line">        System.out.println(p.getName().getFirstName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;现在就无法修改p的值了，原理在于，原来p的name就是n的值，当修改n时，p的name也被改变。现在，在创建p时，调用构造函数后会创建一个临时Name对象，把传进来的name的值（即具体内容，而不是将引用&#x2F;地址）给这个临时对象，然后将临时对象赋给p的name。在以后修改n时，不会对p有任何影响，因为n和临时变量只有数值上的传递。</p>
+<h2 id="缓存实例的不可变类"><a href="#缓存实例的不可变类" class="headerlink" title="缓存实例的不可变类"></a>缓存实例的不可变类</h2><p>&emsp;不可变类由于一旦创建就不可更改，所以可以方便的进行共享，应该考虑缓存这个实例。缓存的实现很多，这里先考虑用数组实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cacheImmutale;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CacheImmutale</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">MAX_SIZE</span> <span class="operator">=</span> <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> CacheImmutale[] cache = <span class="keyword">new</span> <span class="title class_">CacheImmutale</span>[MAX_SIZE];</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">pos</span> <span class="operator">=</span> <span class="number">0</span>;<span class="comment">// 记录实例在缓存中的位置，cache[pos-1]是最新缓存的实例</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">CacheImmutale</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> CacheImmutale <span class="title function_">valueOf</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; MAX_SIZE; i++) &#123;<span class="comment">//遍历是否有相同的</span></span><br><span class="line">            <span class="keyword">if</span> (cache[i] != <span class="literal">null</span> &amp;&amp; cache[i].getName().equals(name)) &#123;</span><br><span class="line">                <span class="keyword">return</span> cache[i];</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (pos == MAX_SIZE) &#123;<span class="comment">//如果满了就把第一个替换</span></span><br><span class="line">            cache[<span class="number">0</span>] = <span class="keyword">new</span> <span class="title class_">CacheImmutale</span>(name);</span><br><span class="line">            pos = <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            cache[pos++] = <span class="keyword">new</span> <span class="title class_">CacheImmutale</span>(name);<span class="comment">//新建一个CacheImmutale对象，将这个对象的name赋值，并保存在数组中</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cache[pos - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">equals</span><span class="params">(Object obj)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span> == obj) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (obj != <span class="literal">null</span> &amp;&amp; obj.getClass() == CacheImmutale.class) &#123;</span><br><span class="line">            <span class="type">CacheImmutale</span> <span class="variable">ci</span> <span class="operator">=</span> (CacheImmutale) obj;</span><br><span class="line">            <span class="keyword">return</span> name.equals(ci.getName());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">hashCode</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> name.hashCode();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cacheImmutale;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CacheImmutaleTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">        <span class="type">CacheImmutale</span> <span class="variable">c1</span> <span class="operator">=</span> CacheImmutale.valueOf(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">        <span class="type">CacheImmutale</span> <span class="variable">c2</span> <span class="operator">=</span> CacheImmutale.valueOf(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">        System.out.println(c1 == c2);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;分析上面的代码，根据<code>CacheImmutale</code>类创建的对象是一个不可更改的String字符串name，这个类有一个数组，用于保存输入的name。有两个细节要注意，第一：<code>cache[pos++] = new CacheImmutale(name);</code>pos++是先把pos的值传出去在自己加1，所以相当于<code>cache[pos] = new CacheImmutale(name);pos=pos+1;</code>注意不是将name的值赋给第一个。第二：为什么valueOf要返回cache数组中的一个？因为cache数组是CacheImmutale[]类型的，里面都是CacheImmutale类的对象，要把这个对象指向c1和c2，如果name相同，也就没有新建对象，c1和c2指向的是同一个对象。</br><br>&emsp;Integer类采用的就是类似的策略，如果用new，则每次都返回全新的对象，如果是valueOf()方法，则会启用缓存策略，但只缓存-128~127之间的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/04/19/Java%E7%AC%94%E8%AE%B06/" data-id="cltr7868y0024k4unc2fk5pyh" data-title="Java笔记6" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/04/24/Java%E7%AC%94%E8%AE%B07/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java笔记7
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/04/19/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%94%E8%AE%B01/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">数据库笔记1</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/cpp/" style="font-size: 17.5px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px;">汇编</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">网络</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 12.5px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

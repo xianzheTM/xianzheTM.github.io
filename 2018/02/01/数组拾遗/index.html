@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>数组拾遗 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="数组运用的已经较为熟练了，但是还有些细节没注意。本文后面主要是字符串。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数组拾遗">
+<meta property="og:url" content="http://example.com/2018/02/01/%E6%95%B0%E7%BB%84%E6%8B%BE%E9%81%97/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="数组运用的已经较为熟练了，但是还有些细节没注意。本文后面主要是字符串。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/%E6%95%B0%E7%BB%84%E6%8B%BE%E9%81%97%5Cwarning.png">
+<meta property="article:published_time" content="2018-02-01T02:25:56.000Z">
+<meta property="article:modified_time" content="2024-03-14T12:19:35.514Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="cpp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/%E6%95%B0%E7%BB%84%E6%8B%BE%E9%81%97%5Cwarning.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-数组拾遗" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/02/01/%E6%95%B0%E7%BB%84%E6%8B%BE%E9%81%97/" class="article-date">
+  <time class="dt-published" datetime="2018-02-01T02:25:56.000Z" itemprop="datePublished">2018-02-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      数组拾遗
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>数组运用的已经较为熟练了，但是还有些细节没注意。本文后面主要是字符串。</p>
+<span id="more"></span>
+
+<h1 id="1-数组初始化"><a href="#1-数组初始化" class="headerlink" title="1.数组初始化"></a>1.数组初始化</h1><p>初始化数组时，提供的值可以少于数组的元素数目。例如，下面的语句只初始化hotelTips的前两个元素：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> hotelTips[<span class="number">5</span>]=&#123;<span class="number">5.0</span>,<span class="number">2.5</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如果只对数组的一部分进行初始化，则编译器将把其他元素设置为0。因此，将数组中所有的元素都初始化为0 非常简单—— 只要显式地将第一个元素初始化为0,然后让编译器将其他元素都初始化为0即可：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span> totals[<span class="number">500</span>]=&#123;<span class="number">0</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如果初始化数组时方括号内（[]）为空，C++编译器将计算元素个数。例如，对于下面的声明：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">short</span> things[]=&#123;<span class="number">1</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">8</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+
+<p>编译器将使things数组包含4 个元素。</p>
+<h1 id="2-C-11数组初始化方法"><a href="#2-C-11数组初始化方法" class="headerlink" title="2.C++11数组初始化方法"></a>2.C++11数组初始化方法</h1><p>C++11将使用大括号的初始化（列表初始化）作为一种通用初始化方式，可用于所有类型。数组以前就可使用列表初始化，但 C++11中的列表初始化新增了一些功能。</p>
+<p>首先，初始化数组时，可省略等号（&#x3D;）:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span> earning[<span class="number">4</span>] &#123;<span class="number">1.2e4</span>,<span class="number">1.6e4</span>,<span class="number">1.1e4</span>,<span class="number">1.7e4</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>其次，可不在大括号内包含任何东西，这将把所有元素都设置为零：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">int</span> counts[<span class="number">10</span>] = &#123;&#125;;</span><br><span class="line"><span class="type">float</span> balances[<span class="number">100</span>] &#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>第三，列表初始化禁止缩窄转换。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span> plifs[] = &#123;<span class="number">25</span>,<span class="number">92</span>,<span class="number">3.0</span>&#125;;				<span class="comment">//错误</span></span><br><span class="line"><span class="type">char</span> slifs[<span class="number">4</span>] &#123;<span class="string">&#x27;h&#x27;</span>,<span class="string">&#x27;i&#x27;</span>,<span class="number">1122011</span>,<span class="string">&#x27;\0&#x27;</span>&#125;;	 <span class="comment">//错误</span></span><br><span class="line"><span class="type">char</span> tlifs[<span class="number">4</span>] &#123;<span class="string">&#x27;h&#x27;</span>,<span class="string">&#x27;i&#x27;</span>,<span class="number">112</span>,<span class="string">&#x27;\0&#x27;</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>在VS和code block中均出现警告或错误。</p>
+<p>在上述代码中，第一条语句不能通过编译，因为将浮点数转换为整型是缩窄操作，即使浮点数的小数点后面为零。第二条语句也不能通过编译，因为1122011超出了char变量的取值范围（这里假设char变量的长度为8 位）。第三条语句可通过编译，因为虽然112是一个int值，但它在char变量的取值范围内。</p>
+<h1 id="3-字符串"><a href="#3-字符串" class="headerlink" title="3.字符串"></a>3.字符串</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> cat[<span class="number">4</span>] = &#123;<span class="string">&#x27;c&#x27;</span>,<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;t&#x27;</span>,<span class="string">&#x27;\0&#x27;</span>&#125;;	<span class="comment">//a string</span></span><br><span class="line"><span class="type">char</span> cat2[<span class="number">4</span>] = &#123;<span class="string">&#x27;c&#x27;</span>,<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;t&#x27;</span>,<span class="string">&#x27;!&#x27;</span>&#125;;	<span class="comment">//a char array but not a string</span></span><br></pre></td></tr></table></figure>
+
+<p>这两个数组都是char数组，但只有第二个数组是字符串。空字符对C-风格字符串而言至关重要。例如， C++有很多处理字符串的函数，其中包括cout使用的那些函数。它们都逐个地处理字符串中的字符，直到到达空字符为止。如果使用cout显示上面的cat这样的字符串，则将显示前3个字符，发现空字符后停止，但是，如果使用cout显示上面的cat2数组（它不是字符串），cout将打印出数组中的8个字母，并接着将内存中随后的各个字节解释为要打印的字符，直到遇到空字符为止。于空字符（实际上是被设置为0 的字节）在内存中很常见，因此这一过程将很快停止。但尽管如此，还是不应将不是字符串的字符数组当作字符串来处理。在VS的调试中，观察到cat2出现了“烫烫”的乱码，改为cat2[5]后，出现“字符串无效”。</p>
+<p>有一种更好的、将字符数组初始化为字符串的方法—— 只需使用一个用引号括起的字符串即可，这种字符串被称为字符串常量（string constant）或字符串字面值（string literal）, 如下所示:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> bird[<span class="number">11</span>] = <span class="string">&quot;Mr.Cheeps&quot;</span>;</span><br><span class="line"><span class="type">char</span> fish[] = <span class="string">&quot;Bubbles&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>用引号括起的字符串隐式地包括结尾的空字符，因此不用显式地包括它（参见图4.2）。另外，各种C++输入工具通过键盘输入，将字符串读入到char数组中时，将自动加上结尾的空字。</p>
+<p>应确保数组足够大，能够存储字符串中所有字符——包括空字符。使用字符串常量初始化字符数组是这样的一种情况，即让编译器计算元素数目更为安全。让数组比字符串长没有什么害处，只是会浪费一些空间而己。这是因为处理字符串的函数根据空字符的位置，而不是数组长度来进行处理。C++对字符串长度没有限制。</p>
+<p>注意，字符串常量（使用双引号）不能与字符常量（使用单引号）互换。字符常量（如’S’） 是字符串编码的简写表示。在 ASCII系统上，’S‘只是83的另一种写法，因此，下面的语句将83赋给shirt_size：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> shirt_size = <span class="string">&#x27;S&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>更加值得注意的是:”S”表示的是地址，而不是字符！</strong></p>
+<p>对于<code>char</code>型，只有单引号；</p>
+<p>对于<code>char</code>型数组，有单引号和双引号；</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> cat[<span class="number">4</span>] = &#123;<span class="string">&#x27;c&#x27;</span>,<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;t&#x27;</span>,<span class="string">&#x27;\0&#x27;</span>&#125;;</span><br><span class="line"><span class="type">char</span> bird[<span class="number">11</span>] = <span class="string">&quot;Mr.Cheeps&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>进一步的探讨在指针部分。</p>
+<h1 id="4-在数组中使用字符串"><a href="#4-在数组中使用字符串" class="headerlink" title="4.在数组中使用字符串"></a>4.在数组中使用字符串</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> str1[<span class="number">10</span>];</span><br><span class="line">cin&gt;&gt;str1;</span><br></pre></td></tr></table></figure>
+
+<p>不需要像其他类型数组那样，一个一个地给元素赋值。</p>
+<p>cin使用空白(空格、制表符和换行符)来确定字符串的结束位置，这意味着cin在获 取字符数组输入时只读取一个单词。读取该单词后，cin将该字符串放到数组中，并自动在结尾添加空字符。</p>
+<p>这种读取方式有时会带来一些麻烦。</p>
+<h2 id="1-面向行的输入：cin-getline"><a href="#1-面向行的输入：cin-getline" class="headerlink" title="(1).面向行的输入：cin.getline()"></a>(1).面向行的输入：cin.getline()</h2><p>该函数有三个参数。第一个参数是用来存储输入行的数组的名称，第二个参数是要读取的字符数，第三个是终止字符，默认是’\n’。如果这个参数为20 ,则函数最多读取19个字符，余下的空间用于存储自动在结尾处添加的空字符。getline()成员函数在读取指定数目的字符或遇到换行符时停止读取。</p>
+<h2 id="2-面向行的输入：cin-get"><a href="#2-面向行的输入：cin-get" class="headerlink" title="(2).面向行的输入：cin.get()"></a>(2).面向行的输入：cin.get()</h2><p>istream类有另一个名为get()的成员函数，该函数有几种变体。其中一种变 体的工作方式与getline()类似，它们接受的参数相同，解释参数的方式也相同，并且都读取到<strong>行尾</strong>。但get并不再读取并丢弃换行符，而是将其留在输入队列中。假设我们连续两次调用get():</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cin.<span class="built_in">get</span>(name,ArSize);</span><br><span class="line">cin.<span class="built_in">get</span>(dessert,ArSize);</span><br></pre></td></tr></table></figure>
+
+<p>由于第一次调用后，换行符将留在输入队列中，因此第二次调用时看到的第一个字符便是换行符。因此 get()认为已到达行尾，而没有发现任何可读取的内容。</p>
+<p>使用不带任何参数的cin.get()调用可读取下一个字符(即使是换行符)， 因此可以用它来处理换行符，为读取下一行输入做好准备。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cin.<span class="built_in">get</span>(name,ArSize);</span><br><span class="line">cin.<span class="built_in">get</span>();</span><br><span class="line">cin.<span class="built_in">get</span>(dessert,ArSize);</span><br></pre></td></tr></table></figure>
+
+<p>另一种使用get()的方式是将两个类成员函数拼接起来(合并)，如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cin.get(name,ArSize).get();</span><br></pre></td></tr></table></figure>
+
+<p>之所以可以这样做，是由于cin.get (name, ArSize) 返回一个cin对象，该对象随后将被用来调用get()函数。</p>
+<h2 id="Tips：缓冲区"><a href="#Tips：缓冲区" class="headerlink" title="Tips：缓冲区"></a>Tips：缓冲区</h2><p>缓冲区是输入时非常重要的一环，当我们在键盘上按下<code>name</code>并回车时，实际上是进入了缓冲区，现在里面的字符是<code>name</code>和<code>\n</code>。’\n‘代表了回车。每当cin读取字符时，读的就是缓冲区里的东西。很多时候输入是复杂的，空格，回车，换行夹杂在一起，要正确的读取输入关键就是<strong>明确使用的函数的终止符和是否会丢弃终止符。</strong>例如：<code>cin</code>遇到空格，回车，换行就停止，同时还将它们丢弃（排除），所以读两行输入时，没有像<code>cin.get()</code>那样要读取掉一个换行符。</p>
+<h1 id="5-string类"><a href="#5-string类" class="headerlink" title="5.string类"></a>5.string类</h1><h2 id="Tips："><a href="#Tips：" class="headerlink" title="Tips："></a>Tips：</h2><p><code>strlen</code>函数用来确定字符串长度，需要<code>cstring</code>头文件，老式的则是<code>string.h</code>，string类则需要<code>string</code>头文件。在C&#x2F;C++中，头文件要么是开头加&#96;&#96;c<code>要么结尾加</code>.h<code>，或者都不加。C一般是前面两种，C++是后面这种。也有例外，如</code>stdio.h<code>和</code>iostream&#96;。</p>
+<p>要使用string类，还需要名称空间std。使用时，string是将字符串作为一种数据类型的。string类定义隐藏了字符串的数组性质，能够像处理普通变量那样处理字符串。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line">  string str1;</span><br><span class="line">  string str2 = <span class="string">&quot;hello&quot;</span>;</span><br><span class="line">  string str3 = &#123;<span class="string">&quot;world&quot;</span>&#125;;</span><br><span class="line">  string str4 += str3;</span><br><span class="line">  cin&gt;&gt;str1;</span><br><span class="line">  cout&lt;&lt;str1+str2;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>类设计让程序能够自动处理string的大小。例如，<code>str1</code>的声明创建一个长度为0 的 string对象，但程序 将输入读取到<code>str1</code>中时，将自动调整<code>str1</code>的长度。</p>
+<p>这使得与使用数组相比，使用string对象更方便，也更安全。从理论上说，可以将char数组视为一组用于存储一个字符串的char存储单元，而 string类变量是一个表示字符串的实体。</p>
+<p>同时，string类与变量一样，可以赋值，拼接和附加。</p>
+<p>在新增string类之前，要把一个字符串赋给另一个字符串是不能直接用等号的。附加字符到末尾也不能用’+&#x3D;‘。而是要用到<code>cstring</code>中的函数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span>			<span class="comment">//make string class available</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span>			<span class="comment">//C-style string library</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line">	<span class="type">char</span> charr1[<span class="number">20</span>];</span><br><span class="line">	<span class="type">char</span> charr2[<span class="number">20</span>] = <span class="string">&quot;jaguar&quot;</span>;</span><br><span class="line">	string str1;</span><br><span class="line">	string str2 = <span class="string">&quot;panther&quot;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// assignment for string objects and character arrays </span></span><br><span class="line">	str1 = str2;				<span class="comment">// copy str2 to strl</span></span><br><span class="line">	<span class="built_in">strcpy</span>(charr1, charr2);	 <span class="comment">//copy charr2 to charrl</span></span><br><span class="line"></span><br><span class="line">							 <span class="comment">// appending for string objects and character arrays </span></span><br><span class="line">	str1 += <span class="string">&quot; paste&quot;</span>;			<span class="comment">//add paste to end of strl</span></span><br><span class="line">	<span class="built_in">strcat</span>(charr1, <span class="string">&quot; juice&quot;</span>);	 <span class="comment">//add juice to end of charrl</span></span><br><span class="line"></span><br><span class="line">								 <span class="comment">// finding the length of a string object and a C-style string </span></span><br><span class="line">	<span class="type">int</span> len1 = str1.<span class="built_in">size</span>();	 <span class="comment">//obtain length of	strl</span></span><br><span class="line">	<span class="type">int</span> len2 = <span class="built_in">strlen</span>(charr1);	<span class="comment">//obtain length of charrl</span></span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;The string &quot;</span> &lt;&lt; str1 &lt;&lt; <span class="string">&quot; contains &quot;</span> &lt;&lt; len1 &lt;&lt; <span class="string">&quot; characters.\n&quot;</span>;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;The string &quot;</span> &lt;&lt; charr1 &lt;&lt; <span class="string">&quot; contains &quot;</span> &lt;&lt; len2 &lt;&lt; <span class="string">&quot; characters.\n&quot;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意，以上代码在VS中会有两个警告和两个错误：</p>
+<p><img src="/%E6%95%B0%E7%BB%84%E6%8B%BE%E9%81%97%5Cwarning.png" alt="warning"></p>
+<p>第一个可能丢失数据是因为<code>str1.size</code>的返回值类型是<code>size_t</code>,查看定义发现是<code>unsigned long long int</code>型，将<code>len1</code></p>
+<p>和<code>len2</code>改为这种类型就可以，不改也没关系。</p>
+<p>第三个是因为在VS看来<code>strcpy</code>和<code>strcat</code>这种老式的函数存在安全问题，微软重新定义了一个一样的但更安全的函数<code>strcpy_s</code>和<code>strcat_s</code>。改成这样就可以了。当然，也可以关闭这种安全检查。错误信息里已经提示了。</p>
+<p>可以看到，string类的使用比C函数方便多了，也更安全。例如在C中：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> site[<span class="number">10</span>] = <span class="string">&quot;house&quot;</span>;</span><br><span class="line"><span class="built_in">strcat</span>(site,<span class="string">&quot; of pancakes&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这将会覆盖相邻内存导致一些错误。而string类可以自动调整大小。C 函数库确实提供了与strcat()和 strcpy()类似的函数— stmcat()和 stmcpy() , 它们接受指出目标数组最大允许长度的第三个参数，因此更为安全，但使用它们进一步增加了编写程序的复杂度。</p>
+<h2 id="string类的I-O"><a href="#string类的I-O" class="headerlink" title="string类的I&#x2F;O"></a>string类的I&#x2F;O</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span>	<span class="comment">// make string class available</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span>	<span class="comment">// C-style string library</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">using</span> <span class="keyword">namespace</span> std; <span class="type">char</span> charr[<span class="number">20</span>]; string str;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;Length of string in charr before input:&quot;</span> &lt;&lt; <span class="built_in">strlen</span>(charr) &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;Length of string in str before input:&quot;</span> &lt;&lt; str.<span class="built_in">size</span>() &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;Enter a line of text:\n&quot;</span>;</span><br><span class="line">	cin.<span class="built_in">getline</span>(charr, <span class="number">20</span>);	<span class="comment">// indicate maximum length</span></span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;You entered： &quot;</span> &lt;&lt; charr &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;Enter another line of text:\n&quot;</span>;</span><br><span class="line">	<span class="built_in">getline</span>(cin, str);	<span class="comment">// cin now an argument； no length specifier</span></span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;You entered： &quot;</span> &lt;&lt; str &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;Length of string in charr after input:&quot;</span> &lt;&lt; <span class="built_in">strlen</span>(charr) &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;Length of string in str after input:&quot;</span> &lt;&lt; str.<span class="built_in">size</span>() &lt;&lt; endl;</span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在用户输入之前，该程序指出数组charr中的字符串长度为27 ,这比该数组的长度要大。这里要两点需要说明。首先，未初始化的数组的内容是未定义的；其次，函数strlen()从数组的第一个元素开始计算字节数，直到遇到空字符。在这个例子中，对于未被初始化的数据，第一个空字符的出现位置是随机的。</p>
+<p>注意到第13行，string类读取行时，与第十行的有着显著的区别。这里没有使用句点表示法，这表明这个getline()不是类方法。它 将 cin作为参数，指出到哪里去查找 输入。另外，也没有指出字符串长度的参数，因为string对象将根据字符串的长度自动调整自己的大小。</p>
+<p>为何第十行是istream的类方法，第十三行的不是呢？这是因为string类是C++98才出现的，更早的istream在设计时没有考虑到string类型。但是这种代码为何可行呢？</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cin&gt;&gt;str;<span class="comment">//str is a string object</span></span><br></pre></td></tr></table></figure>
+
+<p>这里涉及到string类的一个友元函数，在函数部分在讲。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/02/01/%E6%95%B0%E7%BB%84%E6%8B%BE%E9%81%97/" data-id="cltr78699003bk4un9i1c09vh" data-title="数组拾遗" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/02/10/%E7%BB%93%E6%9E%84%E4%BD%93/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          结构体
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/01/30/%E5%86%85%E5%AD%98%E7%A9%BA%E9%97%B4%E5%88%86%E9%85%8D/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">内存空间分配</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/cpp/" style="font-size: 17.5px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px;">汇编</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">网络</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 12.5px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

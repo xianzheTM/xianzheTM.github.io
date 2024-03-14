@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Cpp中引用到底占不占空间 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="先放结论:对于C++标准来说,不占,确切说,未指定;对于程序来说,使用&amp;来查看引用的地址,发现指向引用对象的地址,可以看做不占;对于编译器来说,是占用的,因为要实现前面这种效果,不可能凭空而来.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cpp中引用到底占不占空间">
+<meta property="og:url" content="http://example.com/2018/07/30/Cpp%E4%B8%AD%E5%BC%95%E7%94%A8%E5%88%B0%E5%BA%95%E5%8D%A0%E4%B8%8D%E5%8D%A0%E7%A9%BA%E9%97%B4/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="先放结论:对于C++标准来说,不占,确切说,未指定;对于程序来说,使用&amp;来查看引用的地址,发现指向引用对象的地址,可以看做不占;对于编译器来说,是占用的,因为要实现前面这种效果,不可能凭空而来.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-07-29T16:52:54.000Z">
+<meta property="article:modified_time" content="2024-03-14T12:19:34.885Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="cpp">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Cpp中引用到底占不占空间" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/07/30/Cpp%E4%B8%AD%E5%BC%95%E7%94%A8%E5%88%B0%E5%BA%95%E5%8D%A0%E4%B8%8D%E5%8D%A0%E7%A9%BA%E9%97%B4/" class="article-date">
+  <time class="dt-published" datetime="2018-07-29T16:52:54.000Z" itemprop="datePublished">2018-07-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Cpp中引用到底占不占空间
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>先放结论:对于C++标准来说,不占,确切说,未指定;对于程序来说,使用&amp;来查看引用的地址,发现指向引用对象的地址,可以看做不占;对于编译器来说,是占用的,因为要实现前面这种效果,不可能凭空而来.</p>
+<span id="more"></span>
+
+<p>首先,对于C++标准,它是这么说的:</p>
+<p>8.3.2<br>4 It is unspecified whether or not a reference requires storage (3.7).</p>
+<p> 也就是,标准并不关心引用是如何实现的(事实上,标准对于很多东西只规定了要什么样的,没规定具体怎么做).</p>
+<p>目前,引用的实现方式就是使用常量指针.</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/feigegegegegegegeg/article/details/52613627">https://blog.csdn.net/feigegegegegegegeg/article/details/52613627</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/rollenholt/articles/1907408.html">http://www.cnblogs.com/rollenholt/articles/1907408.html</a></p>
+<p>下面举个例子：<br>int a &#x3D; 10;<br>int &amp;b &#x3D; a;</p>
+<p>这里，显然，b是一个引用。<br>语句“int a &#x3D; 10;”，在内存中申请了一个int型变量，32位机中占4个字节，那么变量名a放哪里了呢，有些人可能会有这个疑问。<br>其实a代表的是一个内存地址，you know，计算机访问内存中的数据，全部是通过地址进行访问（这个结论你可以从《汇编》的寻址方式中得出）。在编译器将你的代码生成目标文件时，它会用这个地址替代所有的a，因此目标文件中也就没有变量名a了，所以，变量名a不会占用内存也就理所当然了。<br>那么，引用 b会不会占内存空间呢？由于受大学课本的影响（引用b只是a的别名，b其实就是a本身），我很自然的会想到，b跟a一样，在编译后，所有的b也都用a的这个地址去替代，所以b也不会占用任何内存空间。<br>前段时间，这个问题在快速入门群和高级专业群中各位朋友讨论了一下，大家也众说纷纭。在网上也搜到很多帖子，说引用只是一个别名，它不会占用空间。<br>BUT，与各位高手的交流，查看众多网站，最后得出的结论是：   <strong>引用的本质是指针，而且是常量指针，占用4个字节的空间</strong>也就是说，“int &amp;b &#x3D; a;”会开辟一块4个字节的空间，用于存放那个地址，当然,变量名b不会占用空间。<br>如果你听糊涂了，没关系，记住一条：引用b，本质就是一个常量指针（当然使用时不同）</p>
+<p>探索c++的底层机制</p>
+<p>在看这篇文章之前，请你先要明白一点：那就是c++为我们所提供的各种存取控制仅仅是在编译阶段给我们的限制，也就是说是编译器确保了你在完成任务之前的正确行为，如果你的行为不正确，那么你休想构造出任何可执行程序来。但如果真正到了产生可执行代码阶段，无论是c，c++,还是pascal，大家都一样，你认为c和c++编译器产生的机器代码会有所不同吗，你认为c++产生的机器代码会有访问限制吗？那么你错了。什么const，private，统统没有（const变量或许会放入只读数据段），它不会再给你任何的限制，你可以利用一切内存修改工具或者是自己写一个程序对某一进程空间的某一变量进行修改，不管它在你的印象中是private，还是public，对于此时的你来说都一样，想怎样便怎样。另外，你也不要为c++所提供的什么晚期捆绑等机制大呼神奇，它也仅仅是在所产生的代码中多加了几条而已，它远没有你想象的那么智能，所有的工作都是编译器帮你完成，真正到了执行的时候，计算机会完全按照编译器产生的代码一丝不苟的执行。你明白我在说什么吗？对了，如果你从前接触过汇编，只要你反汇编一段c++代码，你就会说：原来是这么回事呀，c++只不过是把我们的问题进行了更高层次的抽象，但只要你解开面纱，回到问题的本源，一切都将变得不再神秘……<br>（以下的反汇编代码均来自visial c++ 7.0）<br>一．让我们从变量开始—–并非你想象的那么简单<br>变量是什么，变量就是一个在程序执行过程中可以改变的量。换一个角度，变量是一块内存区域的名字，它就代表这块内存区域，当我们对变量进行修改的时候，会引起内存区域中内容的改变。但是你若是学习过汇编或是计算机组成原理，那么你就会清楚对于一块内存区域来说，根本就不存在什么名字，它所仅有的标志就是他的地址，因此我们若想修改一块内存区域的内容，只有知道他的地址方能实现。看来所谓的变量一说只不过是编译器给我们进行的一种抽象，让我们不必去了解更多的细节，降低我们的思维跨度而已。例如下面这条语句：<br>int a&#x3D;10;<br>按照我们的思维习惯来讲，就是“存在一个变量a，它的值是10”，一切都显得那么的自然。我们不必去在乎什么所谓的地址以及其他的一些细节。然而在这条语句的底层实现中，a已经不能算是一个变量了，它仅仅是一个标记，代表一个地址的标记：<br>mov dword ptr[a],0Ah;<br>怎么样，这条语句不像上面那条易于接受吧，因为它需要了解更多的细节，你几乎不能得到编译器的任何帮助，一切思维上的跨越必须由你自己完成。这条语句应该解释为“把10写入以a为地址的内存区域”。你说什么？a有些像指针？对，的确像，但还不是，只不过他们的过程似乎是类似的。这里所说的跨越实际上就是从一个现实问题到具体地址以及内存区域的跨越。<br>二．引用：你可以拥有引用，但编译器仅拥有指针（地址）<br>看过了第一条，你一定对编译器的工作有了一定的了解，实际上编译器就是程序员与底层之间的一个转换层，它把一个高级语言代码转换为低级语言代码，一个编译器完成的转换跨度越大，那么它也就会越复杂，因为程序员的工作都由他代为完成了。C++编译器必然比汇编编译器复杂就是这个道理。如果我问你引用和指针是一样的吗？你或许会说当然不一样了，指针容易产生不安全的因素，引用却不会，真的不会吗？我们来看下面这段代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> *e=<span class="keyword">new</span> <span class="built_in">int</span>(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> &amp;f=*e;</span><br><span class="line"></span><br><span class="line"><span class="keyword">delete</span> e;</span><br><span class="line"></span><br><span class="line">f=<span class="number">30</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>你认为上面这段代码怎么样，我感觉就不很安全，它和指针有相同的隐患。因为它所引用的内存区域就不合法。<br>我个人认为，所谓的引用其实就是一种指针，只不过二者的接口并不相同，引用的接口有一定的限制。指针可以一对多，而引用却只能一对一，即&amp;refer不能被改变，但却并不能说一对一就是安全的，只不过危险的系数降低罢了。引用比指针更容易控制。<br>Ok,下面来说说指针，曾经有过汇编经验的人一定会说，恩，指针的某些地方有些像汇编，尤其是那个“*”，怎么就那么像汇编中的“[]”啊。呵呵，的确，它也涵盖了一个寻址的过程。看来指针的确是个比较低级的东西。然而引用却并不那么直接，虽然程序员用起来方便安全了许多。但是你要清楚，只有你可以拥有引用，编译器可没有这个工具，计算机并不认识这个东西。因此，它的底层机制实际上是和指针一样的。不要相信只有一块内存拷贝，不要认为引用可以为你节省一个指针的空间，因为这一切不会发生，编译器还是会把引用解释为指针。不管你相不相信，请看下面这段代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">int&amp; b=a;</span><br><span class="line"></span><br><span class="line">lea eax,[a];</span><br><span class="line"></span><br><span class="line">mov dword ptr[b],eax;把a的地址赋给地址为b的一块内存</span><br><span class="line"></span><br><span class="line">b=50;</span><br><span class="line"></span><br><span class="line">mov eax,dword ptr[b];</span><br><span class="line"></span><br><span class="line">mov dword ptr[eax],32h;</span><br><span class="line"></span><br><span class="line">int *d=&amp;a;</span><br><span class="line"></span><br><span class="line">lea eax,[a];</span><br><span class="line"></span><br><span class="line">mov dword ptr[d],eax</span><br><span class="line"></span><br><span class="line">*d=60;</span><br><span class="line"></span><br><span class="line">mov eax,dword ptr[d]</span><br><span class="line"></span><br><span class="line">mov dword ptr[eax],3ch;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>以上的代码均来自具体的编译器，怎么样，相信了吧，好，让我再来做一个或许不怎么恰当的比拟，你一定编过有关线性表和栈的程序吧，线性表是一个非常灵活的数据结构，在他上面有许多的操作，然而栈呢，它是一个限制性操作的线性表，它的底层操作实际上是由线性表操作实现的。就好比stack与vector的关系，因此指针和引用的关系就好比线性表和栈的关系，引用也就是受限的指针，它对外的接口和指针虽然并不一样，但底层是相同的。<br>下面再来看看引用的一个重要用途，作为函数的参数传递的时候是怎样的情形：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">void swapr(int &amp;a, int &amp;b)；</span><br><span class="line"></span><br><span class="line">void swapr(int* a, int *b)；</span><br><span class="line"></span><br><span class="line">int a=10;</span><br><span class="line"></span><br><span class="line">int b=20;</span><br><span class="line"></span><br><span class="line">swapr(a, b);</span><br><span class="line"></span><br><span class="line">lea eax,[a]; </span><br><span class="line"></span><br><span class="line">push eax; //把a的地址压入堆栈</span><br><span class="line"></span><br><span class="line">lea ecx,[b];</span><br><span class="line"></span><br><span class="line">push ecx;</span><br><span class="line"></span><br><span class="line">call swapr;</span><br><span class="line"></span><br><span class="line">swapr(&amp;a, &amp;b);</span><br><span class="line"></span><br><span class="line">lea eax,[a];</span><br><span class="line"></span><br><span class="line">push eax;</span><br><span class="line"></span><br><span class="line">lea ecx,[b];</span><br><span class="line"></span><br><span class="line">push ecx;</span><br><span class="line"></span><br><span class="line">call swapr;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>怎么样，用引用和指针传递参数无论是在效率上还是在空间上都是完全一样的，如果妄想不传入地址就修改实参的值，简直就是天方夜谭，这就说明引用的本质就是指针。毕竟它们的行为都太相似了，如果不是这样，你还有什么方法去实现引用吗？记住，引用只不过是编译器为你提供的一个有用且安全的工具，对于机器代码可无法表示它，它把指针一对多的缺点去除，禁止了你的不安全的操作。但回到问题的本源，他们没有任何区别。</p>
+<p>都史的实例：</p>
+<p>#include &lt;iostream.h&gt;</p>
+<p>class A {<br>double *m_pDb;<br>};</p>
+<p>class B {<br>double &amp;m_db;<br>public:<br>B(double db &#x3D; 0) : m_db(db) {}<br>};</p>
+<p>int main() {<br>cout &lt;&lt; “size of class A:”&lt;&lt;sizeof(A) &lt;&lt; endl;<br>cout &lt;&lt; “size of class B:”&lt;&lt;sizeof(B) &lt;&lt; endl;<br>return 0;<br>}</p>
+<p>结果：</p>
+<p>size of class A:4</p>
+<p>size of class B:4</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/07/30/Cpp%E4%B8%AD%E5%BC%95%E7%94%A8%E5%88%B0%E5%BA%95%E5%8D%A0%E4%B8%8D%E5%8D%A0%E7%A9%BA%E9%97%B4/" data-id="cltr7868e0009k4un4gabcw59" data-title="Cpp中引用到底占不占空间" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/07/30/%E6%8C%87%E9%92%88%E5%B8%B8%E9%87%8FOR%E5%B8%B8%E9%87%8F%E6%8C%87%E9%92%88/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          指针常量OR常量指针
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/29/Cpp%E5%BC%95%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Cpp引用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/cpp/" style="font-size: 17.5px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px;">汇编</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">网络</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 12.5px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

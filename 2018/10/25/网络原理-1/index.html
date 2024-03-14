@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>网络原理(1) | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="本篇介绍一些网络的前提内容.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络原理(1)">
+<meta property="og:url" content="http://example.com/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="本篇介绍一些网络的前提内容.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1%5C%E4%BA%94%E5%B1%82.png">
+<meta property="og:image" content="http://example.com/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1%5C%E6%97%B6%E5%BB%B6.png">
+<meta property="og:image" content="http://example.com/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1%5C%E6%97%B6%E5%BB%B6%E5%B8%A6%E5%AE%BD%E7%A7%AF.png">
+<meta property="og:image" content="http://example.com/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1%5C%E5%88%A9%E7%94%A8%E7%8E%87.png">
+<meta property="og:image" content="http://example.com/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1%5C%E5%88%86%E7%BB%84.png">
+<meta property="article:published_time" content="2018-10-25T13:36:40.000Z">
+<meta property="article:modified_time" content="2024-03-14T12:19:35.551Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1%5C%E4%BA%94%E5%B1%82.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-网络原理-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/" class="article-date">
+  <time class="dt-published" datetime="2018-10-25T13:36:40.000Z" itemprop="datePublished">2018-10-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      网络原理(1)
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>本篇介绍一些网络的前提内容.</p>
+<span id="more"></span>
+
+<h1 id="协议与划分层次"><a href="#协议与划分层次" class="headerlink" title="协议与划分层次"></a>协议与划分层次</h1><h2 id="五层协议"><a href="#五层协议" class="headerlink" title="五层协议"></a>五层协议</h2><p><img src="/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1%5C%E4%BA%94%E5%B1%82.png" alt="五层划分"></p>
+<p>OSI的划分过于复杂,运行效率低,层次不合理,有些功能在多个层次重复出现.而TCP&#x2F;IP协议的下面两层并没有具体内容,因此在实际学习过程中折中一下.</p>
+<h3 id="1-应用层-application-layer"><a href="#1-应用层-application-layer" class="headerlink" title="(1)应用层(application layer)"></a>(1)应用层(application layer)</h3><p>应用层是体系结构中的最高层。应用层的任务是通过应用进程间的交互来完成特定网络应用。应用层协议定义的是应用进程间通信和交互的规则。这里的进程就是指主机中正在运行的程序。对于不同的网络应用需要有不同的应用层协议。在互联网中的应用层协议很多，如域名系统DNS,支持万维网应用的HTTP协议，支持电子邮件的SMTP协议，等等。我们把应用层交互的数据单元称为报文(message)。</p>
+<h3 id="2-运输层-transport-layer"><a href="#2-运输层-transport-layer" class="headerlink" title="(2)运输层(transport layer)"></a>(2)运输层(transport layer)</h3><p>运输层的任务就是负责向两台主机中进程之间的通信提供通用的数据传输服务。应用进程利用该服务传送应用层报文。所谓“通用的”，是指并不针对某个特定网络应用，而是多种应用可以使用同一个运输层服务。由于一台主机可同时运行多个进程，因此运输层有复用和分用的功能。复用就是多个应用层进程可同时使用下面运输层的服务，分用和复用相反，是运输层把收到的信息分别交付上面应用层中的相应进程。</p>
+<p>运输层主要使用以下两种协议:</p>
+<ul>
+<li>传输控制协议TCP(Transmission Control Protocol):提供面向连接的、可靠的数据传输服务，其数据传输的单位是报文段(segment)。</li>
+<li>用户数据报协议UDP(User Datagram Protocol):提供无连接的、尽最大努力(best-effort)的数据传输服务(不保证数据传输的可靠性)，其数据传输的单位是用户数据报。</li>
+</ul>
+<h3 id="3-网络层-network-layer"><a href="#3-网络层-network-layer" class="headerlink" title="(3)网络层(network layer)"></a>(3)网络层(network layer)</h3><p>网络层负责为分组交换网上的不同主机提供通信服务。在发送数据时，网络层把运输层产生的报文段或用户数据报封装成分组或包进行传送。在TCP&#x2F;IP体系中，由于网络层使用IP协议，因此分组也叫做IP数据报，或简称为数据报。</p>
+<h3 id="4-数据链路层-data-link-layer"><a href="#4-数据链路层-data-link-layer" class="headerlink" title="(4)数据链路层(data link layer)"></a>(4)数据链路层(data link layer)</h3><p>数据链路层常简称为链路层。两台主机之间的数据传输，总是在一段一段的链路上传送的，这就需要使用专门的链路层的协议。在两个相邻结点之间传送数据时，数据链路层将网络层交下来的IP数据报组装成帧(framing),在两个相邻结点间的链路上传送帧(frame)。每一帧包括数据和必要的控制信息(如同步信息、地址信息、差错控制等)。 在接收数据时，控制信息使接收端能够知道一个帧从哪个比特开始和到哪个比特结束。这样，数据链路层在收到一个帧后，就可从中提取出数据部分，上交给网络层。控制信息还使接收端能够检测到所收到的帧中有无差错。如发现有差错，数据链路层就简单地丢弃这个出了差错的帧，以免继续在网络中传送下去白白浪费网络资源。如果需要改正数据在数据链路层传输时出现的差错(这就是说，数据链路层不仅要检错，而且要纠错)，那么就要采用可靠传输协议来纠正出现的差错。这种方法会使数据链路层的协议复杂些。</p>
+<h3 id="5-物理层-physical-layer"><a href="#5-物理层-physical-layer" class="headerlink" title="(5)物理层(physical layer)"></a>(5)物理层(physical layer)</h3><p>在物理层上所传数据的单位是比特。发送方发送1(或0)时，接收方应当收到1(或0)而不是0(或1)。因此物理层要考虑用多大的电压代表“1” 或 “0”，以及接收方如何识别出发送方所发送的比特。物理层还要确定连接电缆的头应当有多少根引脚以及各引脚应如何连接。当然，解释比特代表的意思，就不是物理层的任务。请注意，传递信息所利用的一些物理媒体，如双绞线、同轴电缆、光缆、无线信道等，并不在物理层协议之内而是在物理层协议的下面。因此也有人把物理层下面的物理媒体当作第0层。</p>
+<h1 id="计算机网络的性能指标"><a href="#计算机网络的性能指标" class="headerlink" title="计算机网络的性能指标"></a>计算机网络的性能指标</h1><ul>
+<li><p>速率</p>
+</li>
+<li><p>带宽:在计算机网络中，带宽用来表示网络中某通道传送数据的能力，因此网络带宽表示在单位时间内网络中的某信道所能通过的”最高数据率”。</p>
+</li>
+<li><p>吞吐量:吞吐量(throughput)表示在单位时间内通过某个网络(或信道、接口)的实际的数据量。</p>
+</li>
+<li><p><strong>时延</strong>:时延（delay或latency）是指数据(一个报文或分组，甚至比特)从网络(或链路)的一端传送到另一端所需的时间。时延是个很重要的性能指标，它有时也称为延迟或迟延。网络中的时延是由以下几个不同的部分组成的:</p>
+<ul>
+<li><p><strong>发送时延</strong> 发送时延(transmission delay)是主机或路由器发送数据帧所需要的时间，也就是从发送数据帧的第一个比特算起，到该帧的最后一个比特发送完毕所需的时间。<br>因此发送时延也叫做传输时延.发送时延的计算公式是：<br>$$<br>发送时延&#x3D;\frac{数据帧长度(bit)}{发送速率(bit&#x2F;s)}<br>$$</p>
+</li>
+<li><p><strong>传播时延</strong> 传播时延(propagation delay)是电磁波在信道中传播一定的距离需要花费的时间。传播时延的计算公式是：<br>$$<br>传播时延&#x3D;\frac{信道长度(m)}{电磁波在信道上的传播速率(m&#x2F;s)}<br>$$<br>电磁波在自由空间的传播速率是光速，即<code>3.0x10^5km/s</code>。电磁波在网络传输媒体中的传播速率比在自由空间要略低一些：在铜线电缆中的传播速率约为<code>2.3x10^5km/s</code>,在光纤中的传播速率约为<code>2.0x10^5km/s</code>。例如，1000 km 长的光纤线路产生的传播时延大约为5ms.</p>
+<p>以上两种时延有本质上的不同。但只要理解这两种时延发生的地方就不会把它们弄 混。发送时延发生在机器内部的发送器中(一般就是网络适配器),与传输信道的长度（或信号传送的距离）没有任何关系。但传播时延则发生在机器外部的传输信道媒体上，而与信号的发送速率无关。信号传送的距离越远，传播时延就越大.</p>
+<p>下面还有两种时延也需要考虑，但比较容易理解:</p>
+</li>
+<li><p><strong>处理时延</strong> 主机或路由器在收到分组时要花费一定的时间进行处理，例如分析分组的首部、从分组中提取数据部分、进行差错检验或查找适当的路由等，这就产生了处理时延.</p>
+</li>
+<li><p><strong>排队时延</strong> 分组在经过网络传输时，要经过许多路由器。但分组在进入路由器后要先在输入队列中排队等待处理。在路由器确定了转发接口后，还要在输出队列中排队等待转发。这就产生了排队时延。排队时延的长短往往取决于网络当时的通信量。当网络的通信量很大时会发生队列溢出，使分组丢失，这相当于排队时延为无穷大。</p>
+<p>这样，数据在网络中经历的总时延就是以上四种时延之和：<br>$$<br>总时延&#x3D; 发送时延+ 传播时延+ 处理时延+ 排队时延<br>$$<br>一般说来，小时延的网络要优于大时延的网络。在某些情况下，一个低速率、小时延的网络很可能要优于一个高速率但大时延的网络.</p>
+<p><img src="/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1%5C%E6%97%B6%E5%BB%B6.png"></p>
+</li>
+</ul>
+</li>
+<li><p>时延带宽积</p>
+<p>把以上讨论的网络性能的两个度量—— 传播时延和带宽—— 相乘，就得到另一个很有用的度量：传播时延带宽积，即:<br>$$<br>时延带宽积&#x3D;传播时延\times带宽<br>$$<br>我们可以用下面的示意图来表示时延带宽积。这是一个代表链路的圆柱形管道，管道的长度是链路的传播时延（请注意，现在以时间作为单位来表示链路长度），而管道的截面积是链路的带宽。因此时延带宽积就表示这个管道的体积，表示这样的链路可容纳多少个比特。</p>
+<p><img src="/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1%5C%E6%97%B6%E5%BB%B6%E5%B8%A6%E5%AE%BD%E7%A7%AF.png"></p>
+</li>
+</ul>
+<p>不难看出，管道中的比特数表示从发送端发出的但尚未到达接收端的比特。对于一条正在传送数据的链路，只有在代表链路的管道都充满比特时，链路才得到充分的利用。</p>
+<ul>
+<li><p>往返时间RTT</p>
+<p>在计算机网络中，往返时间RTT(Round-Trip Time)也是一个重要的性能指标。这是因为在许多情况下，互联网上的信息不仅仅单方向传输而是双向交互的。因此，我们有时很需要知道双向交互一次所需的时间。例如，A向B发送数据。如果数据长度是100MB ,发送速率是100Mbit&#x2F;s，那么<br>$$<br>发送时间&#x3D;\frac{数据长度}{发送速率}&#x3D;\frac{100\times2^{20}\times8}{100\times10^{6}}\approx8.39s<br>$$<br>如果B正确收完100MB的数据后，就立即向A发送确认。再假定A只有在收到B的确认信息后，才能继续向B 发送数据。显然，这需要等待一个往返时间RTT(这里假定确认信息很短，可忽略B发送确认的时间).如果RTT&#x3D;2s ，那么可以算出A向B发送数据的有效数据率.<br>$$<br>有效数据率&#x3D;\frac{数据长度}{发送时间+RTT}&#x3D;\frac{100\times2^{20}\times8}{8.39+2}\approx80.7\times10^6bit&#x2F;s\approx80.7Mbit&#x2F;s<br>$$<br>比原来的数据率100 Mbit&#x2F;s小不少.</p>
+</li>
+<li><p>利用率</p>
+<p>利用率有信道利用率和网络利用率两种。信道利用率指出某信道有百分之几的时间是被利用的(有数据通过).完全空闲的信道的利用率是零。网络利用率则是全网络的信道利用率的加权平均值。信道利用率并非越高越好。这是因为，根据排队论的理论，当某信道的利用率增大时，该信道引起的时延也就迅速增加。这和高速公路的情况有些相似。当高速公路上的车流量很大时，由于在公路上的某些地方会出现堵塞，因此行车所需的时间就会变长。网络也有类似的情况。当网络的通信量很少时，网络产生的时延并不大。但在网络通信量不断增大的情况下，由于分组在网络结点(路由器或结点交换机)进行处理时需要排队等候，因此网络引起的时延就会增大。如果令<em>D<sub>0</em></sub>表示网络空闲时的时延，<em>D</em>表示网络当前的时延，那么在适当的假定条件下，可以用下面的简单公式来表示<em>D</em>,<em>D<sub>0</sub><em>和利用率</em>U</em>之间的关系：<br>$$<br>D&#x3D;\frac{D_0}{1-U}<br>$$<br>这里<em>U</em>是网络的利用率，数值在0到1之间。当网络的利用率达到其容量的1&#x2F;2时，时延就要加倍。特别值得注意的就是：当网络的利用率接近最大值1时，网络的时延就趋于无穷大。因此我们必须有这样的概念：信道或网络的利用率过高会产生非常大的时延。下图给出了上述概念的示意图。因此一些拥有较大主干网的ISP通常控制信道利用率不超过50%。如果超过了就要准备扩容，增大线路的带宽。</p>
+<p><img src="/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1%5C%E5%88%A9%E7%94%A8%E7%8E%87.png"></p>
+</li>
+</ul>
+<h1 id="分组交换"><a href="#分组交换" class="headerlink" title="分组交换"></a>分组交换</h1><p>分组交换则采用存储转发技术。把一个报文划分为几个分组后再进行传送。通常我们把要发送的整块数据称为一个报文(message)。在发送报文之前，先把较长的报文划分成为一个个更小的等长数据段，例如，每个数据段为1024bit。在每一个数据段前面，加上一些由必要的控制信息组成的首部(header)后，就构成了一个分组(packet)。分组又称为“包”，而分组的首部也可称为“包头”。分组是在互联网中传送的数据单元。分组中<br>的“首部”是非常重要的，正是由于分组的首部包含了诸如目的地址和源地址等重要控制信息，每一个分组才能在互联网中独立地选择传输路径，并被正确地交付到分组传输的终点。</p>
+<p><img src="/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1%5C%E5%88%86%E7%BB%84.png"></p>
+<p>现在假定图中的主机H<sub>1</sub>向主机H<sub>5</sub>发送数据。主机H<sub>1</sub>先将分组逐个地发往与它 直接相连的路由器A。此时，除链路H<sub>1</sub>-A外，其他通信链路并不被目前通信的双方所占用。需要注意的是，即使是链路H<sub>1</sub>-A ,也只是当分组正在此链路上传送时才被占用。在各分组传送之间的空闲时间，链路H<sub>1</sub>-A仍可为其他主机发送的分组使用.</p>
+<p>路由器A把主机H<sub>1</sub>发来的分组放入缓存。假定从路由器A的转发表中查出应把该分组转发到链路A-C。于是分组就传送到路由器C。当分组正在链路A-C传送时，该分组并不占用网络其他部分的资源。</p>
+<p>路由器C继续按上述方式查找转发表，假定查出应转发到路由器E。当分组到达路由器E后，路由器E就最后把分组直接交给主机H<sub>5</sub>。</p>
+<p>假定在某一个分组的传送过程中，链路A-C的通信量太大，那么路由器A可以把分组沿另一个路由传送，即先转发到路由器B，再转发到路由器E ,最后把分组送到主机H<sub>5</sub>。在网络中可同时有多台主机进行通信，如主机H<sub>5</sub>也可以经过路由器B和E与主机H<sub>6</sub>通信。</p>
+<p>这里要注意，路由器暂时存储的是一个个短分组，而不是整个的长报文。短分组是暂存在路由器的存储器(即内存)中而不是存储在磁盘中的。这就保证了较高的交换速率。</p>
+<p>优点:</p>
+<table>
+<thead>
+<tr>
+<th>优点</th>
+<th>手段</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>高效</td>
+<td>分组传输的过程中动态分配传输带宽，对通信链路是逐段占用</td>
+</tr>
+<tr>
+<td>灵活</td>
+<td>为每一个分组独立地选择最合适的转发路由</td>
+</tr>
+<tr>
+<td>迅速</td>
+<td>以分组作为传送单位，可以不先建立连接就能向其他主机发送分组</td>
+</tr>
+<tr>
+<td>可靠</td>
+<td>保证可靠性的网络协议；分布式多路由的分组交换网，使网络有很好的生存性</td>
+</tr>
+</tbody></table>
+<p>分组交换也带来一些新的问题。例如，分组在各路由器存储转发时需要排队，这就会造成一定的时延。因此，必须尽量设法减少这种时延。</p>
+<p>此外，由于分组交换不像电路交换那样通过建立连接来保证通信时所需的各种资源，因而无法确保通信时端到端所需的带宽。分组交换带来的另一个问题是各分组必须携带的控制信息也造成了一定的开销(overhead).整个分组交换网还需要专门的管理和控制机制。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/" data-id="cltr7869b003mk4un5tv93v8e" data-title="网络原理(1)" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          html总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/18/Java%E7%9A%84JDBC/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java的JDBC</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/cpp/" style="font-size: 17.5px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px;">汇编</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">网络</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 12.5px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>物理地址 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="什么是物理地址？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="物理地址">
+<meta property="og:url" content="http://example.com/2018/02/18/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="什么是物理地址？">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%5C%E9%83%A8%E4%BB%B6.png">
+<meta property="og:image" content="http://example.com/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%5C%E4%BD%8D%E7%BD%AE.png">
+<meta property="og:image" content="http://example.com/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%5C%E7%BA%B8%E6%9D%A11.png">
+<meta property="og:image" content="http://example.com/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%5C%E7%BA%B8%E6%9D%A12.png">
+<meta property="og:image" content="http://example.com/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%5C%E6%AE%B5.png">
+<meta property="article:published_time" content="2018-02-18T08:44:18.000Z">
+<meta property="article:modified_time" content="2024-03-14T12:19:35.586Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="汇编">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%5C%E9%83%A8%E4%BB%B6.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-物理地址" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/02/18/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80/" class="article-date">
+  <time class="dt-published" datetime="2018-02-18T08:44:18.000Z" itemprop="datePublished">2018-02-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      物理地址
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>什么是物理地址？</p>
+<span id="more"></span>
+
+<p><em>注意，本篇中数字后的D和H表示十进制和十六进制，注意区别</em></p>
+<p>物理地址不是真实地址。CPU访问的是虚拟地址空间，每一个内存单元在空间中都有个唯一的地址。</p>
+<p>CPU通过地址总线送入存储器的，必须是一个内存单元的物理地址。在 CPU向地址总线上发出物理地址之前，必须要在内部先形成这个物理地址。不同的CPU可以有不同的形成物理地址的方式。</p>
+<p>8086是16位结构的CPU ,这也就是说，在8086内部，能够一次性处理、传输、暂时存储的信息的最大长度是16位的。内存单元的地址在送上地址总线之前，必须在CPU中处理、传输、暂时存放，对于16位CPU ,能一次性处理、传输、暂时存储16位的地址。</p>
+<ul>
+<li>运算器一次最多可以处理16位的数据；</li>
+<li>寄存器的最大宽度为16位；</li>
+<li>寄存器和运算器之间的通路为16位。</li>
+</ul>
+<h1 id="重要"><a href="#重要" class="headerlink" title="重要"></a>重要</h1><p>8086CPU有 20位地址总线，可以传送20位地址，达到1MB寻址能力。即能表示2^20个不同的地址，一共是2^20^&#x3D;1048576byte&#x3D;1024k&#x3D;1M。（一个地址指向一个内存单元，8bit）。但是8086CPU又是16位结构，在内部一次性处理、传输、暂时存储的地址为16位。从8086CPU的内部结构来看，如果将地址从内部简单地发出，那么它只能送出16位的地址，表现出的寻址能力只有64KB。</p>
+<p>8086CPU采用一种在内部用两个16位地址合成的方法来形成一个20位的物理地址。</p>
+<p>（所以，内存的大小关键在于地址总线的宽度。）</p>
+<p><img src="/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%5C%E9%83%A8%E4%BB%B6.png" alt="逻辑结构"></p>
+<p>当8086CPU要读写内存时：</p>
+<ol>
+<li>CPU中的相关部件提供两个16位的地址，一个称为段地址，另一个称为偏移地址;</li>
+<li>段地址和偏移地址通过内部总线送入一个称为地址加法器的部件；</li>
+<li>地址加法器将两个16位地址合成为一个20位的物理地址；</li>
+<li>地址加法器通过内部总线将20位物理地址送入输入输出控制电路；</li>
+<li>输入输出控制电路将20位物理地址送上地址总线；</li>
+<li>20位物理地址被地址总线传送到存储器。</li>
+</ol>
+<p>地址加法器采用<strong>物理地址&#x3D;段地址X16D+偏移地址</strong>的方法用段地址和偏移地址合成物理地址。例如，8086CPU要访问地址为123C8(H)的内存单元，此时</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>十六位地址A</th>
+<th>十六位地址B</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>第一步</td>
+<td>1230（段地址）</td>
+<td>00C8（偏移地址）</td>
+</tr>
+<tr>
+<td>第二步</td>
+<td>送入地址加法器</td>
+<td>送入地址加法器</td>
+</tr>
+<tr>
+<td>第三步</td>
+<td>1230<del>H</del>*16<del>D</del></td>
+<td>00C8</td>
+</tr>
+<tr>
+<td>第四步</td>
+<td>12300+00C8&#x3D;123C8</td>
+<td></td>
+</tr>
+<tr>
+<td>第五步</td>
+<td>送到地址总线</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>“段地址*16D”更好的说法是左移4位。 一个数据的二进制形式左移N位，相当于该数据乘以2 的N次方。</p>
+<p>一个数据的十六进制形式左移1位，相当于乘以16；—个数据的十进制形式左移1位，相当于乘以10；一个X进制的数据左移1位，相当于乘以X。</p>
+<p><strong>注意</strong>：在内存中全是二进制的，对于乘多少的数字最好不要关注太多，非常容易混乱，每次算的时候还是用位移运算。</p>
+<h1 id="“段地址x16D-偏移地址-物理地址”的本质含义"><a href="#“段地址x16D-偏移地址-物理地址”的本质含义" class="headerlink" title="“段地址x16D+偏移地址&#x3D;物理地址”的本质含义"></a>“段地址x16D+偏移地址&#x3D;物理地址”的本质含义</h1><p>“段地址X16+偏移地址&#x3D;物理地址”的本质含义是：CPU在访问内存时，用一个基础地址（段地址X16）和一个相对于基础地址的偏移地址相加，给出内存单元的物理地址。<br>更一般地说，8086CPU的这种寻址功能是“基础地址+偏移地址&#x3D;物理地址”寻址模式的一种具体实现方案。8086CPU中，段地址X16可看作是基础地址。</p>
+<p><strong>注意：</strong>16是十进制的。在乘的时候要乘10H，因为段地址是十六进制的。</p>
+<p>下面，我用两个与CPU无关的例子做进一步的比喻说明。<br>第一个比喻说明“基础地址+偏移地址&#x3D;物理地址”的思想。<br>比如说，学校、体育馆、图书馆同在一条笔直的单行路上， 学校位于路的起点（从路的起点到学校距离是0米）。</p>
+<p><img src="/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%5C%E4%BD%8D%E7%BD%AE.png" alt="位置"></p>
+<p>你要去图书馆，问我那里的地址，我可以用两种方式告诉你图书馆的地址：<br>（1） 从学校走2826m到图书馆。这 2826m可以认为是图书馆的物理地址。 </p>
+<p>（2） 从学校走2000m到体育馆，从体育馆再走826m到图书馆。第一个距离2000m， 是相对于起点的基础地址，第二个距离826m是相对于基础地址的偏移地址（以基础地址为起点的地址）。</p>
+<p>第一种方式是直接给出物理地址2826m ,而第二种方式是用基础地址和偏移地址相加来得到物理地址的。<br>第二个比喻进一步说明“段地址X16D+偏移地址&#x3D;物理地址”的思想。<br>我们为上面的例子加一些限制条件，比如，只能通过纸条来互相通信，你问我图书馆的地址我只能将它写在纸上告诉你。显然，我必须有一张可以容纳4 位数据的纸条，才能写下2826这个数据。</p>
+<p><img src="/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%5C%E7%BA%B8%E6%9D%A11.png" alt="纸条"></p>
+<p>不巧的是，我没有能容纳4 位数据的纸条，仅有两张可以容纳3 位数据的纸条。这样我只能以这种方式告诉你2826这个数据。</p>
+<p><img src="/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%5C%E7%BA%B8%E6%9D%A12.png" alt="纸条"></p>
+<p>在第一张纸上写上200D（段地址），在第二张纸上写上826D（偏移地址）。假设我们事前对这种情况又有过相关的约定：你得到这两张纸后，做这样的运算：200D（段地址)*10D+826D（偏移地址）&#x3D;2826D（物理地址）。<br>8086CPU就是这样一个只能提供两张3位数据纸条的CPU。当然，现在的许多计算机都是32位的，即字长是4字节，8字节的也很多。</p>
+<h1 id="段的概念"><a href="#段的概念" class="headerlink" title="段的概念"></a>段的概念</h1><p>其实，内存并没有分段，段的划分来自于CPU ,由于8086CPU用 “基础地址(段地址*16)+偏移地址&#x3D;物理地址”的方式给出内存单元的物理地址，使得我们可以用分段的方式来管理内存。如图所示，我们可以认为：地址10000H<del>100FFH的内存单元组成一个段，该段的起始地址（基础地址）为 10000H，段地址为1000H，大小为100H；我们也可以认为地址10000H</del>1007FH、10080H~100FFH的内存单元组成两个段，它们的起始地址（基础地址）为：10000H和10080H，段地址为:1000H和 1008H,大小都为80H。</p>
+<p><img src="/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%5C%E6%AE%B5.png" alt="段"></p>
+<p>以后，在编程时可以根据需要，将若干地址连续的内存单元看作一个段，用段地址X16定位段的起始地址（基础地址），用偏移地址定位段中的内存单元。有两点需要注意：段地址X16必然是16的倍数，所以一个段的起始地址也一定是16的倍数；偏移地址为16位，16位地址的寻址能力为64KB,所以一个段的长度最大为64KB。</p>
+<p>注意，因为只要加起来是那个物理地址，所以可以用不同的段地址和偏移地址构成同一个物理地址。</p>
+<h1 id="段寄存器"><a href="#段寄存器" class="headerlink" title="段寄存器"></a>段寄存器</h1><p>段地址由段寄存器提供，8086CPU有4个段寄存器:CS,DS,SS,ES.这里先看看CS和另一个指令指针寄存器IP.在8086PC机中,任意时刻，设CS中的内容为M, IP中的内容为N, 8086CPU将从内存M*16+N单元开始，读取一条指令并执行.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/02/18/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80/" data-id="cltr7869a003gk4un7tnmh4o7" data-title="物理地址" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/03/29/Java%E7%AC%94%E8%AE%B01/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Java笔记1
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/02/10/%E7%BB%93%E6%9E%84%E4%BD%93/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">结构体</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/cpp/" style="font-size: 17.5px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px;">汇编</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">网络</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 12.5px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

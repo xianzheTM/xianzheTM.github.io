@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>计算机总线 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="本篇谈谈总线及内存地址空间。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机总线">
+<meta property="og:url" content="http://example.com/2018/01/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="本篇谈谈总线及内存地址空间。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF%5C%E8%AF%BB%E5%8F%96.png">
+<meta property="og:image" content="http://example.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF%5C11.png">
+<meta property="og:image" content="http://example.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF%5C8088.png">
+<meta property="og:image" content="http://example.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF%5C8086.png">
+<meta property="og:image" content="http://example.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF%5C%E5%86%85%E5%AD%98%E7%A9%BA%E9%97%B4.png">
+<meta property="article:published_time" content="2018-01-24T02:03:39.000Z">
+<meta property="article:modified_time" content="2024-03-14T12:19:35.381Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="汇编">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF%5C%E8%AF%BB%E5%8F%96.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-计算机总线" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/01/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/" class="article-date">
+  <time class="dt-published" datetime="2018-01-24T02:03:39.000Z" itemprop="datePublished">2018-01-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      计算机总线
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>本篇谈谈总线及内存地址空间。</p>
+<span id="more"></span>
+
+<h1 id="CPU对存储器（内存）的读写"><a href="#CPU对存储器（内存）的读写" class="headerlink" title="CPU对存储器（内存）的读写"></a>CPU对存储器（内存）的读写</h1><p>存储器被划分成多个存储单元，存储单元从零开始顺序编号。这些编号可以看作存储单元在存储器中的地址。就像一条街，每个房子都有门牌号码。<br>C P U 要从内存中读数据，首先要指定存储单元的地址。也就是说它要先确定它要读取哪一个存储单元中的数据。就像在一条街上找人，先要确定他住在哪个房子里。<br>另外，在一台微机中，不只有存储器这一种器件。CPU 在读写数据时还要指明，它要对哪一个器件进行操作，进行哪种操作，是从中读出数据，还是向里面写入数据。  </p>
+<p>可见，CPU 要想进行数据的读写，必须和外部器件（标准的说法是芯片）进行下面3 类信息的交互。  </p>
+<ul>
+<li>存储单元的地址（地址信息）;</li>
+<li>器件的选择，读或写的命令（控制信息）;</li>
+<li>读或写的数据（数据信息）。</li>
+</ul>
+<p>那么CPU 是通过什么将地址、数据和控制信息传到存储器芯片中的呢？电子计算机能处理、传输的信息都是电信号，电信号当然要用导线传送。在计算机中专门有连接CPU和其他芯片的导线，通常称为总线。总线从物理上来讲，就是一根根导线的集合。根据传送信息的不同，总线从逻辑上又分为3 类，地址总线、控制总线和数据总线。</p>
+<p>CPU从 3 号单元中读取数据的过程如下。</p>
+<p><img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF%5C%E8%AF%BB%E5%8F%96.png" alt="读取"></p>
+<p>（1） CPU 通过地址线将地址信息3 发出。</p>
+<p>（2） CPU 通过控制线发出内存读命令，选中存储器芯片，并通知它，将要从中读取数据。  </p>
+<p>（3） 存储器将3 号单元中的数据8通过数据线送入CPU。</p>
+<p>写操作与读操作的步骤相似。如向3 号单元写入数据26。</p>
+<p>（1）CPU通过地址线将地址信息3发出。</p>
+<p>（2）CPU通过控制线发出内存写命令，选中存储器芯片，并通知它，要向其中写入<br>数据。</p>
+<p>（3）CPU通过数据线将数据26送入内存的3 号单元中。<br>从上面我们知道了 CPU是如何进行数据读写的。可是，如何命令计算机进行数据的读写呢？<br>要让一个计算机或微处理器工作，应向它输入能够驱动它进行工作的电平信息(机器码)。<br>对于8086CPU，下面的机器码，能够完成从3 号单元读数据。<br>​	机器码： 101000010000001100000000<br>​	含义： 从 3 号单元读取数据送入寄存器AX<br>CPU接收这条机器码后将完成我们上面所述的读写工作。机器码难于记忆，用汇编指令来表示，情况如下。<br>​	机器码： 10100001 00000011 00000000<br>​	对应的汇编指令：MOV AX,[3]<br>​	含义： 传送3 号单元的内容入AX</p>
+<h1 id="地址总线"><a href="#地址总线" class="headerlink" title="地址总线"></a>地址总线</h1><p>地址总线是用来指定存储器单元的，它能传送多少个不同的信息，就决定了CPU的寻址能力。假定CPU有10根地址总线，那么可以表示0~1023共1024个状态，及1024个不同的地址，这就限制了你的存储器（主存）的大小。</p>
+<p>下图是指定第11个内存单元时的情况:</p>
+<p><img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF%5C11.png" alt="11"></p>
+<p>11的二进制是1011。</p>
+<h1 id="数据总线"><a href="#数据总线" class="headerlink" title="数据总线"></a>数据总线</h1><p>CPU与内存或其他器件之间的数据传送是通过数据总线来进行的。数据总线的宽度决定了 CPU和外界的数据传送速度。8 根数据总线一次可传送一个8 位二进制数据（即一个字节）。16根数据总线一次可传送两个字节。<br>8088CPU的数据总线宽度为8，8086CPU的数据总线宽度为16。我们来分别看一下它们向内存中写入数据89D8H时，是如何通过数据总线传送数据的。下图展示了两种CPU数据总线上的数据传送情况。（H表示16进制，89D8的二进制为1000 1001 1101 1000，十进制是35288）</p>
+<p><img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF%5C8088.png" alt="8088"></p>
+<p><img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF%5C8086.png" alt="8086"></p>
+<h1 id="控制总线"><a href="#控制总线" class="headerlink" title="控制总线"></a>控制总线</h1><p>CPU对外部器件的控制是通过控制总线来进行的。在这里控制总线是个总称，控制总线是一些不同控制线的集合。有多少根控制总线，就意味着CPU提供了对外部器件的多少种控制。所以，控制总线的宽度决定了 CPU对外部器件的控制能力。<br>前面所讲的内存读或写命令是由几根控制线综合发出的，其中有一根称为“读信号输出”的控制线负责由CPU向外传送读信号，CPU向该控制线上输出低电平表示将要读取数据；有一根称为“写信号输出”的控制线则负责传送写信号。</p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><h2 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h2><p>(1) 1 个 CPU的寻址能力为8KB ,那么它的地址总线的宽度为（13）。</p>
+<p>​	<em>8KB&#x3D;8192B,即8192个内存单元，2^13&#x3D;8192.</em></p>
+<p>(2) 1KB的存储器有（1024）个存储单元。存储单元的编号从（0-1023）。</p>
+<p>​	<em>一个存储单元为1B</em></p>
+<p>(3) 1KB的存储器可以存储（8192）个 bit, （1024）个 Byte。</p>
+<p>(4) 1GB、1MB、 1KB 分别是（1073741842，1048576，1024）Byte。 </p>
+<p>(5) 8080、8088、80286、80386的地址总线宽度分别为16根、20根、24根 、32根，则它们的寻址能力分别为：</p>
+<p>​	<em>2^16&#x2F;1024&#x3D;64KB</em></p>
+<p>​	<em>2^20&#x2F;1024&#x2F;1024&#x3D;1MB</em></p>
+<p>​	<em>2^24&#x2F;1021&#x2F;1024&#x3D;16MB</em></p>
+<p>​	<em>2^32&#x2F;1024&#x2F;1024&#x2F;1024&#x3D;4GB</em></p>
+<p>(6) 8080、8088、8086、80286、80386的数据总线宽度分别为8 根、8 根、16根、16根、32根。则它们一次可以传送的数据为:</p>
+<p>​	<em>1B,1B,2B,2B,4B</em></p>
+<p>(7) 从内存中读取1024字节的数据，8086至少要读（512） 次，80386至少要读（256） 次。<br>(8) 在存储器中，数据和程序以（二进制）形式存放。</p>
+<h1 id="内存地址空间概述"><a href="#内存地址空间概述" class="headerlink" title="内存地址空间概述"></a>内存地址空间概述</h1><p>一个CPU的地址总线宽度为10，那么可以寻找1024个内存单元，这1024个内存单元构成了CPU的内存地址空间。</p>
+<h2 id="主板"><a href="#主板" class="headerlink" title="主板"></a>主板</h2><p>在每一台PC 机中，都有一个主板，主板上有核心器件和一些主要器件，这些器件通过总线(地址总线、数据总线、控制总线)相连。这些器件有CPU、存储器、外围芯片组、扩展插槽等。扩展插槽上一般插有RAM内存条和各类接口卡。（存疑，存储器就是内存啊，为什么扩展插槽的RAM内存条不算在里面。）</p>
+<h2 id="接口卡"><a href="#接口卡" class="headerlink" title="接口卡"></a>接口卡</h2><p>计算机系统中，所有可用程序控制其工作的设备，必须受到CPU的控制。CPU对外部设备都不能直接控制，如显示器、音箱、打印机等。直接控制这些设备进行工作的是插在扩展插槽上的接口卡。扩展插槽通过总线和CPU相连，所以接口卡也通过总线同CPU相连。CPU可以直接控制这些接口卡，从而实现CPU对外设的间接控制。简单地讲，就是 CPU通过总线向接口卡发送命令，接口卡根据CPU的命令控制外设进行工作。</p>
+<h2 id="各类存储器芯片"><a href="#各类存储器芯片" class="headerlink" title="各类存储器芯片"></a>各类存储器芯片</h2><p>一 台 PC机中，装有多个存储器芯片，这些存储器芯片从物理连接上看是独立的、不同的器件。从读写属性上看分为两类：随机存储器（RAM）和只读存储器（ROM）。随机存储器可读可写，但必须带电存储，关机后存储的内容丢失；只读存储器只能读取不能写入，关机后其中的内容不丢失。这些存储器从功能和连接上又可分为以下几类。</p>
+<ul>
+<li><p>随机存储器，用于存放供CPU使用的绝大部分程序和数据，主随机存储器一般由两个位置上的 RAM组成，装在主板上RAM和插在扩展插槽上的RAM。</p>
+</li>
+<li><p>装有 BIOS（Basic Input&#x2F;Output System ,基本输入&#x2F;输出系统）的 ROM，BIOS是由主板和各类接口卡（如显卡、网卡等）厂商提供的软件系统，可以通过它利用该硬件设备进行最基本的输入输出。在主板和某些接口卡上插有存储相应BIOS的 ROM。例如，主 板 上 的 ROM 中存储着主板的BIOS（通常称为系统BIOS）；显卡上的ROM中存储着显卡的BIOS；如果网卡上装有ROM ,那其中就可以存储网卡的BIOS。</p>
+</li>
+<li><p>接口卡上的RAM，某些接口卡需要对大批量输入、输出数据进行暂时存储，在其上装有RAM。最典型的是显示卡上的RAM, 一般称为显存。显示卡随时将显存中的数据向显示器上输出。换句话说，我们将需要显示的内容写入显存，就会出现在显示器上。</p>
+</li>
+</ul>
+<h2 id="内存地址空间"><a href="#内存地址空间" class="headerlink" title="内存地址空间"></a>内存地址空间</h2><p>上述的那些存储器，在物理上是独立的器件，但是在以下两点上相同。</p>
+<ul>
+<li><p>都和CPU的总线相连。</p>
+</li>
+<li><p>CPU对它们进行读或写的时候都通过控制线发出内存读写命令。</p>
+</li>
+</ul>
+<p>这也就是说，CPU在操控它们的时候，把它们都当作内存来对待，把它们总的看作一个由若干存储单元组成的逻辑存储器，这个逻辑存储器就是我们所说的内存地址空间。</p>
+<p>下图展示了CPU将个类存储器看作一个整体的逻辑存储器的情况。</p>
+<p><img src="/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF%5C%E5%86%85%E5%AD%98%E7%A9%BA%E9%97%B4.png" alt="内存空间"></p>
+<p>在图中，所有的物理存储器被看作一个由若干存储单元组成的逻辑存储器，每个物理存储器在这个逻辑存储器中占有一个地址段，即一段地址空间。CPU在这段地址空间中读写数据，实际上就是在相对应的物理存储器中读写数据。</p>
+<p>假设，图中的内存地址空间的地址段分配如下。<br>​	<em>地址0-7FFFH的 32KB空间为主随机存储器的地址空间；</em><br>​	<em>地址8000H〜9FFFH的 8KB空间为显存地址空间；</em><br>​	<em>地址AOOOH〜FFFFH的 24KB空间为各个ROM的地址空间。</em><br>这样，CPU向内存地址为1000H的内存单元中写入数据，这个数据就被写入主随机存储器中；CPU向内存地址为8000H的内存单元中写入数据，这个数据就被写入显存中，然后会被显卡输出到显示器上；CPU向内存地址为C000H的内存单元中写入数据的操作是没有结果的，C000H单元中的内容不会被改变，C000H单元实际上就是ROM存储器中的一个单元。<br>内存地址空间的大小受CPU地址总线宽度的限制。8086CPU的地址总线宽度为20,可 以 传 送 2^20个不同的地址信息(大小从0 至 2^20-1)。即可以定位22G个内存单元，则8086PC的内存地址空间大小为1MB。同理，80386CPU的地址总线宽度为3 2 ,则内存地址空间最大为4GB。</p>
+<p>下篇写CPU的寄存器。</p>
+<p>以上。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/01/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%80%BB%E7%BA%BF/" data-id="cltr7869c003rk4un160y0lkg" data-title="计算机总线" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/01/24/CPU%E7%9A%84%E7%BB%93%E6%9E%84%E5%92%8C%E5%AF%84%E5%AD%98%E5%99%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          CPU的结构和寄存器
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/01/22/stdafx-h%E7%9A%84%E4%BD%9C%E7%94%A8%E5%8F%8A%E5%8E%9F%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">stdafx.h的原理及作用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/cpp/" style="font-size: 17.5px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px;">汇编</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">网络</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 12.5px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

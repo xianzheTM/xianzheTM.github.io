@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Java笔记5 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="上一篇主要回顾了一些细枝末节，这篇讲继承与多态。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java笔记5">
+<meta property="og:url" content="http://example.com/2018/04/10/Java%E7%AC%94%E8%AE%B05/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="上一篇主要回顾了一些细枝末节，这篇讲继承与多态。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/Java%E7%AC%94%E8%AE%B05%5Cjavap.png">
+<meta property="og:image" content="http://example.com/Java%E7%AC%94%E8%AE%B05%5Cjavap-c.png">
+<meta property="og:image" content="http://example.com/Java%E7%AC%94%E8%AE%B05%5Cjavapc.png">
+<meta property="article:published_time" content="2018-04-10T05:09:34.000Z">
+<meta property="article:modified_time" content="2024-03-14T12:19:35.012Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/Java%E7%AC%94%E8%AE%B05%5Cjavap.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Java笔记5" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/04/10/Java%E7%AC%94%E8%AE%B05/" class="article-date">
+  <time class="dt-published" datetime="2018-04-10T05:09:34.000Z" itemprop="datePublished">2018-04-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Java笔记5
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>上一篇主要回顾了一些细枝末节，这篇讲继承与多态。</p>
+<span id="more"></span>
+
+<h1 id="类的继承"><a href="#类的继承" class="headerlink" title="类的继承"></a>类的继承</h1><p>&emsp;<code>class SubClass extends SuperClass</code>中的extends表示SubClass继承于SuperClass，但是extends本意是扩展的意思。因为翻译问题，子类和父类有各种名字。<br>子类继承父类的全部成员变量和方法（有关于private的有点小例外），但是构造器不算。</br><br>&emsp;一个子类只能有一个父类，是单继承关系，但是可以有多层继承关系。所有的类都是java.lang.Object类的子类或间接子类。<br>&emsp;子类扩展（extends）了父类，父类派生（derive）了子类。<br>&emsp;方法的重写要遵循“两同两小一大”的规则，“两同”即方法名，形参列表相同；“两小”即子类方法返回值类型应比父类方法返回值类型更小或相等，子类方法声明抛出的异常类应比父类方法声明抛出的异常类更小或相等；“一大”指子类方法的访问权限要比父类的更大或相等。而且，字类和父类的静态与非静态要对应。</br><br>&emsp;当子类覆盖了父类后，在子类中就不能直接访问父类中的方法，但是可以通过super（实例方法）和父类类名（类方法，静态的）调用。对于有private的父类方法，子类是不可见的，即使满足上面的规则也不是重写。<strong>还有一点要注意的是，当参数列表不同时，就不是重写，而是父类与子类方法的重载</strong>。</p>
+<h2 id="super的使用"><a href="#super的使用" class="headerlink" title="super的使用"></a>super的使用</h2><p>&emsp;前面写到，如果要在子类中调用父类中被覆盖的实例方法，则要使用super。像this一样，super也不能在static中使用，因为它是用来调用实例方法的。</br><br>&emsp;如果在构造器中使用super的话，则表示限定改构造器初始化的对象是从父类继承得到的实例变量，该类自己拓展的变量将不会使用。</br><br>&emsp;上面还写到，当遵循了“两同两小一大”原则时发生了重写。类似的，当实例变量发生覆盖时，也可以使用super来调用父类的实例变量。但是如果没有显式的指定super，那就会根据下面的顺序检查实例变量：</br></p>
+<ol>
+<li>查找该方法中是否有局部变量a;</li>
+<li>查找当前类中是否有成员变量a;</li>
+<li>查找a的直接父类中是否有成员变量a,一次上溯到a的所有父类，直到java.lang.object，若还没有就出现编译错误。</li>
+</ol>
+<p>&emsp;当程序创建一个子类对象时，不仅会为该类中定义的实例变量创建内存空间，其父类包括间接父类的实例变量也会被创建，即使使用的是同一个名字。存在一种下面的特殊情况:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Parent</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">String</span> <span class="variable">tag</span> <span class="operator">=</span> <span class="string">&quot;hello&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Derived</span> <span class="keyword">extends</span> <span class="title class_">Parent</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">String</span> <span class="variable">tag</span> <span class="operator">=</span> <span class="string">&quot;hi&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HideTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Derived</span> <span class="variable">d</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Derived</span>();</span><br><span class="line">        <span class="comment">//System.out.println(d.tag);</span></span><br><span class="line">        System.out.println(((Parent) d).tag);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;首先这是在main方法中，显然不能用super。这里的写法是将<code>d</code>强制转化为Parent类型。解决方法多的是，我也试着写了一个：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Parent</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">String</span> <span class="variable">tag</span> <span class="operator">=</span> <span class="string">&quot;hello&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Derived</span> <span class="keyword">extends</span> <span class="title class_">Parent</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">String</span> <span class="variable">tag</span> <span class="operator">=</span> <span class="string">&quot;hi&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">method</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="built_in">super</span>.tag);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HideTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Derived</span> <span class="variable">d</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Derived</span>();</span><br><span class="line">        method();</span><br><span class="line">        <span class="comment">// System.out.println(super.tag);</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用父类的构造器"><a href="#使用父类的构造器" class="headerlink" title="使用父类的构造器"></a>使用父类的构造器</h2><p>与子类无法获取父类的private的成员变量一样，子类是无法获取父类的构造器的，但是一样可以调用父类的初始化代码，类似于前面讲过的一个构造器调用另一个重载的构造器。在一个构造器中调用别的构造器使用this，在子类中调用父类的构造器则用super。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">double</span> size;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Base</span><span class="params">(<span class="type">double</span> size,String name)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.size=size;</span><br><span class="line">        <span class="built_in">this</span>.name=name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sub</span> <span class="keyword">extends</span> <span class="title class_">Base</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String color;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Sub</span><span class="params">(<span class="type">double</span> size,String name,String color)</span>&#123;</span><br><span class="line">        <span class="built_in">super</span>(size,name);</span><br><span class="line">        <span class="built_in">this</span>.color=color;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        Sub s=<span class="keyword">new</span> <span class="title class_">Sub</span>(<span class="number">5.6</span>,<span class="string">&quot;测试对象&quot;</span>,<span class="string">&quot;红色&quot;</span>);</span><br><span class="line">        System.out.println(s.size+<span class="string">&quot;--&quot;</span>+s.name+<span class="string">&quot;--&quot;</span>+s.color);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;从上面的代码中可以看出，super和this的行为非常相似。同时，super也必须在第一行，this和super也不能同时出现。<br>&emsp;有意思的是不管是否用super调用来执行父类构造器的代码，子类构造器总会调用父类构造器一次。子类构造器调用父类构造器分如下几种情况:</p>
+<ol>
+<li>子类构造器执行体的第一行使用super显式调用父类构造器，系统将根据super调用里的参数调用对应的父类构造器。</li>
+<li>子类构造器执行体的第一行代码使用this显式调用本类中重载的构造器，系统将根据this的参数选择合适的本类的构造器。执行本类的另一个构造器前会调用父类的构造器。</li>
+<li>子类构造器执行体既没有super也没有this，系统将会在调用子类构造器之前隐式调用父类构造器。</li>
+</ol>
+<p>&emsp;不管是哪种情况，父类构造器都要在子类构造器之前调用，而且不止一层，要直至<code>java.lang.object</code>。</p>
+<p>&emsp;如果使用eclipse等IDE写代码，可以自动生成构造函数。但是你会发现，生成出来的都是这样的:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Person2</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Person2</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Person2</span><span class="params">(<span class="type">int</span> age, String name)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">        <span class="built_in">this</span>.age = age;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;一个不带参数，另一个带参数，但是都有一个<code>super()</code>。为什么要有<code>super()</code>调用父类的构造函数？很简单，前面说过，子类是父类的扩充，如果使用构造函数生成子类时，不用<code>super()</code>将父类一并生成，那么子类要从哪里来呢？这就是上面说所有的调用构造器最终都会调用<code>java.lang.object</code>的原因。就像是人一样，生长时通过细胞分化，长出各种不同的细胞，但是最根本的还是离不了干细胞。下面举个例子加深印象:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Creature</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Creature</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Creature无参数的构造器&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Animal</span> <span class="keyword">extends</span> <span class="title class_">Creature</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Animal</span><span class="params">(String name)</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Animal带一个参数的构造器&quot;</span>+<span class="string">&quot;该动物的name为&quot;</span>+name);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Animal</span><span class="params">(String name,<span class="type">int</span> age)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.name;</span><br><span class="line">        System.out.println(<span class="string">&quot;Animal带两个参数的构造器&quot;</span>+<span class="string">&quot;该动物的age为&quot;</span>+age);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Wolf</span> <span class="keyword">extends</span> <span class="title class_">Animal</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Wolf</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="built_in">super</span>(<span class="string">&quot;灰太狼&quot;</span>,<span class="number">3</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;Wolf无参数的构造器&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Wolf</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">BaseClass</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="variable">book</span> <span class="operator">=</span> <span class="number">6</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">base</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;父类的普通方法&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;父类的被覆盖的方法&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SubClass</span> <span class="keyword">extends</span> <span class="title class_">BaseClass</span> &#123;</span><br><span class="line">    <span class="comment">//重新定义一个book实例变量来隐藏父类的book实例变量</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">String</span> <span class="variable">book</span> <span class="operator">=</span> <span class="string">&quot;阿拉伯的劳伦斯&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;子类的覆盖父类的方法&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sub</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;子类的普通方法&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">//下面编译时类型和运行时类型时一样,不存在多态</span></span><br><span class="line">        <span class="type">BaseClass</span> <span class="variable">bc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BaseClass</span>();</span><br><span class="line">        <span class="comment">//输出6</span></span><br><span class="line">        System.out.println(bc.book);</span><br><span class="line">        <span class="comment">//执行BaseClass的方法</span></span><br><span class="line">        bc.base();</span><br><span class="line">        bc.test();</span><br><span class="line">        <span class="comment">//下面编译时类型和运行时类型时一样,不存在多态</span></span><br><span class="line">        <span class="type">SubClass</span> <span class="variable">sc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SubClass</span>();</span><br><span class="line">        <span class="comment">//输出&quot;阿拉伯的劳伦斯&quot;</span></span><br><span class="line">        System.out.println(sc.book);</span><br><span class="line">        <span class="comment">//执行BaseClass的方法</span></span><br><span class="line">        sc.base();</span><br><span class="line">        <span class="comment">//执行SubClass的方法</span></span><br><span class="line">        sc.test();</span><br><span class="line">        <span class="comment">//下面编译时类型与运行时类型不一样,多态发生</span></span><br><span class="line">        <span class="type">BaseClass</span> <span class="variable">ploymophicBc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SubClass</span>();</span><br><span class="line">        <span class="comment">//输出6---表明访问的是父类对象的实例变量</span></span><br><span class="line">        System.out.println(ploymophicBc.book);</span><br><span class="line">        <span class="comment">//调用从父类继承的base()方法</span></span><br><span class="line">        ploymophicBc.base();</span><br><span class="line">        <span class="comment">//调用当前类的test()方法</span></span><br><span class="line">        ploymophicBc.test();</span><br><span class="line">        <span class="comment">//因为ploymophicBc的编译时类型是BaseClass</span></span><br><span class="line">        <span class="comment">//BaseClass没有sub()方法,所以下面的方法会出现错误</span></span><br><span class="line">        <span class="comment">//ploymophicBc.sub();</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">6</span></span><br><span class="line">父类的普通方法</span><br><span class="line">父类的被覆盖的方法</span><br><span class="line">阿拉伯的劳伦斯</span><br><span class="line">父类的普通方法</span><br><span class="line">子类的覆盖父类的方法</span><br><span class="line"><span class="number">6</span></span><br><span class="line">父类的普通方法</span><br><span class="line">子类的覆盖父类的方法</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;先不管什么是多态,上面的代码还有点问题,既然ploumophicBc是BaseClass类型,不能用sub方法,那么为什么能用SubClass的test方法?李书讲的很迷啊.对于多态的解释也非常奇怪:当编译时类型与运行时类型不一样时就有可能发生多态.<code>BaseClass ploymophicBc = new SubClass();</code>什么叫ploymophicBc的编译时类型是BaseClass,运行时类型是SubClass???至于林书,emmm,更迷了.例如:当一个方法可以接受多种类型的参数就是多态.这TM都什么解释啊,两个人说的八杆子打不着…</p>
+<h2 id="继承与组合"><a href="#继承与组合" class="headerlink" title="继承与组合"></a>继承与组合</h2><p>&emsp;先不论多态到底是什么，回到上文，继承还有一些要注意的地方。<br>&emsp;以前写过，类应该保证良好的封装性，但是父类无疑破坏了这种封装，而且如果子类对父类进行重写等操作无疑会提高耦合性。这是非常危险的。所以，父类需要遵循一定的原则保证封装性：</p>
+<ul>
+<li>尽量隐藏父类的内部数据，成员变量应尽量设置为private的。</li>
+<li>不要让父类可以随意直接访问，修改父类的方法。一些辅助性的方法要设置为private的。如果父类的方法需要被外部类使用，则设为public，但是又不要子类修改，则要设为final。而希望子类重写又不要别的类自由访问的方法则设置为protected。</li>
+<li>尽量不要在父类构造器中调用要被子类重写额方法，具体原因看下面的代码：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Base</span><span class="params">()</span> &#123;</span><br><span class="line">        test();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;将被子类重写的方法&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Sub</span> <span class="keyword">extends</span> <span class="title class_">Base</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;子类重写父类的方法，&quot;</span>+<span class="string">&quot;name的长度为&quot;</span>+name.length());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Sub</span> <span class="variable">s</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Sub</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;这段代码会引发空指针异常。当创建Sub对象时，会先上溯到Base类，调用Base类的构造器，而在这个构造器中又调用了test()方法，但是这里事调用了子类中的test()方法。为什么会这样，还需要再强调一下什么是“重写（Overriding）”，请看链接：<a target="_blank" rel="noopener" href="http://www.runoob.com/java/java-override-overload.html">http://www.runoob.com/java/java-override-overload.html</a>。里面有张图，看了后就明白了，“重写”其实相当于一种<strong>覆盖</strong>，在上面的代码中父类的test()方法已经是不可见的了，除非是用super调用。再来看空指针异常，异常的原因不是表面上我没有给name赋值，而是，name是一个成员变量，这个时候还在类初始化期，s这个对象还没出来。所以对于一个空的东西是没法调用length()方法的。</br><br>&emsp;这里还要提到一点“初始化”的顺序，这比较复杂。给出链接：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/49196023">https://www.zhihu.com/question/49196023</a></p>
+<blockquote>
+<p>a. 加载类</br><br>1 为父类静态属性分配内存并赋值 &#x2F; 执行父类静态代码段 （按代码顺序）</br><br>2 为子类静态属性分配内存并赋值 &#x2F; 执行子类静态代码段 （按代码顺序）</br><br>b. 创建对象</br><br>1 为父类实例属性分配内存并赋值 &#x2F; 执行父类非静态代码段 （按代码顺序）</br><br>2 执行父类构造器</br><br>3 为子类实例属性分配内存并赋值 &#x2F; 执行子类非静态代码段 （按代码顺序）</br><br>4 执行子类构造器</br><br>&emsp;注意，静态属性就是类变量，静态代码段就是静态初始化块。<br>&emsp;按照这个顺序，注意这个顺序是初始化类的顺序，这个时候还没有对象出来。由于并没有静态属性和静态代码块等东西，所以直接进入b的2，调用了子类的test()方法，但是问题是4还没执行，不存在成员变量，所以出现了空指针异常。<br>&emsp;这个话题暂时打住，类的加载比较复杂，以后会专门说。<br>&emsp;回到前文，不仅要考虑继承时的规则，也要考虑什么时候什么时候应该派生子类，什么时候没有必要派生。用简单两句话可以概括：子类需要增加额外的属性，子类要增加自己独有的行为方式。<br>&emsp;还有另外一种实现复用的方式：组合。先来看用继承实现的代码：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Animal</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">beat</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;心脏跳动...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">breath</span><span class="params">()</span>&#123;</span><br><span class="line">        beat();</span><br><span class="line">        System.out.println(<span class="string">&quot;吸气，吐气...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Bird</span> <span class="keyword">extends</span> <span class="title class_">Animal</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fly</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;在天空飞翔&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Wolf</span> <span class="keyword">extends</span> <span class="title class_">Animal</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;在陆地奔跑&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">InheritTest</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        Bird b=<span class="keyword">new</span> <span class="title class_">Bird</span>();</span><br><span class="line">        b.breath();</span><br><span class="line">        b.fly();</span><br><span class="line">        Wolf w=<span class="keyword">new</span> <span class="title class_">Wolf</span>();</span><br><span class="line">        w.breath();</span><br><span class="line">        w.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再给出用组合的方式实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">beat</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;心脏跳动...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">breath</span><span class="params">()</span> &#123;</span><br><span class="line">        beat();</span><br><span class="line">        System.out.println(<span class="string">&quot;吸气，吐气...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Bird</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Animal a;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Bird</span><span class="params">(Animal a)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.a = a;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">breath</span><span class="params">()</span> &#123;</span><br><span class="line">        a.breath();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fly</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;在天空飞翔&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Wolf</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Animal a;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Wolf</span><span class="params">(Animal a)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.a = a;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">breath</span><span class="params">()</span> &#123;</span><br><span class="line">        a.breath();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;在陆地奔跑&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">InheritTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Animal</span> <span class="variable">a1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Animal</span>();</span><br><span class="line">        <span class="type">Bird</span> <span class="variable">b</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Bird</span>(a1);</span><br><span class="line">        b.breath();</span><br><span class="line">        b.fly();</span><br><span class="line">        <span class="type">Animal</span> <span class="variable">a2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Animal</span>();</span><br><span class="line">        <span class="type">Wolf</span> <span class="variable">w</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Wolf</span>(a2);</span><br><span class="line">        w.breath();</span><br><span class="line">        w.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;组合的方式显然是在原来的子类中包含另外的原来的父类。继承和组合都是实现复用，但是对于上面的代码来说，继承更合适。而多余Person类和Arm类更加适合用组合。继承表达的是“是(is-a)”的关系，组合表达的是“有(has-a)”的关系。</p>
+<h2 id="初始化块"><a href="#初始化块" class="headerlink" title="初始化块"></a>初始化块</h2><p>&emsp;关于初始化块，我的疑问非常多，求助了许多地方都没有得到解决，无奈只能放一放，先往下进行。</br><br>&emsp;一个类中可以有多个初始化块，但是最好还是放在一起。初始化块只在创建对象时隐式的执行，且在构造器之前执行。请看下面的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">InstanceInitTest</span> &#123;</span><br><span class="line">    &#123;</span><br><span class="line">        a=<span class="number">6</span>;</span><br><span class="line">   &#125;</span><br><span class="line">    <span class="type">int</span> a=<span class="number">9</span>;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span></span><br><span class="line">   &#123;</span><br><span class="line">       System.out.println(<span class="keyword">new</span> <span class="title class_">InstanceInitTest</span>().a);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>a. 加载类</br><br>1 为父类静态属性分配内存并赋值 &#x2F; 执行父类静态代码段 （按代码顺序）</br><br>2 为子类静态属性分配内存并赋值 &#x2F; 执行子类静态代码段 （按代码顺序）</br><br>b. 创建对象</br><br>1 为父类实例属性分配内存并赋值 &#x2F; 执行父类非静态代码段 （按代码顺序）</br><br>2 执行父类构造器</br><br>3 为子类实例属性分配内存并赋值 &#x2F; 执行子类非静态代码段 （按代码顺序）</br><br>4 执行子类构造器</br></p>
+</blockquote>
+<p>&emsp;按照上面的顺序，<code>a=6</code>比<code>int a=9</code>先执行，结果出来也确实是9.但是，我的问题是，在执行<code>a=6</code>时，a还未声明，它是怎么执行的？注意：<code>a=6</code>是在{}中的，所以如果在那里声明变量的话，a就是个局部变量，现在a没有在里面声明，说明a在{}之外已被声明过了，但是<code>int a=9</code>又在后面，到底是怎么回事呢？</br><br>&emsp;初始化块和构造器有点类似，都是对<strong>对象</strong>进行初始化操作。实际上，初始化块可以看成把几个重载的构造器中共同的部分提取出来，减少代码量。同时，在编译后初始化块会被还原到构造器中，且位于最前面。</br><br>&emsp;再回到上面的问题，根据李刚本人的回答，<code>int a=9</code>被拆成两截，<code>int a</code>和<code>a=9</code>，a&#x3D;9是被还原到构造器中的，而int a没有，不然就是两次声明同一个变量。我猜测，应该是在类加载时，将这种声明提前了。查看相应的字节码文件：<br><img src="/Java%E7%AC%94%E8%AE%B05%5Cjavap.png" alt="javap"></br><br>&emsp;可以看到，int a在构造器之前。更详细的内容：<br><img src="/Java%E7%AC%94%E8%AE%B05%5Cjavap-c.png" alt="javap"></br><br>&emsp;当把代码改为下面的后：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StaticInitTest</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        a = <span class="number">6</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">9</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        System.out.println(<span class="keyword">new</span> <span class="title class_">StaticInitTest</span>().a);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/Java%E7%AC%94%E8%AE%B05%5Cjavapc.png" alt="javap"></br><br>&emsp;在这几张图片中出现了&lt;init&gt;这个东西，具体是什么请看链接<a target="_blank" rel="noopener" href="https://blog.csdn.net/u013309870/article/details/72975536">https://blog.csdn.net/u013309870/article/details/72975536</a>。按链接所说，这个东西会对非静态的代码合并，&lt;clinit&gt;会对静态的合并，看第二个代码的图，合并的非常明显。但是图里没有出现clinit,是因为某种“美化”，实际上是有的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// class version 53.0 (53)</span></span><br><span class="line"><span class="comment">// access flags 0x21</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">test3</span>/StaticInitTest &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// compiled from: StaticInitTest.java</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// access flags 0x8</span></span><br><span class="line">  <span class="keyword">static</span> I a</span><br><span class="line"></span><br><span class="line">  <span class="comment">// access flags 0x8</span></span><br><span class="line">  <span class="keyword">static</span> &lt;clinit&gt;()V</span><br><span class="line">   L0</span><br><span class="line">    LINENUMBER <span class="number">5</span> L0</span><br><span class="line">    BIPUSH <span class="number">6</span></span><br><span class="line">    PUTSTATIC test3/StaticInitTest.a : I</span><br><span class="line">   L1</span><br><span class="line">    LINENUMBER <span class="number">7</span> L1</span><br><span class="line">    BIPUSH <span class="number">9</span></span><br><span class="line">    PUTSTATIC test3/StaticInitTest.a : I</span><br><span class="line">    <span class="type">RETURN</span></span><br><span class="line">    <span class="variable">MAXSTACK</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">    MAXLOCALS = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// access flags 0x1</span></span><br><span class="line">  <span class="keyword">public</span> &lt;init&gt;()V</span><br><span class="line">   L0</span><br><span class="line">    LINENUMBER <span class="number">3</span> L0</span><br><span class="line">    ALOAD <span class="number">0</span></span><br><span class="line">    INVOKESPECIAL java/lang/Object.&lt;init&gt;()V</span><br><span class="line">    RETURN</span><br><span class="line">   L1</span><br><span class="line">    LOCALVARIABLE <span class="built_in">this</span> Ltest3/StaticInitTest; L0 L1 <span class="number">0</span></span><br><span class="line">    MAXSTACK = <span class="number">1</span></span><br><span class="line">    MAXLOCALS = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// access flags 0x9</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="title function_">main</span><span class="params">([Ljava/lang/String;)</span>V</span><br><span class="line">   L0</span><br><span class="line">    LINENUMBER <span class="number">10</span> L0</span><br><span class="line">    GETSTATIC java/lang/System.out : Ljava/io/PrintStream;</span><br><span class="line">    NEW test3/StaticInitTest</span><br><span class="line">    INVOKESPECIAL test3/StaticInitTest.&lt;init&gt;()V</span><br><span class="line">    GETSTATIC test3/StaticInitTest.a : I</span><br><span class="line">    INVOKEVIRTUAL java/io/PrintStream.println(I)V</span><br><span class="line">   L1</span><br><span class="line">    LINENUMBER <span class="number">11</span> L1</span><br><span class="line">    RETURN</span><br><span class="line">   L2</span><br><span class="line">    LOCALVARIABLE args [Ljava/lang/String; L0 L2 <span class="number">0</span></span><br><span class="line">    MAXSTACK = <span class="number">2</span></span><br><span class="line">    MAXLOCALS = <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;忽略这些不相关的，a&#x3D;6为什么可以，是因为类加载时将a的声明放在了前面。但是还是有着疑问，如果是这样的话，我将a&#x3D;6放在代码块外为什么就不行？这个问题还未结束。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/04/10/Java%E7%AC%94%E8%AE%B05/" data-id="cltr7868x0022k4un87q93139" data-title="Java笔记5" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/04/15/Clion%E7%9A%84%E9%85%8D%E7%BD%AE/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Clion的配置
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/04/08/Java%E7%AC%94%E8%AE%B04/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java笔记4</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/cpp/" style="font-size: 17.5px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px;">汇编</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">网络</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 12.5px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

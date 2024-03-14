@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Java集合 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="本篇是Java笔记10的复习,顺便捎带了点数据结构中的链表和树.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java集合">
+<meta property="og:url" content="http://example.com/2018/08/12/Java%E9%9B%86%E5%90%88/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="本篇是Java笔记10的复习,顺便捎带了点数据结构中的链表和树.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="d:\blog\source_posts\Java%E9%9B%86%E5%90%88\1009.png">
+<meta property="article:published_time" content="2018-08-12T15:37:48.000Z">
+<meta property="article:modified_time" content="2024-03-14T12:19:35.224Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="d:\blog\source_posts\Java%E9%9B%86%E5%90%88\1009.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Java集合" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/08/12/Java%E9%9B%86%E5%90%88/" class="article-date">
+  <time class="dt-published" datetime="2018-08-12T15:37:48.000Z" itemprop="datePublished">2018-08-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Java集合
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>本篇是Java笔记10的复习,顺便捎带了点数据结构中的链表和树.</p>
+<span id="more"></span>
+
+<h1 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h1><h2 id="与数组的区别"><a href="#与数组的区别" class="headerlink" title="与数组的区别"></a>与数组的区别</h2><p>如果要存放多个对象，可以使用数组，但是数组有局限性.比如:声明长度是10的数组,不用的数组就浪费了,超过10的个数，又放不下.</p>
+<p>为了解决数组的局限性，引入容器类的概念。最常见的容器类就是ArrayList容器的容量”capacity”会随着对象的增加，自动增长只需要不断往容器里增加英雄即可，不用担心会出现数组的边界问题。 </p>
+<h2 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法:"></a>常用方法:</h2><ul>
+<li><p>add </p>
+<p>有两种用法:</p>
+<p>第一种是直接add对象，把对象加在最后面</p>
+<p><code>heros.add(new Hero(&quot;hero &quot; + i));</code></p>
+<p>第二种是在指定位置加对象</p>
+<p><code>heros.add(3, specialHero);</code></p>
+</li>
+<li><p>判断是否存在</p>
+<p>通过方法contains判断一个对象是否在容器中</p>
+<p><code>contains(Object o)</code></p>
+<p>判断标准:是否是同一个对象，而不是name是否相同 </p>
+</li>
+<li><p>获取指定位置的对象 </p>
+<p><code>get(int index)</code></p>
+<p>通过get获取指定位置的对象，如果输入的下标越界，一样会报错 </p>
+</li>
+<li><p>获取对象所处的位置</p>
+<p>indexOf用于判断一个对象在ArrayList中所处的位置 与contains一样，判断标准是对象是否相同，而非对象的name值是否相等 </p>
+</li>
+<li><p>删除 </p>
+<p>remove用于把对象从ArrayList中删除</p>
+<p>remove可以根据下标删除ArrayList的元素 </p>
+<p><code>heros.remove(2); </code></p>
+<p><code>heros.remove(specialHero); </code></p>
+</li>
+<li><p>替换</p>
+<p>set用于替换指定位置的元素</p>
+<p><code>set(int index, E element) </code></p>
+</li>
+<li><p>获取大小</p>
+<p>size用于获取ArrayList的大小 </p>
+</li>
+<li><p>转换为数组</p>
+<p>toArray可以把一个ArrayList对象转换为数组。 需要注意的是，如果要转换为一个Hero数组，那么需要传递一个Hero数组类型的对象给toArray()，这样toArray方法才知道，你希望转换为哪种类型的数组，否则只能转换为Object数组 </p>
+<p><code>Hero hs[] = (Hero[])heros.toArray(new Hero[]&#123;&#125;);</code></p>
+</li>
+<li><p>把另一个容器所有对象都加进来</p>
+<p>addAll</p>
+</li>
+<li><p>清空</p>
+<p>clear清空一个ArrayList</p>
+</li>
+</ul>
+<p>其他方法参见我Java笔记10.</p>
+<h1 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h1><ul>
+<li>普通for循环</li>
+<li>foreach循环</li>
+<li>迭代器循环</li>
+<li>Lambda表达式</li>
+</ul>
+<h1 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h1><h2 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h2><p>LinkedList除了实现了List接口外，LinkedList还实现了双向链表结构Deque，可以很方便的在头尾插入删除数据 </p>
+<p>什么是链表结构: 与数组结构相比较，数组结构，就好像是电影院，每个位置都有标示，每个位置之间的间隔都是一样的。 而链表就相当于佛珠，每个珠子，只连接前一个和后一个，不用关心除此之外的其他佛珠在哪里。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> collection;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> charactor.Hero;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestCollection</span> &#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">         </span><br><span class="line">        <span class="comment">//LinkedList是一个双向链表结构的list</span></span><br><span class="line">        LinkedList&lt;Hero&gt; ll =<span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;Hero&gt;();</span><br><span class="line">         </span><br><span class="line">        <span class="comment">//所以可以很方便的在头部和尾部插入数据</span></span><br><span class="line">        <span class="comment">//在最后插入新的英雄</span></span><br><span class="line">        ll.addLast(<span class="keyword">new</span> <span class="title class_">Hero</span>(<span class="string">&quot;hero1&quot;</span>));</span><br><span class="line">        ll.addLast(<span class="keyword">new</span> <span class="title class_">Hero</span>(<span class="string">&quot;hero2&quot;</span>));</span><br><span class="line">        ll.addLast(<span class="keyword">new</span> <span class="title class_">Hero</span>(<span class="string">&quot;hero3&quot;</span>));</span><br><span class="line">        System.out.println(ll);</span><br><span class="line">         </span><br><span class="line">        <span class="comment">//在最前面插入新的英雄</span></span><br><span class="line">        ll.addFirst(<span class="keyword">new</span> <span class="title class_">Hero</span>(<span class="string">&quot;heroX&quot;</span>));</span><br><span class="line">        System.out.println(ll);</span><br><span class="line">         </span><br><span class="line">        <span class="comment">//查看最前面的英雄</span></span><br><span class="line">        System.out.println(ll.getFirst());</span><br><span class="line">        <span class="comment">//查看最后面的英雄</span></span><br><span class="line">        System.out.println(ll.getLast());</span><br><span class="line">         </span><br><span class="line">        <span class="comment">//查看不会导致英雄被删除</span></span><br><span class="line">        System.out.println(ll);</span><br><span class="line">        <span class="comment">//取出最前面的英雄</span></span><br><span class="line">        System.out.println(ll.removeFirst());</span><br><span class="line">         </span><br><span class="line">        <span class="comment">//取出最后面的英雄</span></span><br><span class="line">        System.out.println(ll.removeLast());</span><br><span class="line">         </span><br><span class="line">        <span class="comment">//取出会导致英雄被删除</span></span><br><span class="line">        System.out.println(ll);</span><br><span class="line">         </span><br><span class="line">    &#125;</span><br><span class="line">      </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><p>LinkedList除了实现了List和Deque外，还实现了Queue接口(队列)。Queue是先进先出队列 FIFO，常用方法:</p>
+<p>offer在最后添加元素</p>
+<p>poll取出第一个元素</p>
+<p>peek查看第一个元素 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> collection;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Queue;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">import</span> charactor.Hero;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestCollection</span> &#123;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">//和ArrayList一样，LinkedList也实现了List接口</span></span><br><span class="line">        <span class="type">List</span> <span class="variable">ll</span> <span class="operator">=</span><span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;Hero&gt;();</span><br><span class="line">          </span><br><span class="line">        <span class="comment">//所不同的是LinkedList还实现了Deque，进而又实现了Queue这个接口</span></span><br><span class="line">        <span class="comment">//Queue代表FIFO 先进先出的队列</span></span><br><span class="line">        Queue&lt;Hero&gt; q= <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;Hero&gt;();</span><br><span class="line">          </span><br><span class="line">        <span class="comment">//加在队列的最后面</span></span><br><span class="line">        System.out.print(<span class="string">&quot;初始化队列：\t&quot;</span>);</span><br><span class="line">        q.offer(<span class="keyword">new</span> <span class="title class_">Hero</span>(<span class="string">&quot;Hero1&quot;</span>));</span><br><span class="line">        q.offer(<span class="keyword">new</span> <span class="title class_">Hero</span>(<span class="string">&quot;Hero2&quot;</span>));</span><br><span class="line">        q.offer(<span class="keyword">new</span> <span class="title class_">Hero</span>(<span class="string">&quot;Hero3&quot;</span>));</span><br><span class="line">        q.offer(<span class="keyword">new</span> <span class="title class_">Hero</span>(<span class="string">&quot;Hero4&quot;</span>));</span><br><span class="line">          </span><br><span class="line">        System.out.println(q);</span><br><span class="line">        System.out.print(<span class="string">&quot;把第一个元素取poll()出来:\t&quot;</span>);</span><br><span class="line">        <span class="comment">//取出第一个Hero，FIFO 先进先出</span></span><br><span class="line">        <span class="type">Hero</span> <span class="variable">h</span> <span class="operator">=</span> q.poll();</span><br><span class="line">        System.out.println(h);</span><br><span class="line">        System.out.print(<span class="string">&quot;取出第一个元素之后的队列:\t&quot;</span>);</span><br><span class="line">        System.out.println(q);</span><br><span class="line">          </span><br><span class="line">        <span class="comment">//把第一个拿出来看一看，但是不取出来</span></span><br><span class="line">        h=q.peek();</span><br><span class="line">        System.out.print(<span class="string">&quot;查看peek()第一个元素:\t&quot;</span>);</span><br><span class="line">        System.out.println(h);</span><br><span class="line">        System.out.print(<span class="string">&quot;查看并不会导致第一个元素被取出来:\t&quot;</span>);</span><br><span class="line">        System.out.println(q);</span><br><span class="line">          </span><br><span class="line">    &#125;</span><br><span class="line">       </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="ArrayList和LinkedList的区别"><a href="#ArrayList和LinkedList的区别" class="headerlink" title="ArrayList和LinkedList的区别"></a>ArrayList和LinkedList的区别</h2><p>ArrayList 插入，删除数据慢 </p>
+<p>LinkedList，插入，删除数据快</p>
+<p>ArrayList是顺序结构，所以定位很快，指哪找哪。 就像电影院位置一样，有了电影票，一下就找到位置了.</p>
+<p>LinkedList 是链表结构，就像手里的一串佛珠，要找出第99个佛珠，必须得一个一个的数过去，所以定位慢.</p>
+<p>比较 ArrayList和LinkedList 在最后面插入100000条数据，谁快谁慢？为什么？ </p>
+<blockquote>
+<p>直接调用add方法，就表示在最后插入数据  因为是插入在最后面，所以对于数组而言，并没有一个移动很多数据的需要，所以也非常的快  而链表本身就很快，无论插入在哪里 </p>
+</blockquote>
+<p>在List的中间位置，插入数据，比较ArrayList快，还是LinkedList快，并解释为什么？ </p>
+<blockquote>
+<p>在这个位置插入数据 </p>
+<p>数组定位很快，插入数据比较慢 </p>
+<p>链表定位很慢，插入数据比较快 </p>
+<p>最后发现，当总数是10000条的时候，链表定位的总开支要比数组插入的总开支更多，所以最后整体表现，数组会更好。 如果总数是1000条，结果可能就不一样了。 </p>
+</blockquote>
+<h1 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h1><p>二叉树由各种节点组成 二叉树特点： 每个节点都可以有左子节点，右子节点,每一个节点都有一个值.</p>
+<p>假设通过二叉树对如下10个随机数进行排序 67,7,30,73,10,0,78,81,10,74 排序的第一个步骤是把数据插入到该二叉树中 插入基本逻辑是，小、相同的放左边，大的放右边 </p>
+<ol>
+<li><p>67 放在根节点 </p>
+</li>
+<li><p>7 比 67小，放在67的左节点 </p>
+</li>
+<li><p>30 比67 小，找到67的左节点7，30比7大，就放在7的右节点 </p>
+</li>
+<li><p>73 比67大， 放在67得右节点 </p>
+</li>
+<li><p>10 比 67小，找到67的左节点7，10比7大，找到7的右节点30，10比30小，放在30的左节点。 </p>
+<p>… … </p>
+<p>9.10比67小，找到67的左节点7，10比7大，找到7的右节点30，10比30小，找到30的左节点10，10和10一样大，放在左边</p>
+</li>
+</ol>
+<p><img src="D:\blog\source_posts\Java集合\1009.png"></p>
+<p>通过上一个步骤的插入行为，实际上，数据就已经排好序了。 </p>
+<p>接下来要做的是看，把这些已经排好序的数据，遍历成我们常用的List或者数组的形式  </p>
+<p>二叉树的遍历分左序，中序，右序 </p>
+<p>左序即： 中间的数遍历后放在左边 </p>
+<p>中序即： 中间的数遍历后放在中间 </p>
+<p>右序即： 中间的数遍历后放在右边 </p>
+<p>我们希望遍历后的结果是从小到大的，所以应该采用中序遍历 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> collection;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">    <span class="comment">// 左子节点</span></span><br><span class="line">    <span class="keyword">public</span> Node leftNode;</span><br><span class="line">    <span class="comment">// 右子节点</span></span><br><span class="line">    <span class="keyword">public</span> Node rightNode;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 值</span></span><br><span class="line">    <span class="keyword">public</span> Object value;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 插入 数据</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(Object v)</span> &#123;</span><br><span class="line">        <span class="comment">// 如果当前节点没有值，就把数据放在当前节点上</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="literal">null</span> == value)</span><br><span class="line">            value = v;</span><br><span class="line">  </span><br><span class="line">        <span class="comment">// 如果当前节点有值，就进行判断，新增的值与当前值的大小关系</span></span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 新增的值，比当前值小或者相同</span></span><br><span class="line">             </span><br><span class="line">            <span class="keyword">if</span> ((Integer) v -((Integer)value) &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="literal">null</span> == leftNode)</span><br><span class="line">                    leftNode = <span class="keyword">new</span> <span class="title class_">Node</span>();</span><br><span class="line">                leftNode.add(v);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 新增的值，比当前值大</span></span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="literal">null</span> == rightNode)</span><br><span class="line">                    rightNode = <span class="keyword">new</span> <span class="title class_">Node</span>();</span><br><span class="line">                rightNode.add(v);</span><br><span class="line">            &#125;</span><br><span class="line">  </span><br><span class="line">        &#125;</span><br><span class="line">  </span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line"> <span class="comment">// 中序遍历所有的节点</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;Object&gt; <span class="title function_">values</span><span class="params">()</span> &#123;</span><br><span class="line">        List&lt;Object&gt; values = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">  </span><br><span class="line">        <span class="comment">// 左节点的遍历结果</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="literal">null</span> != leftNode)</span><br><span class="line">            values.addAll(leftNode.values());</span><br><span class="line">  </span><br><span class="line">        <span class="comment">// 当前节点</span></span><br><span class="line">        values.add(value);</span><br><span class="line">  </span><br><span class="line">        <span class="comment">// 右节点的遍历结果</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="literal">null</span> != rightNode)</span><br><span class="line">  </span><br><span class="line">            values.addAll(rightNode.values());</span><br><span class="line">  </span><br><span class="line">        <span class="keyword">return</span> values;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  </span><br><span class="line">        <span class="type">int</span> randoms[] = <span class="keyword">new</span> <span class="title class_">int</span>[] &#123; <span class="number">67</span>, <span class="number">7</span>, <span class="number">30</span>, <span class="number">73</span>, <span class="number">10</span>, <span class="number">0</span>, <span class="number">78</span>, <span class="number">81</span>, <span class="number">10</span>, <span class="number">74</span> &#125;;</span><br><span class="line">  </span><br><span class="line">        <span class="type">Node</span> <span class="variable">roots</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Node</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> number : randoms) &#123;</span><br><span class="line">            roots.add(number);</span><br><span class="line">        &#125;</span><br><span class="line">  </span><br><span class="line">        System.out.println(roots.values());</span><br><span class="line">  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>比较冒泡法，选择法以及二叉树排序的性能区别</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> collection;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SortCompare</span> &#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">//初始化随机数</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">total</span> <span class="operator">=</span> <span class="number">40000</span>;</span><br><span class="line">        System.out.println(<span class="string">&quot;初始化一个长度是&quot;</span>+total+<span class="string">&quot;的随机数字的数组&quot;</span>);</span><br><span class="line">        <span class="type">int</span>[] originalNumbers = <span class="keyword">new</span> <span class="title class_">int</span>[total];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; originalNumbers.length; i++) &#123;</span><br><span class="line">            originalNumbers[i] = (<span class="type">int</span>)(Math.random()*total);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;初始化完毕&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;接下来分别用3种算法进行排序&quot;</span>);</span><br><span class="line">         </span><br><span class="line">        <span class="comment">//从初始化了的随机数组复制过来，以保证，每一种排序算法的目标数组，都是一样的</span></span><br><span class="line">        <span class="type">int</span>[] use4sort;</span><br><span class="line">         </span><br><span class="line">        use4sort= Arrays.copyOf(originalNumbers, originalNumbers.length);</span><br><span class="line">        <span class="type">int</span>[] sortedNumbersBySelection= performance(<span class="keyword">new</span> <span class="title class_">SelectionSort</span>(use4sort),<span class="string">&quot;选择法&quot;</span>);</span><br><span class="line">         </span><br><span class="line">        use4sort= Arrays.copyOf(originalNumbers, originalNumbers.length);</span><br><span class="line">        <span class="type">int</span>[] sortedNumbersByBubbling=performance(<span class="keyword">new</span> <span class="title class_">BubblingSort</span>(use4sort),<span class="string">&quot;冒泡法&quot;</span>);</span><br><span class="line">         </span><br><span class="line">        use4sort= Arrays.copyOf(originalNumbers, originalNumbers.length);</span><br><span class="line">        <span class="type">int</span>[] sortedNumbersByTree=performance(<span class="keyword">new</span> <span class="title class_">TreeSort</span>(use4sort),<span class="string">&quot;二叉树&quot;</span>);</span><br><span class="line">         </span><br><span class="line">        System.out.println(<span class="string">&quot;查看排序结果，是否是不同的数组对象&quot;</span>);</span><br><span class="line">        System.out.println(sortedNumbersBySelection);</span><br><span class="line">        System.out.println(sortedNumbersByBubbling);</span><br><span class="line">        System.out.println(sortedNumbersByTree);</span><br><span class="line">         </span><br><span class="line">        System.out.println(<span class="string">&quot;查看排序结果，内容是否相同&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;比较 选择法 和 冒泡法  排序结果：&quot;</span>);</span><br><span class="line">        System.out.println(Arrays.equals(sortedNumbersBySelection, sortedNumbersByBubbling));</span><br><span class="line">        System.out.println(<span class="string">&quot;比较 选择法 和 二叉树  排序结果：&quot;</span>);</span><br><span class="line">        System.out.println(Arrays.equals(sortedNumbersBySelection, sortedNumbersByTree));</span><br><span class="line">         </span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">interface</span> <span class="title class_">Sort</span>&#123;</span><br><span class="line">        <span class="keyword">void</span> <span class="title function_">sort</span><span class="params">()</span>;</span><br><span class="line">        <span class="type">int</span>[] values();</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">SelectionSort</span> <span class="keyword">implements</span> <span class="title class_">Sort</span>&#123;</span><br><span class="line"> </span><br><span class="line">        <span class="type">int</span> numbers[];</span><br><span class="line">        SelectionSort(<span class="type">int</span> [] numbers)&#123;</span><br><span class="line">            <span class="built_in">this</span>.numbers = numbers;</span><br><span class="line">        &#125;</span><br><span class="line">         </span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sort</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; numbers.length-<span class="number">1</span>; j++) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> j+<span class="number">1</span>; i &lt; numbers.length; i++) &#123;</span><br><span class="line">                    <span class="keyword">if</span>(numbers[i]&lt;numbers[j])&#123;  </span><br><span class="line">                        <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> numbers[j];</span><br><span class="line">                        numbers[j] = numbers[i];</span><br><span class="line">                        numbers[i] = temp;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="type">int</span>[] values() &#123;</span><br><span class="line">            <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">            <span class="keyword">return</span> numbers;</span><br><span class="line">        &#125;</span><br><span class="line">         </span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">BubblingSort</span> <span class="keyword">implements</span> <span class="title class_">Sort</span>&#123;</span><br><span class="line">        <span class="type">int</span> numbers[];</span><br><span class="line">        BubblingSort(<span class="type">int</span> [] numbers)&#123;</span><br><span class="line">            <span class="built_in">this</span>.numbers = numbers;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sort</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; numbers.length; j++) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; numbers.length-j-<span class="number">1</span>; i++) &#123;</span><br><span class="line">                    <span class="keyword">if</span>(numbers[i]&gt;numbers[i+<span class="number">1</span>])&#123;  </span><br><span class="line">                        <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> numbers[i];</span><br><span class="line">                        numbers[i] = numbers[i+<span class="number">1</span>];</span><br><span class="line">                        numbers[i+<span class="number">1</span>] = temp;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="type">int</span>[] values() &#123;</span><br><span class="line">            <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">            <span class="keyword">return</span> numbers;</span><br><span class="line">        &#125;</span><br><span class="line">         </span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">TreeSort</span> <span class="keyword">implements</span> <span class="title class_">Sort</span>&#123;</span><br><span class="line">        <span class="type">int</span> numbers[];</span><br><span class="line">        Node n;</span><br><span class="line">         </span><br><span class="line">        TreeSort(<span class="type">int</span> [] numbers)&#123;</span><br><span class="line">            n =<span class="keyword">new</span> <span class="title class_">Node</span>();</span><br><span class="line">            <span class="built_in">this</span>.numbers = numbers;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sort</span><span class="params">()</span> &#123;</span><br><span class="line">         </span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> i : numbers) &#123;</span><br><span class="line">                n.add(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="type">int</span>[] values() &#123;</span><br><span class="line">            List&lt;Object&gt; list = n.values();</span><br><span class="line">            <span class="type">int</span> sortedNumbers[] = <span class="keyword">new</span> <span class="title class_">int</span>[list.size()];</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; sortedNumbers.length; i++) &#123;</span><br><span class="line">                sortedNumbers[i] = Integer.parseInt(list.get(i).toString());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> sortedNumbers;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span>[] performance(Sort algorithm, String type) &#123;</span><br><span class="line">        <span class="type">long</span> <span class="variable">start</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        algorithm.sort();</span><br><span class="line">        <span class="type">int</span> sortedNumbers[] = algorithm.values();</span><br><span class="line">        <span class="type">long</span> <span class="variable">end</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        System.out.printf(<span class="string">&quot;%s排序，一共耗时 %d 毫秒%n&quot;</span>,type,end-start);</span><br><span class="line">        <span class="keyword">return</span> sortedNumbers;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>卒,写着写着发现还没我原来写的好,这篇就到这吧,不写了.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/08/12/Java%E9%9B%86%E5%90%88/" data-id="cltr78690002ek4un8zptgrgh" data-title="Java集合" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/12/%E6%8E%A2%E7%A7%98Java%E4%B8%ADString%E3%80%81StringBuilder%E4%BB%A5%E5%8F%8AStringBuffer/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          探秘Java中String、StringBuilder以及StringBuffer
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/08/11/Java%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java方法引用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/cpp/" style="font-size: 17.5px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px;">汇编</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">网络</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 12.5px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

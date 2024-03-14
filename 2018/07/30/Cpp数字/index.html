@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Cpp数字 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="数学运算和生成随机数.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cpp数字">
+<meta property="og:url" content="http://example.com/2018/07/30/Cpp%E6%95%B0%E5%AD%97/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="数学运算和生成随机数.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-07-30T05:52:26.000Z">
+<meta property="article:modified_time" content="2024-03-14T12:19:34.810Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="cpp">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Cpp数字" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/07/30/Cpp%E6%95%B0%E5%AD%97/" class="article-date">
+  <time class="dt-published" datetime="2018-07-30T05:52:26.000Z" itemprop="datePublished">2018-07-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Cpp数字
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>数学运算和生成随机数.</p>
+<span id="more"></span>
+
+<h2 id="C-数学运算"><a href="#C-数学运算" class="headerlink" title="C++ 数学运算"></a>C++ 数学运算</h2><p>在 C++ 中，除了可以创建各种函数，还包含了各种有用的函数供您使用。这些函数写在标准 C 和 C++ 库中，叫做<strong>内置</strong>函数。您可以在程序中引用这些函数。</p>
+<p>C++ 内置了丰富的数学函数，可对各种数字进行运算。下表列出了 C++ 中一些有用的内置的数学函数。</p>
+<p>为了利用这些函数，您需要引用数学头文件 **<cmath>**。</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>函数 &amp; 描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><strong>double cos(double);</strong> 该函数返回弧度角（double 型）的余弦。</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>double sin(double);</strong> 该函数返回弧度角（double 型）的正弦。</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>double tan(double);</strong> 该函数返回弧度角（double 型）的正切。</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>double log(double);</strong> 该函数返回参数的自然对数。</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>double pow(double, double);</strong> 假设第一个参数为 x，第二个参数为 y，则该函数返回 x 的 y 次方。</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>double hypot(double, double);</strong> 该函数返回两个参数的平方总和的平方根，也就是说，参数为一个直角三角形的两个直角边，函数会返回斜边的长度。</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>double sqrt(double);</strong> 该函数返回参数的平方根。</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>int abs(int);</strong> 该函数返回整数的绝对值。</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>double fabs(double);</strong> 该函数返回任意一个十进制数的绝对值。</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>double floor(double);</strong> 该函数返回一个小于或等于传入参数的最大整数。</td>
+</tr>
+</tbody></table>
+<p>下面是一个关于数学运算的简单实例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span> <span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="comment">// 数字定义</span></span><br><span class="line">   <span class="type">short</span>  s = <span class="number">10</span>;</span><br><span class="line">   <span class="type">int</span>    i = <span class="number">-1000</span>;</span><br><span class="line">   <span class="type">long</span>   l = <span class="number">100000</span>;</span><br><span class="line">   <span class="type">float</span>  f = <span class="number">230.47</span>;</span><br><span class="line">   <span class="type">double</span> d = <span class="number">200.374</span>;</span><br><span class="line"> </span><br><span class="line">   <span class="comment">// 数学运算</span></span><br><span class="line">   cout &lt;&lt; <span class="string">&quot;sin(d) :&quot;</span> &lt;&lt; <span class="built_in">sin</span>(d) &lt;&lt; endl;</span><br><span class="line">   cout &lt;&lt; <span class="string">&quot;abs(i)  :&quot;</span> &lt;&lt; <span class="built_in">abs</span>(i) &lt;&lt; endl;</span><br><span class="line">   cout &lt;&lt; <span class="string">&quot;floor(d) :&quot;</span> &lt;&lt; <span class="built_in">floor</span>(d) &lt;&lt; endl;</span><br><span class="line">   cout &lt;&lt; <span class="string">&quot;sqrt(f) :&quot;</span> &lt;&lt; <span class="built_in">sqrt</span>(f) &lt;&lt; endl;</span><br><span class="line">   cout &lt;&lt; <span class="string">&quot;pow( d, 2) :&quot;</span> &lt;&lt; <span class="built_in">pow</span>(d, <span class="number">2</span>) &lt;&lt; endl;</span><br><span class="line"> </span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="C-随机数"><a href="#C-随机数" class="headerlink" title="C++ 随机数"></a>C++ 随机数</h2><p>在许多情况下，需要生成随机数。关于随机数生成器，有两个相关的函数。一个是 **rand()**，该函数只返回一个伪随机数。生成随机数之前必须先调用 <strong>srand()</strong> 函数。</p>
+<p>下面是一个关于生成随机数的简单实例。实例中使用了 <strong>time()</strong> 函数来获取系统时间的秒数，通过调用 rand() 函数来生成随机数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctime&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span> <span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="type">int</span> i,j;</span><br><span class="line"> </span><br><span class="line">   <span class="comment">// 设置种子</span></span><br><span class="line">   <span class="built_in">srand</span>( (<span class="type">unsigned</span>)<span class="built_in">time</span>( <span class="literal">NULL</span> ) );</span><br><span class="line"> </span><br><span class="line">   <span class="comment">/* 生成 10 个随机数 */</span></span><br><span class="line">   <span class="keyword">for</span>( i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ )</span><br><span class="line">   &#123;</span><br><span class="line">      <span class="comment">// 生成实际的随机数</span></span><br><span class="line">      j= <span class="built_in">rand</span>();</span><br><span class="line">      cout &lt;&lt;<span class="string">&quot;随机数： &quot;</span> &lt;&lt; j &lt;&lt; endl;</span><br><span class="line">   &#125;</span><br><span class="line"> </span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>一、rand()</strong></p>
+<p>函数名:   rand  </p>
+<p>功   能:   随机数发生器</p>
+<p>用   法:   int rand(void); </p>
+<p>所在头文件: stdlib.h</p>
+<p><strong>函数说明 ：</strong></p>
+<p>rand()的内部实现是用线性同余法做的，它不是真的随机数，因其周期特别长，故在一定</p>
+<p>的范围里可看成是随机的。</p>
+<p>rand()返回一随机数值的范围在0至RAND_MAX 间。RAND_MAX的范围最少是在32767之间(int)。用</p>
+<p>unsigned int 双字节是65535，四字节是4294967295的整数范围。0~RAND_MAX每个数字被选中</p>
+<p>的机率是相同的。     </p>
+<p>用户未设定随机数种子时，系统默认的随机数种子为1。</p>
+<p>rand()产生的是伪随机数字，每次执行时是相同的;若要不同,用函数srand()初始化它。</p>
+<p><strong>实例如下：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span> </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std; </span><br><span class="line"><span class="meta">#<span class="keyword">include</span>  <span class="string">&lt;stdlib.h&gt;</span>   </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span>  <span class="string">&lt;time.h&gt;</span>  </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MIN 1  <span class="comment">//随机数产生的范围   </span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAX 10 </span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span>   </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">  <span class="type">int</span> i;  </span><br><span class="line">  <span class="built_in">srand</span>((<span class="type">unsigned</span>)<span class="built_in">time</span>(<span class="number">0</span>)); </span><br><span class="line">  cout&lt;&lt;<span class="string">&quot;Ten random numbers from &quot;</span>&lt;&lt;MIN&lt;&lt; </span><br><span class="line">     <span class="string">&quot; to &quot;</span>&lt;&lt;MAX&lt;&lt;<span class="string">&quot; :/n&quot;</span>&lt;&lt;endl;   </span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="number">10</span>; i++)     <span class="comment">//产生随机数 </span></span><br><span class="line">  &#123; </span><br><span class="line">    cout&lt;&lt;MIN + (<span class="type">int</span>)<span class="function">MAX * <span class="title">rand</span><span class="params">()</span> / <span class="params">(RAND_MAX + <span class="number">1</span>)</span>&lt;&lt;&quot;/t&quot;</span>;  </span><br><span class="line">  &#125; </span><br><span class="line">  cout&lt;&lt;endl; </span><br><span class="line">  <span class="keyword">return</span>  <span class="number">0</span>;   </span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+
+<p><strong>二、srand()</strong></p>
+<p>函数名:   srand  </p>
+<p>功   能:   初始化随机数发生器  </p>
+<p>用   法:   void srand(unsigned  int  seed); </p>
+<p>所在头文件： stdlib.h </p>
+<p><strong>函数说明：</strong></p>
+<p>srand()用来设置rand()产生随机数时的随机数种子。</p>
+<p>参数seed必须是个整数，通常可以利用time(0)的返回值或NULL来当做seed。</p>
+<p>如果每次seed都设相同值，rand()所产生的随机数值每次就会一样。</p>
+<p><strong>实例如下：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span> </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std; </span><br><span class="line"><span class="meta">#<span class="keyword">include</span>  <span class="string">&lt;stdlib.h&gt;</span>   </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span>  <span class="string">&lt;time.h&gt;</span>  </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MIN 0  <span class="comment">//随机数产生的范围   </span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAX 99 </span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span>   </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">  <span class="type">int</span> i;  </span><br><span class="line">  <span class="built_in">srand</span>((<span class="type">unsigned</span>)<span class="built_in">time</span>(<span class="literal">NULL</span>)); </span><br><span class="line">  cout&lt;&lt;<span class="string">&quot;Ten random numbers from &quot;</span>&lt;&lt;MIN&lt;&lt; </span><br><span class="line">     <span class="string">&quot; to &quot;</span>&lt;&lt;MAX&lt;&lt;<span class="string">&quot; :/n&quot;</span>&lt;&lt;endl;   </span><br><span class="line">  <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;<span class="number">10</span>; i++)     <span class="comment">//产生随机数 </span></span><br><span class="line">  &#123; </span><br><span class="line">    cout&lt;&lt;MIN + <span class="built_in">rand</span>() % (MAX + MIN - <span class="number">1</span>)&lt;&lt;<span class="string">&quot;/t&quot;</span>;  </span><br><span class="line">  &#125; </span><br><span class="line">  cout&lt;&lt;endl; </span><br><span class="line">  <span class="keyword">return</span>  <span class="number">0</span>;   </span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+
+<p><strong>三、rand()和srand()的关系</strong></p>
+<p>rand()和srand()要一起使用，其中srand()用来初始化随机数种子,rand()用来产生随机数。</p>
+<p>因为默认情况下随机数种子为1，而相同的随机数种子产生的随机数是一样的,失去了随机性的意义，所以为使每次得到的随机数不一样，用函数srand()初始化随机数种子。srand()的参数，用time函数值（即当前时间），因为两次调用rand()函数的时间通常是不同的，这样就可以保证随机性了。</p>
+<p><strong>四、产生一定范围随机数的通用表示公式</strong></p>
+<p>要取得[a,b)的随机整数，使用(rand() % (b-a))+ a （结果值含a不含b）。</p>
+<p>要取得[a,b]的随机整数，使用(rand() % (b-a+1))+ a （结果值含a和b）。</p>
+<p>要取得(a,b]的随机整数，使用(rand() % (b-a))+ a + 1 （结果值不含a含b）。</p>
+<p>（总的来说，通用公式：a + rand() % n ；其中的a是起始值，n是整数的范围）</p>
+<p>要取得a到b之间的随机整数，另一种表示：a + (int)b * rand() &#x2F; (RAND_MAX + 1)。</p>
+<p>要取得0～1之间的浮点数，可以使用rand() &#x2F; double(RAND_MAX)。</p>
+<p><strong>五、产生相同的随机数的原因</strong></p>
+<p>计算机的随机数都是由伪随机数，即是由小M多项式序列生成的，其中产生每个小序列都有一个初始值，即随机种子。（注意： 小M多项式序列的周期是65535，即每次利用一个随机种子生成的随机数的周期是65535，当你取得65535个随机数后它们又重复出现了。） </p>
+<p><strong>实例如下：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span> </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std; </span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span> </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;time.h&gt;</span> </span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">  <span class="type">int</span> i; </span><br><span class="line">  <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;<span class="number">10</span>; i++)   <span class="comment">//产生10个随机数 </span></span><br><span class="line">  &#123; </span><br><span class="line">    cout&lt;&lt;<span class="built_in">rand</span>()&lt;&lt;<span class="string">&quot;/t&quot;</span>; </span><br><span class="line">  &#125; </span><br><span class="line">  cout&lt;&lt;endl; </span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p><strong>每次运行得到相同的随机序列：</strong></p>
+<p>41 18467 6334  26500 19169 15724 11478                        </p>
+<p>41 18467 6334 26500 19169 15724 11478  29358 26962 24464</p>
+<p>为得到不同的随机数序列，则需改变这个种子的值。方法：在开始产生随机数前，调用一次srand(time(NULL))（注意：srand()一定要放在循环外面或者是循环调用的外面，否则的话得到的是相同的随机数）。</p>
+<p><strong>程序示例：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span> </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std; </span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span> </span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;time.h&gt;</span> </span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">  <span class="type">int</span> i; </span><br><span class="line">  <span class="built_in">srand</span>((<span class="type">unsigned</span>)<span class="built_in">time</span>(<span class="literal">NULL</span>)); <span class="comment">//初始化随机数种子 </span></span><br><span class="line">  <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;<span class="number">10</span>; i++)     <span class="comment">//产生10个随机数 </span></span><br><span class="line">  &#123; </span><br><span class="line">    cout&lt;&lt;<span class="built_in">rand</span>()&lt;&lt;<span class="string">&quot;/t&quot;</span>; </span><br><span class="line">  &#125; </span><br><span class="line">  cout&lt;&lt;endl; </span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p><strong>每次运行得到不同的随机序列：</strong></p>
+<p>1294 18562 14141 18165 11910 29784 11070 13225 131 24405</p>
+<p>1774 25714 18734 16528 20825 17189 9848 8899 2503 5375</p>
+<h2 id="time-的用法"><a href="#time-的用法" class="headerlink" title="time()的用法"></a>time()的用法</h2><p>该函数的声明为</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">time_t</span> <span class="title">time</span><span class="params">(<span class="type">time_t</span> *t)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>也就是说,传入一个指向time_t变量的指针,获得秒数后存储在这个指针指向的位置.上面的代码中全是time(NULL),意思是不保存这个秒数.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;time.h&gt;</span> <span class="comment">/*用到了time函数，所以要有这个头文件*/</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAX 10</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="type">time_t</span> now_time;</span><br><span class="line">    <span class="type">int</span> number[MAX] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="built_in">srand</span>((<span class="type">unsigned</span>) <span class="built_in">time</span>(&amp;now_time)); <span class="comment">/*播种子*/</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; MAX; i++) &#123;</span><br><span class="line">        number[i] = <span class="built_in">rand</span>() % <span class="number">100</span>; <span class="comment">/*产生100以内的随机整数*/</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, number[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout&lt;&lt;now_time;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/07/30/Cpp%E6%95%B0%E5%AD%97/" data-id="cltr7868k000rk4un72jxbg04" data-title="Cpp数字" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/01/%E6%8C%87%E9%92%88%E6%8E%A2%E5%B9%BD2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          指针探幽2
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/30/%E6%8C%87%E9%92%88%E5%B8%B8%E9%87%8FOR%E5%B8%B8%E9%87%8F%E6%8C%87%E9%92%88/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">指针常量OR常量指针</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/cpp/" style="font-size: 17.5px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px;">汇编</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">网络</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 12.5px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

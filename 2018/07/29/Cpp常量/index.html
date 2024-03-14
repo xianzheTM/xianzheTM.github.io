@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>C++常量 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="C++的常量.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++常量">
+<meta property="og:url" content="http://example.com/2018/07/29/Cpp%E5%B8%B8%E9%87%8F/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="C++的常量.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-07-29T09:20:51.000Z">
+<meta property="article:modified_time" content="2024-03-14T12:19:34.641Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="cpp">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Cpp常量" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/07/29/Cpp%E5%B8%B8%E9%87%8F/" class="article-date">
+  <time class="dt-published" datetime="2018-07-29T09:20:51.000Z" itemprop="datePublished">2018-07-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      C++常量
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>C++的常量.</p>
+<span id="more"></span>
+
+<h1 id="C-常量"><a href="#C-常量" class="headerlink" title="C++ 常量"></a>C++ 常量</h1><p>常量是固定值，在程序执行期间不会改变。这些固定的值，又叫做<strong>字面量</strong>。</p>
+<p>常量可以是任何的基本数据类型，可分为整型数字、浮点数字、字符、字符串和布尔值。</p>
+<p>常量就像是常规的变量，只不过常量的值在定义后不能进行修改。</p>
+<h2 id="整数常量"><a href="#整数常量" class="headerlink" title="整数常量"></a>整数常量</h2><p>整数常量可以是十进制、八进制或十六进制的常量。前缀指定基数：0x 或 0X 表示十六进制，0 表示八进制，不带前缀则默认表示十进制。</p>
+<p>整数常量也可以带一个后缀，后缀是 U 和 L 的组合，U 表示无符号整数（unsigned），L 表示长整数（long）。后缀可以是大写，也可以是小写，U 和 L 的顺序任意。</p>
+<p>下面列举几个整数常量的实例：</p>
+<p>212         &#x2F;&#x2F; 合法的 215u        &#x2F;&#x2F; 合法的 0xFeeL      &#x2F;&#x2F; 合法的 078         &#x2F;&#x2F; 非法的：8 不是八进制的数字 032UU       &#x2F;&#x2F; 非法的：不能重复后缀</p>
+<p>以下是各种类型的整数常量的实例：</p>
+<p>85         &#x2F;&#x2F; 十进制 0213       &#x2F;&#x2F; 八进制  0x4b       &#x2F;&#x2F; 十六进制  30         &#x2F;&#x2F; 整数  30u        &#x2F;&#x2F; 无符号整数  30l        &#x2F;&#x2F; 长整数  30ul       &#x2F;&#x2F; 无符号长整数</p>
+<h2 id="浮点常量"><a href="#浮点常量" class="headerlink" title="浮点常量"></a>浮点常量</h2><p>浮点常量由整数部分、小数点、小数部分和指数部分组成。您可以使用小数形式或者指数形式来表示浮点常量。</p>
+<p>当使用小数形式表示时，必须包含整数部分、小数部分，或同时包含两者。当使用指数形式表示时， 必须包含小数点、指数，或同时包含两者。带符号的指数是用 e 或 E 引入的。</p>
+<p>下面列举几个浮点常量的实例：</p>
+<p>3.14159       &#x2F;&#x2F; 合法的  314159E-5L    &#x2F;&#x2F; 合法的  510E          &#x2F;&#x2F; 非法的：不完整的指数 210f          &#x2F;&#x2F; 非法的：没有小数或指数 .e55          &#x2F;&#x2F; 非法的：缺少整数或分数</p>
+<h2 id="布尔常量"><a href="#布尔常量" class="headerlink" title="布尔常量"></a>布尔常量</h2><p>布尔常量共有两个，它们都是标准的 C++ 关键字：</p>
+<ul>
+<li><strong>true</strong> 值代表真。</li>
+<li><strong>false</strong> 值代表假。</li>
+</ul>
+<p>我们不应把 true 的值看成 1，把 false 的值看成 0。</p>
+<h2 id="字符常量"><a href="#字符常量" class="headerlink" title="字符常量"></a>字符常量</h2><p>字符常量是括在单引号中。如果常量以 L（仅当大写时）开头，则表示它是一个宽字符常量（例如 L’x’），此时它必须存储在 <strong>wchar_t</strong> 类型的变量中。否则，它就是一个窄字符常量（例如 ‘x’），此时它可以存储在 <strong>char</strong> 类型的简单变量中。</p>
+<p>字符常量可以是一个普通的字符（例如 ‘x’）、一个转义序列（例如 ‘\t’），或一个通用的字符（例如 ‘\u02C0’）。</p>
+<p>在 C++ 中，有一些特定的字符，当它们前面有反斜杠时，它们就具有特殊的含义，被用来表示如换行符（\n）或制表符（\t）等。下表列出了一些这样的转义序列码：</p>
+<table>
+<thead>
+<tr>
+<th>转义序列</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\</td>
+<td>\ 字符</td>
+</tr>
+<tr>
+<td>&#39;</td>
+<td>‘ 字符</td>
+</tr>
+<tr>
+<td>&quot;</td>
+<td>“ 字符</td>
+</tr>
+<tr>
+<td>?</td>
+<td>? 字符</td>
+</tr>
+<tr>
+<td>\a</td>
+<td>警报铃声</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>退格键</td>
+</tr>
+<tr>
+<td>\f</td>
+<td>换页符</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>换行符</td>
+</tr>
+<tr>
+<td>\r</td>
+<td>回车</td>
+</tr>
+<tr>
+<td>\t</td>
+<td>水平制表符</td>
+</tr>
+<tr>
+<td>\v</td>
+<td>垂直制表符</td>
+</tr>
+<tr>
+<td>\ooo</td>
+<td>一到三位的八进制数</td>
+</tr>
+<tr>
+<td>\xhh . . .</td>
+<td>一个或多个数字的十六进制数</td>
+</tr>
+</tbody></table>
+<h2 id="字符串常量"><a href="#字符串常量" class="headerlink" title="字符串常量"></a>字符串常量</h2><p>字符串字面值或常量是括在双引号 “” 中的。一个字符串包含类似于字符常量的字符：普通的字符、转义序列和通用的字符。</p>
+<p>您可以使用空格做分隔符，把一个很长的字符串常量进行分行。</p>
+<p>下面的实例显示了一些字符串常量。下面这三种形式所显示的字符串是相同的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&quot;hello, dear&quot;</span><br><span class="line"></span><br><span class="line">&quot;hello, \</span><br><span class="line"></span><br><span class="line">dear&quot;</span><br><span class="line"></span><br><span class="line">&quot;hello, &quot; &quot;d&quot; &quot;ear&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="定义常量"><a href="#定义常量" class="headerlink" title="定义常量"></a>定义常量</h2><p>在 C++ 中，有两种简单的定义常量的方式：</p>
+<ul>
+<li>使用 <strong>#define</strong> 预处理器。</li>
+<li>使用 <strong>const</strong> 关键字。</li>
+</ul>
+<h2 id="define-预处理器"><a href="#define-预处理器" class="headerlink" title="#define 预处理器"></a>#define 预处理器</h2><p>下面是使用 #define 预处理器定义常量的形式：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> identifier value</span></span><br></pre></td></tr></table></figure>
+
+<p>具体请看下面的实例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"> </span><br><span class="line"><span class="meta">#<span class="keyword">define</span> LENGTH 10   </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> WIDTH  5</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> NEWLINE <span class="string">&#x27;\n&#x27;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"> </span><br><span class="line">   <span class="type">int</span> area;  </span><br><span class="line">   </span><br><span class="line">   area = LENGTH * WIDTH;</span><br><span class="line">   cout &lt;&lt; area;</span><br><span class="line">   cout &lt;&lt; NEWLINE;</span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>宏定义是可以取消的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">定义： #define    N    21</span><br><span class="line">取消： #undef    N    12</span><br></pre></td></tr></table></figure>
+
+<p>define定义表达式时要注意“边缘效应”，例如如下定义：</p>
+<p>#define N 2+3 &#x2F;&#x2F;我们预想的N值是5，我们这样使用N，int a &#x3D; N&#x2F;2; &#x2F;&#x2F;我们预想的a的值是2，可实际上a的值是3。原因在于在预处理阶段，编译器将 a &#x3D; N&#x2F;2处理成了 a &#x3D; 2+3&#x2F;2；这就是宏定义的字符串替换的“边缘效应”因此要如下定义：#define N (2+3)。const定义的表达式则没有上述问题。const定义的常量叫做常变量原因有二：const定义常量像变量一样检查类型；const可以在任何地方定义常量，编译器对它的处理过程与变量相似，只是分配内存的地方不同.</p>
+<h2 id="const-关键字"><a href="#const-关键字" class="headerlink" title="const 关键字"></a>const 关键字</h2><p>您可以使用 <strong>const</strong> 前缀声明指定类型的常量，如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const type variable = value;</span><br></pre></td></tr></table></figure>
+
+<p>具体请看下面的实例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="type">const</span> <span class="type">int</span>  LENGTH = <span class="number">10</span>;</span><br><span class="line">   <span class="type">const</span> <span class="type">int</span>  WIDTH  = <span class="number">5</span>;</span><br><span class="line">   <span class="type">const</span> <span class="type">char</span> NEWLINE = <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">   <span class="type">int</span> area;  </span><br><span class="line">   </span><br><span class="line">   area = LENGTH * WIDTH;</span><br><span class="line">   cout &lt;&lt; area;</span><br><span class="line">   cout &lt;&lt; NEWLINE;</span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>const限定符定以后是不可以改变的，所以在定义时必须赋初始值，要不然是错误的，除非这个变量是用extern修饰的外部变量。 例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> A=<span class="number">10</span>;       <span class="comment">//正确。</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> A;          <span class="comment">//错误，没有赋初始值。</span></span><br><span class="line"><span class="keyword">extern</span> <span class="type">const</span> <span class="type">int</span> A;   <span class="comment">//正确，使用extern的外部变量。</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>const关键字作用</strong></p>
+<ul>
+<li>为给读你代码的人传达非常有用的信息，声明一个参数为常量是为了告诉用户这个参数的应用目的；</li>
+<li>通过给优化器一些附加信息，使关键字const也许能产生更紧凑的代码；</li>
+<li>合理使用关键字const可以使编译器很自然的保护那些不希望被修改的参数，防止无意的代码修改，可以减少bug的出现；</li>
+</ul>
+<p><strong>const关键字应用</strong></p>
+<ul>
+<li>欲阻止一个变量被改变，可使用const，在定义该const变量时，需先初始化，以后就没有机会改变他了；</li>
+<li>对指针而言，可以指定指针本身为const，也可以指定指针所指的数据为const，或二者同时指定为const；</li>
+<li>在一个函数声明中，const可以修饰形参表明他是一个输入参数，在函数内部不可以改变其值；</li>
+<li>对于类的成员函数，有时候必须指定其为const类型，表明其是一个常函数，不能修改类的成员变量；</li>
+<li>对于类的成员函数，有时候必须指定其返回值为const类型，以使得其返回值不为“左值”。</li>
+</ul>
+<h2 id="宏定义-define-和常量-const-的区别"><a href="#宏定义-define-和常量-const-的区别" class="headerlink" title="宏定义 #define 和常量 const 的区别"></a>宏定义 #define 和常量 const 的区别</h2><p><strong>类型和安全检查不同</strong></p>
+<p>宏定义是字符替换，没有数据类型的区别，同时这种替换没有类型安全检查，可能产生边际效应等错误；</p>
+<p>const常量是常量的声明，有类型区别，需要在编译阶段进行类型检查</p>
+<p><strong>编译器处理不同</strong></p>
+<p>宏定义是一个”编译时”概念，在预处理阶段展开，不能对宏定义进行调试，生命周期结束与编译时期；</p>
+<p>const常量是一个”运行时”概念，在程序运行使用，类似于一个只读行数据</p>
+<p><strong>存储方式不同</strong></p>
+<p>宏定义是直接替换，不会分配内存，存储与程序的代码段中；</p>
+<p>const常量需要进行内存分配，存储与程序的数据段中</p>
+<p><strong>定义域不同</strong></p>
+<p><strong>#define：</strong></p>
+<p>不管是在某个函数内，还是在所有函数之外，作用域都是从定义开始直到整个文件结尾。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">f1</span> <span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="meta">#<span class="keyword">define</span> N 12</span></span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> n <span class="number">12</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">f2</span> <span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cout&lt;&lt;N &lt;&lt;endl; <span class="comment">//正确，N已经定义过，不受定义域限制</span></span><br><span class="line">    cout&lt;&lt;n &lt;&lt;endl; <span class="comment">//错误，n定义域只在f1函数中</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>定义后能否取消</strong></p>
+<p>宏定义可以通过#undef来使之前的宏定义失效</p>
+<p>const常量定义后将在定义域内永久有效</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">f1</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="meta">#<span class="keyword">define</span> N 12</span></span><br><span class="line">  <span class="type">const</span> <span class="type">int</span> n = <span class="number">12</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">#<span class="keyword">undef</span> N <span class="comment">//取消宏定义后，即使在f1函数中，N也无效了</span></span></span><br><span class="line">  <span class="meta">#<span class="keyword">define</span> N 21<span class="comment">//取消后可以重新定义</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>是否可以做函数参数</strong></p>
+<p>宏定义不能作为参数传递给函数</p>
+<p>const常量可以在函数的参数列表中出现</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2018/07/29/Cpp%E5%B8%B8%E9%87%8F/" data-id="cltr7868j000mk4un9g0m9aav" data-title="C++常量" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/07/29/Cpp%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%9E%8B%E9%99%90%E5%AE%9A%E7%AC%A6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          C++ 中的类型限定符
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/29/Cpp%E5%8F%98%E9%87%8F%E4%BD%9C%E7%94%A8%E5%9F%9F/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">C++变量作用域</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/cpp/" style="font-size: 17.5px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px;">汇编</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">网络</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 12.5px;">读书笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
