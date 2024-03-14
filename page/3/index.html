@@ -1,639 +1,314 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>xianzheTM's site</title><meta name="author" content="xianzheTM"><meta name="copyright" content="xianzheTM"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
+<meta property="og:title" content="xianzheTM&#39;s site">
 <meta property="og:url" content="http://example.com/page/3/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
+<meta property="og:site_name" content="xianzheTM&#39;s site">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:author" content="xianzheTM">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
-  
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/page/3/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'xianzheTM\'s site',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2024-03-14 20:48:02'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
 
-  
-  
-<meta name="generator" content="Hexo 7.1.1"></head>
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-指针探幽2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/08/01/%E6%8C%87%E9%92%88%E6%8E%A2%E5%B9%BD2/" class="article-date">
-  <time class="dt-published" datetime="2018-08-01T07:04:59.000Z" itemprop="datePublished">2018-08-01</time>
-</a>
+        document.head.appendChild(script)
+      })
     
-  </div>
-  <div class="article-inner">
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
     
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/08/01/%E6%8C%87%E9%92%88%E6%8E%A2%E5%B9%BD2/">指针探幽2</a>
-    </h1>
-  
-
-      </header>
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>再补充一些关于指针的注意点.</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/08/01/%E6%8C%87%E9%92%88%E6%8E%A2%E5%B9%BD2/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/08/01/%E6%8C%87%E9%92%88%E6%8E%A2%E5%B9%BD2/" data-id="cltr7hcah00340kun2doo1bgo" data-title="指针探幽2" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Cpp数字" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/07/30/Cpp%E6%95%B0%E5%AD%97/" class="article-date">
-  <time class="dt-published" datetime="2018-07-30T05:52:26.000Z" itemprop="datePublished">2018-07-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/07/30/Cpp%E6%95%B0%E5%AD%97/">Cpp数字</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>数学运算和生成随机数.</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/07/30/Cpp%E6%95%B0%E5%AD%97/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/07/30/Cpp%E6%95%B0%E5%AD%97/" data-id="cltr7hca0000r0kungs1jgutn" data-title="Cpp数字" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-指针常量OR常量指针" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/07/30/%E6%8C%87%E9%92%88%E5%B8%B8%E9%87%8FOR%E5%B8%B8%E9%87%8F%E6%8C%87%E9%92%88/" class="article-date">
-  <time class="dt-published" datetime="2018-07-29T17:25:25.000Z" itemprop="datePublished">2018-07-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/07/30/%E6%8C%87%E9%92%88%E5%B8%B8%E9%87%8FOR%E5%B8%B8%E9%87%8F%E6%8C%87%E9%92%88/">指针常量OR常量指针</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>指针常量OR常量指针,傻傻搞不清.</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/07/30/%E6%8C%87%E9%92%88%E5%B8%B8%E9%87%8FOR%E5%B8%B8%E9%87%8F%E6%8C%87%E9%92%88/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/07/30/%E6%8C%87%E9%92%88%E5%B8%B8%E9%87%8FOR%E5%B8%B8%E9%87%8F%E6%8C%87%E9%92%88/" data-id="cltr7hcag002z0kunbbzo2z8z" data-title="指针常量OR常量指针" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Cpp中引用到底占不占空间" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/07/30/Cpp%E4%B8%AD%E5%BC%95%E7%94%A8%E5%88%B0%E5%BA%95%E5%8D%A0%E4%B8%8D%E5%8D%A0%E7%A9%BA%E9%97%B4/" class="article-date">
-  <time class="dt-published" datetime="2018-07-29T16:52:54.000Z" itemprop="datePublished">2018-07-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/07/30/Cpp%E4%B8%AD%E5%BC%95%E7%94%A8%E5%88%B0%E5%BA%95%E5%8D%A0%E4%B8%8D%E5%8D%A0%E7%A9%BA%E9%97%B4/">Cpp中引用到底占不占空间</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>先放结论:对于C++标准来说,不占,确切说,未指定;对于程序来说,使用&amp;来查看引用的地址,发现指向引用对象的地址,可以看做不占;对于编译器来说,是占用的,因为要实现前面这种效果,不可能凭空而来.</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/07/30/Cpp%E4%B8%AD%E5%BC%95%E7%94%A8%E5%88%B0%E5%BA%95%E5%8D%A0%E4%B8%8D%E5%8D%A0%E7%A9%BA%E9%97%B4/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/07/30/Cpp%E4%B8%AD%E5%BC%95%E7%94%A8%E5%88%B0%E5%BA%95%E5%8D%A0%E4%B8%8D%E5%8D%A0%E7%A9%BA%E9%97%B4/" data-id="cltr7hc9t00090kun3t4pfdy1" data-title="Cpp中引用到底占不占空间" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Cpp引用" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/07/29/Cpp%E5%BC%95%E7%94%A8/" class="article-date">
-  <time class="dt-published" datetime="2018-07-29T15:14:06.000Z" itemprop="datePublished">2018-07-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/07/29/Cpp%E5%BC%95%E7%94%A8/">Cpp引用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>对于引用和指针有点搞不清楚.</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/07/29/Cpp%E5%BC%95%E7%94%A8/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/07/29/Cpp%E5%BC%95%E7%94%A8/" data-id="cltr7hc9z000p0kun5gpp13vn" data-title="Cpp引用" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Cpp-Lambda表达式" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/07/29/Cpp-Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="article-date">
-  <time class="dt-published" datetime="2018-07-29T13:04:41.000Z" itemprop="datePublished">2018-07-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/07/29/Cpp-Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/">Cpp Lambda表达式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Lambda表达式是C++11的新特性,了解一下.</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/07/29/Cpp-Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/07/29/Cpp-Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/" data-id="cltr7hc9r00060kun8ac07k3n" data-title="Cpp Lambda表达式" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Cpp函数" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/07/29/Cpp%E5%87%BD%E6%95%B0/" class="article-date">
-  <time class="dt-published" datetime="2018-07-29T10:56:00.000Z" itemprop="datePublished">2018-07-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/07/29/Cpp%E5%87%BD%E6%95%B0/">C++函数</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>C++函数的内容的基础.</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/07/29/Cpp%E5%87%BD%E6%95%B0/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/07/29/Cpp%E5%87%BD%E6%95%B0/" data-id="cltr7hc9v000e0kun3uj5e3ha" data-title="C++函数" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Cpp存储类" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/07/29/Cpp%E5%AD%98%E5%82%A8%E7%B1%BB/" class="article-date">
-  <time class="dt-published" datetime="2018-07-29T10:02:05.000Z" itemprop="datePublished">2018-07-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/07/29/Cpp%E5%AD%98%E5%82%A8%E7%B1%BB/">C++存储类</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>C++的变量&#x2F;函数的生命周期.</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/07/29/Cpp%E5%AD%98%E5%82%A8%E7%B1%BB/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/07/29/Cpp%E5%AD%98%E5%82%A8%E7%B1%BB/" data-id="cltr7hc9x000k0kun9lsb19pj" data-title="C++存储类" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Cpp中的类型限定符" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/07/29/Cpp%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%9E%8B%E9%99%90%E5%AE%9A%E7%AC%A6/" class="article-date">
-  <time class="dt-published" datetime="2018-07-29T09:55:15.000Z" itemprop="datePublished">2018-07-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/07/29/Cpp%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%9E%8B%E9%99%90%E5%AE%9A%E7%AC%A6/">C++ 中的类型限定符</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>C++中有许多限定符,修饰符,这里列了几个.</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/07/29/Cpp%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%9E%8B%E9%99%90%E5%AE%9A%E7%AC%A6/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/07/29/Cpp%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%9E%8B%E9%99%90%E5%AE%9A%E7%AC%A6/" data-id="cltr7hc9u000a0kunhmhb0k7z" data-title="C++ 中的类型限定符" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Cpp常量" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/07/29/Cpp%E5%B8%B8%E9%87%8F/" class="article-date">
-  <time class="dt-published" datetime="2018-07-29T09:20:51.000Z" itemprop="datePublished">2018-07-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/07/29/Cpp%E5%B8%B8%E9%87%8F/">C++常量</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>C++的常量.</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/07/29/Cpp%E5%B8%B8%E9%87%8F/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/07/29/Cpp%E5%B8%B8%E9%87%8F/" data-id="cltr7hc9y000m0kun3t6ahxbu" data-title="C++常量" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
-
-  <nav id="page-nav">
-    
-    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
-  </nav>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/cpp/" style="font-size: 17.5px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px;">汇编</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">网络</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 12.5px;">读书笔记</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2024 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.6.4.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
-</body>
-</html>
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">64</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="xianzheTM's site"><span class="site-name">xianzheTM's site</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">xianzheTM's site</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/08/01/%E6%8C%87%E9%92%88%E6%8E%A2%E5%B9%BD2/" title="指针探幽2">指针探幽2</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-08-01T07:04:59.000Z" title="发表于 2018-08-01 15:04:59">2018-08-01</time></span></div><div class="content">再补充一些关于指针的注意点.
+
+
+一.野指针及C++指针使用注意点避免野指针的产生
+“野指针”的成因主要有：
+1）指针变量没有被初始化。任何指针变量刚被创建时不会自动成为NULL指针，它的缺省值是随机的，它会乱指一气。所以，指针变量在创建的同时应当被初始化，要么将指针设置为NULL，要么让它指向合法的内存。
+1char *p; //此时p为野指针
+
+2）指针p被free或者delete之后，没有置为NULL，让人误以为p是个合法的指针.
+123char *p=new char[10];  //指向堆中分配的内存首地址，p存储在栈区cin&gt;&gt; p;delete []p; //p重新变为野指针
+
+3）指针操作超越了变量的作用范围。          
+123char *p=new char[10]; //指向堆中分配的内存首地址cin&gt;&gt; p;cout&lt;&lt;*(p+10); //可能输出未知数据
+
+指针的注意点：
+a.指针指向常量存储区对象
+1char *p=&quot;abc&quot;;
+
+此时p指向的是一个字符串常量，不能对*p的内容进行写操作，如s ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/07/30/Cpp%E6%95%B0%E5%AD%97/" title="Cpp数字">Cpp数字</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-07-30T05:52:26.000Z" title="发表于 2018-07-30 13:52:26">2018-07-30</time></span></div><div class="content">数学运算和生成随机数.
+
+
+C++ 数学运算在 C++ 中，除了可以创建各种函数，还包含了各种有用的函数供您使用。这些函数写在标准 C 和 C++ 库中，叫做内置函数。您可以在程序中引用这些函数。
+C++ 内置了丰富的数学函数，可对各种数字进行运算。下表列出了 C++ 中一些有用的内置的数学函数。
+为了利用这些函数，您需要引用数学头文件 ****。
+
+
+
+序号
+函数 &amp; 描述
+
+
+
+1
+double cos(double); 该函数返回弧度角（double 型）的余弦。
+
+
+2
+double sin(double); 该函数返回弧度角（double 型）的正弦。
+
+
+3
+double tan(double); 该函数返回弧度角（double 型）的正切。
+
+
+4
+double log(double); 该函数返回参数的自然对数。
+
+
+5
+double pow(double, double); 假设第一个参数为 x，第二个参数为 y，则该函数返回 x 的 y 次方。
+
+
+6
+double hypot(double, double); 该函数返回两个参数的平方总和的平方根，也就是说 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/07/30/%E6%8C%87%E9%92%88%E5%B8%B8%E9%87%8FOR%E5%B8%B8%E9%87%8F%E6%8C%87%E9%92%88/" title="指针常量OR常量指针">指针常量OR常量指针</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-07-29T17:25:25.000Z" title="发表于 2018-07-30 01:25:25">2018-07-30</time></span></div><div class="content">指针常量OR常量指针,傻傻搞不清.
+
+
+先找到，然后看的两边，右边是对指针p本身的限定，左边是对p所指向的东西的限定。
+ 注：本文中我们将p的所指笼统地称为“东西”。
+例如
+1.const int p右边没有限定成分，表明p就是我们熟悉的普通指针，p的内容（即值，也就是它指向的东西的地址）是可以改变的；的左边是const int，表明p指向的东西是一个const的int，我们不能通过p来修改这个int,因为它是const的。（关于“不能通过p来修改”，我们后边还会详细解释）
+2.int* const p右边是const，表明p本身是const的，我们不能对p的内容进行修改（例如++p;是不可以的），的左边是int，即p指向的东西是普通的int，我们可以通过p来修改它（例如p&#x3D;100;是可以的）。
+3.const int* const p右边是const，表明指针p本身是const的，*的左边是const int，表明p指向的int也是const的。即这种情况下，p本身不能修改，同时也不能通过p修改它所指向的那个int。
+</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/07/30/Cpp%E4%B8%AD%E5%BC%95%E7%94%A8%E5%88%B0%E5%BA%95%E5%8D%A0%E4%B8%8D%E5%8D%A0%E7%A9%BA%E9%97%B4/" title="Cpp中引用到底占不占空间">Cpp中引用到底占不占空间</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-07-29T16:52:54.000Z" title="发表于 2018-07-30 00:52:54">2018-07-30</time></span></div><div class="content">先放结论:对于C++标准来说,不占,确切说,未指定;对于程序来说,使用&amp;来查看引用的地址,发现指向引用对象的地址,可以看做不占;对于编译器来说,是占用的,因为要实现前面这种效果,不可能凭空而来.
+
+
+首先,对于C++标准,它是这么说的:
+8.3.24 It is unspecified whether or not a reference requires storage (3.7).
+ 也就是,标准并不关心引用是如何实现的(事实上,标准对于很多东西只规定了要什么样的,没规定具体怎么做).
+目前,引用的实现方式就是使用常量指针.
+https://blog.csdn.net/feigegegegegegegeg/article/details/52613627
+http://www.cnblogs.com/rollenholt/articles/1907408.html
+下面举个例子：int a &#x3D; 10;int &amp;b &#x3D; a;
+这里，显然，b是一个引用。语句“int a &#x3D; 10;”，在内存中申请了一个int型变量，32位机中占4个字节，那 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/07/29/Cpp%E5%BC%95%E7%94%A8/" title="Cpp引用">Cpp引用</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-07-29T15:14:06.000Z" title="发表于 2018-07-29 23:14:06">2018-07-29</time></span></div><div class="content">对于引用和指针有点搞不清楚.
+
+
+说到引用，先来讲一个故事：我们生活的院子里有这样一个小盆友，他的名字叫罗XX，我们喜欢给他起一个外号，看着他营养不太好，脑袋比较大、身子比较小，于是我们就给他起了一个叫”萝卜头”的外号。那么罗XX就是他的真实姓名，萝卜头就是他的一个别名，那么什么是引用呢？？
+定义：引用：就是变量的一个别名。
+
+注：作为别名来说，一个变量不能只有别名，而没有自己的真实姓名。
+基本数据类型的引用如下面的一段代码：
+12345678910#include &lt;iostream&gt;using namespace std;&#123;    int a = 3;    int &amp;b = a;  //b就是a的引用，即b是a的一个别别名。                 //引用必须初始化，否则编译会报错    b = 10;    cout&lt;&lt; a &lt;&lt; endl; //此时a 的值，已由原来的3变成了10.因为我们无论对别名做什么操作，其实都是对变量的本身做操作。就像我们去交萝卜头去干什么，罗XX本身就去干什么。    return 0 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/07/29/Cpp-Lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/" title="Cpp Lambda表达式">Cpp Lambda表达式</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-07-29T13:04:41.000Z" title="发表于 2018-07-29 21:04:41">2018-07-29</time></span></div><div class="content">Lambda表达式是C++11的新特性,了解一下.
+>
+
+如下图，lambda表达式由下面几个部分构成：  
+
+lambda表达式的语法归纳如下：
+[ caputrue ] ( params ) opt -&gt; ret { body; };
+1).capture是捕获列表；
+2).params是参数表；(选填)
+3&amp;4).opt是函数选项；可以填mutable,exception,attribute（选填）
+mutable说明lambda表达式体内的代码可以修改被捕获的变量，并且可以访问被捕获的对象的non-const方法。
+exception说明lambda表达式是否抛出异常以及何种异常。
+attribute用来声明属性。
+5).ret是返回值类型。(选填)
+6).body是函数体。
+1234567891011121314151617181920212223242526#include &lt;iostream&gt;#include &lt;vector&gt;#include &lt;algorithm&gt;using namespace std;bool cmp( ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/07/29/Cpp%E5%87%BD%E6%95%B0/" title="C++函数">C++函数</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-07-29T10:56:00.000Z" title="发表于 2018-07-29 18:56:00">2018-07-29</time></span></div><div class="content">C++函数的内容的基础.
+
+
+C++ 函数函数是一组一起执行一个任务的语句。每个 C++ 程序都至少有一个函数，即主函数 main() ，所有简单的程序都可以定义其他额外的函数。
+您可以把代码划分到不同的函数中。如何划分代码到不同的函数中是由您来决定的，但在逻辑上，划分通常是根据每个函数执行一个特定的任务来进行的。
+函数声明告诉编译器函数的名称、返回类型和参数。函数定义提供了函数的实际主体。
+C++ 标准库提供了大量的程序可以调用的内置函数。例如，函数 strcat() 用来连接两个字符串，函数 memcpy() 用来复制内存到另一个位置。
+函数还有很多叫法，比如方法、子例程或程序，等等。
+定义函数C++ 中的函数定义的一般形式如下：
+return_type function_name( parameter list ) {    body of the function }
+在 C++ 中，函数由一个函数头和一个函数主体组成。下面列出一个函数的所有组成部分：
+
+返回类型：一个函数可以返回一个值。return_type 是函数返回的值的数据类型。有些函数执行所需的操作而不返回值，在这种 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/07/29/Cpp%E5%AD%98%E5%82%A8%E7%B1%BB/" title="C++存储类">C++存储类</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-07-29T10:02:05.000Z" title="发表于 2018-07-29 18:02:05">2018-07-29</time></span></div><div class="content">C++的变量&#x2F;函数的生命周期.
+
+
+C++ 存储类存储类定义 C++ 程序中变量&#x2F;函数的范围（可见性）和生命周期。这些说明符放置在它们所修饰的类型之前。下面列出 C++ 程序中可用的存储类：
+
+auto
+register
+static
+extern
+mutable
+thread_local (C++11)
+
+从 C++ 11 开始，auto 关键字不再是 C++ 存储类说明符，且 register 关键字被弃用
+auto 存储类自 C++ 11 以来，auto 关键字用于两种情况：声明变量时根据初始化表达式自动推断该变量的类型、声明函数时函数返回值的占位符。
+C++98标准中auto关键字用于自动变量的声明，但由于使用极少且多余，在C++11中已删除这一用法。
+根据初始化表达式自动推断被声明的变量的类型，如：
+1234auto f=3.14;      //doubleauto s(&quot;hello&quot;);  //const char*auto z = new auto(9); // int*auto x1 = 5, x2 = 5.0, x3=&#x2 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/07/29/Cpp%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%9E%8B%E9%99%90%E5%AE%9A%E7%AC%A6/" title="C++ 中的类型限定符">C++ 中的类型限定符</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-07-29T09:55:15.000Z" title="发表于 2018-07-29 17:55:15">2018-07-29</time></span></div><div class="content">C++中有许多限定符,修饰符,这里列了几个.
+
+
+C++ 中的类型限定符类型限定符提供了变量的额外信息。
+
+
+
+限定符
+含义
+
+
+
+const
+const 类型的对象在程序执行期间不能被修改改变。
+
+
+volatile
+修饰符 volatile 告诉编译器，变量的值可能以程序未明确指定的方式被改变。
+
+
+restrict
+由 restrict 修饰的指针是唯一一种访问它所指向的对象的方式。只有 C99 增加了新的类型限定符 restrict。
+
+
+volatile 往往会用于多线程的修饰，比如：
+123456789101112volatile boolean isNext = false;Thread A（） &#123;    // 第一个工作    // isNext = true;&#125;Thread B （）&#123;    if (isNext) &#123;        // 第二个工作    &#125;&#125;
+
+这里volatile 就是从来标记isNext， 以确保线程B每次都重新从内存中读取isNext的值，第二个工作一定在第一个工作之后进行。
+但是要 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/07/29/Cpp%E5%B8%B8%E9%87%8F/" title="C++常量">C++常量</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-07-29T09:20:51.000Z" title="发表于 2018-07-29 17:20:51">2018-07-29</time></span></div><div class="content">C++的常量.
+
+
+C++ 常量常量是固定值，在程序执行期间不会改变。这些固定的值，又叫做字面量。
+常量可以是任何的基本数据类型，可分为整型数字、浮点数字、字符、字符串和布尔值。
+常量就像是常规的变量，只不过常量的值在定义后不能进行修改。
+整数常量整数常量可以是十进制、八进制或十六进制的常量。前缀指定基数：0x 或 0X 表示十六进制，0 表示八进制，不带前缀则默认表示十进制。
+整数常量也可以带一个后缀，后缀是 U 和 L 的组合，U 表示无符号整数（unsigned），L 表示长整数（long）。后缀可以是大写，也可以是小写，U 和 L 的顺序任意。
+下面列举几个整数常量的实例：
+212         &#x2F;&#x2F; 合法的 215u        &#x2F;&#x2F; 合法的 0xFeeL      &#x2F;&#x2F; 合法的 078         &#x2F;&#x2F; 非法的：8 不是八进制的数字 032UU       &#x2F;&#x2F; 非法的：不能重复后缀
+以下是各种类型的整数常量的实例：
+85         &#x2F;&#x2F; 十 ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/2/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#content-inner">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/#content-inner">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/#content-inner">7</a><a class="extend next" rel="next" href="/page/4/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">xianzheTM</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">64</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xianzheTM"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/" title="线性表">线性表</a><time datetime="2019-03-08T14:47:00.000Z" title="发表于 2019-03-08 22:47:00">2019-03-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/" title="网络原理(2)">网络原理(2)</a><time datetime="2018-11-03T03:21:34.000Z" title="发表于 2018-11-03 11:21:34">2018-11-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2018/10/26/html%E6%80%BB%E7%BB%93/" title="html总结">html总结</a><time datetime="2018-10-26T13:01:05.000Z" title="发表于 2018-10-26 21:01:05">2018-10-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/" title="网络原理(1)">网络原理(1)</a><time datetime="2018-10-25T13:36:40.000Z" title="发表于 2018-10-25 21:36:40">2018-10-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2018/08/18/Java%E7%9A%84JDBC/" title="Java的JDBC">Java的JDBC</a><time datetime="2018-08-17T16:39:41.000Z" title="发表于 2018-08-18 00:39:41">2018-08-18</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/VS/" style="font-size: 1.1em; color: #999">VS</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/cpp/" style="font-size: 1.4em; color: #99a5b6">cpp</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 1.2em; color: #999da3">网络</a> <a href="/tags/java/" style="font-size: 1.5em; color: #99a9bf">java</a> <a href="/tags/OpenCV/" style="font-size: 1.1em; color: #999">OpenCV</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 1.2em; color: #999da3">读书笔记</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 1.1em; color: #999">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 1.1em; color: #999">杂谈</a> <a href="/tags/python/" style="font-size: 1.1em; color: #999">python</a> <a href="/tags/HTML/" style="font-size: 1.1em; color: #999">HTML</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 1.3em; color: #99a1ac">汇编</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2019/03/"><span class="card-archive-list-date">三月 2019</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/11/"><span class="card-archive-list-date">十一月 2018</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/10/"><span class="card-archive-list-date">十月 2018</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/08/"><span class="card-archive-list-date">八月 2018</span><span class="card-archive-list-count">17</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/07/"><span class="card-archive-list-date">七月 2018</span><span class="card-archive-list-count">18</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/06/"><span class="card-archive-list-date">六月 2018</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/05/"><span class="card-archive-list-date">五月 2018</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/04/"><span class="card-archive-list-date">四月 2018</span><span class="card-archive-list-count">9</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">64</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-03-14T12:48:02.024Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By xianzheTM</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,642 +1,300 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>xianzheTM's site</title><meta name="author" content="xianzheTM"><meta name="copyright" content="xianzheTM"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
+<meta property="og:title" content="xianzheTM&#39;s site">
 <meta property="og:url" content="http://example.com/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
+<meta property="og:site_name" content="xianzheTM&#39;s site">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:author" content="xianzheTM">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
-  
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'xianzheTM\'s site',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2024-03-14 20:48:02'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
 
-  
-  
-<meta name="generator" content="Hexo 7.1.1"></head>
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-线性表" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/" class="article-date">
-  <time class="dt-published" datetime="2019-03-08T14:47:00.000Z" itemprop="datePublished">2019-03-08</time>
-</a>
+        document.head.appendChild(script)
+      })
     
-  </div>
-  <div class="article-inner">
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
     
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
-    </h1>
-  
-
-      </header>
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>&emsp;什么是线性表?</p>
-        
-          <p class="article-more-link">
-            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/" data-id="cltr7hcak003i0kun8an26k92" data-title="线性表" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-网络原理-2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/" class="article-date">
-  <time class="dt-published" datetime="2018-11-03T03:21:34.000Z" itemprop="datePublished">2018-11-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>本篇介绍网络的物理层.</p>
-<p>版权声明,本文基于王道考研书籍整理,并非原创.</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/" data-id="cltr7hcan003y0kunbhtbedwy" data-title="网络原理(2)" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-html总结" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/" class="article-date">
-  <time class="dt-published" datetime="2018-10-26T13:01:05.000Z" itemprop="datePublished">2018-10-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>总结一些HTML的知识.</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/10/26/html%E6%80%BB%E7%BB%93/" data-id="cltr7hcad002l0kun69j10ldk" data-title="html总结" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-网络原理-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/" class="article-date">
-  <time class="dt-published" datetime="2018-10-25T13:36:40.000Z" itemprop="datePublished">2018-10-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>本篇介绍一些网络的前提内容.</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/" data-id="cltr7hcal003n0kun8cwmef0k" data-title="网络原理(1)" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Java的JDBC" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/08/18/Java%E7%9A%84JDBC/" class="article-date">
-  <time class="dt-published" datetime="2018-08-17T16:39:41.000Z" itemprop="datePublished">2018-08-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>用Java操作数据库.</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/08/18/Java%E7%9A%84JDBC/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/08/18/Java%E7%9A%84JDBC/" data-id="cltr7hca7001q0kunh895hs3y" data-title="Java的JDBC" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Java中静态代码块、构造代码块、构造函数、普通代码块" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/08/17/Java%E4%B8%AD%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81%E6%9E%84%E9%80%A0%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E3%80%81%E6%99%AE%E9%80%9A%E4%BB%A3%E7%A0%81%E5%9D%97/" class="article-date">
-  <time class="dt-published" datetime="2018-08-17T14:10:39.000Z" itemprop="datePublished">2018-08-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/08/17/Java%E4%B8%AD%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81%E6%9E%84%E9%80%A0%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E3%80%81%E6%99%AE%E9%80%9A%E4%BB%A3%E7%A0%81%E5%9D%97/">Java中静态代码块、构造代码块、构造函数、普通代码块</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p><strong>转载自：<a target="_blank" rel="noopener" href="http://www.cnblogs.com/ysocean/p/8194428.html">http://www.cnblogs.com/ysocean/p/8194428.html</a></strong> </p>
-<p>在Java中，静态代码块、构造代码块、构造函数、普通代码块的执行顺序是一个笔试的考点，通过这篇文章希望大家能彻底了解它们之间的执行顺序。 </p>
-        
-          <p class="article-more-link">
-            <a href="/2018/08/17/Java%E4%B8%AD%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81%E6%9E%84%E9%80%A0%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E3%80%81%E6%99%AE%E9%80%9A%E4%BB%A3%E7%A0%81%E5%9D%97/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/08/17/Java%E4%B8%AD%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81%E6%9E%84%E9%80%A0%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E3%80%81%E6%99%AE%E9%80%9A%E4%BB%A3%E7%A0%81%E5%9D%97/" data-id="cltr7hca4001b0kunem4ffti4" data-title="Java中静态代码块、构造代码块、构造函数、普通代码块" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Java多线程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/08/13/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="article-date">
-  <time class="dt-published" datetime="2018-08-13T14:07:10.000Z" itemprop="datePublished">2018-08-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/08/13/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>重头戏,多线程.</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/08/13/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/08/13/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/" data-id="cltr7hca5001g0kuneruff32x" data-title="Java多线程" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Java聚合操作" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/08/13/Java%E8%81%9A%E5%90%88%E6%93%8D%E4%BD%9C/" class="article-date">
-  <time class="dt-published" datetime="2018-08-13T13:40:24.000Z" itemprop="datePublished">2018-08-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/08/13/Java%E8%81%9A%E5%90%88%E6%93%8D%E4%BD%9C/">Java聚合操作</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>在Java笔记11那篇中提到了聚合操作,但是没讲,这篇来看看.</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/08/13/Java%E8%81%9A%E5%90%88%E6%93%8D%E4%BD%9C/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/08/13/Java%E8%81%9A%E5%90%88%E6%93%8D%E4%BD%9C/" data-id="cltr7hcab002c0kun4db3gdkj" data-title="Java聚合操作" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Java泛型" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/08/13/Java%E6%B3%9B%E5%9E%8B/" class="article-date">
-  <time class="dt-published" datetime="2018-08-13T05:22:53.000Z" itemprop="datePublished">2018-08-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/08/13/Java%E6%B3%9B%E5%9E%8B/">Java泛型</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>在集合中,集合是不知道向里面添加的是什么的,为了通用性,全都作为Object,导致取出来后要进行强制类型转换.而泛型允许程序在创建集合时指定集合元素的类型.</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/08/13/Java%E6%B3%9B%E5%9E%8B/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/08/13/Java%E6%B3%9B%E5%9E%8B/" data-id="cltr7hca7001m0kun6ggyd3eg" data-title="Java泛型" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-JVM内存区域划分" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/08/13/JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E5%88%92%E5%88%86/" class="article-date">
-  <time class="dt-published" datetime="2018-08-12T16:21:54.000Z" itemprop="datePublished">2018-08-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/08/13/JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E5%88%92%E5%88%86/">JVM内存区域划分</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>本篇转载于<a target="_blank" rel="noopener" href="https://www.cnblogs.com/dolphin0520/p/3613043.html">https://www.cnblogs.com/dolphin0520/p/3613043.html</a></p>
-<p>先了解了解,以后有空在钻研虚拟机问题.</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/08/13/JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E5%88%92%E5%88%86/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/08/13/JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E5%88%92%E5%88%86/" data-id="cltr7hca400190kun11720d5c" data-title="JVM内存区域划分" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
-
-  <nav id="page-nav">
-    
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-  </nav>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/cpp/" style="font-size: 17.5px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px;">汇编</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">网络</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 12.5px;">读书笔记</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2024 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.6.4.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
-</body>
-</html>
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">64</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="xianzheTM's site"><span class="site-name">xianzheTM's site</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">xianzheTM's site</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/" title="线性表">线性表</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2019-03-08T14:47:00.000Z" title="发表于 2019-03-08 22:47:00">2019-03-08</time></span></div><div class="content">&emsp;什么是线性表?
+
+
+定义&emsp;由同类型数据元素构成有序序列的线性结构.
+
+表中的元素个数为表的长度
+
+没有元素叫空表
+
+起始位置叫表头,结束位置叫表尾
+
+
+&emsp;抽象数据类型描述:
+
+数据对象集:线性表是n(&gt;&#x3D;0)个元素构成的有序序列
+
+操作集：
+
+List MakeEmpty():初始化一个空线性表
+ElementType FindKth(int K,List L):根据位序K返回相应的元素
+int Find(ElementType X,List L):在线性表L中查找X第一次出现的位置
+void Insert(ElementType X,int i,List L):在位序i前插入一个新元素X
+void Delete(int i,List L):删除指定位序的元素
+int Length(List L):返回线性表L的长度n
+
+
+
+实现利用数组的连续存储空间实现12345678typedef struct LNode *List;struct LNode&#123;	ElementType Data[MAXSIZE];	int Last;&#1 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/" title="网络原理(2)">网络原理(2)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-11-03T03:21:34.000Z" title="发表于 2018-11-03 11:21:34">2018-11-03</time></span></div><div class="content">本篇介绍网络的物理层.
+版权声明,本文基于王道考研书籍整理,并非原创.
+
+
+本篇的重要内容:
+(一) 通信基础
+
+信道,信号,带宽,码元,波特,速率,信源与信宿等基本概念
+奈奎斯特定理与香农定理:编码与调制
+电路交换,报文交换与分组交换:数据报与虚电路
+
+(二) 传输介质
+
+双绞线,同轴电缆,光纤与无线传输介质；物理层接口的特性
+
+(三) 物理层设备
+
+中继器,集线器
+
+2.1通信基础2.1.1基本概念1.数据,信号与码元数据是指传送信息的实体.信号则是数据的电气的或电磁的表现,是数据在传输过程中的存在形式.数据和信号都可以用”模拟的”或”数字的”来修饰:①连续变化的数据(或信号)称为模拟数据(或模拟信号);②取值仅允许为有限的几个离散数值的数据(或信号)称为数字数据(或数字信号).
+码元是指用一个固定时长的信号波形(数字脉冲),表示一位k进制数字,代表不同离散数值的基本波形,是数字通信中数字信号的计量单位,这个吋长内的信号称为k进制码元,而该时长称为码元宽度.1码元可以携带多个比特的信息量.例如,在使用二进制编码时,只有两种不同的码元,一种代表0状态,另一种代表1状态.
+2.信源,信 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/10/26/html%E6%80%BB%E7%BB%93/" title="html总结">html总结</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-10-26T13:01:05.000Z" title="发表于 2018-10-26 21:01:05">2018-10-26</time></span></div><div class="content">总结一些HTML的知识.
+
+
+常用标签文字标签和注释标签文字标签1&lt;font size=&quot;5&quot; color=&quot;red&quot;&gt; &lt;/font&gt;
+
+属性:
+
+size:文字大小,范围1-7
+color:文字颜色
+两种表示方式
+英文单词
+使用十六进制数表示
+
+
+
+
+
+注释标签HTML的注释:’‘
+标题标签 水平线和特殊字符标题标签1234&lt;h1&gt; &lt;/h1&gt;&lt;h2&gt; &lt;/h2&gt;...&lt;h6&gt; &lt;/h6&gt;
+
+从1-6字体大小依次缩小,同时自动换行.
+水平线1
+
+标签内结束,不成对.
+属性:
+
+size
+color
+
+特殊字符对特殊字符转义:
+123&amp;lt;	&lt;&amp;rt;	&gt;&amp;nbsp   空格
+
+列表标签&lt;dl&gt;&lt;/dl&gt;:表示列表的范围
+
+在dl里面&lt;dt&gt;&lt;/dt&gt;:表示上层内容
+在dl里面&lt;dd&gt;&lt;/dd&gt;:表示上层内容
+
+&lt;ol&gt;&lt;/ ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/" title="网络原理(1)">网络原理(1)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-10-25T13:36:40.000Z" title="发表于 2018-10-25 21:36:40">2018-10-25</time></span></div><div class="content">本篇介绍一些网络的前提内容.
+
+
+协议与划分层次五层协议
+OSI的划分过于复杂,运行效率低,层次不合理,有些功能在多个层次重复出现.而TCP&#x2F;IP协议的下面两层并没有具体内容,因此在实际学习过程中折中一下.
+(1)应用层(application layer)应用层是体系结构中的最高层。应用层的任务是通过应用进程间的交互来完成特定网络应用。应用层协议定义的是应用进程间通信和交互的规则。这里的进程就是指主机中正在运行的程序。对于不同的网络应用需要有不同的应用层协议。在互联网中的应用层协议很多，如域名系统DNS,支持万维网应用的HTTP协议，支持电子邮件的SMTP协议，等等。我们把应用层交互的数据单元称为报文(message)。
+(2)运输层(transport layer)运输层的任务就是负责向两台主机中进程之间的通信提供通用的数据传输服务。应用进程利用该服务传送应用层报文。所谓“通用的”，是指并不针对某个特定网络应用，而是多种应用可以使用同一个运输层服务。由于一台主机可同时运行多个进程，因此运输层有复用和分用的功能。复用就是多个应用层进程可同时使用下面运输层的服务，分用和复用相 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/08/18/Java%E7%9A%84JDBC/" title="Java的JDBC">Java的JDBC</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-08-17T16:39:41.000Z" title="发表于 2018-08-18 00:39:41">2018-08-18</time></span></div><div class="content">用Java操作数据库.
+
+
+前提工作为当前项目添加驱动IDEA有内置的数据库工具(貌似ultimate版才有),可以直接在IDEA中像用SSMS,workbench,Navicat等工具一样操作数据库,这个工具也有独立版,叫DataGrip.使用这个工具时,只要注意密码用户名,端口号,而且它会提示下载驱动.
+
+然后把这个下下来的驱动包加入当前项目,File&gt;Project Structure&gt;Dependencies,点加号加进去.
+注册驱动,建立连接12345678910111213141516171819202122232425262728293031323334353637import java.sql.Connection;import java.sql.DriverManager;import java.sql.SQLException;//注意不要导错包  public class TestJDBC &#123;    public static void main(String[] args) &#123;          try &#123;        ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/08/17/Java%E4%B8%AD%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81%E6%9E%84%E9%80%A0%E4%BB%A3%E7%A0%81%E5%9D%97%E3%80%81%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E3%80%81%E6%99%AE%E9%80%9A%E4%BB%A3%E7%A0%81%E5%9D%97/" title="Java中静态代码块、构造代码块、构造函数、普通代码块">Java中静态代码块、构造代码块、构造函数、普通代码块</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-08-17T14:10:39.000Z" title="发表于 2018-08-17 22:10:39">2018-08-17</time></span></div><div class="content">转载自：http://www.cnblogs.com/ysocean/p/8194428.html 
+在Java中，静态代码块、构造代码块、构造函数、普通代码块的执行顺序是一个笔试的考点，通过这篇文章希望大家能彻底了解它们之间的执行顺序。 
+
+
+1、静态代码块①、格式　　在java类中（方法中不能存在静态代码块）使用static关键字和{}声明的代码块：
+②、执行时机　　静态代码块在类被加载的时候就运行了，而且只运行一次，并且优先于各种代码块以及构造函数。如果一个类中有多个静态代码块，会按照书写顺序依次执行。后面在比较的时候会通过具体实例来证明。
+③、静态代码块的作用　　一般情况下，如果有些代码需要在项目启动的时候就执行，这时候就需要静态代码块。比如一个项目启动需要加载的很多配置文件等资源，我们就可以都放入静态代码块中。
+④、静态代码块不能存在任何方法体中　　这个应该很好理解，首先我们要明确静态代码块是在类加载的时候就要运行了。我们分情况讨论：
+　　对于普通方法，由于普通方法是通过加载类，然后new出实例化对象，通过对象才能运行这个方法，而静态代码块只需要加载类之后就能运行了。
+　　对 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/08/13/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="Java多线程">Java多线程</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-08-13T14:07:10.000Z" title="发表于 2018-08-13 22:07:10">2018-08-13</time></span></div><div class="content">重头戏,多线程.
+
+
+绪论线程与进程,并行与并发首先要理解进程(Processor)和线程(Thread)的区别
+进程：启动一个LOL.exe就叫一个进程。 接着又启动一个DOTA.exe，这叫两个进程。 
+线程：线程是在进程内部同时做的事情，比如打开一个图片识别进程,先识别一张图片,再识别下一张这不是多线程,当同时进行时才是.
+再补充点什么是并行和并发:
+
+你吃饭吃到一半，电话来了，你一直到吃完了以后才去接，这就说明你不支持并发也不支持并行。你吃饭吃到一半，电话来了，你停了下来接了电话，接完后继续吃饭，这说明你支持并发。你吃饭吃到一半，电话来了，你一边打电话一边吃饭，这说明你支持并行。
+并发的关键是你有处理多个任务的能力，不一定要同时。并行的关键是你有同时处理多个任务的能力。
+
+
+吃饭的时候先接电话跟后接电话的比较更像是中断优先级高低的不同，并发应该是一手筷子，一手电话，说一句话，咽一口饭。 并行才是咽一口饭同时说一句话，而这光靠一张嘴是办不到的，至少两张嘴。 
+
+
+如果某个系统支持两个或者多个动作（Action）同时存在，那么这个系统就是一个并发系统。如果某个系统支持两个或者多个动 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/08/13/Java%E8%81%9A%E5%90%88%E6%93%8D%E4%BD%9C/" title="Java聚合操作">Java聚合操作</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-08-13T13:40:24.000Z" title="发表于 2018-08-13 21:40:24">2018-08-13</time></span></div><div class="content">在Java笔记11那篇中提到了聚合操作,但是没讲,这篇来看看.
+
+
+传统方式与聚合操作方式遍历数据遍历数据的传统方式就是使用for循环，然后条件判断，最后打印出满足条件的数据:
+1234for (Hero h : heros) &#123;   if (h.hp &gt; 100 &amp;&amp; h.damage &lt; 50)      System.out.println(h.name);&#125;
+
+使用聚合操作方式，画风就发生了变化：
+12345 heros	.stream()	.filter(h -&gt; h.hp &gt; 100 &amp;&amp; h.damage &lt; 50)	.forEach(h -&gt; System.out.println(h.name));
+
+Stream和管道的概念要了解聚合操作，首先要建立Stream和管道的概念
+Stream和Collection结构化的数据不一样，Stream是一系列的元素，就像是生产线上的罐头一样，一串串的出来。
+管道指的是一系列的聚合操作。 
+管道又分3个部分:
+
+管道源：在这个例子里，源是一个L ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/08/13/Java%E6%B3%9B%E5%9E%8B/" title="Java泛型">Java泛型</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-08-13T05:22:53.000Z" title="发表于 2018-08-13 13:22:53">2018-08-13</time></span></div><div class="content">在集合中,集合是不知道向里面添加的是什么的,为了通用性,全都作为Object,导致取出来后要进行强制类型转换.而泛型允许程序在创建集合时指定集合元素的类型.
+
+
+泛型入门使用泛型1234567891011121314import java.util.ArrayList;/** * @author YL */public class TestGeneric &#123;    public static void main(String[] args) &#123;        ArrayList&lt;String&gt; strList = new ArrayList&lt;String&gt;();        strList.add(&quot;你好&quot;);        strList.add(&quot;再见&quot;);        strList.forEach(str -&gt; System.out.println(str.length()));    &#125;&#125;
+
+上面程序成功创建了一个特殊的List集合:strList,这个List集 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/08/13/JVM%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E5%88%92%E5%88%86/" title="JVM内存区域划分">JVM内存区域划分</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-08-12T16:21:54.000Z" title="发表于 2018-08-13 00:21:54">2018-08-13</time></span></div><div class="content">本篇转载于https://www.cnblogs.com/dolphin0520/p/3613043.html
+先了解了解,以后有空在钻研虚拟机问题.
+
+
+学过C语言的朋友都知道C编译器在划分内存区域的时候经常将管理的区域划分为数据段和代码段，数据段包括堆、栈以及静态数据区。那么在Java语言当中，内存又是如何划分的呢？
+由于Java程序是交由JVM执行的，所以我们在谈Java内存区域划分的时候事实上是指JVM内存区域划分。在讨论JVM内存区域划分之前，先来看一下Java程序具体执行的过程：
+
+　如上图所示，首先Java源代码文件(.java后缀)会被Java编译器编译为字节码文件(.class后缀)，然后由JVM中的类加载器加载各个类的字节码文件，加载完毕之后，交由JVM执行引擎执行。在整个程序执行过程中，JVM会用一段空间来存储程序执行期间需要用到的数据和相关信息，这段空间一般被称作为Runtime Data Area（运行时数据区），也就是我们常说的JVM内存。因此，在Java中我们常常说到的内存管理就是针对这段空间进行管理（如何分配和回收内存空间）。
+　　在知道了JVM内存是什 ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/#content-inner">7</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">xianzheTM</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">64</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xianzheTM"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/" title="线性表">线性表</a><time datetime="2019-03-08T14:47:00.000Z" title="发表于 2019-03-08 22:47:00">2019-03-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/" title="网络原理(2)">网络原理(2)</a><time datetime="2018-11-03T03:21:34.000Z" title="发表于 2018-11-03 11:21:34">2018-11-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2018/10/26/html%E6%80%BB%E7%BB%93/" title="html总结">html总结</a><time datetime="2018-10-26T13:01:05.000Z" title="发表于 2018-10-26 21:01:05">2018-10-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/" title="网络原理(1)">网络原理(1)</a><time datetime="2018-10-25T13:36:40.000Z" title="发表于 2018-10-25 21:36:40">2018-10-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2018/08/18/Java%E7%9A%84JDBC/" title="Java的JDBC">Java的JDBC</a><time datetime="2018-08-17T16:39:41.000Z" title="发表于 2018-08-18 00:39:41">2018-08-18</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/VS/" style="font-size: 1.1em; color: #999">VS</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/cpp/" style="font-size: 1.4em; color: #99a5b6">cpp</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 1.2em; color: #999da3">网络</a> <a href="/tags/java/" style="font-size: 1.5em; color: #99a9bf">java</a> <a href="/tags/OpenCV/" style="font-size: 1.1em; color: #999">OpenCV</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 1.2em; color: #999da3">读书笔记</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 1.1em; color: #999">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 1.1em; color: #999">杂谈</a> <a href="/tags/python/" style="font-size: 1.1em; color: #999">python</a> <a href="/tags/HTML/" style="font-size: 1.1em; color: #999">HTML</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 1.3em; color: #99a1ac">汇编</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2019/03/"><span class="card-archive-list-date">三月 2019</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/11/"><span class="card-archive-list-date">十一月 2018</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/10/"><span class="card-archive-list-date">十月 2018</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/08/"><span class="card-archive-list-date">八月 2018</span><span class="card-archive-list-count">17</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/07/"><span class="card-archive-list-date">七月 2018</span><span class="card-archive-list-count">18</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/06/"><span class="card-archive-list-date">六月 2018</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/05/"><span class="card-archive-list-date">五月 2018</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/04/"><span class="card-archive-list-date">四月 2018</span><span class="card-archive-list-count">9</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">64</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-03-14T12:48:02.024Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By xianzheTM</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

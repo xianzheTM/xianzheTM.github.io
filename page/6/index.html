@@ -1,642 +1,266 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>xianzheTM's site</title><meta name="author" content="xianzheTM"><meta name="copyright" content="xianzheTM"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
+<meta property="og:title" content="xianzheTM&#39;s site">
 <meta property="og:url" content="http://example.com/page/6/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
+<meta property="og:site_name" content="xianzheTM&#39;s site">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:author" content="xianzheTM">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
-  
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/page/6/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'xianzheTM\'s site',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2024-03-14 20:48:02'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
 
-  
-  
-<meta name="generator" content="Hexo 7.1.1"></head>
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-Java笔记4" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/04/08/Java%E7%AC%94%E8%AE%B04/" class="article-date">
-  <time class="dt-published" datetime="2018-04-08T08:56:36.000Z" itemprop="datePublished">2018-04-08</time>
-</a>
+        document.head.appendChild(script)
+      })
     
-  </div>
-  <div class="article-inner">
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
     
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/04/08/Java%E7%AC%94%E8%AE%B04/">Java笔记4</a>
-    </h1>
-  
-
-      </header>
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>&emsp;这篇的主要内容是查漏补缺。原因是今天想继续下一部分：继承和多态，结果发现林的书有许多东西讲的太精简，甚至有失偏颇。所以下面我将结合李的书和博客多前面的内容进行回顾。</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/04/08/Java%E7%AC%94%E8%AE%B04/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/04/08/Java%E7%AC%94%E8%AE%B04/" data-id="cltr7hca900200kunbh47dnx2" data-title="Java笔记4" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Java笔记3" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/04/06/Java%E7%AC%94%E8%AE%B03/" class="article-date">
-  <time class="dt-published" datetime="2018-04-06T15:10:50.000Z" itemprop="datePublished">2018-04-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/04/06/Java%E7%AC%94%E8%AE%B03/">Java笔记3</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>气温骤降，头疼的厉害。</p>
-<p>今天发生了一些难过的事，心情真的不好，状态糟糕透了，但是这件事也激励我要努力学习，加油！</p>
-<p>继续学习Java。</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/04/06/Java%E7%AC%94%E8%AE%B03/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/04/06/Java%E7%AC%94%E8%AE%B03/" data-id="cltr7hca9001y0kun1l3ihx3i" data-title="Java笔记3" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Java笔记2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/04/02/Java%E7%AC%94%E8%AE%B02/" class="article-date">
-  <time class="dt-published" datetime="2018-04-02T12:29:52.000Z" itemprop="datePublished">2018-04-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/04/02/Java%E7%AC%94%E8%AE%B02/">Java笔记2</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>一周过去了，又有些收获。</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/04/02/Java%E7%AC%94%E8%AE%B02/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/04/02/Java%E7%AC%94%E8%AE%B02/" data-id="cltr7hca8001u0kun4rl56v2b" data-title="Java笔记2" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Java笔记1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/03/29/Java%E7%AC%94%E8%AE%B01/" class="article-date">
-  <time class="dt-published" datetime="2018-03-29T13:51:47.000Z" itemprop="datePublished">2018-03-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/03/29/Java%E7%AC%94%E8%AE%B01/">Java笔记1</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>最近学习Java有了一些小收获，不成体系，在此记录。</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/03/29/Java%E7%AC%94%E8%AE%B01/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/03/29/Java%E7%AC%94%E8%AE%B01/" data-id="cltr7hca7001o0kun1p252wji" data-title="Java笔记1" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-物理地址" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/02/18/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80/" class="article-date">
-  <time class="dt-published" datetime="2018-02-18T08:44:18.000Z" itemprop="datePublished">2018-02-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/02/18/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80/">物理地址</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>什么是物理地址？</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/02/18/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/02/18/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80/" data-id="cltr7hcak003g0kuncfsygk3b" data-title="物理地址" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-结构体" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/02/10/%E7%BB%93%E6%9E%84%E4%BD%93/" class="article-date">
-  <time class="dt-published" datetime="2018-02-10T02:37:19.000Z" itemprop="datePublished">2018-02-10</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/02/10/%E7%BB%93%E6%9E%84%E4%BD%93/">结构体</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>本篇内容包括结构体，共用体和枚举。</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/02/10/%E7%BB%93%E6%9E%84%E4%BD%93/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/02/10/%E7%BB%93%E6%9E%84%E4%BD%93/" data-id="cltr7hcal003k0kun939uhf7e" data-title="结构体" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-数组拾遗" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/02/01/%E6%95%B0%E7%BB%84%E6%8B%BE%E9%81%97/" class="article-date">
-  <time class="dt-published" datetime="2018-02-01T02:25:56.000Z" itemprop="datePublished">2018-02-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/02/01/%E6%95%B0%E7%BB%84%E6%8B%BE%E9%81%97/">数组拾遗</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>数组运用的已经较为熟练了，但是还有些细节没注意。本文后面主要是字符串。</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/02/01/%E6%95%B0%E7%BB%84%E6%8B%BE%E9%81%97/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/02/01/%E6%95%B0%E7%BB%84%E6%8B%BE%E9%81%97/" data-id="cltr7hcaj003b0kun187w1pbi" data-title="数组拾遗" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-内存空间分配" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/01/30/%E5%86%85%E5%AD%98%E7%A9%BA%E9%97%B4%E5%88%86%E9%85%8D/" class="article-date">
-  <time class="dt-published" datetime="2018-01-30T01:41:28.000Z" itemprop="datePublished">2018-01-30</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/01/30/%E5%86%85%E5%AD%98%E7%A9%BA%E9%97%B4%E5%88%86%E9%85%8D/">内存空间分配</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>在计算机总线一文中介绍了内存地址空间，现在说明在C++中如何进行内存分配。</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/01/30/%E5%86%85%E5%AD%98%E7%A9%BA%E9%97%B4%E5%88%86%E9%85%8D/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/01/30/%E5%86%85%E5%AD%98%E7%A9%BA%E9%97%B4%E5%88%86%E9%85%8D/" data-id="cltr7hcaf002u0kun9g45dimb" data-title="内存空间分配" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-指针探幽1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/01/29/%E6%8C%87%E9%92%88%E6%8E%A2%E5%B9%BD1/" class="article-date">
-  <time class="dt-published" datetime="2018-01-29T03:58:18.000Z" itemprop="datePublished">2018-01-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/01/29/%E6%8C%87%E9%92%88%E6%8E%A2%E5%B9%BD1/">指针探幽1</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>指针是个深坑，然而老师不教，只好自学。本篇主要是基础。</p>
-<p>emmm，发现坑太深，我先补补前面的内容。</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/01/29/%E6%8C%87%E9%92%88%E6%8E%A2%E5%B9%BD1/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/01/29/%E6%8C%87%E9%92%88%E6%8E%A2%E5%B9%BD1/" data-id="cltr7hcah00320kuna3t66nyl" data-title="指针探幽1" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-深入理解计算机系统读书笔记2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2018/01/27/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/" class="article-date">
-  <time class="dt-published" datetime="2018-01-27T01:41:20.000Z" itemprop="datePublished">2018-01-27</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2018/01/27/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/">深入理解计算机系统读书笔记2</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>最近读《深入》一书遇到了非常多的问题，内容太杂较深，外国人的语言习惯也不一样，翻译过来的书翻译的怪怪的。所以读书进展很慢，我打算进度放缓，主攻《汇编语言》一书。</p>
-        
-          <p class="article-more-link">
-            <a href="/2018/01/27/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2018/01/27/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/" data-id="cltr7hcaj003e0kun5cb600d9" data-title="深入理解计算机系统读书笔记2" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
-
-  <nav id="page-nav">
-    
-    <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
-  </nav>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VS/" rel="tag">VS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B1%87%E7%BC%96/" rel="tag">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/VS/" style="font-size: 10px;">VS</a> <a href="/tags/cpp/" style="font-size: 17.5px;">cpp</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 10px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 15px;">汇编</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 12.5px;">网络</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 12.5px;">读书笔记</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/">线性表</a>
-          </li>
-        
-          <li>
-            <a href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/">网络原理(2)</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/26/html%E6%80%BB%E7%BB%93/">html总结</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/">网络原理(1)</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/18/Java%E7%9A%84JDBC/">Java的JDBC</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2024 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.6.4.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
-</body>
-</html>
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">64</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="xianzheTM's site"><span class="site-name">xianzheTM's site</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">xianzheTM's site</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/04/08/Java%E7%AC%94%E8%AE%B04/" title="Java笔记4">Java笔记4</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-04-08T08:56:36.000Z" title="发表于 2018-04-08 16:56:36">2018-04-08</time></span></div><div class="content">&emsp;这篇的主要内容是查漏补缺。原因是今天想继续下一部分：继承和多态，结果发现林的书有许多东西讲的太精简，甚至有失偏颇。所以下面我将结合李的书和博客多前面的内容进行回顾。
+
+
+1.数组内存中的数组&emsp;数组引用变量只是一个引用，类似于指针，它存放了对象的真是地址，但是这只是类比理解，实际上还是有差别的。实际的数组对象存放在堆中，而引用变量如果是一个局部变量就是在栈内存中。（是不是又像c++）同样的，当一个方法执行时，每个方法都会建立内存栈，然后将变量依次放入栈中，当使用完时也就被销毁了。堆中的对象是不会这样的，只要有引用指向它，它就会存在，当没有任何引用指向它时，它就会被垃圾管理器回收。这和C++不一样，C++中的需要自己手动创建，手动释放。&emsp;引用的指定并不是唯一的，不是我被指定给了某个对象就不能再被指定给别人，只要类型相符就没有问题。
+基本类型数组的初始化&emsp;对于基本类型数组，数组元素的值是直接存在对应的数组元素中的，因此，初始化数组时先为该数组分配内存空间，然后将数组的值放入里面就行。注意细节：分配空间后，里面并不是空的，而是默认值，关于默认值前面的笔 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/04/06/Java%E7%AC%94%E8%AE%B03/" title="Java笔记3">Java笔记3</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-04-06T15:10:50.000Z" title="发表于 2018-04-06 23:10:50">2018-04-06</time></span></div><div class="content">气温骤降，头疼的厉害。
+今天发生了一些难过的事，心情真的不好，状态糟糕透了，但是这件事也激励我要努力学习，加油！
+继续学习Java。
+
+
+1.构造函数
+123456789101112131415161718192021class CashCard &#123;​    String number;​    int balance;​    int bonus;​    public CashCard(String number, int balance, int bonus) &#123;​        this.number = number;​        this.balance = balance;​        this.bonus = bonus;​    &#125;&#125;
+
+构造函数与类名称同名，不用声明返回类型。构造函数支持函数重载。若没有写构造函数，编译程序会自动加入一个内容为空，参数为空的构造函数。所以新建对象的语法就是这么来的。
+123CashCard card = new CashCard();
+
+在使用方法重载时要注意自动装箱和拆箱，会依照以下顺 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/04/02/Java%E7%AC%94%E8%AE%B02/" title="Java笔记2">Java笔记2</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-04-02T12:29:52.000Z" title="发表于 2018-04-02 20:29:52">2018-04-02</time></span></div><div class="content">一周过去了，又有些收获。
+
+
+1.基本类型打包器的一点内幕
+编译程序会以下代码
+1Integer number = 100;
+
+转换为
+1Integer localInteger = Integer.valueOf(100);
+
+查看src.zip文件夹中的java&#x2F;lang中的Integer.java,有关valueOf()的操作内容如下：
+12345public static Integer valueOf(int i)&#123;    if(i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)        return IntegerCache.cache[i + (-IntegerCache.low)];    return new Integer(i);    &#125;
+
+IntegerCache.low和IntegerCache.high的默认值是-128和127.当i的值在这中间时就会检查前面是否有相同的值，如果有就直接返回这个实例。所以
+123Integer i1=100;Inte ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/03/29/Java%E7%AC%94%E8%AE%B01/" title="Java笔记1">Java笔记1</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-03-29T13:51:47.000Z" title="发表于 2018-03-29 21:51:47">2018-03-29</time></span></div><div class="content">最近学习Java有了一些小收获，不成体系，在此记录。
+
+
+1.Eclipse的源码体系结构
+这里只提最基础的，毕竟刚开始学习。
+首先需要新建一个Java project，一个project中可能会有多个package，包中是源码，也就是以.java结尾的文档，这其中就是类。一个.java的文档中可以有多个类，但是只能有一个公共类，且公共类的名字要与文档名相同。一个包中可以有多个.java的文档。
+
+2.一个包中可以有多个.java的文档，而且每个都可以有一个main方法。
+
+3.Java的数据类型分为两大类，包括基础数据类型和引用类型。
+基础数据类型就是常说的八种，byte，short，int，long等等，但是要注意的是，Java不像C++那样没有严格指定数据的长度，而是规定死了，不需要为硬件平台的兼容担心。
+注意，Boolean类型的不允许用数字转换，只有true和false。
+
+4.类是对象的抽象。
+1234class Clothes &#123;	String color;	char size;&#125;
+
+声明一个类，然后就可以让类为模板创建对象。
+1Clothes c1  ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/02/18/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80/" title="物理地址">物理地址</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-02-18T08:44:18.000Z" title="发表于 2018-02-18 16:44:18">2018-02-18</time></span></div><div class="content">什么是物理地址？
+
+
+注意，本篇中数字后的D和H表示十进制和十六进制，注意区别
+物理地址不是真实地址。CPU访问的是虚拟地址空间，每一个内存单元在空间中都有个唯一的地址。
+CPU通过地址总线送入存储器的，必须是一个内存单元的物理地址。在 CPU向地址总线上发出物理地址之前，必须要在内部先形成这个物理地址。不同的CPU可以有不同的形成物理地址的方式。
+8086是16位结构的CPU ,这也就是说，在8086内部，能够一次性处理、传输、暂时存储的信息的最大长度是16位的。内存单元的地址在送上地址总线之前，必须在CPU中处理、传输、暂时存放，对于16位CPU ,能一次性处理、传输、暂时存储16位的地址。
+
+运算器一次最多可以处理16位的数据；
+寄存器的最大宽度为16位；
+寄存器和运算器之间的通路为16位。
+
+重要8086CPU有 20位地址总线，可以传送20位地址，达到1MB寻址能力。即能表示2^20个不同的地址，一共是2^20^&#x3D;1048576byte&#x3D;1024k&#x3D;1M。（一个地址指向一个内存单元，8bit）。但是8086CPU又是16位结构，在内部一次性处理、 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/02/10/%E7%BB%93%E6%9E%84%E4%BD%93/" title="结构体">结构体</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-02-10T02:37:19.000Z" title="发表于 2018-02-10 10:37:19">2018-02-10</time></span></div><div class="content">本篇内容包括结构体，共用体和枚举。
+
+
+一.结构体1.声明123456struct inflatable&#123;  char name[20];	//结构的成员  float volume;  double price;&#125;;
+
+如上所示，声明了一个结构体。结构定义的是新类型（inflatable）的特征。定义了结构后就可以声明这种类型的变量。
+12struct inflatable hat;inflatable mainframe;
+
+可以省略struct，这样就强调inflatable是一种新的类型。
+对于结构的声明，应注意位置，关键是在使用的地方的前面，但是，最好在main函数的前面。C++不提倡使用外部变量，但是提倡外部结构声明。
+123456inflatable guest =&#123;  &quot;yl&quot;,  1.88,  29.99&#125;;
+
+关键在于用逗号分隔。
+在C++11中是与此类似的，等号是可选的，如果大括号内是空的，那么值将是0，字符串每字节也是0。同时，不予许窄缩。
+这种声明方式也是可以的，但是显然不好。
+12345678str ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/02/01/%E6%95%B0%E7%BB%84%E6%8B%BE%E9%81%97/" title="数组拾遗">数组拾遗</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-02-01T02:25:56.000Z" title="发表于 2018-02-01 10:25:56">2018-02-01</time></span></div><div class="content">数组运用的已经较为熟练了，但是还有些细节没注意。本文后面主要是字符串。
+
+
+1.数组初始化初始化数组时，提供的值可以少于数组的元素数目。例如，下面的语句只初始化hotelTips的前两个元素：
+1float hotelTips[5]=&#123;5.0,2.5&#125;;
+
+如果只对数组的一部分进行初始化，则编译器将把其他元素设置为0。因此，将数组中所有的元素都初始化为0 非常简单—— 只要显式地将第一个元素初始化为0,然后让编译器将其他元素都初始化为0即可：
+1long totals[500]=&#123;0&#125;;
+
+如果初始化数组时方括号内（[]）为空，C++编译器将计算元素个数。例如，对于下面的声明：
+1short things[]=&#123;1,5,3,8&#125;;
+
+
+编译器将使things数组包含4 个元素。
+2.C++11数组初始化方法C++11将使用大括号的初始化（列表初始化）作为一种通用初始化方式，可用于所有类型。数组以前就可使用列表初始化，但 C++11中的列表初始化新增了一些功能。
+首先，初始化数组时，可省略等号（&#x3D;）:
+1double  ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/01/30/%E5%86%85%E5%AD%98%E7%A9%BA%E9%97%B4%E5%88%86%E9%85%8D/" title="内存空间分配">内存空间分配</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-01-30T01:41:28.000Z" title="发表于 2018-01-30 09:41:28">2018-01-30</time></span></div><div class="content">在计算机总线一文中介绍了内存地址空间，现在说明在C++中如何进行内存分配。
+
+
+一个C&#x2F;C++的程序占用的内存分为以下几个部分：
+1.栈区（stack）：由编译器自动分配释放，存放函数的参数值，局部变量的值等，操作方式类似与数据结构的栈。
+2.堆区（heap）：一般由程序员分配释放，若程序员不释放，程序结束时可能由OS释放。
+3.全局区（static）：也叫静态数据内存空间，存储全局变量和静态变量，两个存在一起，但是已经初始化的放一起，没有初始化的放一起。程序结束后由系统释放。
+4.文字常量区：常量字符串就是放在这，程序结束后由系统释放。
+5.程序代码区：存放函数体的二进制代码。
+但是还有的版本是1.2.3相同，4.5是自由存储区和常量存储区。
+我查了整整一天，发现后面这种其实更符合官方文档。后文会再谈。我这先采用自己的视角探讨内存分配。
+可执行程序的文件结构C程序我在Deepin中用gcc（6.2.0）编译一个hello程序，再用size命令查看其可执行程序的结构，如图：
+
+可以看到，存储时（未加载到内存中）分为代码区（text），数据区（data），未初始化数据区（bss ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/01/29/%E6%8C%87%E9%92%88%E6%8E%A2%E5%B9%BD1/" title="指针探幽1">指针探幽1</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-01-29T03:58:18.000Z" title="发表于 2018-01-29 11:58:18">2018-01-29</time></span></div><div class="content">指针是个深坑，然而老师不教，只好自学。本篇主要是基础。
+emmm，发现坑太深，我先补补前面的内容。
+
+
+一．基础C++或者C里面最容易让人糊涂应该是指针了,不管是初学者甚至是有经验的童鞋有时候在用指针的时候也会出现一些很隐蔽的错误.指针本身就是一个很绕的概念,而指针又能够和很多的结构比如数组(二维数组),字符串,内存分配和管理等等一些联系起来变成更加绕的概念.所以基础不好的同学常常会犯一些很无厘头的错误,但是高手也会犯错误,而且更加隐蔽.接下来所有的文章内容并不能够保证你能够完完全全避免开发中的错误,但是文章的目标是帮助很多童鞋对于指针概念做一个系统性的归纳.减少犯错误的几率.或者是帮助刚刚入门的boy更加快速深入的理解指针,把基础打得扎实一点.恩,很多人都说指针很难,那为什么还要学指针呢?对于这样的问题,拒绝回答.
+Ⅰ.内存和地址我们已经很熟悉一些基本的存储单位了,比如一个bit(位)用存储0或者1.也可以把几个bit合起来表示更大的数字,比如一个byte(字节)就包含了8个bit.这些都是很基础很简单的东西.然后我们可以把计算机的内存想象成一个字节数组,内存中的每一个地址表示一个字 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2018/01/27/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B02/" title="深入理解计算机系统读书笔记2">深入理解计算机系统读书笔记2</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2018-01-27T01:41:20.000Z" title="发表于 2018-01-27 09:41:20">2018-01-27</time></span></div><div class="content">最近读《深入》一书遇到了非常多的问题，内容太杂较深，外国人的语言习惯也不一样，翻译过来的书翻译的怪怪的。所以读书进展很慢，我打算进度放缓，主攻《汇编语言》一书。
+
+
+1.字
+每台计算机都有一个字长，指明整数和指针的标称大小，同时字长也部分决定了虚拟地址空间的大小，如32位的80386CPU，其虚拟地址空间最大为4GB（2^32&#x3D;4,294,967,296。4,294,967,296&#x2F;1024&#x2F;1024&#x2F;1024&#x3D;4GB，共有4,294,967,296个存储器单元地址，共4,294,967,296byte）。但是字长与地址总线没有对应关系。
+2.数据大小
+丢的文章中有篇写到了。。。
+1234567891011121314151617181920212223242526272829303132#include &lt;iostream&gt;#include &lt;climits&gt;using namespace std;int main()&#123;	int n_int = INT_MAX;	short n_short = SHR ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/5/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/#content-inner">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/#content-inner">7</a><a class="extend next" rel="next" href="/page/7/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">xianzheTM</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">64</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xianzheTM"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/03/08/%E7%BA%BF%E6%80%A7%E8%A1%A8/" title="线性表">线性表</a><time datetime="2019-03-08T14:47:00.000Z" title="发表于 2019-03-08 22:47:00">2019-03-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2018/11/03/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-2/" title="网络原理(2)">网络原理(2)</a><time datetime="2018-11-03T03:21:34.000Z" title="发表于 2018-11-03 11:21:34">2018-11-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2018/10/26/html%E6%80%BB%E7%BB%93/" title="html总结">html总结</a><time datetime="2018-10-26T13:01:05.000Z" title="发表于 2018-10-26 21:01:05">2018-10-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2018/10/25/%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86-1/" title="网络原理(1)">网络原理(1)</a><time datetime="2018-10-25T13:36:40.000Z" title="发表于 2018-10-25 21:36:40">2018-10-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2018/08/18/Java%E7%9A%84JDBC/" title="Java的JDBC">Java的JDBC</a><time datetime="2018-08-17T16:39:41.000Z" title="发表于 2018-08-18 00:39:41">2018-08-18</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/VS/" style="font-size: 1.1em; color: #999">VS</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/cpp/" style="font-size: 1.4em; color: #99a5b6">cpp</a> <a href="/tags/%E7%BD%91%E7%BB%9C/" style="font-size: 1.2em; color: #999da3">网络</a> <a href="/tags/java/" style="font-size: 1.5em; color: #99a9bf">java</a> <a href="/tags/OpenCV/" style="font-size: 1.1em; color: #999">OpenCV</a> <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" style="font-size: 1.2em; color: #999da3">读书笔记</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 1.1em; color: #999">数据结构</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 1.1em; color: #999">杂谈</a> <a href="/tags/python/" style="font-size: 1.1em; color: #999">python</a> <a href="/tags/HTML/" style="font-size: 1.1em; color: #999">HTML</a> <a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 1.3em; color: #99a1ac">汇编</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2019/03/"><span class="card-archive-list-date">三月 2019</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/11/"><span class="card-archive-list-date">十一月 2018</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/10/"><span class="card-archive-list-date">十月 2018</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/08/"><span class="card-archive-list-date">八月 2018</span><span class="card-archive-list-count">17</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/07/"><span class="card-archive-list-date">七月 2018</span><span class="card-archive-list-count">18</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/06/"><span class="card-archive-list-date">六月 2018</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/05/"><span class="card-archive-list-date">五月 2018</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2018/04/"><span class="card-archive-list-date">四月 2018</span><span class="card-archive-list-count">9</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">64</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-03-14T12:48:02.024Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By xianzheTM</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
